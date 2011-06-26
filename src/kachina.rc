@@ -1,0 +1,6 @@
+#include <windows.h> // include for version info constants
+
+#include "kachinarc.h"
+
+IDI_ICON ICON DISCARDABLE "kachina.ico"
+

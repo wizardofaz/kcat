@@ -1,0 +1,13 @@
+	cstack.cpp \
+	dialogs.cpp \
+	fl505.cpp \
+	Fl_SigBar.cpp \
+	FreqControl.cpp \
+	images.cpp \
+	IOspec.cpp \
+	Kachina_io.cpp \
+	linserial.cpp \
+	serialcomm.cpp \
+	support.cpp \
+	telemetry.cpp \
+	winserial.cpp

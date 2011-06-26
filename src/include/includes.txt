@@ -1,0 +1,17 @@
+	cstack.h \
+	dialogs.h \
+	Fl_SigBar.h \
+	FreqControl.h \
+	images.h \
+	includes.txt \
+	IOspec.h \
+	Kachina.h \
+	Kachina_io.h \
+	KachinaPanel.h \
+	kachinarc.h \
+	linserial.h \
+	serialcomm.h \
+	support.h \
+	test.h \
+	version.h \
+	winserial.h
