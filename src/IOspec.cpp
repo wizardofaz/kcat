@@ -35,63 +35,16 @@ char cmdK_BDM[] = {2,'B',0x0b}; // Data Medium Filter
 
 char cmdK_RSER[] = {2,'b',0x00}; // BITE - Serial #, H/W & S/W version request.
 char cmdK_RIMP[] = {2,'b',0x01}; // BITE - Request antenna impedance data.
-//char cmdK_SIMP[] = {2,'b',0x02}; // BITE - Send antenna impedance data.
-char cmdK_RSMTR[] = {2,'b',0x03}; // BITE - Request S-Meter calibration table.
-//char cmdK_SSMTR[] = {2,'b',0x04}; // BITE - Send S-Meter calibration table.
-//char cmdK_PSMTR[] = {2,'b',0x05}; // BITE - Perform S-Meter calibration.
 char cmdK_RFCAL[] = {2,'b',0x06}; // BITE - Request freq. ref. calibration table.
-//char cmdK_SFCAL[] = {2,'b',0x07}; // BITE - Send freq. ref. calibration table.
+char cmdK_RSMTR[] = {2,'b',0x03}; // BITE - Request S-Meter calibration table.
 char cmdK_PFCAL[] = {2,'b',0x08}; // BITE - Perform freq. ref. cal.
 char cmdK_RPCAL[] = {2,'b',0x09}; // BITE - Request phase det. calibration table.
-//char cmdK_SPCAL[] = {2,'b',0x0a}; // BITE - Send phase det. calibration table.
-//char cmdK_PPCAL[] = {2,'b',0x0b}; // BITE - Perform phase det. cal.
 char cmdK_RCBAL[] = {2,'b',0x0c}; // BITE - Request carrier balance value.
-//char cmdK_SCBAL[] = {2,'b',0x0d}; // BITE - Send carrier balance value.
-//char cmdK_PCBAL[] = {2,'b',0x0e}; // BITE - Perform carrier balance.
-//char cmdK_cmd0[] = {2,'b',0x0f}; // Reserved.
-//char cmdK_SM0[] = {2,'b',0x10}; // BITE - S-Meter cal -130 dBm.
-//char cmdK_SM1[] = {2,'b',0x11}; // BITE - S-Meter cal -120 dBm.
-//char cmdK_SM2[] = {2,'b',0x12}; // BITE - S-Meter cal -110 dBm.
-//char cmdK_SM3[] = {2,'b',0x13}; // BITE - S-Meter cal -100 dBm.
-//char cmdK_SM4[] = {2,'b',0x14}; // BITE - S-Meter cal  -90 dBm.
-//char cmdK_SM5[] = {2,'b',0x15}; // BITE - S-Meter cal  -80 dBm.
-//char cmdK_SM6[] = {2,'b',0x16}; // BITE - S-Meter cal  -70 dBm.
-//char cmdK_SM7[] = {2,'b',0x17}; // BITE - S-Meter cal  -60 dBm.
-//char cmdK_SM8[] = {2,'b',0x18}; // BITE - S-Meter cal  -50 dBm.
-//char cmdK_SM9[] = {2,'b',0x19}; // BITE - S-Meter cal  -40 dBm.
-//char cmdK_SM10[] = {2,'b',0x1a}; // BITE - S-Meter cal  -30 dBm.
-//char cmdK_SM11[] = {2,'b',0x1b}; // BITE - S-Meter cal  -20 dBm.
-//char cmdK_SM12[] = {2,'b',0x1c}; // BITE - S-Meter cal  -10 dBm.
-//char cmdK_SM13[] = {2,'b',0x1d}; // BITE - S-Meter cal 0 dBm.
-//char cmdK_SM14[] = {2,'b',0x1e}; // BITE - S-Meter cal   10 dBm.
-//char cmdK_SM15[] = {2,'b',0x1f}; // BITE - S-Meter cal   20 dBm.
-//char cmdK_cmd1[] = {2,'b',0x20}; // Reserved.
-//char cmdK_SAGC[] = {2,'b',0x21}; // BITE - Send AGC DVM value.
-//char cmdK_cmd2[] = {2,'b',0x22}; // BITE - Send lock detector 1 DVM value.
-//char cmdK_cmd3[] = {2,'b',0x23}; // BITE - Send lock detector 2 DVM value.
-//char cmdK_Qfwd[] = {2,'b',0x24}; // BITE - Send forward power DVM value.
-//char cmdK_Qref[] = {2,'b',0x25}; // BITE - Send reflected power DVM value.
-//char cmdK_Qphs[] = {2,'b',0x26}; // BITE - Send phase detector DVM value.
-//char cmdK_cmd7[] = {2,'b',0x27}; // BITE - Send Tx audio DVM value.
-//char cmdK_Qt_A[] = {2,'b',0x28}; // BITE - Send temperature A DVM value.
-//char cmdK_Qt_B[] = {2,'b',0x29}; // BITE - Send temperature B DVM value.
-//char cmdK_cmdA[] = {2,'b',0x2a}; // BITE - Send R->T switching data.
-//char cmdK_cmdB[] = {2,'b',0x2b}; // BITE - Send T->R switching data.
-//char cmdK_cmdC[] = {2,'b',0x2c}; // BITE - Send synthesizer lock time 1 data.
-//char cmdK_cmdD[] = {2,'b',0x2d}; // BITE - Send synthesizer lock time 2 data.
-//char cmdK_cmdE[] = {2,'b',0x2e}; // BITE - Send ALC over-shoot data.
-//char cmdK_cmdF[] = {2,'b',0x2f}; // BITE - Request on time value.
-//char cmdK_cmdG[] = {2,'b',0x30}; // BITE - Reset on time value.
-//char cmdK_cmdH[] = {2,'b',0x31}; // BITE - Request fault data.
-//char cmdK_cmdI[] = {2,'b',0x32}; // BITE - Reset fault data.
-//char cmdK_cmdJ[] = {2,'b',0x33}; // BITE - Set firmware serial number.
-//char cmdK_cmdK[] = {2,'b',0x34}; // BITE - Perform powerup self test.
-//char cmdK_cmdL[] = {2,'b',0x35}; // BITE - Set password.
+
 char cmdK_cmdM[] = {2,'b',0x36}; // BITE - Request TCXO DVM value.
 char cmdK_cmdN[] = {2,'b',0x37}; // BITE - Request DDS value for Rx frequency.
 char cmdK_cmdO[] = {2,'b',0x38}; // BITE - Request mode.
 char cmdK_Rpmx[] = {2,'b',0x39}; // BITE - Request maximum power setting.
-//char cmdK_cmdQ[] = {2,'b',0x3a}; // BITE - Perform freq. ref. tilt
 
 char cmdK_CWO0[] = {2,'C',0x03}; // CW Offset freq - 300Hz.
 char cmdK_CWO1[] = {2,'C',0x04}; // CW Offset freq - 400Hz.
@@ -106,10 +59,9 @@ char cmdK_CWNA[] = {2,'c',0x01}; // CW Filter default - narrow.
 char cmdK_CWDY[] = {2,'D',0x00}; // CW keyer dynamics, 00H to FFH
 //				(00H = soft, FFH = hard).
 
-
 // NO-OP keep alive command. Sent every
 // 15 seconds so radio doesn't close
-// modem connection to the PC.
+// serial connection to the PC.
 char cmdK_NOOP[] = {2,'d',0x00}; 
 
 char cmdK_cmdR[] = {2,'E',0x00}; // Transmit equalization shift frequency,
@@ -196,7 +148,7 @@ char cmdK_NTCF[] = {2,'n',0x00}; // Notch frequency in 10Hz steps. Hex value is
 //				The range is 210Hz to 2750Hz and a value of
 //				zero indicates the notch is turned off.
 
-char cmdK_NDOF[] = {2,'O',0x00}; // Noise reduction off.
+char cmdK_NDOF[] = {2,'O',0x00}; // Noise reduction off.Request
 char cmdK_NDON[] = {2,'O',0x01}; // Noise reduction on.
 
 char cmdK_NDLV[] = {2,'o',0x00}; // Noise reduction level control.
@@ -299,6 +251,56 @@ char cmdK_AVXL[] = {2,'Y',0x00}; // AntiVOX level, 00H to FFH.
 char cmdK_AVXD[] = {2,'y',0x00}; // VOX Delay, 00H to FFH.
 //				(00H = short, FFH = long).
 
+// unused commands in KC505
+//char cmdK_SIMP[] = {2,'b',0x02}; // BITE - Send antenna impedance data.
+//char cmdK_SSMTR[] = {2,'b',0x04}; // BITE - Send S-Meter calibration table.
+//char cmdK_PSMTR[] = {2,'b',0x05}; // BITE - Perform S-Meter calibration.
+//char cmdK_SFCAL[] = {2,'b',0x07}; // BITE - Send freq. ref. calibration table.
+//char cmdK_SPCAL[] = {2,'b',0x0a}; // BITE - Send phase det. calibration table.
+//char cmdK_PPCAL[] = {2,'b',0x0b}; // BITE - Perform phase det. cal.
+//char cmdK_SCBAL[] = {2,'b',0x0d}; // BITE - Send carrier balance value.
+//char cmdK_PCBAL[] = {2,'b',0x0e}; // BITE - Perform carrier balance.
+//char cmdK_cmd0[] = {2,'b',0x0f}; // Reserved.
+//char cmdK_SM0[] = {2,'b',0x10}; // BITE - S-Meter cal -130 dBm.
+//char cmdK_SM1[] = {2,'b',0x11}; // BITE - S-Meter cal -120 dBm.
+//char cmdK_SM2[] = {2,'b',0x12}; // BITE - S-Meter cal -110 dBm.
+//char cmdK_SM3[] = {2,'b',0x13}; // BITE - S-Meter cal -100 dBm.
+//char cmdK_SM4[] = {2,'b',0x14}; // BITE - S-Meter cal  -90 dBm.
+//char cmdK_SM5[] = {2,'b',0x15}; // BITE - S-Meter cal  -80 dBm.
+//char cmdK_SM6[] = {2,'b',0x16}; // BITE - S-Meter cal  -70 dBm.
+//char cmdK_SM7[] = {2,'b',0x17}; // BITE - S-Meter cal  -60 dBm.
+//char cmdK_SM8[] = {2,'b',0x18}; // BITE - S-Meter cal  -50 dBm.
+//char cmdK_SM9[] = {2,'b',0x19}; // BITE - S-Meter cal  -40 dBm.
+//char cmdK_SM10[] = {2,'b',0x1a}; // BITE - S-Meter cal  -30 dBm.
+//char cmdK_SM11[] = {2,'b',0x1b}; // BITE - S-Meter cal  -20 dBm.
+//char cmdK_SM12[] = {2,'b',0x1c}; // BITE - S-Meter cal  -10 dBm.
+//char cmdK_SM13[] = {2,'b',0x1d}; // BITE - S-Meter cal 0 dBm.
+//char cmdK_SM14[] = {2,'b',0x1e}; // BITE - S-Meter cal   10 dBm.
+//char cmdK_SM15[] = {2,'b',0x1f}; // BITE - S-Meter cal   20 dBm.
+//char cmdK_cmd1[] = {2,'b',0x20}; // Reserved.
+//char cmdK_SAGC[] = {2,'b',0x21}; // BITE - Send AGC DVM value.
+//char cmdK_cmd2[] = {2,'b',0x22}; // BITE - Send lock detector 1 DVM value.
+//char cmdK_cmd3[] = {2,'b',0x23}; // BITE - Send lock detector 2 DVM value.
+//char cmdK_Qfwd[] = {2,'b',0x24}; // BITE - Send forward power DVM value.
+//char cmdK_Qref[] = {2,'b',0x25}; // BITE - Send reflected power DVM value.
+//char cmdK_Qphs[] = {2,'b',0x26}; // BITE - Send phase detector DVM value.
+//char cmdK_cmd7[] = {2,'b',0x27}; // BITE - Send Tx audio DVM value.
+//char cmdK_Qt_A[] = {2,'b',0x28}; // BITE - Send temperature A DVM value.
+//char cmdK_Qt_B[] = {2,'b',0x29}; // BITE - Send temperature B DVM value.
+//char cmdK_cmdA[] = {2,'b',0x2a}; // BITE - Send R->T switching data.
+//char cmdK_cmdB[] = {2,'b',0x2b}; // BITE - Send T->R switching data.
+//char cmdK_cmdC[] = {2,'b',0x2c}; // BITE - Send synthesizer lock time 1 data.
+//char cmdK_cmdD[] = {2,'b',0x2d}; // BITE - Send synthesizer lock time 2 data.
+//char cmdK_cmdE[] = {2,'b',0x2e}; // BITE - Send ALC over-shoot data.
+//char cmdK_cmdF[] = {2,'b',0x2f}; // BITE - Request on time value.
+//char cmdK_cmdG[] = {2,'b',0x30}; // BITE - Reset on time value.
+//char cmdK_cmdH[] = {2,'b',0x31}; // BITE - Request fault data.
+//char cmdK_cmdI[] = {2,'b',0x32}; // BITE - Reset fault data.
+//char cmdK_cmdJ[] = {2,'b',0x33}; // BITE - Set firmware serial number.
+//char cmdK_cmdK[] = {2,'b',0x34}; // BITE - Perform powerup self test.
+//char cmdK_cmdL[] = {2,'b',0x35}; // BITE - Set password.
+//char cmdK_cmdQ[] = {2,'b',0x3a}; // BITE - Perform freq. ref. tilt
+
 /*				
 When the mode is commanded to AM, the radio will automatically
 change the Bandpass Filter to 6 kHz. When the mode is commanded
@@ -320,159 +322,159 @@ when commands are inhibited from being sent to the radio.
 		AM/FM = AM and FM modes
 		CW = CW mode
 
-Command  Definition   Inhibit Conditions
--------  ----------   ------------------
-   A AGC speed --  AM/FM  ------
-   a Amplifier --  -----  ------
-   B Bandpass Filter  --  AM/FM  ------
-   b BITE  TX  -----  ------
-   C CW Offset freq.  --  -----  ------
-   c CW Filter default TX  -----  ------
-   D CW keyer dynamics --  -----  ------
-   d NO-OP Keep Alive --  -----  ------
-   E Tx equal. freq.  --  -----  ------
-   e Speech monitor   --  -----  ------
-   F VFO   TX  -----  ------
-   G Receive attenuator   --  -----  ------
-   g AGC knee  --  AM/FM  ------
-   H Speech Compression   --  -----  ------
-   I IF shift freq.   --  AM/FM  ------
-   i Impedance matching   --  -----  ------
-   J RIT (100Hz)  --  -----  ------
-   j RIT (10Hz)   --  -----  ------
-   K CW keyer mode --  -----  ------
-   k CW spotting tone --  -----  ------
-   L Level sens. squelch  --  -----  ------
-   M Mode  TX  -----  ------
-   m Mic gain  --  -----  ------
-   N Notch width  --  AM/FM  ------
-   n Notch frequency  --  AM/FM  ------
-   O Noise reduction  --  AM/FM  ------
-   o Noise red. level --  AM/FM  ------
-   P Speech processor --  -----  ------
-   p Pre-amplifier --  -----  ------
-   Q Squelch   --  -----  ------
-   q CW keyer QSK  --  -----  ------
-   R Rx. frequency tune   --  -----  ------
-   r Reference Cal freq.  TX  -----  ------
-   S CW keyer speed   --  -----  ------
-   s CW keyer sidetone --  -----  ------
-   T Tx. frequency tune   TX  -----  ------
-   t Tx. frequency save   TX  -----  ------
-   U Antenna tuning   --  -----  ------
-   V Audio volume  --  -----  ------
-   v CW Tx buffer  --  AM/FM  ------
-   W Max power out --  -----  ------
-   w CW keyer weight  --  -----  ------
-   X VOX level --  -----  ------
-   x Push to talk  --   CW ------
-   Y AntiVOX level --  -----  ------
-   y VOX Delay --  -----  ------
+Command	Definition				Inhibit Conditions
+-------	------------------------------------------
+   A	AGC speed					AM/FM
+   a	Amplifier
+   B	Bandpass Filter				AM/FM
+   b	BITE  TX
+   C	CW Offset freq.
+   c	CW Filter default TX
+   D	CW keyer dynamics
+   d	NO-OP Keep Alive
+   E	Tx equal. freq.
+   e	Speech monitor
+   F	VFO   TX
+   G	Receive attenuator
+   g	AGC knee					AM/FM
+   H	Speech Compression
+   I	IF shift freq.				AM/FM
+   i	Impedance matching
+   J	RIT (100Hz)
+   j	RIT (10Hz)
+   K	CW keyer mode
+   k	CW spotting tone
+   L	Level sens. squelch
+   M	Mode  TX
+   m	Mic gain
+   N	Notch width					AM/FM
+   n	Notch frequency				AM/FM
+   O	Noise reduction				AM/FM
+   o	Noise red. level			AM/FM
+   P	Speech processor
+   p	Pre-amplifier
+   Q	Squelch
+   q	CW keyer QSK
+   R	Rx. frequency tune
+   r	Reference Cal freq.			TX
+   S	CW keyer speed
+   s	CW keyer sidetone
+   T	Tx. frequency tune			TX
+   t	Tx. frequency save			TX
+   U	Antenna tuning
+   V	Audio volume
+   v	CW Tx buffer				AM/FM
+   W	Max power out
+   w	CW keyer weight
+   X	VOX level
+   x	Push to talk				CW
+   Y	AntiVOX level
+   y	VOX Delay
 
 TELEMETRY STRUCTURE (Radio to PC)
 The radio will send telemetry to the PC automatically at a 50 msec rate.
 The telemetry format will be a single byte using the following values.
 
-Value   Definition
------   ----------
-0 - 127  Receive signal in dBm.
+Value     Definition
+-----     ----------
+0 - 127   Receive signal in dBm.
 
-128  Squelch open (busy).
-129  Squelch closed.
+128       Squelch open (busy).
+129       Squelch closed.
 
-130 - 139   Automatic Level Control 0 - 20 (each increment is 2 ALC).
+130 - 139 Automatic Level Control 0 - 20 (each increment is 2 ALC).
 
-140 - 189   Forward power in percent, 0 - 100% (each increment is 2%).
+140 - 189 Forward power in percent, 0 - 100% (each increment is 2%).
 
-190 - 214   Reflected power in percent, 0 - 50% (each increment is 2%).
+190 - 214 Reflected power in percent, 0 - 50% (each increment is 2%).
 
-215  Heat sink over-temperature alarm.
-216  Loss of synthesizer lock.
-217  Self test failure.
+215       Heat sink over-temperature alarm.
+216       Loss of synthesizer lock.
+217       Self test failure.
 
-220 - 249   Heat sink temperature in degrees C, 17.5 - 90 degrees C,
-		each increment is 2.5 degrees C.
+220 - 249 Heat sink temperature in degrees C, 17.5 - 90 degrees C,
+          each increment is 2.5 degrees C.
 
 253  Start of data transfer.
 
-		Current radio settings data. If the DDS value for receive
-		frequency is requested, the 4 byte DDS value will be sent,
-		highest byte first, plus a 2 byte checksum. The uppermost
-		2 bits of the high byte will indicate antenna port. See 'R'
-		command section above for converting between DDS value and
-		frequency. If mode is requested, a single byte identifying
-		the mode will be sent without a checksum. See 'M' command
-		section above for value description. If maximum power
-		setting is requested, a single byte containing the power
-		setting in watts, 1 - 100, will be sent without a checksum.
+	Current radio settings data. If the DDS value for receive
+	frequency is requested, the 4 byte DDS value will be sent,
+	highest byte first, plus a 2 byte checksum. The uppermost
+	2 bits of the high byte will indicate antenna port. See 'R'
+	command section above for converting between DDS value and
+	frequency. If mode is requested, a single byte identifying
+	the mode will be sent without a checksum. See 'M' command
+	section above for value description. If maximum power
+	setting is requested, a single byte containing the power
+	setting in watts, 1 - 100, will be sent without a checksum.
 
-		Antenna impedance data. A total of 256 bytes of data will
-		always be sent (64 points x 4 bytes) plus a 2 byte checksum.
-		The 64 points will contain data for antenna port A and B.
-		In each 4 byte group, bytes 0-1 will always contain the 2
-		most significant bytes of DDS. The 2 uppermost bits of byte
-		0 will indicate the format of bytes 2-3 and the antenna port
-		as follows:
-			bits   bytes 2-3	   port
-			 00	rho/phi			 A
-			 01	cap/ind	(network data)	 A
-			 10	cap/ind	(network data)	 B
-			 11	rho/phi			 B (no tuner)
-		When bytes 2-3 contain rho/phi data, their values will
-		be as follows:
-			byte 2 Rho (increment is 1 / 256).
-			byte 3 Phase angle (increment is 2pi * (1 / 256)).
+	Antenna impedance data. A total of 256 bytes of data will
+	always be sent (64 points x 4 bytes) plus a 2 byte checksum.
+	The 64 points will contain data for antenna port A and B.
+	In each 4 byte group, bytes 0-1 will always contain the 2
+	most significant bytes of DDS. The 2 uppermost bits of byte
+	0 will indicate the format of bytes 2-3 and the antenna port
+	as follows:
+		bits   bytes 2-3	   port
+		 00	rho/phi			 A
+		 01	cap/ind	(network data)	 A
+		 10	cap/ind	(network data)	 B
+		 11	rho/phi			 B (no tuner)
+	When bytes 2-3 contain rho/phi data, their values will
+	be as follows:
+		byte 2 Rho (increment is 1 / 256).
+		byte 3 Phase angle (increment is 2pi * (1 / 256)).
 
-		S Meter calibration table. 16 one byte values will always
-		be sent plus a 2 byte checksum.
+	S Meter calibration table. 16 one byte values will always
+	be sent plus a 2 byte checksum.
 
-		Frequency reference calibration table. 32 one byte values
-		will always be sent plus a 2 byte checksum.
+	Frequency reference calibration table. 32 one byte values
+	will always be sent plus a 2 byte checksum.
 
-		Phase detector calibration table. 16 one byte values will
-		always be sent plus a 2 byte checksum.
+	Phase detector calibration table. 16 one byte values will
+	always be sent plus a 2 byte checksum.
 
-		Carrier balance value. A 2 byte value will be sent without
-		a checksum.
+	Carrier balance value. A 2 byte value will be sent without
+	a checksum.
 
-		Version data. 4 byte integer serial number, 2 byte hardware
-		version number (MSB alpha, LSB digit), 2 byte firmware
-		version number, and a 2 byte checksum.
+	Version data. 4 byte integer serial number, 2 byte hardware
+	version number (MSB alpha, LSB digit), 2 byte firmware
+	version number, and a 2 byte checksum.
 
-		Hour meter data. 4 byte integer hours of operation will be
-		sent plus a 2 byte checksum.
+	Hour meter data. 4 byte integer hours of operation will be
+	sent plus a 2 byte checksum.
 
-		Fault record data. 10 two byte numbers will always be sent
-		plus a 2 byte checksum.
+	Fault record data. 10 two byte numbers will always be sent
+	plus a 2 byte checksum.
 
-		R->T switching data. 50 1 byte forward power values in
-		percent, 0 - 100% (each increment is 2%), plus a 2 byte
-		checksum.
+	R->T switching data. 50 1 byte forward power values in
+	percent, 0 - 100% (each increment is 2%), plus a 2 byte
+	checksum.
 
-		T->R switching data. 50 1 byte values (DVM format) plus a
-		2 byte checksum.
+	T->R switching data. 50 1 byte values (DVM format) plus a
+	2 byte checksum.
 
-		Synthesizer lock time 1 data. 50 1 byte values (DVM format)
-		plus a 2 byte checksum.
+	Synthesizer lock time 1 data. 50 1 byte values (DVM format)
+	plus a 2 byte checksum.
 
-		Synthesizer lock time 2 data. 50 1 byte values (DVM format)
-		plus a 2 byte checksum.
+	Synthesizer lock time 2 data. 50 1 byte values (DVM format)
+	plus a 2 byte checksum.
 
-		ALC over-shoot data. 50 1 byte forward power values in
-		percent, 0 - 100% (each increment is 2%), plus a 2 byte
-		checksum.
+	ALC over-shoot data. 50 1 byte forward power values in
+	percent, 0 - 100% (each increment is 2%), plus a 2 byte
+	checksum.
 
-		Digital Volt Meter data can be one of the following types:
-		AGC, lock detector 1, lock detector 2, forward power,
-		reflected power, phase detector, Tx audio, temperature A,
-		temperature B, and TCXO. A 1 byte value (DVM format) will
-		be sent without a checksum.
+	Digital Volt Meter data can be one of the following types:
+	AGC, lock detector 1, lock detector 2, forward power,
+	reflected power, phase detector, Tx audio, temperature A,
+	temperature B, and TCXO. A 1 byte value (DVM format) will
+	be sent without a checksum.
 
 DVM format:
-Digital Volt Meter (DVM) data will be contained in a single byte
-representing the voltage. Positive values will range from 0 - 127, 128
-will be zero, and negative values will range from 129 to 255. Each
-increment in value will represent 1/16th of a volt or 0.0625 volts.
+	Digital Volt Meter (DVM) data will be contained in a single byte
+	representing the voltage. Positive values will range from 0 - 127, 128
+	will be zero, and negative values will range from 129 to 255. Each
+	increment in value will represent 1/16th of a volt or 0.0625 volts.
 
 254  Error.
 255  Good command acknowledge.
