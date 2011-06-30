@@ -18,10 +18,10 @@
 # Copyright (c) 2008 Dave Freese, W1HKJ (w1hkj AT w1hkj DOT com)
 
 
-pkgdatadir = $(datadir)/kc505
-pkgincludedir = $(includedir)/kc505
-pkglibdir = $(libdir)/kc505
-pkglibexecdir = $(libexecdir)/kc505
+pkgdatadir = $(datadir)/kcat
+pkgincludedir = $(includedir)/kcat
+pkglibdir = $(libdir)/kcat
+pkglibexecdir = $(libexecdir)/kcat
 am__cd = CDPATH="$${ZSH_VERSION+.}$(PATH_SEPARATOR)" && cd
 install_sh_DATA = $(install_sh) -c -m 644
 install_sh_PROGRAM = $(install_sh) -c
@@ -37,7 +37,7 @@ POST_UNINSTALL = :
 build_triplet = i686-pc-linux-gnu
 host_triplet = i686-pc-linux-gnu
 target_triplet = i686-pc-linux-gnu
-bin_PROGRAMS = KC505$(EXEEXT)
+bin_PROGRAMS = kcat$(EXEEXT)
 ##am__append_1 = $(MINGW32_SRC)
 #am__append_2 = $(INSTALLER_FILE)
 #am__append_3 = $(APPBUNDLE_NOLIBS) $(APPBUNDLE) $(APPBUNDLE)*.dmg
@@ -49,8 +49,8 @@ am__aclocal_m4_deps = $(top_srcdir)/m4/build.m4 \
 	$(top_srcdir)/m4/debug.m4 $(top_srcdir)/m4/fltk.m4 \
 	$(top_srcdir)/m4/funcs.m4 $(top_srcdir)/m4/macosx.m4 \
 	$(top_srcdir)/m4/np-compat.m4 $(top_srcdir)/m4/opt.m4 \
-	$(top_srcdir)/m4/static.m4 $(top_srcdir)/m4/win32.m4 \
-	$(top_srcdir)/configure.ac
+	$(top_srcdir)/m4/pkg-config.m4 $(top_srcdir)/m4/static.m4 \
+	$(top_srcdir)/m4/win32.m4 $(top_srcdir)/configure.ac
 am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
 	$(ACLOCAL_M4)
 mkinstalldirs = $(install_sh) -d
@@ -59,25 +59,30 @@ CONFIG_CLEAN_FILES =
 CONFIG_CLEAN_VPATH_FILES =
 am__installdirs = "$(DESTDIR)$(bindir)"
 PROGRAMS = $(bin_PROGRAMS)
-am__KC505_SOURCES_DIST = Kachina-rc.rc include/Kachinarc.h mingw.c \
-	include/compat.h include/compat-mingw.h cstack.cpp dialogs.cpp \
+am__kcat_SOURCES_DIST = kachina.rc include/kachinarc.h mingw.c \
+	include/compat.h include/compat-mingw.h dialogs.cpp \
 	Kachina.cpp Fl_SigBar.cpp FreqControl.cpp images.cpp \
 	IOspec.cpp Kachina_io.cpp KachinaPanel.cxx serialcomm.cpp \
-	support.cpp telemetry.cpp
-am__objects_1 = Kachina-rc.$(OBJEXT) KC505-mingw.$(OBJEXT)
+	support.cpp telemetry.cpp cstack.cpp include/cstack.h \
+	include/dialogs.h include/Fl_SigBar.h include/FreqControl.h \
+	include/images.h include/IOspec.h include/Kachina.h \
+	include/Kachina_io.h include/KachinaPanel.h \
+	include/linserial.h include/serialcomm.h include/support.h \
+	include/test.h include/version.h include/winserial.h
+am__objects_1 = kachina.$(OBJEXT) kcat-mingw.$(OBJEXT)
 ##am__objects_2 = $(am__objects_1)
-am_KC505_OBJECTS = $(am__objects_2) KC505-cstack.$(OBJEXT) \
-	KC505-dialogs.$(OBJEXT) KC505-Kachina.$(OBJEXT) \
-	KC505-Fl_SigBar.$(OBJEXT) KC505-FreqControl.$(OBJEXT) \
-	KC505-images.$(OBJEXT) KC505-IOspec.$(OBJEXT) \
-	KC505-Kachina_io.$(OBJEXT) KC505-KachinaPanel.$(OBJEXT) \
-	KC505-serialcomm.$(OBJEXT) KC505-support.$(OBJEXT) \
-	KC505-telemetry.$(OBJEXT)
+am_kcat_OBJECTS = $(am__objects_2) kcat-dialogs.$(OBJEXT) \
+	kcat-Kachina.$(OBJEXT) kcat-Fl_SigBar.$(OBJEXT) \
+	kcat-FreqControl.$(OBJEXT) kcat-images.$(OBJEXT) \
+	kcat-IOspec.$(OBJEXT) kcat-Kachina_io.$(OBJEXT) \
+	kcat-KachinaPanel.$(OBJEXT) kcat-serialcomm.$(OBJEXT) \
+	kcat-support.$(OBJEXT) kcat-telemetry.$(OBJEXT) \
+	kcat-cstack.$(OBJEXT)
 am__objects_3 =
-nodist_KC505_OBJECTS = $(am__objects_3)
-KC505_OBJECTS = $(am_KC505_OBJECTS) $(nodist_KC505_OBJECTS)
-KC505_DEPENDENCIES =
-KC505_LINK = $(CXXLD) $(KC505_CXXFLAGS) $(CXXFLAGS) $(KC505_LDFLAGS) \
+nodist_kcat_OBJECTS = $(am__objects_3)
+kcat_OBJECTS = $(am_kcat_OBJECTS) $(nodist_kcat_OBJECTS)
+kcat_DEPENDENCIES =
+kcat_LINK = $(CXXLD) $(kcat_CXXFLAGS) $(CXXFLAGS) $(kcat_LDFLAGS) \
 	$(LDFLAGS) -o $@
 DEFAULT_INCLUDES = -I.
 depcomp = $(SHELL) $(top_srcdir)/build-aux/depcomp
@@ -92,18 +97,17 @@ CXXCOMPILE = $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) \
 CXXLD = $(CXX)
 CXXLINK = $(CXXLD) $(AM_CXXFLAGS) $(CXXFLAGS) $(AM_LDFLAGS) $(LDFLAGS) \
 	-o $@
-SOURCES = $(KC505_SOURCES) $(EXTRA_KC505_SOURCES) \
-	$(nodist_KC505_SOURCES)
-DIST_SOURCES = $(am__KC505_SOURCES_DIST) $(EXTRA_KC505_SOURCES)
+SOURCES = $(kcat_SOURCES) $(EXTRA_kcat_SOURCES) $(nodist_kcat_SOURCES)
+DIST_SOURCES = $(am__kcat_SOURCES_DIST) $(EXTRA_kcat_SOURCES)
 ETAGS = etags
 CTAGS = ctags
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
-ACLOCAL = ${SHELL} /home/dave/dev/dev.KACHINA/kachina.git/build-aux/missing --run aclocal-1.11
+ACLOCAL = ${SHELL} /home/dave/dev/dev.KACHINA/kcat.git/build-aux/missing --run aclocal-1.11
 AC_CONFIG_ARGS = 
-AMTAR = ${SHELL} /home/dave/dev/dev.KACHINA/kachina.git/build-aux/missing --run tar
-AUTOCONF = ${SHELL} /home/dave/dev/dev.KACHINA/kachina.git/build-aux/missing --run autoconf
-AUTOHEADER = ${SHELL} /home/dave/dev/dev.KACHINA/kachina.git/build-aux/missing --run autoheader
-AUTOMAKE = ${SHELL} /home/dave/dev/dev.KACHINA/kachina.git/build-aux/missing --run automake-1.11
+AMTAR = ${SHELL} /home/dave/dev/dev.KACHINA/kcat.git/build-aux/missing --run tar
+AUTOCONF = ${SHELL} /home/dave/dev/dev.KACHINA/kcat.git/build-aux/missing --run autoconf
+AUTOHEADER = ${SHELL} /home/dave/dev/dev.KACHINA/kcat.git/build-aux/missing --run autoheader
+AUTOMAKE = ${SHELL} /home/dave/dev/dev.KACHINA/kcat.git/build-aux/missing --run automake-1.11
 AWK = gawk
 BFD_CFLAGS = 
 BFD_LIBS = 
@@ -135,35 +139,28 @@ INSTALL_DATA = ${INSTALL} -m 644
 INSTALL_PROGRAM = ${INSTALL}
 INSTALL_SCRIPT = ${INSTALL}
 INSTALL_STRIP_PROGRAM = $(install_sh) -c -s
-KC505_BUILD_CPPFLAGS = -I$(srcdir) -I$(srcdir)/include -I$(srcdir)/images
-KC505_BUILD_CXXFLAGS = -I/usr/local/include -I/usr/include/freetype2 -D_THREAD_SAFE -D_REENTRANT -pipe -Wall -fexceptions -O2 -ffast-math -finline-functions -fomit-frame-pointer   -DNDEBUG
-KC505_BUILD_LDADD = -L/usr/local/lib -lfltk_images -lpng -lz -ljpeg -lfltk -lXft -lpthread -ldl -lm -lXext -lX11  -ldl  -lrt  -lpthread  
-KC505_BUILD_LDFLAGS = 
-KC505_VERSION = 1.0.01
-
-########################################################################
-KC505_VERSION_MAJOR = 1
-KC505_VERSION_MINOR = 0
-KC505_VERSION_PATCH = .01
 LDFLAGS = 
 LIBOBJS = 
 LIBS = 
 LTLIBOBJS = 
 MAC_UNIVERSAL_CFLAGS = 
 MAC_UNIVERSAL_LDFLAGS = 
-MAKEINFO = ${SHELL} /home/dave/dev/dev.KACHINA/kachina.git/build-aux/missing --run makeinfo
+MAKEINFO = ${SHELL} /home/dave/dev/dev.KACHINA/kcat.git/build-aux/missing --run makeinfo
 MAKENSIS = 
 MKDIR_P = /bin/mkdir -p
 OBJEXT = o
 OPT_CFLAGS = -O2 -ffast-math -finline-functions -fomit-frame-pointer
-PACKAGE = kc505
+PACKAGE = kcat
 PACKAGE_BUGREPORT = w1hkj AT w1hkj DOT com
-PACKAGE_NAME = KC505
-PACKAGE_STRING = KC505 1.0.01
-PACKAGE_TARNAME = kc505
+PACKAGE_NAME = kcat
+PACKAGE_STRING = kcat 1.0.01
+PACKAGE_TARNAME = kcat
 PACKAGE_URL = 
 PACKAGE_VERSION = 1.0.01
 PATH_SEPARATOR = :
+PKG_CONFIG = /usr/bin/pkg-config
+PKG_CONFIG_LIBDIR = 
+PKG_CONFIG_PATH = 
 POW_LIB = 
 PTW32_CFLAGS = 
 PTW32_LIBS = 
@@ -173,10 +170,12 @@ SHELL = /bin/bash
 STRIP = 
 VERSION = 1.0.01
 WINDRES = 
-abs_builddir = /home/dave/dev/dev.KACHINA/kachina.git/src
-abs_srcdir = /home/dave/dev/dev.KACHINA/kachina.git/src
-abs_top_builddir = /home/dave/dev/dev.KACHINA/kachina.git
-abs_top_srcdir = /home/dave/dev/dev.KACHINA/kachina.git
+X_CFLAGS =  
+X_LIBS = -lX11  
+abs_builddir = /home/dave/dev/dev.KACHINA/kcat.git/src
+abs_srcdir = /home/dave/dev/dev.KACHINA/kcat.git/src
+abs_top_builddir = /home/dave/dev/dev.KACHINA/kcat.git
+abs_top_srcdir = /home/dave/dev/dev.KACHINA/kcat.git
 ac_ct_CC = gcc
 ac_ct_CXX = g++
 am__include = include
@@ -204,7 +203,17 @@ host_vendor = pc
 htmldir = ${docdir}
 includedir = ${prefix}/include
 infodir = ${datarootdir}/info
-install_sh = ${SHELL} /home/dave/dev/dev.KACHINA/kachina.git/build-aux/install-sh
+install_sh = ${SHELL} /home/dave/dev/dev.KACHINA/kcat.git/build-aux/install-sh
+kcat_BUILD_CPPFLAGS = -I$(srcdir) -I$(srcdir)/include -I$(srcdir)/images
+kcat_BUILD_CXXFLAGS = -I/usr/local/include -I/usr/include/freetype2 -D_THREAD_SAFE -D_REENTRANT -pipe -Wall -fexceptions -O2 -ffast-math -finline-functions -fomit-frame-pointer   -DNDEBUG
+kcat_BUILD_LDADD = -L/usr/local/lib -lfltk_images -lpng -lz -ljpeg -lfltk -lXft -lpthread -ldl -lm -lXext -lX11  -ldl  -lrt  -lpthread  
+kcat_BUILD_LDFLAGS = 
+kcat_VERSION = 1.0.01
+
+########################################################################
+kcat_VERSION_MAJOR = 1
+kcat_VERSION_MINOR = 0
+kcat_VERSION_PATCH = .01
 libdir = ${exec_prefix}/lib
 libexecdir = ${exec_prefix}/libexec
 localedir = ${datarootdir}/locale
@@ -228,48 +237,62 @@ target_vendor = pc
 top_build_prefix = ../
 top_builddir = ..
 top_srcdir = ..
-KC505_CPPFLAGS = -I$(srcdir) -I$(srcdir)/include -I$(srcdir)/images
-KC505_CXXFLAGS = -I/usr/local/include -I/usr/include/freetype2 -D_THREAD_SAFE -D_REENTRANT -pipe -Wall -fexceptions -O2 -ffast-math -finline-functions -fomit-frame-pointer   -DNDEBUG
-KC505_CFLAGS = $(KC505_CXXFLAGS)
-KC505_LDFLAGS = 
-KC505_LDADD = -L/usr/local/lib -lfltk_images -lpng -lz -ljpeg -lfltk -lXft -lpthread -ldl -lm -lXext -lX11  -ldl  -lrt  -lpthread  
+kcat_CPPFLAGS = -I$(srcdir) -I$(srcdir)/include -I$(srcdir)/images
+kcat_CXXFLAGS = -I/usr/local/include -I/usr/include/freetype2 -D_THREAD_SAFE -D_REENTRANT -pipe -Wall -fexceptions -O2 -ffast-math -finline-functions -fomit-frame-pointer   -DNDEBUG
+kcat_CFLAGS = $(kcat_CXXFLAGS)
+kcat_LDFLAGS = 
+kcat_LDADD = -L/usr/local/lib -lfltk_images -lpng -lz -ljpeg -lfltk -lXft -lpthread -ldl -lm -lXext -lX11  -ldl  -lrt  -lpthread  
 MINGW32_SRC = \
-	Kachina-rc.rc \
-	include/Kachinarc.h \
+	kachina.rc \
+	include/kachinarc.h \
 	mingw.c \
 	include/compat.h \
 	include/compat-mingw.h
 
 
 # We distribute these but do not always compile them
-EXTRA_KC505_SOURCES = $(KC505_WIN32_RES_SRC) $(MINGW32_SRC)
+EXTRA_kcat_SOURCES = $(kcat_WIN32_RES_SRC) $(MINGW32_SRC)
 
 # Sources that we build. It is OK to have headers here.
-KC505_SOURCES = $(am__append_1) cstack.cpp dialogs.cpp Kachina.cpp \
-	Fl_SigBar.cpp FreqControl.cpp images.cpp IOspec.cpp \
-	Kachina_io.cpp KachinaPanel.cxx serialcomm.cpp support.cpp \
-	telemetry.cpp
+kcat_SOURCES = $(am__append_1) dialogs.cpp Kachina.cpp Fl_SigBar.cpp \
+	FreqControl.cpp images.cpp IOspec.cpp Kachina_io.cpp \
+	KachinaPanel.cxx serialcomm.cpp support.cpp telemetry.cpp \
+	cstack.cpp include/cstack.h include/dialogs.h \
+	include/Fl_SigBar.h include/FreqControl.h include/images.h \
+	include/IOspec.h include/Kachina.h include/Kachina_io.h \
+	include/KachinaPanel.h include/kachinarc.h include/linserial.h \
+	include/serialcomm.h include/support.h include/test.h \
+	include/version.h include/winserial.h
 
 # Sources that are generated,
 BUILT_SOURCES = 
 # not distributed,
-nodist_KC505_SOURCES = $(BUILT_SOURCES)
+nodist_kcat_SOURCES = $(BUILT_SOURCES)
 # and deleted by the clean targets
 CLEANFILES = $(BUILT_SOURCES) $(am__append_2)
 CLEAN_LOCAL = $(am__append_3)
 FL_SRC = KachinaPanel.fl
-INSTALLER_FILE = KC505-$(KC505_VERSION)_setup.exe
-APPBUNDLE = KC505-$(KC505_VERSION)
+INSTALLER_FILE = kcat-$(kcat_VERSION)_setup.exe
+APPBUNDLE = kcat-$(kcat_VERSION)
 APPBUNDLE_NOLIBS = $(APPBUNDLE)-nolibs
 
 # Additional source files that are distributed
 
 # Additional non-source files that are distributed
 # Additional source files that support non-Linux cross compilation
-EXTRA_DIST = KachinaPanel.fl kachina.rc config.h cstack.h dialogs.h \
-	Fl_SigBar.h FreqControl.h images.h includes.txt IOspec.h \
-	Kachina.h Kachina_io.h KachinaPanel.h kachinarc.h linserial.h \
-	serialcomm.h support.h test.h version.h winserial.h
+EXTRA_DIST = kachina.rc images/kachina.xpm images/mvolts.xbm \
+	images/p120.xbm images/p150.xbm images/p15.xbm images/p30.xbm \
+	images/p45.xbm images/p60.xbm images/p75.xbm images/p90.xbm \
+	images/rev.xbm images/smeter.xbm images/swr.xbm images/dbm.xbm \
+	images/alc.xbm $(srcdir)/../data/kcat.desktop \
+	$(srcdir)/../data/kcat.xpm $(srcdir)/../data/win32/fl_app.nsi \
+	$(srcdir)/../data/win32/kcat.ico \
+	$(srcdir)/../scripts/mknsisinst.sh \
+	$(srcdir)/../scripts/build4mingw.sh \
+	$(srcdir)/../data/mac/Info.plist.in \
+	$(srcdir)/../data/mac/kcat.icns \
+	$(srcdir)/../scripts/mkappbundle.sh $(kcat_WIN32_SRC) \
+	$(kcat_FL_SRC)
 all: $(BUILT_SOURCES) config.h
 	$(MAKE) $(AM_MAKEFLAGS) all-am
 
@@ -375,9 +398,9 @@ installcheck-binPROGRAMS: $(bin_PROGRAMS)
 	    else echo "$$f does not support $$opt" 1>&2; bad=1; fi; \
 	  done; \
 	done; rm -f c$${pid}_.???; exit $$bad
-KC505$(EXEEXT): $(KC505_OBJECTS) $(KC505_DEPENDENCIES) 
-	@rm -f KC505$(EXEEXT)
-	$(KC505_LINK) $(KC505_OBJECTS) $(KC505_LDADD) $(LIBS)
+kcat$(EXEEXT): $(kcat_OBJECTS) $(kcat_DEPENDENCIES) 
+	@rm -f kcat$(EXEEXT)
+	$(kcat_LINK) $(kcat_OBJECTS) $(kcat_LDADD) $(LIBS)
 
 mostlyclean-compile:
 	-rm -f *.$(OBJEXT)
@@ -385,19 +408,19 @@ mostlyclean-compile:
 distclean-compile:
 	-rm -f *.tab.c
 
-include ./$(DEPDIR)/KC505-Fl_SigBar.Po
-include ./$(DEPDIR)/KC505-FreqControl.Po
-include ./$(DEPDIR)/KC505-IOspec.Po
-include ./$(DEPDIR)/KC505-Kachina.Po
-include ./$(DEPDIR)/KC505-KachinaPanel.Po
-include ./$(DEPDIR)/KC505-Kachina_io.Po
-include ./$(DEPDIR)/KC505-cstack.Po
-include ./$(DEPDIR)/KC505-dialogs.Po
-include ./$(DEPDIR)/KC505-images.Po
-include ./$(DEPDIR)/KC505-mingw.Po
-include ./$(DEPDIR)/KC505-serialcomm.Po
-include ./$(DEPDIR)/KC505-support.Po
-include ./$(DEPDIR)/KC505-telemetry.Po
+include ./$(DEPDIR)/kcat-Fl_SigBar.Po
+include ./$(DEPDIR)/kcat-FreqControl.Po
+include ./$(DEPDIR)/kcat-IOspec.Po
+include ./$(DEPDIR)/kcat-Kachina.Po
+include ./$(DEPDIR)/kcat-KachinaPanel.Po
+include ./$(DEPDIR)/kcat-Kachina_io.Po
+include ./$(DEPDIR)/kcat-cstack.Po
+include ./$(DEPDIR)/kcat-dialogs.Po
+include ./$(DEPDIR)/kcat-images.Po
+include ./$(DEPDIR)/kcat-mingw.Po
+include ./$(DEPDIR)/kcat-serialcomm.Po
+include ./$(DEPDIR)/kcat-support.Po
+include ./$(DEPDIR)/kcat-telemetry.Po
 
 .c.o:
 	$(COMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ $<
@@ -413,19 +436,19 @@ include ./$(DEPDIR)/KC505-telemetry.Po
 #	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
 #	$(COMPILE) -c `$(CYGPATH_W) '$<'`
 
-KC505-mingw.o: mingw.c
-	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(KC505_CPPFLAGS) $(CPPFLAGS) $(KC505_CFLAGS) $(CFLAGS) -MT KC505-mingw.o -MD -MP -MF $(DEPDIR)/KC505-mingw.Tpo -c -o KC505-mingw.o `test -f 'mingw.c' || echo '$(srcdir)/'`mingw.c
-	$(am__mv) $(DEPDIR)/KC505-mingw.Tpo $(DEPDIR)/KC505-mingw.Po
-#	source='mingw.c' object='KC505-mingw.o' libtool=no \
+kcat-mingw.o: mingw.c
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CFLAGS) $(CFLAGS) -MT kcat-mingw.o -MD -MP -MF $(DEPDIR)/kcat-mingw.Tpo -c -o kcat-mingw.o `test -f 'mingw.c' || echo '$(srcdir)/'`mingw.c
+	$(am__mv) $(DEPDIR)/kcat-mingw.Tpo $(DEPDIR)/kcat-mingw.Po
+#	source='mingw.c' object='kcat-mingw.o' libtool=no \
 #	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
-#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(KC505_CPPFLAGS) $(CPPFLAGS) $(KC505_CFLAGS) $(CFLAGS) -c -o KC505-mingw.o `test -f 'mingw.c' || echo '$(srcdir)/'`mingw.c
+#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CFLAGS) $(CFLAGS) -c -o kcat-mingw.o `test -f 'mingw.c' || echo '$(srcdir)/'`mingw.c
 
-KC505-mingw.obj: mingw.c
-	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(KC505_CPPFLAGS) $(CPPFLAGS) $(KC505_CFLAGS) $(CFLAGS) -MT KC505-mingw.obj -MD -MP -MF $(DEPDIR)/KC505-mingw.Tpo -c -o KC505-mingw.obj `if test -f 'mingw.c'; then $(CYGPATH_W) 'mingw.c'; else $(CYGPATH_W) '$(srcdir)/mingw.c'; fi`
-	$(am__mv) $(DEPDIR)/KC505-mingw.Tpo $(DEPDIR)/KC505-mingw.Po
-#	source='mingw.c' object='KC505-mingw.obj' libtool=no \
+kcat-mingw.obj: mingw.c
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CFLAGS) $(CFLAGS) -MT kcat-mingw.obj -MD -MP -MF $(DEPDIR)/kcat-mingw.Tpo -c -o kcat-mingw.obj `if test -f 'mingw.c'; then $(CYGPATH_W) 'mingw.c'; else $(CYGPATH_W) '$(srcdir)/mingw.c'; fi`
+	$(am__mv) $(DEPDIR)/kcat-mingw.Tpo $(DEPDIR)/kcat-mingw.Po
+#	source='mingw.c' object='kcat-mingw.obj' libtool=no \
 #	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
-#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(KC505_CPPFLAGS) $(CPPFLAGS) $(KC505_CFLAGS) $(CFLAGS) -c -o KC505-mingw.obj `if test -f 'mingw.c'; then $(CYGPATH_W) 'mingw.c'; else $(CYGPATH_W) '$(srcdir)/mingw.c'; fi`
+#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CFLAGS) $(CFLAGS) -c -o kcat-mingw.obj `if test -f 'mingw.c'; then $(CYGPATH_W) 'mingw.c'; else $(CYGPATH_W) '$(srcdir)/mingw.c'; fi`
 
 .cpp.o:
 	$(CXXCOMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ $<
@@ -441,173 +464,173 @@ KC505-mingw.obj: mingw.c
 #	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) \
 #	$(CXXCOMPILE) -c -o $@ `$(CYGPATH_W) '$<'`
 
-KC505-cstack.o: cstack.cpp
-	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(KC505_CPPFLAGS) $(CPPFLAGS) $(KC505_CXXFLAGS) $(CXXFLAGS) -MT KC505-cstack.o -MD -MP -MF $(DEPDIR)/KC505-cstack.Tpo -c -o KC505-cstack.o `test -f 'cstack.cpp' || echo '$(srcdir)/'`cstack.cpp
-	$(am__mv) $(DEPDIR)/KC505-cstack.Tpo $(DEPDIR)/KC505-cstack.Po
-#	source='cstack.cpp' object='KC505-cstack.o' libtool=no \
+kcat-dialogs.o: dialogs.cpp
+	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -MT kcat-dialogs.o -MD -MP -MF $(DEPDIR)/kcat-dialogs.Tpo -c -o kcat-dialogs.o `test -f 'dialogs.cpp' || echo '$(srcdir)/'`dialogs.cpp
+	$(am__mv) $(DEPDIR)/kcat-dialogs.Tpo $(DEPDIR)/kcat-dialogs.Po
+#	source='dialogs.cpp' object='kcat-dialogs.o' libtool=no \
 #	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) \
-#	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(KC505_CPPFLAGS) $(CPPFLAGS) $(KC505_CXXFLAGS) $(CXXFLAGS) -c -o KC505-cstack.o `test -f 'cstack.cpp' || echo '$(srcdir)/'`cstack.cpp
+#	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -c -o kcat-dialogs.o `test -f 'dialogs.cpp' || echo '$(srcdir)/'`dialogs.cpp
 
-KC505-cstack.obj: cstack.cpp
-	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(KC505_CPPFLAGS) $(CPPFLAGS) $(KC505_CXXFLAGS) $(CXXFLAGS) -MT KC505-cstack.obj -MD -MP -MF $(DEPDIR)/KC505-cstack.Tpo -c -o KC505-cstack.obj `if test -f 'cstack.cpp'; then $(CYGPATH_W) 'cstack.cpp'; else $(CYGPATH_W) '$(srcdir)/cstack.cpp'; fi`
-	$(am__mv) $(DEPDIR)/KC505-cstack.Tpo $(DEPDIR)/KC505-cstack.Po
-#	source='cstack.cpp' object='KC505-cstack.obj' libtool=no \
+kcat-dialogs.obj: dialogs.cpp
+	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -MT kcat-dialogs.obj -MD -MP -MF $(DEPDIR)/kcat-dialogs.Tpo -c -o kcat-dialogs.obj `if test -f 'dialogs.cpp'; then $(CYGPATH_W) 'dialogs.cpp'; else $(CYGPATH_W) '$(srcdir)/dialogs.cpp'; fi`
+	$(am__mv) $(DEPDIR)/kcat-dialogs.Tpo $(DEPDIR)/kcat-dialogs.Po
+#	source='dialogs.cpp' object='kcat-dialogs.obj' libtool=no \
 #	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) \
-#	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(KC505_CPPFLAGS) $(CPPFLAGS) $(KC505_CXXFLAGS) $(CXXFLAGS) -c -o KC505-cstack.obj `if test -f 'cstack.cpp'; then $(CYGPATH_W) 'cstack.cpp'; else $(CYGPATH_W) '$(srcdir)/cstack.cpp'; fi`
+#	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -c -o kcat-dialogs.obj `if test -f 'dialogs.cpp'; then $(CYGPATH_W) 'dialogs.cpp'; else $(CYGPATH_W) '$(srcdir)/dialogs.cpp'; fi`
 
-KC505-dialogs.o: dialogs.cpp
-	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(KC505_CPPFLAGS) $(CPPFLAGS) $(KC505_CXXFLAGS) $(CXXFLAGS) -MT KC505-dialogs.o -MD -MP -MF $(DEPDIR)/KC505-dialogs.Tpo -c -o KC505-dialogs.o `test -f 'dialogs.cpp' || echo '$(srcdir)/'`dialogs.cpp
-	$(am__mv) $(DEPDIR)/KC505-dialogs.Tpo $(DEPDIR)/KC505-dialogs.Po
-#	source='dialogs.cpp' object='KC505-dialogs.o' libtool=no \
+kcat-Kachina.o: Kachina.cpp
+	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -MT kcat-Kachina.o -MD -MP -MF $(DEPDIR)/kcat-Kachina.Tpo -c -o kcat-Kachina.o `test -f 'Kachina.cpp' || echo '$(srcdir)/'`Kachina.cpp
+	$(am__mv) $(DEPDIR)/kcat-Kachina.Tpo $(DEPDIR)/kcat-Kachina.Po
+#	source='Kachina.cpp' object='kcat-Kachina.o' libtool=no \
 #	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) \
-#	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(KC505_CPPFLAGS) $(CPPFLAGS) $(KC505_CXXFLAGS) $(CXXFLAGS) -c -o KC505-dialogs.o `test -f 'dialogs.cpp' || echo '$(srcdir)/'`dialogs.cpp
+#	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -c -o kcat-Kachina.o `test -f 'Kachina.cpp' || echo '$(srcdir)/'`Kachina.cpp
 
-KC505-dialogs.obj: dialogs.cpp
-	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(KC505_CPPFLAGS) $(CPPFLAGS) $(KC505_CXXFLAGS) $(CXXFLAGS) -MT KC505-dialogs.obj -MD -MP -MF $(DEPDIR)/KC505-dialogs.Tpo -c -o KC505-dialogs.obj `if test -f 'dialogs.cpp'; then $(CYGPATH_W) 'dialogs.cpp'; else $(CYGPATH_W) '$(srcdir)/dialogs.cpp'; fi`
-	$(am__mv) $(DEPDIR)/KC505-dialogs.Tpo $(DEPDIR)/KC505-dialogs.Po
-#	source='dialogs.cpp' object='KC505-dialogs.obj' libtool=no \
+kcat-Kachina.obj: Kachina.cpp
+	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -MT kcat-Kachina.obj -MD -MP -MF $(DEPDIR)/kcat-Kachina.Tpo -c -o kcat-Kachina.obj `if test -f 'Kachina.cpp'; then $(CYGPATH_W) 'Kachina.cpp'; else $(CYGPATH_W) '$(srcdir)/Kachina.cpp'; fi`
+	$(am__mv) $(DEPDIR)/kcat-Kachina.Tpo $(DEPDIR)/kcat-Kachina.Po
+#	source='Kachina.cpp' object='kcat-Kachina.obj' libtool=no \
 #	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) \
-#	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(KC505_CPPFLAGS) $(CPPFLAGS) $(KC505_CXXFLAGS) $(CXXFLAGS) -c -o KC505-dialogs.obj `if test -f 'dialogs.cpp'; then $(CYGPATH_W) 'dialogs.cpp'; else $(CYGPATH_W) '$(srcdir)/dialogs.cpp'; fi`
+#	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -c -o kcat-Kachina.obj `if test -f 'Kachina.cpp'; then $(CYGPATH_W) 'Kachina.cpp'; else $(CYGPATH_W) '$(srcdir)/Kachina.cpp'; fi`
 
-KC505-Kachina.o: Kachina.cpp
-	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(KC505_CPPFLAGS) $(CPPFLAGS) $(KC505_CXXFLAGS) $(CXXFLAGS) -MT KC505-Kachina.o -MD -MP -MF $(DEPDIR)/KC505-Kachina.Tpo -c -o KC505-Kachina.o `test -f 'Kachina.cpp' || echo '$(srcdir)/'`Kachina.cpp
-	$(am__mv) $(DEPDIR)/KC505-Kachina.Tpo $(DEPDIR)/KC505-Kachina.Po
-#	source='Kachina.cpp' object='KC505-Kachina.o' libtool=no \
+kcat-Fl_SigBar.o: Fl_SigBar.cpp
+	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -MT kcat-Fl_SigBar.o -MD -MP -MF $(DEPDIR)/kcat-Fl_SigBar.Tpo -c -o kcat-Fl_SigBar.o `test -f 'Fl_SigBar.cpp' || echo '$(srcdir)/'`Fl_SigBar.cpp
+	$(am__mv) $(DEPDIR)/kcat-Fl_SigBar.Tpo $(DEPDIR)/kcat-Fl_SigBar.Po
+#	source='Fl_SigBar.cpp' object='kcat-Fl_SigBar.o' libtool=no \
 #	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) \
-#	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(KC505_CPPFLAGS) $(CPPFLAGS) $(KC505_CXXFLAGS) $(CXXFLAGS) -c -o KC505-Kachina.o `test -f 'Kachina.cpp' || echo '$(srcdir)/'`Kachina.cpp
+#	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -c -o kcat-Fl_SigBar.o `test -f 'Fl_SigBar.cpp' || echo '$(srcdir)/'`Fl_SigBar.cpp
 
-KC505-Kachina.obj: Kachina.cpp
-	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(KC505_CPPFLAGS) $(CPPFLAGS) $(KC505_CXXFLAGS) $(CXXFLAGS) -MT KC505-Kachina.obj -MD -MP -MF $(DEPDIR)/KC505-Kachina.Tpo -c -o KC505-Kachina.obj `if test -f 'Kachina.cpp'; then $(CYGPATH_W) 'Kachina.cpp'; else $(CYGPATH_W) '$(srcdir)/Kachina.cpp'; fi`
-	$(am__mv) $(DEPDIR)/KC505-Kachina.Tpo $(DEPDIR)/KC505-Kachina.Po
-#	source='Kachina.cpp' object='KC505-Kachina.obj' libtool=no \
+kcat-Fl_SigBar.obj: Fl_SigBar.cpp
+	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -MT kcat-Fl_SigBar.obj -MD -MP -MF $(DEPDIR)/kcat-Fl_SigBar.Tpo -c -o kcat-Fl_SigBar.obj `if test -f 'Fl_SigBar.cpp'; then $(CYGPATH_W) 'Fl_SigBar.cpp'; else $(CYGPATH_W) '$(srcdir)/Fl_SigBar.cpp'; fi`
+	$(am__mv) $(DEPDIR)/kcat-Fl_SigBar.Tpo $(DEPDIR)/kcat-Fl_SigBar.Po
+#	source='Fl_SigBar.cpp' object='kcat-Fl_SigBar.obj' libtool=no \
 #	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) \
-#	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(KC505_CPPFLAGS) $(CPPFLAGS) $(KC505_CXXFLAGS) $(CXXFLAGS) -c -o KC505-Kachina.obj `if test -f 'Kachina.cpp'; then $(CYGPATH_W) 'Kachina.cpp'; else $(CYGPATH_W) '$(srcdir)/Kachina.cpp'; fi`
+#	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -c -o kcat-Fl_SigBar.obj `if test -f 'Fl_SigBar.cpp'; then $(CYGPATH_W) 'Fl_SigBar.cpp'; else $(CYGPATH_W) '$(srcdir)/Fl_SigBar.cpp'; fi`
 
-KC505-Fl_SigBar.o: Fl_SigBar.cpp
-	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(KC505_CPPFLAGS) $(CPPFLAGS) $(KC505_CXXFLAGS) $(CXXFLAGS) -MT KC505-Fl_SigBar.o -MD -MP -MF $(DEPDIR)/KC505-Fl_SigBar.Tpo -c -o KC505-Fl_SigBar.o `test -f 'Fl_SigBar.cpp' || echo '$(srcdir)/'`Fl_SigBar.cpp
-	$(am__mv) $(DEPDIR)/KC505-Fl_SigBar.Tpo $(DEPDIR)/KC505-Fl_SigBar.Po
-#	source='Fl_SigBar.cpp' object='KC505-Fl_SigBar.o' libtool=no \
+kcat-FreqControl.o: FreqControl.cpp
+	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -MT kcat-FreqControl.o -MD -MP -MF $(DEPDIR)/kcat-FreqControl.Tpo -c -o kcat-FreqControl.o `test -f 'FreqControl.cpp' || echo '$(srcdir)/'`FreqControl.cpp
+	$(am__mv) $(DEPDIR)/kcat-FreqControl.Tpo $(DEPDIR)/kcat-FreqControl.Po
+#	source='FreqControl.cpp' object='kcat-FreqControl.o' libtool=no \
 #	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) \
-#	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(KC505_CPPFLAGS) $(CPPFLAGS) $(KC505_CXXFLAGS) $(CXXFLAGS) -c -o KC505-Fl_SigBar.o `test -f 'Fl_SigBar.cpp' || echo '$(srcdir)/'`Fl_SigBar.cpp
+#	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -c -o kcat-FreqControl.o `test -f 'FreqControl.cpp' || echo '$(srcdir)/'`FreqControl.cpp
 
-KC505-Fl_SigBar.obj: Fl_SigBar.cpp
-	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(KC505_CPPFLAGS) $(CPPFLAGS) $(KC505_CXXFLAGS) $(CXXFLAGS) -MT KC505-Fl_SigBar.obj -MD -MP -MF $(DEPDIR)/KC505-Fl_SigBar.Tpo -c -o KC505-Fl_SigBar.obj `if test -f 'Fl_SigBar.cpp'; then $(CYGPATH_W) 'Fl_SigBar.cpp'; else $(CYGPATH_W) '$(srcdir)/Fl_SigBar.cpp'; fi`
-	$(am__mv) $(DEPDIR)/KC505-Fl_SigBar.Tpo $(DEPDIR)/KC505-Fl_SigBar.Po
-#	source='Fl_SigBar.cpp' object='KC505-Fl_SigBar.obj' libtool=no \
+kcat-FreqControl.obj: FreqControl.cpp
+	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -MT kcat-FreqControl.obj -MD -MP -MF $(DEPDIR)/kcat-FreqControl.Tpo -c -o kcat-FreqControl.obj `if test -f 'FreqControl.cpp'; then $(CYGPATH_W) 'FreqControl.cpp'; else $(CYGPATH_W) '$(srcdir)/FreqControl.cpp'; fi`
+	$(am__mv) $(DEPDIR)/kcat-FreqControl.Tpo $(DEPDIR)/kcat-FreqControl.Po
+#	source='FreqControl.cpp' object='kcat-FreqControl.obj' libtool=no \
 #	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) \
-#	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(KC505_CPPFLAGS) $(CPPFLAGS) $(KC505_CXXFLAGS) $(CXXFLAGS) -c -o KC505-Fl_SigBar.obj `if test -f 'Fl_SigBar.cpp'; then $(CYGPATH_W) 'Fl_SigBar.cpp'; else $(CYGPATH_W) '$(srcdir)/Fl_SigBar.cpp'; fi`
+#	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -c -o kcat-FreqControl.obj `if test -f 'FreqControl.cpp'; then $(CYGPATH_W) 'FreqControl.cpp'; else $(CYGPATH_W) '$(srcdir)/FreqControl.cpp'; fi`
 
-KC505-FreqControl.o: FreqControl.cpp
-	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(KC505_CPPFLAGS) $(CPPFLAGS) $(KC505_CXXFLAGS) $(CXXFLAGS) -MT KC505-FreqControl.o -MD -MP -MF $(DEPDIR)/KC505-FreqControl.Tpo -c -o KC505-FreqControl.o `test -f 'FreqControl.cpp' || echo '$(srcdir)/'`FreqControl.cpp
-	$(am__mv) $(DEPDIR)/KC505-FreqControl.Tpo $(DEPDIR)/KC505-FreqControl.Po
-#	source='FreqControl.cpp' object='KC505-FreqControl.o' libtool=no \
+kcat-images.o: images.cpp
+	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -MT kcat-images.o -MD -MP -MF $(DEPDIR)/kcat-images.Tpo -c -o kcat-images.o `test -f 'images.cpp' || echo '$(srcdir)/'`images.cpp
+	$(am__mv) $(DEPDIR)/kcat-images.Tpo $(DEPDIR)/kcat-images.Po
+#	source='images.cpp' object='kcat-images.o' libtool=no \
 #	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) \
-#	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(KC505_CPPFLAGS) $(CPPFLAGS) $(KC505_CXXFLAGS) $(CXXFLAGS) -c -o KC505-FreqControl.o `test -f 'FreqControl.cpp' || echo '$(srcdir)/'`FreqControl.cpp
+#	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -c -o kcat-images.o `test -f 'images.cpp' || echo '$(srcdir)/'`images.cpp
 
-KC505-FreqControl.obj: FreqControl.cpp
-	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(KC505_CPPFLAGS) $(CPPFLAGS) $(KC505_CXXFLAGS) $(CXXFLAGS) -MT KC505-FreqControl.obj -MD -MP -MF $(DEPDIR)/KC505-FreqControl.Tpo -c -o KC505-FreqControl.obj `if test -f 'FreqControl.cpp'; then $(CYGPATH_W) 'FreqControl.cpp'; else $(CYGPATH_W) '$(srcdir)/FreqControl.cpp'; fi`
-	$(am__mv) $(DEPDIR)/KC505-FreqControl.Tpo $(DEPDIR)/KC505-FreqControl.Po
-#	source='FreqControl.cpp' object='KC505-FreqControl.obj' libtool=no \
+kcat-images.obj: images.cpp
+	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -MT kcat-images.obj -MD -MP -MF $(DEPDIR)/kcat-images.Tpo -c -o kcat-images.obj `if test -f 'images.cpp'; then $(CYGPATH_W) 'images.cpp'; else $(CYGPATH_W) '$(srcdir)/images.cpp'; fi`
+	$(am__mv) $(DEPDIR)/kcat-images.Tpo $(DEPDIR)/kcat-images.Po
+#	source='images.cpp' object='kcat-images.obj' libtool=no \
 #	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) \
-#	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(KC505_CPPFLAGS) $(CPPFLAGS) $(KC505_CXXFLAGS) $(CXXFLAGS) -c -o KC505-FreqControl.obj `if test -f 'FreqControl.cpp'; then $(CYGPATH_W) 'FreqControl.cpp'; else $(CYGPATH_W) '$(srcdir)/FreqControl.cpp'; fi`
+#	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -c -o kcat-images.obj `if test -f 'images.cpp'; then $(CYGPATH_W) 'images.cpp'; else $(CYGPATH_W) '$(srcdir)/images.cpp'; fi`
 
-KC505-images.o: images.cpp
-	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(KC505_CPPFLAGS) $(CPPFLAGS) $(KC505_CXXFLAGS) $(CXXFLAGS) -MT KC505-images.o -MD -MP -MF $(DEPDIR)/KC505-images.Tpo -c -o KC505-images.o `test -f 'images.cpp' || echo '$(srcdir)/'`images.cpp
-	$(am__mv) $(DEPDIR)/KC505-images.Tpo $(DEPDIR)/KC505-images.Po
-#	source='images.cpp' object='KC505-images.o' libtool=no \
+kcat-IOspec.o: IOspec.cpp
+	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -MT kcat-IOspec.o -MD -MP -MF $(DEPDIR)/kcat-IOspec.Tpo -c -o kcat-IOspec.o `test -f 'IOspec.cpp' || echo '$(srcdir)/'`IOspec.cpp
+	$(am__mv) $(DEPDIR)/kcat-IOspec.Tpo $(DEPDIR)/kcat-IOspec.Po
+#	source='IOspec.cpp' object='kcat-IOspec.o' libtool=no \
 #	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) \
-#	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(KC505_CPPFLAGS) $(CPPFLAGS) $(KC505_CXXFLAGS) $(CXXFLAGS) -c -o KC505-images.o `test -f 'images.cpp' || echo '$(srcdir)/'`images.cpp
+#	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -c -o kcat-IOspec.o `test -f 'IOspec.cpp' || echo '$(srcdir)/'`IOspec.cpp
 
-KC505-images.obj: images.cpp
-	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(KC505_CPPFLAGS) $(CPPFLAGS) $(KC505_CXXFLAGS) $(CXXFLAGS) -MT KC505-images.obj -MD -MP -MF $(DEPDIR)/KC505-images.Tpo -c -o KC505-images.obj `if test -f 'images.cpp'; then $(CYGPATH_W) 'images.cpp'; else $(CYGPATH_W) '$(srcdir)/images.cpp'; fi`
-	$(am__mv) $(DEPDIR)/KC505-images.Tpo $(DEPDIR)/KC505-images.Po
-#	source='images.cpp' object='KC505-images.obj' libtool=no \
+kcat-IOspec.obj: IOspec.cpp
+	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -MT kcat-IOspec.obj -MD -MP -MF $(DEPDIR)/kcat-IOspec.Tpo -c -o kcat-IOspec.obj `if test -f 'IOspec.cpp'; then $(CYGPATH_W) 'IOspec.cpp'; else $(CYGPATH_W) '$(srcdir)/IOspec.cpp'; fi`
+	$(am__mv) $(DEPDIR)/kcat-IOspec.Tpo $(DEPDIR)/kcat-IOspec.Po
+#	source='IOspec.cpp' object='kcat-IOspec.obj' libtool=no \
 #	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) \
-#	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(KC505_CPPFLAGS) $(CPPFLAGS) $(KC505_CXXFLAGS) $(CXXFLAGS) -c -o KC505-images.obj `if test -f 'images.cpp'; then $(CYGPATH_W) 'images.cpp'; else $(CYGPATH_W) '$(srcdir)/images.cpp'; fi`
+#	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -c -o kcat-IOspec.obj `if test -f 'IOspec.cpp'; then $(CYGPATH_W) 'IOspec.cpp'; else $(CYGPATH_W) '$(srcdir)/IOspec.cpp'; fi`
 
-KC505-IOspec.o: IOspec.cpp
-	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(KC505_CPPFLAGS) $(CPPFLAGS) $(KC505_CXXFLAGS) $(CXXFLAGS) -MT KC505-IOspec.o -MD -MP -MF $(DEPDIR)/KC505-IOspec.Tpo -c -o KC505-IOspec.o `test -f 'IOspec.cpp' || echo '$(srcdir)/'`IOspec.cpp
-	$(am__mv) $(DEPDIR)/KC505-IOspec.Tpo $(DEPDIR)/KC505-IOspec.Po
-#	source='IOspec.cpp' object='KC505-IOspec.o' libtool=no \
+kcat-Kachina_io.o: Kachina_io.cpp
+	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -MT kcat-Kachina_io.o -MD -MP -MF $(DEPDIR)/kcat-Kachina_io.Tpo -c -o kcat-Kachina_io.o `test -f 'Kachina_io.cpp' || echo '$(srcdir)/'`Kachina_io.cpp
+	$(am__mv) $(DEPDIR)/kcat-Kachina_io.Tpo $(DEPDIR)/kcat-Kachina_io.Po
+#	source='Kachina_io.cpp' object='kcat-Kachina_io.o' libtool=no \
 #	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) \
-#	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(KC505_CPPFLAGS) $(CPPFLAGS) $(KC505_CXXFLAGS) $(CXXFLAGS) -c -o KC505-IOspec.o `test -f 'IOspec.cpp' || echo '$(srcdir)/'`IOspec.cpp
+#	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -c -o kcat-Kachina_io.o `test -f 'Kachina_io.cpp' || echo '$(srcdir)/'`Kachina_io.cpp
 
-KC505-IOspec.obj: IOspec.cpp
-	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(KC505_CPPFLAGS) $(CPPFLAGS) $(KC505_CXXFLAGS) $(CXXFLAGS) -MT KC505-IOspec.obj -MD -MP -MF $(DEPDIR)/KC505-IOspec.Tpo -c -o KC505-IOspec.obj `if test -f 'IOspec.cpp'; then $(CYGPATH_W) 'IOspec.cpp'; else $(CYGPATH_W) '$(srcdir)/IOspec.cpp'; fi`
-	$(am__mv) $(DEPDIR)/KC505-IOspec.Tpo $(DEPDIR)/KC505-IOspec.Po
-#	source='IOspec.cpp' object='KC505-IOspec.obj' libtool=no \
+kcat-Kachina_io.obj: Kachina_io.cpp
+	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -MT kcat-Kachina_io.obj -MD -MP -MF $(DEPDIR)/kcat-Kachina_io.Tpo -c -o kcat-Kachina_io.obj `if test -f 'Kachina_io.cpp'; then $(CYGPATH_W) 'Kachina_io.cpp'; else $(CYGPATH_W) '$(srcdir)/Kachina_io.cpp'; fi`
+	$(am__mv) $(DEPDIR)/kcat-Kachina_io.Tpo $(DEPDIR)/kcat-Kachina_io.Po
+#	source='Kachina_io.cpp' object='kcat-Kachina_io.obj' libtool=no \
 #	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) \
-#	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(KC505_CPPFLAGS) $(CPPFLAGS) $(KC505_CXXFLAGS) $(CXXFLAGS) -c -o KC505-IOspec.obj `if test -f 'IOspec.cpp'; then $(CYGPATH_W) 'IOspec.cpp'; else $(CYGPATH_W) '$(srcdir)/IOspec.cpp'; fi`
+#	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -c -o kcat-Kachina_io.obj `if test -f 'Kachina_io.cpp'; then $(CYGPATH_W) 'Kachina_io.cpp'; else $(CYGPATH_W) '$(srcdir)/Kachina_io.cpp'; fi`
 
-KC505-Kachina_io.o: Kachina_io.cpp
-	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(KC505_CPPFLAGS) $(CPPFLAGS) $(KC505_CXXFLAGS) $(CXXFLAGS) -MT KC505-Kachina_io.o -MD -MP -MF $(DEPDIR)/KC505-Kachina_io.Tpo -c -o KC505-Kachina_io.o `test -f 'Kachina_io.cpp' || echo '$(srcdir)/'`Kachina_io.cpp
-	$(am__mv) $(DEPDIR)/KC505-Kachina_io.Tpo $(DEPDIR)/KC505-Kachina_io.Po
-#	source='Kachina_io.cpp' object='KC505-Kachina_io.o' libtool=no \
+kcat-KachinaPanel.o: KachinaPanel.cxx
+	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -MT kcat-KachinaPanel.o -MD -MP -MF $(DEPDIR)/kcat-KachinaPanel.Tpo -c -o kcat-KachinaPanel.o `test -f 'KachinaPanel.cxx' || echo '$(srcdir)/'`KachinaPanel.cxx
+	$(am__mv) $(DEPDIR)/kcat-KachinaPanel.Tpo $(DEPDIR)/kcat-KachinaPanel.Po
+#	source='KachinaPanel.cxx' object='kcat-KachinaPanel.o' libtool=no \
 #	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) \
-#	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(KC505_CPPFLAGS) $(CPPFLAGS) $(KC505_CXXFLAGS) $(CXXFLAGS) -c -o KC505-Kachina_io.o `test -f 'Kachina_io.cpp' || echo '$(srcdir)/'`Kachina_io.cpp
+#	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -c -o kcat-KachinaPanel.o `test -f 'KachinaPanel.cxx' || echo '$(srcdir)/'`KachinaPanel.cxx
 
-KC505-Kachina_io.obj: Kachina_io.cpp
-	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(KC505_CPPFLAGS) $(CPPFLAGS) $(KC505_CXXFLAGS) $(CXXFLAGS) -MT KC505-Kachina_io.obj -MD -MP -MF $(DEPDIR)/KC505-Kachina_io.Tpo -c -o KC505-Kachina_io.obj `if test -f 'Kachina_io.cpp'; then $(CYGPATH_W) 'Kachina_io.cpp'; else $(CYGPATH_W) '$(srcdir)/Kachina_io.cpp'; fi`
-	$(am__mv) $(DEPDIR)/KC505-Kachina_io.Tpo $(DEPDIR)/KC505-Kachina_io.Po
-#	source='Kachina_io.cpp' object='KC505-Kachina_io.obj' libtool=no \
+kcat-KachinaPanel.obj: KachinaPanel.cxx
+	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -MT kcat-KachinaPanel.obj -MD -MP -MF $(DEPDIR)/kcat-KachinaPanel.Tpo -c -o kcat-KachinaPanel.obj `if test -f 'KachinaPanel.cxx'; then $(CYGPATH_W) 'KachinaPanel.cxx'; else $(CYGPATH_W) '$(srcdir)/KachinaPanel.cxx'; fi`
+	$(am__mv) $(DEPDIR)/kcat-KachinaPanel.Tpo $(DEPDIR)/kcat-KachinaPanel.Po
+#	source='KachinaPanel.cxx' object='kcat-KachinaPanel.obj' libtool=no \
 #	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) \
-#	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(KC505_CPPFLAGS) $(CPPFLAGS) $(KC505_CXXFLAGS) $(CXXFLAGS) -c -o KC505-Kachina_io.obj `if test -f 'Kachina_io.cpp'; then $(CYGPATH_W) 'Kachina_io.cpp'; else $(CYGPATH_W) '$(srcdir)/Kachina_io.cpp'; fi`
+#	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -c -o kcat-KachinaPanel.obj `if test -f 'KachinaPanel.cxx'; then $(CYGPATH_W) 'KachinaPanel.cxx'; else $(CYGPATH_W) '$(srcdir)/KachinaPanel.cxx'; fi`
 
-KC505-KachinaPanel.o: KachinaPanel.cxx
-	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(KC505_CPPFLAGS) $(CPPFLAGS) $(KC505_CXXFLAGS) $(CXXFLAGS) -MT KC505-KachinaPanel.o -MD -MP -MF $(DEPDIR)/KC505-KachinaPanel.Tpo -c -o KC505-KachinaPanel.o `test -f 'KachinaPanel.cxx' || echo '$(srcdir)/'`KachinaPanel.cxx
-	$(am__mv) $(DEPDIR)/KC505-KachinaPanel.Tpo $(DEPDIR)/KC505-KachinaPanel.Po
-#	source='KachinaPanel.cxx' object='KC505-KachinaPanel.o' libtool=no \
+kcat-serialcomm.o: serialcomm.cpp
+	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -MT kcat-serialcomm.o -MD -MP -MF $(DEPDIR)/kcat-serialcomm.Tpo -c -o kcat-serialcomm.o `test -f 'serialcomm.cpp' || echo '$(srcdir)/'`serialcomm.cpp
+	$(am__mv) $(DEPDIR)/kcat-serialcomm.Tpo $(DEPDIR)/kcat-serialcomm.Po
+#	source='serialcomm.cpp' object='kcat-serialcomm.o' libtool=no \
 #	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) \
-#	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(KC505_CPPFLAGS) $(CPPFLAGS) $(KC505_CXXFLAGS) $(CXXFLAGS) -c -o KC505-KachinaPanel.o `test -f 'KachinaPanel.cxx' || echo '$(srcdir)/'`KachinaPanel.cxx
+#	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -c -o kcat-serialcomm.o `test -f 'serialcomm.cpp' || echo '$(srcdir)/'`serialcomm.cpp
 
-KC505-KachinaPanel.obj: KachinaPanel.cxx
-	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(KC505_CPPFLAGS) $(CPPFLAGS) $(KC505_CXXFLAGS) $(CXXFLAGS) -MT KC505-KachinaPanel.obj -MD -MP -MF $(DEPDIR)/KC505-KachinaPanel.Tpo -c -o KC505-KachinaPanel.obj `if test -f 'KachinaPanel.cxx'; then $(CYGPATH_W) 'KachinaPanel.cxx'; else $(CYGPATH_W) '$(srcdir)/KachinaPanel.cxx'; fi`
-	$(am__mv) $(DEPDIR)/KC505-KachinaPanel.Tpo $(DEPDIR)/KC505-KachinaPanel.Po
-#	source='KachinaPanel.cxx' object='KC505-KachinaPanel.obj' libtool=no \
+kcat-serialcomm.obj: serialcomm.cpp
+	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -MT kcat-serialcomm.obj -MD -MP -MF $(DEPDIR)/kcat-serialcomm.Tpo -c -o kcat-serialcomm.obj `if test -f 'serialcomm.cpp'; then $(CYGPATH_W) 'serialcomm.cpp'; else $(CYGPATH_W) '$(srcdir)/serialcomm.cpp'; fi`
+	$(am__mv) $(DEPDIR)/kcat-serialcomm.Tpo $(DEPDIR)/kcat-serialcomm.Po
+#	source='serialcomm.cpp' object='kcat-serialcomm.obj' libtool=no \
 #	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) \
-#	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(KC505_CPPFLAGS) $(CPPFLAGS) $(KC505_CXXFLAGS) $(CXXFLAGS) -c -o KC505-KachinaPanel.obj `if test -f 'KachinaPanel.cxx'; then $(CYGPATH_W) 'KachinaPanel.cxx'; else $(CYGPATH_W) '$(srcdir)/KachinaPanel.cxx'; fi`
+#	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -c -o kcat-serialcomm.obj `if test -f 'serialcomm.cpp'; then $(CYGPATH_W) 'serialcomm.cpp'; else $(CYGPATH_W) '$(srcdir)/serialcomm.cpp'; fi`
 
-KC505-serialcomm.o: serialcomm.cpp
-	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(KC505_CPPFLAGS) $(CPPFLAGS) $(KC505_CXXFLAGS) $(CXXFLAGS) -MT KC505-serialcomm.o -MD -MP -MF $(DEPDIR)/KC505-serialcomm.Tpo -c -o KC505-serialcomm.o `test -f 'serialcomm.cpp' || echo '$(srcdir)/'`serialcomm.cpp
-	$(am__mv) $(DEPDIR)/KC505-serialcomm.Tpo $(DEPDIR)/KC505-serialcomm.Po
-#	source='serialcomm.cpp' object='KC505-serialcomm.o' libtool=no \
+kcat-support.o: support.cpp
+	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -MT kcat-support.o -MD -MP -MF $(DEPDIR)/kcat-support.Tpo -c -o kcat-support.o `test -f 'support.cpp' || echo '$(srcdir)/'`support.cpp
+	$(am__mv) $(DEPDIR)/kcat-support.Tpo $(DEPDIR)/kcat-support.Po
+#	source='support.cpp' object='kcat-support.o' libtool=no \
 #	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) \
-#	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(KC505_CPPFLAGS) $(CPPFLAGS) $(KC505_CXXFLAGS) $(CXXFLAGS) -c -o KC505-serialcomm.o `test -f 'serialcomm.cpp' || echo '$(srcdir)/'`serialcomm.cpp
+#	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -c -o kcat-support.o `test -f 'support.cpp' || echo '$(srcdir)/'`support.cpp
 
-KC505-serialcomm.obj: serialcomm.cpp
-	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(KC505_CPPFLAGS) $(CPPFLAGS) $(KC505_CXXFLAGS) $(CXXFLAGS) -MT KC505-serialcomm.obj -MD -MP -MF $(DEPDIR)/KC505-serialcomm.Tpo -c -o KC505-serialcomm.obj `if test -f 'serialcomm.cpp'; then $(CYGPATH_W) 'serialcomm.cpp'; else $(CYGPATH_W) '$(srcdir)/serialcomm.cpp'; fi`
-	$(am__mv) $(DEPDIR)/KC505-serialcomm.Tpo $(DEPDIR)/KC505-serialcomm.Po
-#	source='serialcomm.cpp' object='KC505-serialcomm.obj' libtool=no \
+kcat-support.obj: support.cpp
+	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -MT kcat-support.obj -MD -MP -MF $(DEPDIR)/kcat-support.Tpo -c -o kcat-support.obj `if test -f 'support.cpp'; then $(CYGPATH_W) 'support.cpp'; else $(CYGPATH_W) '$(srcdir)/support.cpp'; fi`
+	$(am__mv) $(DEPDIR)/kcat-support.Tpo $(DEPDIR)/kcat-support.Po
+#	source='support.cpp' object='kcat-support.obj' libtool=no \
 #	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) \
-#	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(KC505_CPPFLAGS) $(CPPFLAGS) $(KC505_CXXFLAGS) $(CXXFLAGS) -c -o KC505-serialcomm.obj `if test -f 'serialcomm.cpp'; then $(CYGPATH_W) 'serialcomm.cpp'; else $(CYGPATH_W) '$(srcdir)/serialcomm.cpp'; fi`
+#	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -c -o kcat-support.obj `if test -f 'support.cpp'; then $(CYGPATH_W) 'support.cpp'; else $(CYGPATH_W) '$(srcdir)/support.cpp'; fi`
 
-KC505-support.o: support.cpp
-	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(KC505_CPPFLAGS) $(CPPFLAGS) $(KC505_CXXFLAGS) $(CXXFLAGS) -MT KC505-support.o -MD -MP -MF $(DEPDIR)/KC505-support.Tpo -c -o KC505-support.o `test -f 'support.cpp' || echo '$(srcdir)/'`support.cpp
-	$(am__mv) $(DEPDIR)/KC505-support.Tpo $(DEPDIR)/KC505-support.Po
-#	source='support.cpp' object='KC505-support.o' libtool=no \
+kcat-telemetry.o: telemetry.cpp
+	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -MT kcat-telemetry.o -MD -MP -MF $(DEPDIR)/kcat-telemetry.Tpo -c -o kcat-telemetry.o `test -f 'telemetry.cpp' || echo '$(srcdir)/'`telemetry.cpp
+	$(am__mv) $(DEPDIR)/kcat-telemetry.Tpo $(DEPDIR)/kcat-telemetry.Po
+#	source='telemetry.cpp' object='kcat-telemetry.o' libtool=no \
 #	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) \
-#	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(KC505_CPPFLAGS) $(CPPFLAGS) $(KC505_CXXFLAGS) $(CXXFLAGS) -c -o KC505-support.o `test -f 'support.cpp' || echo '$(srcdir)/'`support.cpp
+#	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -c -o kcat-telemetry.o `test -f 'telemetry.cpp' || echo '$(srcdir)/'`telemetry.cpp
 
-KC505-support.obj: support.cpp
-	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(KC505_CPPFLAGS) $(CPPFLAGS) $(KC505_CXXFLAGS) $(CXXFLAGS) -MT KC505-support.obj -MD -MP -MF $(DEPDIR)/KC505-support.Tpo -c -o KC505-support.obj `if test -f 'support.cpp'; then $(CYGPATH_W) 'support.cpp'; else $(CYGPATH_W) '$(srcdir)/support.cpp'; fi`
-	$(am__mv) $(DEPDIR)/KC505-support.Tpo $(DEPDIR)/KC505-support.Po
-#	source='support.cpp' object='KC505-support.obj' libtool=no \
+kcat-telemetry.obj: telemetry.cpp
+	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -MT kcat-telemetry.obj -MD -MP -MF $(DEPDIR)/kcat-telemetry.Tpo -c -o kcat-telemetry.obj `if test -f 'telemetry.cpp'; then $(CYGPATH_W) 'telemetry.cpp'; else $(CYGPATH_W) '$(srcdir)/telemetry.cpp'; fi`
+	$(am__mv) $(DEPDIR)/kcat-telemetry.Tpo $(DEPDIR)/kcat-telemetry.Po
+#	source='telemetry.cpp' object='kcat-telemetry.obj' libtool=no \
 #	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) \
-#	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(KC505_CPPFLAGS) $(CPPFLAGS) $(KC505_CXXFLAGS) $(CXXFLAGS) -c -o KC505-support.obj `if test -f 'support.cpp'; then $(CYGPATH_W) 'support.cpp'; else $(CYGPATH_W) '$(srcdir)/support.cpp'; fi`
+#	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -c -o kcat-telemetry.obj `if test -f 'telemetry.cpp'; then $(CYGPATH_W) 'telemetry.cpp'; else $(CYGPATH_W) '$(srcdir)/telemetry.cpp'; fi`
 
-KC505-telemetry.o: telemetry.cpp
-	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(KC505_CPPFLAGS) $(CPPFLAGS) $(KC505_CXXFLAGS) $(CXXFLAGS) -MT KC505-telemetry.o -MD -MP -MF $(DEPDIR)/KC505-telemetry.Tpo -c -o KC505-telemetry.o `test -f 'telemetry.cpp' || echo '$(srcdir)/'`telemetry.cpp
-	$(am__mv) $(DEPDIR)/KC505-telemetry.Tpo $(DEPDIR)/KC505-telemetry.Po
-#	source='telemetry.cpp' object='KC505-telemetry.o' libtool=no \
+kcat-cstack.o: cstack.cpp
+	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -MT kcat-cstack.o -MD -MP -MF $(DEPDIR)/kcat-cstack.Tpo -c -o kcat-cstack.o `test -f 'cstack.cpp' || echo '$(srcdir)/'`cstack.cpp
+	$(am__mv) $(DEPDIR)/kcat-cstack.Tpo $(DEPDIR)/kcat-cstack.Po
+#	source='cstack.cpp' object='kcat-cstack.o' libtool=no \
 #	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) \
-#	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(KC505_CPPFLAGS) $(CPPFLAGS) $(KC505_CXXFLAGS) $(CXXFLAGS) -c -o KC505-telemetry.o `test -f 'telemetry.cpp' || echo '$(srcdir)/'`telemetry.cpp
+#	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -c -o kcat-cstack.o `test -f 'cstack.cpp' || echo '$(srcdir)/'`cstack.cpp
 
-KC505-telemetry.obj: telemetry.cpp
-	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(KC505_CPPFLAGS) $(CPPFLAGS) $(KC505_CXXFLAGS) $(CXXFLAGS) -MT KC505-telemetry.obj -MD -MP -MF $(DEPDIR)/KC505-telemetry.Tpo -c -o KC505-telemetry.obj `if test -f 'telemetry.cpp'; then $(CYGPATH_W) 'telemetry.cpp'; else $(CYGPATH_W) '$(srcdir)/telemetry.cpp'; fi`
-	$(am__mv) $(DEPDIR)/KC505-telemetry.Tpo $(DEPDIR)/KC505-telemetry.Po
-#	source='telemetry.cpp' object='KC505-telemetry.obj' libtool=no \
+kcat-cstack.obj: cstack.cpp
+	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -MT kcat-cstack.obj -MD -MP -MF $(DEPDIR)/kcat-cstack.Tpo -c -o kcat-cstack.obj `if test -f 'cstack.cpp'; then $(CYGPATH_W) 'cstack.cpp'; else $(CYGPATH_W) '$(srcdir)/cstack.cpp'; fi`
+	$(am__mv) $(DEPDIR)/kcat-cstack.Tpo $(DEPDIR)/kcat-cstack.Po
+#	source='cstack.cpp' object='kcat-cstack.obj' libtool=no \
 #	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) \
-#	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(KC505_CPPFLAGS) $(CPPFLAGS) $(KC505_CXXFLAGS) $(CXXFLAGS) -c -o KC505-telemetry.obj `if test -f 'telemetry.cpp'; then $(CYGPATH_W) 'telemetry.cpp'; else $(CYGPATH_W) '$(srcdir)/telemetry.cpp'; fi`
+#	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -c -o kcat-cstack.obj `if test -f 'cstack.cpp'; then $(CYGPATH_W) 'cstack.cpp'; else $(CYGPATH_W) '$(srcdir)/cstack.cpp'; fi`
 
 .cxx.o:
 	$(CXXCOMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ $<
@@ -834,18 +857,18 @@ uninstall-am: uninstall-binPROGRAMS uninstall-local
 ##	$(WINDRES) -I$(srcdir)/include -I$(srcdir)/../data/win32 $< -O coff $@
 
 install-data-local:
-	if test -f $(srcdir)/../data/KC505.xpm; then \
+	if test -f $(srcdir)/../data/kcat.xpm; then \
 	    $(mkinstalldirs) $(DESTDIR)/$(datadir)/pixmaps; \
-	    $(INSTALL_DATA) $(srcdir)/../data/KC505.xpm $(DESTDIR)/$(datadir)/pixmaps; \
+	    $(INSTALL_DATA) $(srcdir)/../data/kcat.xpm $(DESTDIR)/$(datadir)/pixmaps; \
 	fi
-	if test -f $(srcdir)/../data/KC505.desktop; then \
+	if test -f $(srcdir)/../data/kcat.desktop; then \
 	    $(mkinstalldirs) $(DESTDIR)/$(datadir)/applications; \
-	    $(INSTALL_DATA) $(srcdir)/../data/KC505.desktop $(DESTDIR)/$(datadir)/applications; \
+	    $(INSTALL_DATA) $(srcdir)/../data/kcat.desktop $(DESTDIR)/$(datadir)/applications; \
 	fi
 
 uninstall-local:
-	rm -f $(DESTDIR)/$(datadir)/pixmaps/KC505.xpm
-	rm -f $(DESTDIR)/$(datadir)/applications/KC505.desktop
+	rm -f $(DESTDIR)/$(datadir)/pixmaps/kcat.xpm
+	rm -f $(DESTDIR)/$(datadir)/applications/kcat.desktop
 
 flgen: $(FL_SRC)
 	(cd $(srcdir)/include; \
@@ -879,30 +902,6 @@ flgen: $(FL_SRC)
 
 clean-local:
 	-rm -rf $(CLEAN_LOCAL)
-	kachina.xpm \
-	mvolts.xbm \
-	p120.xbm \
-	p150.xbm \
-	p15.xbm \
-	p30.xbm \
-	p45.xbm \
-	p60.xbm \
-	p75.xbm \
-	p90.xbm \
-	rev.xbm \
-	smeter.xbm \
-	swr.xbm
-#	$(srcdir)/../data/KC505.desktop \
-#	$(srcdir)/../data/KC505.xpm \
-#	$(srcdir)/../data/win32/fl_app.nsi \
-#	$(srcdir)/../data/win32/KC505.ico \
-#	$(srcdir)/../scripts/mknsisinst.sh \
-#	$(srcdir)/../scripts/build4mingw.sh \
-#	$(srcdir)/../data/mac/Info.plist.in \
-#	$(srcdir)/../data/mac/KC505.icns \
-#	$(srcdir)/../scripts/mkappbundle.sh \
-#	$(KC505_WIN32_SRC) \
-#	$(KC505_FL_SRC)
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.

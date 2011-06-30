@@ -194,12 +194,16 @@ bool RequestData (char *cmd, unsigned char *buff, int nbr)
 			memset(retbuff, 0, 3);
 			nret = KachinaSerial.ReadBuffer (retbuff, 1);
 			if (retbuff[0] == 0xFD) { // Kachina is sending the data
+				if (test) {
+					sprintf(szVal, " %02X", retbuff[0]);
+					writeTestLog(szVal);
+				}
 				KachinaSerial.ReadBuffer (buff, nbr);
 				for (int i = 0; i < nbr; i++) {
 					sprintf(szVal, " %02X", buff[i]);
 					writeTestLog(szVal);
 				}
-				sprintf(szVal, "\n");
+				sprintf(szVal, " OK\n");
 				writeTestLog(szVal);
 				busy = false;
 				delete [] sendbuff;
@@ -207,7 +211,7 @@ bool RequestData (char *cmd, unsigned char *buff, int nbr)
 			}
 			if (retbuff[0] == 0xFE) { // Kachina rejected the command
 				if (test) {
-					sprintf(szVal," R\n"); 
+					sprintf(szVal, " %02X Rejected\n", retbuff[0]);
 					writeTestLog(szVal);
 				}
 				break;
@@ -217,7 +221,7 @@ bool RequestData (char *cmd, unsigned char *buff, int nbr)
 	}
 	busy = false;
 	if (test) {
-		sprintf(szVal," F\n");
+		sprintf(szVal," Failed\n");
 		writeTestLog(szVal);
 	}
 	delete [] sendbuff;

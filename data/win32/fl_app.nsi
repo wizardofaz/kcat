@@ -4,17 +4,17 @@
 # Copyright (c) 2009 Stelios Bounanos, M0GLD.
 # Copyright (c) 2009 Dave Freese, W1HKJ
 
-# substitute your application name for instances of KC505
+# substitute your application name for instances of kcat
 
 # Variables
-!define KC505_DESCRIPTION "${KC505_NAME} ${KC505_VERSION}"
-!define KC505_STRING "${KC505_NAME}-${KC505_VERSION}"
+!define kcat_DESCRIPTION "${kcat_NAME} ${kcat_VERSION}"
+!define kcat_STRING "${kcat_NAME}-${kcat_VERSION}"
 
-!define PRODUCT_BINARY "${KC505_BINARY}"
-!define PRODUCT_NAME "${KC505_NAME}"
-!define PRODUCT_VERSION "${KC505_VERSION}"
-!define PRODUCT_STRING "${KC505_STRING}"
-!define PRODUCT_DESCRIPTION "${KC505_DESCRIPTION}"
+!define PRODUCT_BINARY "${kcat_BINARY}"
+!define PRODUCT_NAME "${kcat_NAME}"
+!define PRODUCT_VERSION "${kcat_VERSION}"
+!define PRODUCT_STRING "${kcat_STRING}"
+!define PRODUCT_DESCRIPTION "${kcat_DESCRIPTION}"
 
 # Compression options
 SetCompressor /SOLID lzma
@@ -59,7 +59,7 @@ InstProgressFlags smooth
 VIAddVersionKey ProductName "${PRODUCT_NAME}"
 VIAddVersionKey ProductVersion "${PRODUCT_VERSION}"
 VIAddVersionKey FileVersion "${PRODUCT_VERSION}"
-VIAddVersionKey FileDescription "${KC505_DESCRIPTION} installer"
+VIAddVersionKey FileDescription "${kcat_DESCRIPTION} installer"
 VIAddVersionKey LegalCopyright "${PRODUCT_NAME} developers"
 VIAddVersionKey OriginalFilename "${INSTALLER_FILE}"
 VIProductVersion "3.0.0.0"
@@ -89,7 +89,7 @@ Section -install
     WriteRegStr HKLM "${REG_UNINSTALL_PATH}" "DisplayVersion" "${PRODUCT_VERSION}"
     WriteRegStr HKLM "${REG_UNINSTALL_PATH}" "DisplayIcon" '"$INSTDIR\${PRODUCT_BINARY}"'
     WriteRegStr HKLM "${REG_UNINSTALL_PATH}" "HelpLink" "${SUPPORT_URL}"
-    WriteRegStr HKLM "${REG_UNINSTALL_PATH}" "Publisher" "KC505 developers"
+    WriteRegStr HKLM "${REG_UNINSTALL_PATH}" "Publisher" "kcat developers"
     WriteRegStr HKLM "${REG_UNINSTALL_PATH}" "URLUpdateInfo" "${UPDATES_URL}"
     WriteRegStr HKLM "${REG_UNINSTALL_PATH}" "UninstallString" '"$INSTDIR\uninstall.exe"'
     WriteRegStr HKLM "${REG_UNINSTALL_PATH}" "QuietUninstallString" '"$INSTDIR\uninstall.exe" /S'
@@ -98,12 +98,12 @@ Section -install
     WriteUninstaller "uninstall.exe"
 SectionEnd
 
-#Var WANT_KC505
+#Var WANT_kcat
 
-Section "KC505"
+Section "kcat"
 	SectionIn RO
 	SetOutPath $INSTDIR
-	File "${KC505_BINARY}"
+	File "${kcat_BINARY}"
 	File /nonfatal "${MINGWM_DLL}" "${PTW32_DLL}"
 SectionEnd
 
@@ -114,21 +114,21 @@ SectionEnd
 # The following sections are optional
 Section "Start Menu Shortcuts"
     CreateDirectory "${SM_PATH}"
-	CreateShortCut "${SM_PATH}\${KC505_NAME}.lnk" "$INSTDIR\${KC505_BINARY}" "" "$INSTDIR\${KC505_BINARY}" 0
-#	CreateShortCut "${SM_PATH}\${KC505_NAME} Beginners' Guide.lnk" "${GUIDE_URL}"
-#	CreateShortCut "${SM_PATH}\${KC505_NAME} Documentation.lnk" "${KC505_DOCS_URL}"
+	CreateShortCut "${SM_PATH}\${kcat_NAME}.lnk" "$INSTDIR\${kcat_BINARY}" "" "$INSTDIR\${kcat_BINARY}" 0
+#	CreateShortCut "${SM_PATH}\${kcat_NAME} Beginners' Guide.lnk" "${GUIDE_URL}"
+#	CreateShortCut "${SM_PATH}\${kcat_NAME} Documentation.lnk" "${kcat_DOCS_URL}"
     CreateShortCut "${SM_PATH}\Uninstall.lnk" "$INSTDIR\uninstall.exe" "" "$INSTDIR\uninstall.exe" 0
 SectionEnd
 
 Section "Desktop Shortcuts"
-	CreateShortCut "$DESKTOP\${KC505_DESCRIPTION}.lnk" "$INSTDIR\${KC505_BINARY}" "" \
-		"$INSTDIR\${KC505_BINARY}" 0
+	CreateShortCut "$DESKTOP\${kcat_DESCRIPTION}.lnk" "$INSTDIR\${kcat_BINARY}" "" \
+		"$INSTDIR\${kcat_BINARY}" 0
 SectionEnd
 
 # This is unselected by default
 Section /o "Quick Launch Shortcuts"
-	CreateShortCut "$QUICKLAUNCH\${KC505_DESCRIPTION}}.lnk" "$INSTDIR\${KC505_BINARY}" "" \
-		"$INSTDIR\${KC505_BINARY}" 0
+	CreateShortCut "$QUICKLAUNCH\${kcat_DESCRIPTION}}.lnk" "$INSTDIR\${kcat_BINARY}" "" \
+		"$INSTDIR\${kcat_BINARY}" 0
 SectionEnd
 
 # Uninstaller
@@ -138,13 +138,13 @@ Section "Uninstall"
     DeleteRegKey HKLM "${INSTALL_DIR_REG_KEY}"
 
 # Remove files and uninstaller
-	Delete /REBOOTOK $INSTDIR\${KC505_BINARY}
+	Delete /REBOOTOK $INSTDIR\${kcat_BINARY}
     Delete /REBOOTOK $INSTDIR\uninstall.exe
 
 # Remove shortcuts, if any
     Delete "${SM_PATH}\*.*"
-	Delete "$DESKTOP\${KC505_DESCRIPTION}.lnk"
-	Delete "$QUICKLAUNCH\${KC505_DESCRIPTION}.lnk"
+	Delete "$DESKTOP\${kcat_DESCRIPTION}.lnk"
+	Delete "$QUICKLAUNCH\${kcat_DESCRIPTION}.lnk"
 
 # Remove directories used
     RMDir "${SM_PATH}"

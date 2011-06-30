@@ -10,21 +10,21 @@ AC_PREREQ([2.63])
 
 dnl major and minor must be integers; patch may
 dnl contain other characters or be empty
-m4_define(KC505_MAJOR,  [1])
-m4_define(KC505_MINOR,  [0])
-m4_define(KC505_PATCH,  [.01])
+m4_define(kcat_MAJOR,  [1])
+m4_define(kcat_MINOR,  [0])
+m4_define(kcat_PATCH,  [.01])
 
-AC_INIT([KC505], KC505_MAJOR.KC505_MINOR[]KC505_PATCH, [w1hkj AT w1hkj DOT com])
+AC_INIT([kcat], kcat_MAJOR.kcat_MINOR[]kcat_PATCH, [w1hkj AT w1hkj DOT com])
 
-AC_SUBST([KC505_VERSION_MAJOR], [KC505_MAJOR])
-AC_SUBST([KC505_VERSION_MINOR], [KC505_MINOR])
-AC_SUBST([KC505_VERSION_PATCH], [KC505_PATCH])
-AC_SUBST([KC505_VERSION], [KC505_MAJOR.KC505_MINOR[]KC505_PATCH])
+AC_SUBST([kcat_VERSION_MAJOR], [kcat_MAJOR])
+AC_SUBST([kcat_VERSION_MINOR], [kcat_MINOR])
+AC_SUBST([kcat_VERSION_PATCH], [kcat_PATCH])
+AC_SUBST([kcat_VERSION], [kcat_MAJOR.kcat_MINOR[]kcat_PATCH])
 
-AC_DEFINE([KC505_VERSION_MAJOR], [KC505_MAJOR], [major version number])
-AC_DEFINE([KC505_VERSION_MINOR], [KC505_MINOR], [minor version number])
-AC_DEFINE([KC505_VERSION_PATCH], ["KC505_PATCH"], [patch/alpha version string])
-AC_DEFINE([KC505_VERSION], ["KC505_MAJOR.KC505_MINOR[]KC505_PATCH"], [version string])
+AC_DEFINE([kcat_VERSION_MAJOR], [kcat_MAJOR], [major version number])
+AC_DEFINE([kcat_VERSION_MINOR], [kcat_MINOR], [minor version number])
+AC_DEFINE([kcat_VERSION_PATCH], ["kcat_PATCH"], [patch/alpha version string])
+AC_DEFINE([kcat_VERSION], ["kcat_MAJOR.kcat_MINOR[]kcat_PATCH"], [version string])
 
 AC_SUBST([AC_CONFIG_ARGS], [$ac_configure_args])
 AC_CONFIG_AUX_DIR([build-aux])
@@ -119,6 +119,14 @@ AC_FL_MACOSX
 # Substitute WINDRES in Makefile
 AC_FL_WIN32
 
+### X11
+# Set ac_cv_x to yes/no
+# Define USE_X in config.h
+# Substitute X_CFLAGS and X_LIBS in Makefile
+if test "x$target_darwin" = "xno" && test "x$target_win32" = "xno"; then
+    AC_kcat_PKG_CHECK([x], [x11], [no], [yes])
+fi
+
 ### FLTK
 # Substitute FLTK_CFLAGS and FLTK_LIBS in Makefile
 # Set FLUID variable
@@ -130,7 +138,7 @@ AC_CHECK_FLTK
 # Substitute XMLRPC_CFLAGS and XMLRPC_LIBS in Makefile
 # Define USE_XMLRPC in config.h
 # Set ENABLE_XMLRPC Makefile conditional
-#AC_KC505_XMLRPC
+#AC_kcat_XMLRPC
 
 ### Non-POSIX compatibility (i.e. mingw32)
 # Sets various Makefile conditionals; see m4/np-compat.m4
@@ -138,7 +146,7 @@ AC_FL_NP_COMPAT
 
 ### build info
 # Define various build variables in config.h
-AC_KC505_BUILD_INFO
+AC_kcat_BUILD_INFO
 
 AC_CONFIG_FILES([Makefile src/Makefile])
 

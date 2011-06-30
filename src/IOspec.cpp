@@ -41,6 +41,8 @@ char cmdK_PFCAL[] = {2,'b',0x08}; // BITE - Perform freq. ref. cal.
 char cmdK_RPCAL[] = {2,'b',0x09}; // BITE - Request phase det. calibration table.
 char cmdK_RCBAL[] = {2,'b',0x0c}; // BITE - Request carrier balance value.
 
+char cmdK_RTIME[] = {2,'b',0x2f}; // BITE - Request on time value.
+
 char cmdK_cmdM[] = {2,'b',0x36}; // BITE - Request TCXO DVM value.
 char cmdK_cmdN[] = {2,'b',0x37}; // BITE - Request DDS value for Rx frequency.
 char cmdK_cmdO[] = {2,'b',0x38}; // BITE - Request mode.
@@ -251,7 +253,8 @@ char cmdK_AVXL[] = {2,'Y',0x00}; // AntiVOX level, 00H to FFH.
 char cmdK_AVXD[] = {2,'y',0x00}; // VOX Delay, 00H to FFH.
 //				(00H = short, FFH = long).
 
-// unused commands in KC505
+// unused commands in kcat
+
 //char cmdK_SIMP[] = {2,'b',0x02}; // BITE - Send antenna impedance data.
 //char cmdK_SSMTR[] = {2,'b',0x04}; // BITE - Send S-Meter calibration table.
 //char cmdK_PSMTR[] = {2,'b',0x05}; // BITE - Perform S-Meter calibration.
@@ -292,7 +295,6 @@ char cmdK_AVXD[] = {2,'y',0x00}; // VOX Delay, 00H to FFH.
 //char cmdK_cmdC[] = {2,'b',0x2c}; // BITE - Send synthesizer lock time 1 data.
 //char cmdK_cmdD[] = {2,'b',0x2d}; // BITE - Send synthesizer lock time 2 data.
 //char cmdK_cmdE[] = {2,'b',0x2e}; // BITE - Send ALC over-shoot data.
-//char cmdK_cmdF[] = {2,'b',0x2f}; // BITE - Request on time value.
 //char cmdK_cmdG[] = {2,'b',0x30}; // BITE - Reset on time value.
 //char cmdK_cmdH[] = {2,'b',0x31}; // BITE - Request fault data.
 //char cmdK_cmdI[] = {2,'b',0x32}; // BITE - Reset fault data.

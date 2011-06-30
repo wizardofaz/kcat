@@ -11,7 +11,7 @@
 #define BUILD_CONFIGURE_ARGS ""
 
 /* Build date */
-#define BUILD_DATE "Sun Jun 26 18:28:17 CDT 2011"
+#define BUILD_DATE "Sat Jul  2 08:29:46 CDT 2011"
 
 /* Build host */
 #define BUILD_HOST "linux-dev"
@@ -226,38 +226,20 @@
 /* Define to 1 if the system has the type `_Bool'. */
 #define HAVE__BOOL 1
 
-/* KC505 compiler flags */
-#define KC505_BUILD_CXXFLAGS "-I$(srcdir) -I$(srcdir)/include -I$(srcdir)/images -I/usr/local/include -I/usr/include/freetype2 -D_THREAD_SAFE -D_REENTRANT -pipe -Wall -fexceptions -O2 -ffast-math -finline-functions -fomit-frame-pointer -DNDEBUG"
-
-/* KC505 linker flags */
-#define KC505_BUILD_LDFLAGS "-L/usr/local/lib -lfltk_images -lpng -lz -ljpeg -lfltk -lXft -lpthread -ldl -lm -lXext -lX11 -ldl -lrt -lpthread"
-
-/* version string */
-#define KC505_VERSION "1.0.01"
-
-/* major version number */
-#define KC505_VERSION_MAJOR 1
-
-/* minor version number */
-#define KC505_VERSION_MINOR 0
-
-/* patch/alpha version string */
-#define KC505_VERSION_PATCH ".01"
-
 /* Name of package */
-#define PACKAGE "kc505"
+#define PACKAGE "kcat"
 
 /* Define to the address where bug reports for this package should be sent. */
 #define PACKAGE_BUGREPORT "w1hkj AT w1hkj DOT com"
 
 /* Define to the full name of this package. */
-#define PACKAGE_NAME "KC505"
+#define PACKAGE_NAME "kcat"
 
 /* Define to the full name and version of this package. */
-#define PACKAGE_STRING "KC505 1.0.01"
+#define PACKAGE_STRING "kcat 1.0.01"
 
 /* Define to the one symbol short name of this package. */
-#define PACKAGE_TARNAME "kc505"
+#define PACKAGE_TARNAME "kcat"
 
 /* Define to the home page for this package. */
 #define PACKAGE_URL ""
@@ -308,8 +290,14 @@
 #endif
 
 
+/* Define to 1 if we are using x */
+#define USE_X 1
+
 /* Version number of package */
 #define VERSION "1.0.01"
+
+/* x version */
+#define X_BUILD_VERSION "1.3.3"
 
 /* Define to 1 if on MINIX. */
 /* #undef _MINIX */
@@ -363,6 +351,24 @@
 /* Define to the type of a signed integer type of width exactly 8 bits if such
    a type exists and the standard includes do not define it. */
 /* #undef int8_t */
+
+/* kcat compiler flags */
+#define kcat_BUILD_CXXFLAGS "-I$(srcdir) -I$(srcdir)/include -I$(srcdir)/images -I/usr/local/include -I/usr/include/freetype2 -D_THREAD_SAFE -D_REENTRANT -pipe -Wall -fexceptions -O2 -ffast-math -finline-functions -fomit-frame-pointer -DNDEBUG"
+
+/* kcat linker flags */
+#define kcat_BUILD_LDFLAGS "-L/usr/local/lib -lfltk_images -lpng -lz -ljpeg -lfltk -lXft -lpthread -ldl -lm -lXext -lX11 -ldl -lrt -lpthread"
+
+/* version string */
+#define kcat_VERSION "1.0.01"
+
+/* major version number */
+#define kcat_VERSION_MAJOR 1
+
+/* minor version number */
+#define kcat_VERSION_MINOR 0
+
+/* patch/alpha version string */
+#define kcat_VERSION_PATCH ".01"
 
 /* Define to the equivalent of the C99 'restrict' keyword, or to
    nothing if this is not supported.  Do not define if restrict is

@@ -1,46 +1,46 @@
 # Copyright (c) 2008 Dave Freese, W1HKJ (w1hkj AT w1hkj DOT com)
 
-bin_PROGRAMS = KC505
+bin_PROGRAMS = kcat
 
-KC505_CPPFLAGS = @KC505_BUILD_CPPFLAGS@
-KC505_CXXFLAGS = @KC505_BUILD_CXXFLAGS@
-KC505_CFLAGS = $(KC505_CXXFLAGS)
-KC505_LDFLAGS = @KC505_BUILD_LDFLAGS@
-KC505_LDADD = @KC505_BUILD_LDADD@
+kcat_CPPFLAGS = @kcat_BUILD_CPPFLAGS@
+kcat_CXXFLAGS = @kcat_BUILD_CXXFLAGS@
+kcat_CFLAGS = $(kcat_CXXFLAGS)
+kcat_LDFLAGS = @kcat_BUILD_LDFLAGS@
+kcat_LDADD = @kcat_BUILD_LDADD@
 
 MINGW32_SRC = \
-	Kachina-rc.rc \
-	include/Kachinarc.h \
+	kachina.rc \
+	include/kachinarc.h \
 	mingw.c \
 	include/compat.h \
 	include/compat-mingw.h
 
 
 # We distribute these but do not always compile them
-EXTRA_KC505_SOURCES = $(KC505_WIN32_RES_SRC) $(MINGW32_SRC)
+EXTRA_kcat_SOURCES = $(kcat_WIN32_RES_SRC) $(MINGW32_SRC)
 
-KC505_SOURCES =
+kcat_SOURCES =
 
 if MINGW32
 if HAVE_WINDRES
-  KC505_SOURCES += $(MINGW32_SRC)
+  kcat_SOURCES += $(MINGW32_SRC)
 endif
 endif
 
 ########################################################################
 
 
-KC505_VERSION_MAJOR = @KC505_VERSION_MAJOR@
-KC505_VERSION_MINOR = @KC505_VERSION_MINOR@
-KC505_VERSION_PATCH = @KC505_VERSION_PATCH@
-KC505_VERSION = @KC505_VERSION@
+kcat_VERSION_MAJOR = @kcat_VERSION_MAJOR@
+kcat_VERSION_MINOR = @kcat_VERSION_MINOR@
+kcat_VERSION_PATCH = @kcat_VERSION_PATCH@
+kcat_VERSION = @kcat_VERSION@
 
 .EXPORT_ALL_VARIABLES: nsisinst appbundle
 
 # Sources that are generated,
 BUILT_SOURCES =
 # not distributed,
-nodist_KC505_SOURCES = $(BUILT_SOURCES)
+nodist_kcat_SOURCES = $(BUILT_SOURCES)
 # and deleted by the clean targets
 CLEANFILES = $(BUILT_SOURCES)
 CLEAN_LOCAL =
@@ -53,18 +53,18 @@ endif
 endif
 
 install-data-local:
-	if test -f $(srcdir)/../data/KC505.xpm; then \
+	if test -f $(srcdir)/../data/kcat.xpm; then \
 	    $(mkinstalldirs) $(DESTDIR)/$(datadir)/pixmaps; \
-	    $(INSTALL_DATA) $(srcdir)/../data/KC505.xpm $(DESTDIR)/$(datadir)/pixmaps; \
+	    $(INSTALL_DATA) $(srcdir)/../data/kcat.xpm $(DESTDIR)/$(datadir)/pixmaps; \
 	fi
-	if test -f $(srcdir)/../data/KC505.desktop; then \
+	if test -f $(srcdir)/../data/kcat.desktop; then \
 	    $(mkinstalldirs) $(DESTDIR)/$(datadir)/applications; \
-	    $(INSTALL_DATA) $(srcdir)/../data/KC505.desktop $(DESTDIR)/$(datadir)/applications; \
+	    $(INSTALL_DATA) $(srcdir)/../data/kcat.desktop $(DESTDIR)/$(datadir)/applications; \
 	fi
 
 uninstall-local:
-	rm -f $(DESTDIR)/$(datadir)/pixmaps/KC505.xpm
-	rm -f $(DESTDIR)/$(datadir)/applications/KC505.desktop
+	rm -f $(DESTDIR)/$(datadir)/pixmaps/kcat.xpm
+	rm -f $(DESTDIR)/$(datadir)/applications/kcat.desktop
 
 FL_SRC = KachinaPanel.fl
 
@@ -80,8 +80,8 @@ flgen: $(FL_SRC)
 endif
 
 
-INSTALLER_FILE = KC505-$(KC505_VERSION)_setup.exe
-APPBUNDLE=KC505-$(KC505_VERSION)
+INSTALLER_FILE = kcat-$(kcat_VERSION)_setup.exe
+APPBUNDLE=kcat-$(kcat_VERSION)
 APPBUNDLE_NOLIBS=$(APPBUNDLE)-nolibs
 
 if HAVE_NSIS
@@ -115,8 +115,7 @@ clean-local:
 	-rm -rf $(CLEAN_LOCAL)
 
 # Sources that we build. It is OK to have headers here.
-KC505_SOURCES += \
-	cstack.cpp \
+kcat_SOURCES += \
 	dialogs.cpp \
 	Kachina.cpp \
 	Fl_SigBar.cpp \
@@ -127,55 +126,55 @@ KC505_SOURCES += \
 	KachinaPanel.cxx \
 	serialcomm.cpp \
 	support.cpp \
-	telemetry.cpp
+	telemetry.cpp \
+	cstack.cpp \
+	include/cstack.h \
+	include/dialogs.h \
+	include/Fl_SigBar.h \
+	include/FreqControl.h \
+	include/images.h \
+	include/IOspec.h \
+	include/Kachina.h \
+	include/Kachina_io.h \
+	include/KachinaPanel.h \
+	include/kachinarc.h \
+	include/linserial.h \
+	include/serialcomm.h \
+	include/support.h \
+	include/test.h \
+	include/version.h \
+	include/winserial.h
 
 # Additional source files that are distributed
 EXTRA_DIST = \
-	KachinaPanel.fl \
 	kachina.rc \
-	config.h \
-	cstack.h \
-	dialogs.h \
-	Fl_SigBar.h \
-	FreqControl.h \
-	images.h \
-	includes.txt \
-	IOspec.h \
-	Kachina.h \
-	Kachina_io.h \
-	KachinaPanel.h \
-	kachinarc.h \
-	linserial.h \
-	serialcomm.h \
-	support.h \
-	test.h \
-	version.h \
-	winserial.h
-	kachina.xpm \
-	mvolts.xbm \
-	p120.xbm \
-	p150.xbm \
-	p15.xbm \
-	p30.xbm \
-	p45.xbm \
-	p60.xbm \
-	p75.xbm \
-	p90.xbm \
-	rev.xbm \
-	smeter.xbm \
-	swr.xbm
+	images/kachina.xpm \
+	images/mvolts.xbm \
+	images/p120.xbm \
+	images/p150.xbm \
+	images/p15.xbm \
+	images/p30.xbm \
+	images/p45.xbm \
+	images/p60.xbm \
+	images/p75.xbm \
+	images/p90.xbm \
+	images/rev.xbm \
+	images/smeter.xbm \
+	images/swr.xbm \
+	images/dbm.xbm \
+	images/alc.xbm
 
 # Additional non-source files that are distributed
 # Additional source files that support non-Linux cross compilation
-EXTRA_DIST += 
-#	$(srcdir)/../data/KC505.desktop \
-#	$(srcdir)/../data/KC505.xpm \
-#	$(srcdir)/../data/win32/fl_app.nsi \
-#	$(srcdir)/../data/win32/KC505.ico \
-#	$(srcdir)/../scripts/mknsisinst.sh \
-#	$(srcdir)/../scripts/build4mingw.sh \
-#	$(srcdir)/../data/mac/Info.plist.in \
-#	$(srcdir)/../data/mac/KC505.icns \
-#	$(srcdir)/../scripts/mkappbundle.sh \
-#	$(KC505_WIN32_SRC) \
-#	$(KC505_FL_SRC)
+EXTRA_DIST += \
+	$(srcdir)/../data/kcat.desktop \
+	$(srcdir)/../data/kcat.xpm \
+	$(srcdir)/../data/win32/fl_app.nsi \
+	$(srcdir)/../data/win32/kcat.ico \
+	$(srcdir)/../scripts/mknsisinst.sh \
+	$(srcdir)/../scripts/build4mingw.sh \
+	$(srcdir)/../data/mac/Info.plist.in \
+	$(srcdir)/../data/mac/kcat.icns \
+	$(srcdir)/../scripts/mkappbundle.sh \
+	$(kcat_WIN32_SRC) \
+	$(kcat_FL_SRC)

@@ -4,8 +4,8 @@
 ### 20090510  Stelios Bounanos M0GLD, Dave Freese W1HKJ
 
 ### change for the target application
-KC505_name=KC505
-KC505_bin=KC505.exe
+kcat_name=kcat
+kcat_bin=kcat.exe
 
 if [ $# -ne 2 ]; then
     echo "Syntax: $0 data-dir build-dir" >&2
@@ -34,8 +34,8 @@ fi
 
 set -e
 
-test "x$NOSTRIP" = "x" && $STRIP -S "$KC505_bin"
-def="$def -DKC505_NAME=$KC505_name -DKC505_BINARY=$KC505_bin -DKC505_VERSION=$PACKAGE_VERSION"
+test "x$NOSTRIP" = "x" && $STRIP -S "$kcat_bin"
+def="$def -Dkcat_NAME=$kcat_name -Dkcat_BINARY=$kcat_bin -Dkcat_VERSION=$PACKAGE_VERSION"
 
 # Look for pthreadGC2.dll and mingwm10.dll
 MINGWM_DLL=mingwm10.dll

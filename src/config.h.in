@@ -225,24 +225,6 @@
 /* Define to 1 if the system has the type `_Bool'. */
 #undef HAVE__BOOL
 
-/* KC505 compiler flags */
-#undef KC505_BUILD_CXXFLAGS
-
-/* KC505 linker flags */
-#undef KC505_BUILD_LDFLAGS
-
-/* version string */
-#undef KC505_VERSION
-
-/* major version number */
-#undef KC505_VERSION_MAJOR
-
-/* minor version number */
-#undef KC505_VERSION_MINOR
-
-/* patch/alpha version string */
-#undef KC505_VERSION_PATCH
-
 /* Name of package */
 #undef PACKAGE
 
@@ -307,8 +289,14 @@
 #endif
 
 
+/* Define to 1 if we are using x */
+#undef USE_X
+
 /* Version number of package */
 #undef VERSION
+
+/* x version */
+#undef X_BUILD_VERSION
 
 /* Define to 1 if on MINIX. */
 #undef _MINIX
@@ -362,6 +350,24 @@
 /* Define to the type of a signed integer type of width exactly 8 bits if such
    a type exists and the standard includes do not define it. */
 #undef int8_t
+
+/* kcat compiler flags */
+#undef kcat_BUILD_CXXFLAGS
+
+/* kcat linker flags */
+#undef kcat_BUILD_LDFLAGS
+
+/* version string */
+#undef kcat_VERSION
+
+/* major version number */
+#undef kcat_VERSION_MAJOR
+
+/* minor version number */
+#undef kcat_VERSION_MINOR
+
+/* patch/alpha version string */
+#undef kcat_VERSION_PATCH
 
 /* Define to the equivalent of the C99 'restrict' keyword, or to
    nothing if this is not supported.  Do not define if restrict is

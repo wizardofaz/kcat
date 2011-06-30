@@ -27,7 +27,7 @@ bool test = false;
 
 #ifndef WIN32
 Pixmap	kachina_icon_pixmap;
-#define KNAME "Kachina CAT"
+#define KNAME "kcat"
 
 void make_pixmap(Pixmap *xpm, const char **data)
 {

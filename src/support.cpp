@@ -1227,10 +1227,21 @@ void GetKachinaVersion()
 	RigHard[0] = buffer[4]; RigHard[1] = buffer[5];
 }
 
+// cmdK_RTIME does not seem to respond with any data
+/*
+long time_on = 0;
+void GetKachinaHours()
+{
+	unsigned char tbuffer[6];
+	memset(tbuffer, 0, 6);
+	RequestData (cmdK_RTIME, tbuffer, 6);
+	time_on = (((tbuffer[0]*256 + tbuffer[1])*256) + tbuffer[2])*256 + tbuffer[3];
+}
+*/
+
 void about()
 {
-	char msg[1000];
-	fl_message(msg,"\
+	fl_message( "\
 CAT for Kachina 505, copyright W1HKJ\n\
 Version %s\n\
 Serial #: %ld\n\

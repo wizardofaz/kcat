@@ -1,3 +1,90 @@
+m4trace:/usr/share/aclocal/pkg.m4:27: -1- AC_DEFUN([PKG_PROG_PKG_CONFIG], [m4_pattern_forbid([^_?PKG_[A-Z_]+$])
+m4_pattern_allow([^PKG_CONFIG(_PATH)?$])
+AC_ARG_VAR([PKG_CONFIG], [path to pkg-config utility])
+AC_ARG_VAR([PKG_CONFIG_PATH], [directories to add to pkg-config's search path])
+AC_ARG_VAR([PKG_CONFIG_LIBDIR], [path overriding pkg-config's built-in search path])
+
+if test "x$ac_cv_env_PKG_CONFIG_set" != "xset"; then
+	AC_PATH_TOOL([PKG_CONFIG], [pkg-config])
+fi
+if test -n "$PKG_CONFIG"; then
+	_pkg_min_version=m4_default([$1], [0.9.0])
+	AC_MSG_CHECKING([pkg-config is at least version $_pkg_min_version])
+	if $PKG_CONFIG --atleast-pkgconfig-version $_pkg_min_version; then
+		AC_MSG_RESULT([yes])
+	else
+		AC_MSG_RESULT([no])
+		PKG_CONFIG=""
+	fi
+fi[]dnl
+])
+m4trace:/usr/share/aclocal/pkg.m4:59: -1- AC_DEFUN([PKG_CHECK_EXISTS], [AC_REQUIRE([PKG_PROG_PKG_CONFIG])dnl
+if test -n "$PKG_CONFIG" && \
+    AC_RUN_LOG([$PKG_CONFIG --exists --print-errors "$1"]); then
+  m4_default([$2], [:])
+m4_ifvaln([$3], [else
+  $3])dnl
+fi])
+m4trace:/usr/share/aclocal/pkg.m4:84: -1- AC_DEFUN([_PKG_SHORT_ERRORS_SUPPORTED], [AC_REQUIRE([PKG_PROG_PKG_CONFIG])
+if $PKG_CONFIG --atleast-pkgconfig-version 0.20; then
+        _pkg_short_errors_supported=yes
+else
+        _pkg_short_errors_supported=no
+fi[]dnl
+])
+m4trace:/usr/share/aclocal/pkg.m4:104: -1- AC_DEFUN([PKG_CHECK_MODULES], [AC_REQUIRE([PKG_PROG_PKG_CONFIG])dnl
+AC_ARG_VAR([$1][_CFLAGS], [C compiler flags for $1, overriding pkg-config])dnl
+AC_ARG_VAR([$1][_LIBS], [linker flags for $1, overriding pkg-config])dnl
+
+pkg_failed=no
+AC_MSG_CHECKING([for $1])
+
+_PKG_CONFIG([$1][_CFLAGS], [cflags], [$2])
+_PKG_CONFIG([$1][_LIBS], [libs], [$2])
+
+m4_define([_PKG_TEXT], [Alternatively, you may set the environment variables $1[]_CFLAGS
+and $1[]_LIBS to avoid the need to call pkg-config.
+See the pkg-config man page for more details.])
+
+if test $pkg_failed = yes; then
+   	AC_MSG_RESULT([no])
+        _PKG_SHORT_ERRORS_SUPPORTED
+        if test $_pkg_short_errors_supported = yes; then
+	        $1[]_PKG_ERRORS=`$PKG_CONFIG --short-errors --print-errors "$2" 2>&1`
+        else 
+	        $1[]_PKG_ERRORS=`$PKG_CONFIG --print-errors "$2" 2>&1`
+        fi
+	# Put the nasty error message in config.log where it belongs
+	echo "$$1[]_PKG_ERRORS" >&AS_MESSAGE_LOG_FD
+
+	m4_default([$4], [AC_MSG_ERROR(
+[Package requirements ($2) were not met:
+
+$$1_PKG_ERRORS
+
+Consider adjusting the PKG_CONFIG_PATH environment variable if you
+installed software in a non-standard prefix.
+
+_PKG_TEXT])dnl
+        ])
+elif test $pkg_failed = untried; then
+     	AC_MSG_RESULT([no])
+	m4_default([$4], [AC_MSG_FAILURE(
+[The pkg-config script could not be found or is too old.  Make sure it
+is in your PATH or set the PKG_CONFIG environment variable to the full
+path to pkg-config.
+
+_PKG_TEXT
+
+To get pkg-config, see <http://pkg-config.freedesktop.org/>.])dnl
+        ])
+else
+	$1[]_CFLAGS=$pkg_cv_[]$1[]_CFLAGS
+	$1[]_LIBS=$pkg_cv_[]$1[]_LIBS
+        AC_MSG_RESULT([yes])
+	$3
+fi[]dnl
+])
 m4trace:/usr/share/aclocal-1.11/amversion.m4:14: -1- AC_DEFUN([AM_AUTOMAKE_VERSION], [am__api_version='1.11'
 dnl Some users find AM_AUTOMAKE_VERSION and mistake it for a way to
 dnl require some minimum version.  Point them to the right macro.
@@ -574,38 +661,38 @@ AC_MSG_RESULT([$am_cv_prog_tar_$1])])
 AC_SUBST([am__tar])
 AC_SUBST([am__untar])
 ])
-m4trace:m4/build.m4:1: -1- AC_DEFUN([AC_KC505_SH_DQ], [
+m4trace:m4/build.m4:1: -1- AC_DEFUN([AC_kcat_SH_DQ], [
   ac_sh_dq="\"`$1 | sed 's/"/\\\\"/g'`\""
 ])
-m4trace:m4/build.m4:5: -1- AC_DEFUN([AC_KC505_BUILD_INFO], [
+m4trace:m4/build.m4:5: -1- AC_DEFUN([AC_kcat_BUILD_INFO], [
 # Define build flags and substitute in Makefile.in
 # CPPFLAGS
-  KC505_BUILD_CPPFLAGS="-I\$(srcdir) -I\$(srcdir)/include -I\$(srcdir)/images"
+  kcat_BUILD_CPPFLAGS="-I\$(srcdir) -I\$(srcdir)/include -I\$(srcdir)/images"
 # CXXFLAGS
-  KC505_BUILD_CXXFLAGS="$FLTK_CFLAGS -pipe -Wall -fexceptions $OPT_CFLAGS $DEBUG_CFLAGS \
+  kcat_BUILD_CXXFLAGS="$FLTK_CFLAGS -pipe -Wall -fexceptions $OPT_CFLAGS $DEBUG_CFLAGS \
 $PTW32_CFLAGS"
   if test "x$target_mingw32" = "xyes"; then
-      KC505_BUILD_CXXFLAGS="-mthreads $KC505_BUILD_CXXFLAGS"
+      kcat_BUILD_CXXFLAGS="-mthreads $kcat_BUILD_CXXFLAGS"
   fi
 # LDFLAGS
-  KC505_BUILD_LDFLAGS=
+  kcat_BUILD_LDFLAGS=
 # LDADD
-  KC505_BUILD_LDADD="$FLTK_LIBS $EXTRA_LIBS $PTW32_LIBS"
+  kcat_BUILD_LDADD="$FLTK_LIBS $EXTRA_LIBS $PTW32_LIBS"
 
   if test "x$ac_cv_debug" = "xyes"; then
-      KC505_BUILD_CXXFLAGS="$KC505_BUILD_CXXFLAGS -UNDEBUG"
-      KC505_BUILD_LDFLAGS="$KC505_BUILD_LDFLAGS $RDYNAMIC"
+      kcat_BUILD_CXXFLAGS="$kcat_BUILD_CXXFLAGS -UNDEBUG"
+      kcat_BUILD_LDFLAGS="$kcat_BUILD_LDFLAGS $RDYNAMIC"
   else
-      KC505_BUILD_CXXFLAGS="$KC505_BUILD_CXXFLAGS -DNDEBUG"
+      kcat_BUILD_CXXFLAGS="$kcat_BUILD_CXXFLAGS -DNDEBUG"
   fi
   if test "x$target_mingw32" = "xyes"; then
-      KC505_BUILD_LDFLAGS="-mthreads $KC505_BUILD_LDFLAGS"
+      kcat_BUILD_LDFLAGS="-mthreads $kcat_BUILD_LDFLAGS"
   fi
 
-  AC_SUBST([KC505_BUILD_CPPFLAGS])
-  AC_SUBST([KC505_BUILD_CXXFLAGS])
-  AC_SUBST([KC505_BUILD_LDFLAGS])
-  AC_SUBST([KC505_BUILD_LDADD])
+  AC_SUBST([kcat_BUILD_CPPFLAGS])
+  AC_SUBST([kcat_BUILD_CXXFLAGS])
+  AC_SUBST([kcat_BUILD_LDFLAGS])
+  AC_SUBST([kcat_BUILD_LDADD])
 
 #define build variables for config.h
   AC_DEFINE_UNQUOTED([BUILD_BUILD_PLATFORM], ["$build"], [Build platform])
@@ -616,25 +703,25 @@ $PTW32_CFLAGS"
   LC_ALL=C
   export LC_ALL
 
-  AC_KC505_SH_DQ([echo $ac_configure_args])
+  AC_kcat_SH_DQ([echo $ac_configure_args])
   AC_DEFINE_UNQUOTED([BUILD_CONFIGURE_ARGS], [$ac_sh_dq], [Configure arguments])
 
-  AC_KC505_SH_DQ([date])
+  AC_kcat_SH_DQ([date])
   AC_DEFINE_UNQUOTED([BUILD_DATE], [$ac_sh_dq], [Build date])
 
-  AC_KC505_SH_DQ([whoami])
+  AC_kcat_SH_DQ([whoami])
   AC_DEFINE_UNQUOTED([BUILD_USER], [$ac_sh_dq], [Build user])
 
-  AC_KC505_SH_DQ([hostname])
+  AC_kcat_SH_DQ([hostname])
   AC_DEFINE_UNQUOTED([BUILD_HOST], [$ac_sh_dq], [Build host])
 
-  AC_KC505_SH_DQ([$CXX -v 2>&1 | tail -1])
+  AC_kcat_SH_DQ([$CXX -v 2>&1 | tail -1])
   AC_DEFINE_UNQUOTED([BUILD_COMPILER], [$ac_sh_dq], [Compiler])
 
-  AC_KC505_SH_DQ([echo $KC505_BUILD_CPPFLAGS $KC505_BUILD_CXXFLAGS])
-  AC_DEFINE_UNQUOTED([KC505_BUILD_CXXFLAGS], [$ac_sh_dq], [KC505 compiler flags])
-  AC_KC505_SH_DQ([echo $KC505_BUILD_LDFLAGS $KC505_BUILD_LDADD])
-  AC_DEFINE_UNQUOTED([KC505_BUILD_LDFLAGS], [$ac_sh_dq], [KC505 linker flags])
+  AC_kcat_SH_DQ([echo $kcat_BUILD_CPPFLAGS $kcat_BUILD_CXXFLAGS])
+  AC_DEFINE_UNQUOTED([kcat_BUILD_CXXFLAGS], [$ac_sh_dq], [kcat compiler flags])
+  AC_kcat_SH_DQ([echo $kcat_BUILD_LDFLAGS $kcat_BUILD_LDADD])
+  AC_DEFINE_UNQUOTED([kcat_BUILD_LDFLAGS], [$ac_sh_dq], [kcat linker flags])
 
   if test "x$LC_ALL_saved" != "x"; then
       LC_ALL="$LC_ALL_saved"
@@ -914,6 +1001,49 @@ m4trace:m4/opt.m4:1: -1- AC_DEFUN([AC_FL_OPT], [
 
   AC_SUBST([OPT_CFLAGS])
 ])
+m4trace:m4/pkg-config.m4:2: -1- AC_DEFUN([AC_kcat_PKG_CHECK], [
+
+m4_define([PKG_NAME_UC], m4_translit([$1], [a-z], [A-Z]))
+
+m4_if([$3], [yes],
+    [ AC_ARG_WITH($1, AC_HELP_STRING([--with-[]$1], [$5]),
+                     [case "${withval}" in
+                        yes|no) ac_cv_want_[]$1="${withval}" ;;
+                        *)      AC_MSG_ERROR([bad value "${withval}" for --with-[]$1]) ;;
+                      esac],
+                 [ac_cv_want_[]$1=check])
+    ])
+m4_if([$4], [no], [ac_cv_want_[]$1=yes])
+
+test "x$ac_cv_want_[]$1" = "x" && ac_cv_want_[]$1="check"
+case "x$ac_cv_want_[]$1" in
+    "xno")
+            ac_cv_[]$1=no
+            ;;
+    "xcheck")
+            PKG_CHECK_MODULES(PKG_NAME_UC, [$2], [ac_cv_[]$1=yes], [ac_cv_[]$1=no])
+            ;;
+    "xyes")
+            PKG_CHECK_MODULES(PKG_NAME_UC, [$2])
+	    # if we get here the test has succeeded
+            ac_cv_[]$1=yes
+            ;;
+esac
+
+if test "x$ac_cv_[]$1" = "xyes"; then
+    AC_DEFINE([USE_]PKG_NAME_UC, 1, [Define to 1 if we are using $1])
+    pkg_[]$1_version=`$PKG_CONFIG --modversion "$2" 2>/dev/null`
+else
+    AC_DEFINE([USE_]PKG_NAME_UC, 0, [Define to 1 if we are using $1])
+    pkg_[]$1_version=""
+fi
+
+AC_SUBST(PKG_NAME_UC[_CFLAGS])
+AC_SUBST(PKG_NAME_UC[_LIBS])
+AC_DEFINE_UNQUOTED(PKG_NAME_UC[_BUILD_VERSION], ["$pkg_[]$1_version"], [$1 version])
+
+m4_ifval([$6], [ AM_CONDITIONAL([$6], [test "x$ac_cv_[]$1" = "xyes"]) ], [:])
+])
 m4trace:m4/static.m4:1: -1- AC_DEFUN([AC_FL_STATIC], [
   AC_ARG_ENABLE([static],
                 AC_HELP_STRING([--enable-static], [enable static linking for some libraries]),
@@ -1033,14 +1163,14 @@ m4trace:configure.ac:17: -1- m4_pattern_allow([^LIBS$])
 m4trace:configure.ac:17: -1- m4_pattern_allow([^build_alias$])
 m4trace:configure.ac:17: -1- m4_pattern_allow([^host_alias$])
 m4trace:configure.ac:17: -1- m4_pattern_allow([^target_alias$])
-m4trace:configure.ac:19: -1- m4_pattern_allow([^KC505_VERSION_MAJOR$])
-m4trace:configure.ac:20: -1- m4_pattern_allow([^KC505_VERSION_MINOR$])
-m4trace:configure.ac:21: -1- m4_pattern_allow([^KC505_VERSION_PATCH$])
-m4trace:configure.ac:22: -1- m4_pattern_allow([^KC505_VERSION$])
-m4trace:configure.ac:24: -1- m4_pattern_allow([^KC505_VERSION_MAJOR$])
-m4trace:configure.ac:25: -1- m4_pattern_allow([^KC505_VERSION_MINOR$])
-m4trace:configure.ac:26: -1- m4_pattern_allow([^KC505_VERSION_PATCH$])
-m4trace:configure.ac:27: -1- m4_pattern_allow([^KC505_VERSION$])
+m4trace:configure.ac:19: -1- m4_pattern_allow([^kcat_VERSION_MAJOR$])
+m4trace:configure.ac:20: -1- m4_pattern_allow([^kcat_VERSION_MINOR$])
+m4trace:configure.ac:21: -1- m4_pattern_allow([^kcat_VERSION_PATCH$])
+m4trace:configure.ac:22: -1- m4_pattern_allow([^kcat_VERSION$])
+m4trace:configure.ac:24: -1- m4_pattern_allow([^kcat_VERSION_MAJOR$])
+m4trace:configure.ac:25: -1- m4_pattern_allow([^kcat_VERSION_MINOR$])
+m4trace:configure.ac:26: -1- m4_pattern_allow([^kcat_VERSION_PATCH$])
+m4trace:configure.ac:27: -1- m4_pattern_allow([^kcat_VERSION$])
 m4trace:configure.ac:29: -1- m4_pattern_allow([^AC_CONFIG_ARGS$])
 m4trace:configure.ac:33: -1- m4_pattern_allow([^build$])
 m4trace:configure.ac:33: -1- m4_pattern_allow([^build_cpu$])
@@ -1329,69 +1459,94 @@ m4/win32.m4:1: AC_FL_WIN32 is expanded from...
 configure.ac:120: the top level])
 m4trace:configure.ac:120: -1- m4_pattern_allow([^PTW32_CFLAGS$])
 m4trace:configure.ac:120: -1- m4_pattern_allow([^PTW32_LIBS$])
-m4trace:configure.ac:126: -1- AC_CHECK_FLTK
-m4trace:configure.ac:126: -1- m4_pattern_allow([^FLTK_CONFIG$])
-m4trace:configure.ac:126: -1- m4_pattern_allow([^FLTK_CFLAGS$])
-m4trace:configure.ac:126: -1- m4_pattern_allow([^FLTK_LIBS$])
-m4trace:configure.ac:126: -1- m4_pattern_allow([^FLTK_CONFIG$])
-m4trace:configure.ac:126: -1- m4_pattern_allow([^FLTK_CFLAGS$])
-m4trace:configure.ac:126: -1- m4_pattern_allow([^FLTK_LIBS$])
-m4trace:configure.ac:126: -1- m4_pattern_allow([^FLTK_BUILD_VERSION$])
-m4trace:configure.ac:126: -1- m4_pattern_allow([^FLUID$])
-m4trace:configure.ac:126: -1- m4_pattern_allow([^FLUID$])
-m4trace:configure.ac:126: -1- AM_CONDITIONAL([HAVE_FLUID], [test -n "$FLUID"])
-m4trace:configure.ac:126: -1- m4_pattern_allow([^HAVE_FLUID_TRUE$])
-m4trace:configure.ac:126: -1- m4_pattern_allow([^HAVE_FLUID_FALSE$])
-m4trace:configure.ac:126: -1- _AM_SUBST_NOTMAKE([HAVE_FLUID_TRUE])
-m4trace:configure.ac:126: -1- _AM_SUBST_NOTMAKE([HAVE_FLUID_FALSE])
-m4trace:configure.ac:137: -1- AC_FL_NP_COMPAT
-m4trace:configure.ac:137: -1- AM_CONDITIONAL([COMPAT_REGEX], [test "x$ac_cv_header_regex_h" != "xyes"])
-m4trace:configure.ac:137: -1- m4_pattern_allow([^COMPAT_REGEX_TRUE$])
-m4trace:configure.ac:137: -1- m4_pattern_allow([^COMPAT_REGEX_FALSE$])
-m4trace:configure.ac:137: -1- _AM_SUBST_NOTMAKE([COMPAT_REGEX_TRUE])
-m4trace:configure.ac:137: -1- _AM_SUBST_NOTMAKE([COMPAT_REGEX_FALSE])
-m4trace:configure.ac:137: -1- AC_FL_SEARCH_LIBS([dlopen], [dl], [$other_libs])
-m4trace:configure.ac:137: -1- m4_pattern_allow([^HAVE_DLOPEN$])
-m4trace:configure.ac:137: -1- AC_FL_SEARCH_LIBS([clock_gettime], [rt], [$other_libs])
-m4trace:configure.ac:137: -1- m4_pattern_allow([^HAVE_CLOCK_GETTIME$])
-m4trace:configure.ac:137: -1- AC_FL_SEARCH_LIBS([sem_unlink], [$sem_libs], [$other_libs])
-m4trace:configure.ac:137: -1- m4_pattern_allow([^HAVE_SEM_UNLINK$])
-m4trace:configure.ac:137: -1- AC_FL_SEARCH_LIBS([sem_timedwait], [$sem_libs], [$other_libs])
-m4trace:configure.ac:137: -1- m4_pattern_allow([^HAVE_SEM_TIMEDWAIT$])
-m4trace:configure.ac:137: -1- m4_pattern_allow([^EXTRA_LIBS$])
-m4trace:configure.ac:137: -1- AM_CONDITIONAL([COMPAT_STRCASESTR], [test "x$ac_cv_func_strcasestr" != "xyes"])
-m4trace:configure.ac:137: -1- m4_pattern_allow([^COMPAT_STRCASESTR_TRUE$])
-m4trace:configure.ac:137: -1- m4_pattern_allow([^COMPAT_STRCASESTR_FALSE$])
-m4trace:configure.ac:137: -1- _AM_SUBST_NOTMAKE([COMPAT_STRCASESTR_TRUE])
-m4trace:configure.ac:137: -1- _AM_SUBST_NOTMAKE([COMPAT_STRCASESTR_FALSE])
-m4trace:configure.ac:141: -1- AC_KC505_BUILD_INFO
-m4trace:configure.ac:141: -1- m4_pattern_allow([^KC505_BUILD_CPPFLAGS$])
-m4trace:configure.ac:141: -1- m4_pattern_allow([^KC505_BUILD_CXXFLAGS$])
-m4trace:configure.ac:141: -1- m4_pattern_allow([^KC505_BUILD_LDFLAGS$])
-m4trace:configure.ac:141: -1- m4_pattern_allow([^KC505_BUILD_LDADD$])
-m4trace:configure.ac:141: -1- m4_pattern_allow([^BUILD_BUILD_PLATFORM$])
-m4trace:configure.ac:141: -1- m4_pattern_allow([^BUILD_HOST_PLATFORM$])
-m4trace:configure.ac:141: -1- m4_pattern_allow([^BUILD_TARGET_PLATFORM$])
-m4trace:configure.ac:141: -1- AC_KC505_SH_DQ([echo $ac_configure_args])
-m4trace:configure.ac:141: -1- m4_pattern_allow([^BUILD_CONFIGURE_ARGS$])
-m4trace:configure.ac:141: -1- AC_KC505_SH_DQ([date])
-m4trace:configure.ac:141: -1- m4_pattern_allow([^BUILD_DATE$])
-m4trace:configure.ac:141: -1- AC_KC505_SH_DQ([whoami])
-m4trace:configure.ac:141: -1- m4_pattern_allow([^BUILD_USER$])
-m4trace:configure.ac:141: -1- AC_KC505_SH_DQ([hostname])
-m4trace:configure.ac:141: -1- m4_pattern_allow([^BUILD_HOST$])
-m4trace:configure.ac:141: -1- AC_KC505_SH_DQ([$CXX -v 2>&1 | tail -1])
-m4trace:configure.ac:141: -1- m4_pattern_allow([^BUILD_COMPILER$])
-m4trace:configure.ac:141: -1- AC_KC505_SH_DQ([echo $KC505_BUILD_CPPFLAGS $KC505_BUILD_CXXFLAGS])
-m4trace:configure.ac:141: -1- m4_pattern_allow([^KC505_BUILD_CXXFLAGS$])
-m4trace:configure.ac:141: -1- AC_KC505_SH_DQ([echo $KC505_BUILD_LDFLAGS $KC505_BUILD_LDADD])
-m4trace:configure.ac:141: -1- m4_pattern_allow([^KC505_BUILD_LDFLAGS$])
-m4trace:configure.ac:145: -1- m4_pattern_allow([^LIB@&t@OBJS$])
-m4trace:configure.ac:145: -1- m4_pattern_allow([^LTLIBOBJS$])
-m4trace:configure.ac:145: -1- AM_CONDITIONAL([am__EXEEXT], [test -n "$EXEEXT"])
-m4trace:configure.ac:145: -1- m4_pattern_allow([^am__EXEEXT_TRUE$])
-m4trace:configure.ac:145: -1- m4_pattern_allow([^am__EXEEXT_FALSE$])
-m4trace:configure.ac:145: -1- _AM_SUBST_NOTMAKE([am__EXEEXT_TRUE])
-m4trace:configure.ac:145: -1- _AM_SUBST_NOTMAKE([am__EXEEXT_FALSE])
-m4trace:configure.ac:145: -1- _AC_AM_CONFIG_HEADER_HOOK(["$ac_file"])
-m4trace:configure.ac:145: -1- _AM_OUTPUT_DEPENDENCY_COMMANDS
+m4trace:configure.ac:127: -1- AC_kcat_PKG_CHECK([x], [x11], [no], [yes])
+m4trace:configure.ac:127: -1- PKG_CHECK_MODULES([X], [x11], [ac_cv_[]x=yes], [ac_cv_[]x=no])
+m4trace:configure.ac:127: -1- PKG_PROG_PKG_CONFIG
+m4trace:configure.ac:127: -1- m4_pattern_forbid([^_?PKG_[A-Z_]+$])
+m4trace:configure.ac:127: -1- m4_pattern_allow([^PKG_CONFIG(_PATH)?$])
+m4trace:configure.ac:127: -1- m4_pattern_allow([^PKG_CONFIG$])
+m4trace:configure.ac:127: -1- m4_pattern_allow([^PKG_CONFIG_PATH$])
+m4trace:configure.ac:127: -1- m4_pattern_allow([^PKG_CONFIG_LIBDIR$])
+m4trace:configure.ac:127: -1- m4_pattern_allow([^PKG_CONFIG$])
+m4trace:configure.ac:127: -1- m4_pattern_allow([^X_CFLAGS$])
+m4trace:configure.ac:127: -1- m4_pattern_allow([^X_LIBS$])
+m4trace:configure.ac:127: -1- PKG_CHECK_EXISTS([x11], [pkg_cv_[]X_CFLAGS=`$PKG_CONFIG --[]cflags "x11" 2>/dev/null`], [pkg_failed=yes])
+m4trace:configure.ac:127: -1- PKG_CHECK_EXISTS([x11], [pkg_cv_[]X_LIBS=`$PKG_CONFIG --[]libs "x11" 2>/dev/null`], [pkg_failed=yes])
+m4trace:configure.ac:127: -1- _PKG_SHORT_ERRORS_SUPPORTED
+m4trace:configure.ac:127: -1- PKG_CHECK_MODULES([X], [x11])
+m4trace:configure.ac:127: -1- m4_pattern_allow([^X_CFLAGS$])
+m4trace:configure.ac:127: -1- m4_pattern_allow([^X_LIBS$])
+m4trace:configure.ac:127: -1- PKG_CHECK_EXISTS([x11], [pkg_cv_[]X_CFLAGS=`$PKG_CONFIG --[]cflags "x11" 2>/dev/null`], [pkg_failed=yes])
+m4trace:configure.ac:127: -1- PKG_CHECK_EXISTS([x11], [pkg_cv_[]X_LIBS=`$PKG_CONFIG --[]libs "x11" 2>/dev/null`], [pkg_failed=yes])
+m4trace:configure.ac:127: -1- _PKG_SHORT_ERRORS_SUPPORTED
+m4trace:configure.ac:127: -1- m4_pattern_allow([^USE_X$])
+m4trace:configure.ac:127: -1- m4_pattern_allow([^USE_X$])
+m4trace:configure.ac:127: -1- m4_pattern_allow([^X_CFLAGS$])
+m4trace:configure.ac:127: -1- m4_pattern_allow([^X_LIBS$])
+m4trace:configure.ac:127: -1- m4_pattern_allow([^X_BUILD_VERSION$])
+m4trace:configure.ac:134: -1- AC_CHECK_FLTK
+m4trace:configure.ac:134: -1- m4_pattern_allow([^FLTK_CONFIG$])
+m4trace:configure.ac:134: -1- m4_pattern_allow([^FLTK_CFLAGS$])
+m4trace:configure.ac:134: -1- m4_pattern_allow([^FLTK_LIBS$])
+m4trace:configure.ac:134: -1- m4_pattern_allow([^FLTK_CONFIG$])
+m4trace:configure.ac:134: -1- m4_pattern_allow([^FLTK_CFLAGS$])
+m4trace:configure.ac:134: -1- m4_pattern_allow([^FLTK_LIBS$])
+m4trace:configure.ac:134: -1- m4_pattern_allow([^FLTK_BUILD_VERSION$])
+m4trace:configure.ac:134: -1- m4_pattern_allow([^FLUID$])
+m4trace:configure.ac:134: -1- m4_pattern_allow([^FLUID$])
+m4trace:configure.ac:134: -1- AM_CONDITIONAL([HAVE_FLUID], [test -n "$FLUID"])
+m4trace:configure.ac:134: -1- m4_pattern_allow([^HAVE_FLUID_TRUE$])
+m4trace:configure.ac:134: -1- m4_pattern_allow([^HAVE_FLUID_FALSE$])
+m4trace:configure.ac:134: -1- _AM_SUBST_NOTMAKE([HAVE_FLUID_TRUE])
+m4trace:configure.ac:134: -1- _AM_SUBST_NOTMAKE([HAVE_FLUID_FALSE])
+m4trace:configure.ac:145: -1- AC_FL_NP_COMPAT
+m4trace:configure.ac:145: -1- AM_CONDITIONAL([COMPAT_REGEX], [test "x$ac_cv_header_regex_h" != "xyes"])
+m4trace:configure.ac:145: -1- m4_pattern_allow([^COMPAT_REGEX_TRUE$])
+m4trace:configure.ac:145: -1- m4_pattern_allow([^COMPAT_REGEX_FALSE$])
+m4trace:configure.ac:145: -1- _AM_SUBST_NOTMAKE([COMPAT_REGEX_TRUE])
+m4trace:configure.ac:145: -1- _AM_SUBST_NOTMAKE([COMPAT_REGEX_FALSE])
+m4trace:configure.ac:145: -1- AC_FL_SEARCH_LIBS([dlopen], [dl], [$other_libs])
+m4trace:configure.ac:145: -1- m4_pattern_allow([^HAVE_DLOPEN$])
+m4trace:configure.ac:145: -1- AC_FL_SEARCH_LIBS([clock_gettime], [rt], [$other_libs])
+m4trace:configure.ac:145: -1- m4_pattern_allow([^HAVE_CLOCK_GETTIME$])
+m4trace:configure.ac:145: -1- AC_FL_SEARCH_LIBS([sem_unlink], [$sem_libs], [$other_libs])
+m4trace:configure.ac:145: -1- m4_pattern_allow([^HAVE_SEM_UNLINK$])
+m4trace:configure.ac:145: -1- AC_FL_SEARCH_LIBS([sem_timedwait], [$sem_libs], [$other_libs])
+m4trace:configure.ac:145: -1- m4_pattern_allow([^HAVE_SEM_TIMEDWAIT$])
+m4trace:configure.ac:145: -1- m4_pattern_allow([^EXTRA_LIBS$])
+m4trace:configure.ac:145: -1- AM_CONDITIONAL([COMPAT_STRCASESTR], [test "x$ac_cv_func_strcasestr" != "xyes"])
+m4trace:configure.ac:145: -1- m4_pattern_allow([^COMPAT_STRCASESTR_TRUE$])
+m4trace:configure.ac:145: -1- m4_pattern_allow([^COMPAT_STRCASESTR_FALSE$])
+m4trace:configure.ac:145: -1- _AM_SUBST_NOTMAKE([COMPAT_STRCASESTR_TRUE])
+m4trace:configure.ac:145: -1- _AM_SUBST_NOTMAKE([COMPAT_STRCASESTR_FALSE])
+m4trace:configure.ac:149: -1- AC_kcat_BUILD_INFO
+m4trace:configure.ac:149: -1- m4_pattern_allow([^kcat_BUILD_CPPFLAGS$])
+m4trace:configure.ac:149: -1- m4_pattern_allow([^kcat_BUILD_CXXFLAGS$])
+m4trace:configure.ac:149: -1- m4_pattern_allow([^kcat_BUILD_LDFLAGS$])
+m4trace:configure.ac:149: -1- m4_pattern_allow([^kcat_BUILD_LDADD$])
+m4trace:configure.ac:149: -1- m4_pattern_allow([^BUILD_BUILD_PLATFORM$])
+m4trace:configure.ac:149: -1- m4_pattern_allow([^BUILD_HOST_PLATFORM$])
+m4trace:configure.ac:149: -1- m4_pattern_allow([^BUILD_TARGET_PLATFORM$])
+m4trace:configure.ac:149: -1- AC_kcat_SH_DQ([echo $ac_configure_args])
+m4trace:configure.ac:149: -1- m4_pattern_allow([^BUILD_CONFIGURE_ARGS$])
+m4trace:configure.ac:149: -1- AC_kcat_SH_DQ([date])
+m4trace:configure.ac:149: -1- m4_pattern_allow([^BUILD_DATE$])
+m4trace:configure.ac:149: -1- AC_kcat_SH_DQ([whoami])
+m4trace:configure.ac:149: -1- m4_pattern_allow([^BUILD_USER$])
+m4trace:configure.ac:149: -1- AC_kcat_SH_DQ([hostname])
+m4trace:configure.ac:149: -1- m4_pattern_allow([^BUILD_HOST$])
+m4trace:configure.ac:149: -1- AC_kcat_SH_DQ([$CXX -v 2>&1 | tail -1])
+m4trace:configure.ac:149: -1- m4_pattern_allow([^BUILD_COMPILER$])
+m4trace:configure.ac:149: -1- AC_kcat_SH_DQ([echo $kcat_BUILD_CPPFLAGS $kcat_BUILD_CXXFLAGS])
+m4trace:configure.ac:149: -1- m4_pattern_allow([^kcat_BUILD_CXXFLAGS$])
+m4trace:configure.ac:149: -1- AC_kcat_SH_DQ([echo $kcat_BUILD_LDFLAGS $kcat_BUILD_LDADD])
+m4trace:configure.ac:149: -1- m4_pattern_allow([^kcat_BUILD_LDFLAGS$])
+m4trace:configure.ac:153: -1- m4_pattern_allow([^LIB@&t@OBJS$])
+m4trace:configure.ac:153: -1- m4_pattern_allow([^LTLIBOBJS$])
+m4trace:configure.ac:153: -1- AM_CONDITIONAL([am__EXEEXT], [test -n "$EXEEXT"])
+m4trace:configure.ac:153: -1- m4_pattern_allow([^am__EXEEXT_TRUE$])
+m4trace:configure.ac:153: -1- m4_pattern_allow([^am__EXEEXT_FALSE$])
+m4trace:configure.ac:153: -1- _AM_SUBST_NOTMAKE([am__EXEEXT_TRUE])
+m4trace:configure.ac:153: -1- _AM_SUBST_NOTMAKE([am__EXEEXT_FALSE])
+m4trace:configure.ac:153: -1- _AC_AM_CONFIG_HEADER_HOOK(["$ac_file"])
+m4trace:configure.ac:153: -1- _AM_OUTPUT_DEPENDENCY_COMMANDS

@@ -1,9 +1,9 @@
 [Desktop Entry]
-Name=KC505
+Name=kcat
 GenericName=Amateur Radio Data Encapsulation
 Comment=Amateur Radio Communications
-Exec=KC505
-Icon=KC505
+Exec=kcat
+Icon=kcat
 Terminal=false
 Type=Application
 Categories=Network;HamRadio;

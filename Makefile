@@ -15,10 +15,10 @@
 
 
 
-pkgdatadir = $(datadir)/kc505
-pkgincludedir = $(includedir)/kc505
-pkglibdir = $(libdir)/kc505
-pkglibexecdir = $(libexecdir)/kc505
+pkgdatadir = $(datadir)/kcat
+pkgincludedir = $(includedir)/kcat
+pkglibdir = $(libdir)/kcat
+pkglibexecdir = $(libexecdir)/kcat
 am__cd = CDPATH="$${ZSH_VERSION+.}$(PATH_SEPARATOR)" && cd
 install_sh_DATA = $(install_sh) -c -m 644
 install_sh_PROGRAM = $(install_sh) -c
@@ -44,8 +44,8 @@ am__aclocal_m4_deps = $(top_srcdir)/m4/build.m4 \
 	$(top_srcdir)/m4/debug.m4 $(top_srcdir)/m4/fltk.m4 \
 	$(top_srcdir)/m4/funcs.m4 $(top_srcdir)/m4/macosx.m4 \
 	$(top_srcdir)/m4/np-compat.m4 $(top_srcdir)/m4/opt.m4 \
-	$(top_srcdir)/m4/static.m4 $(top_srcdir)/m4/win32.m4 \
-	$(top_srcdir)/configure.ac
+	$(top_srcdir)/m4/pkg-config.m4 $(top_srcdir)/m4/static.m4 \
+	$(top_srcdir)/m4/win32.m4 $(top_srcdir)/configure.ac
 am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
 	$(ACLOCAL_M4)
 am__CONFIG_DISTCLEAN_FILES = config.status config.cache config.log \
@@ -107,12 +107,12 @@ DIST_ARCHIVES = $(distdir).tar.gz
 GZIP_ENV = --best
 distuninstallcheck_listfiles = find . -type f -print
 distcleancheck_listfiles = find . -type f -print
-ACLOCAL = ${SHELL} /home/dave/dev/dev.KACHINA/kachina.git/build-aux/missing --run aclocal-1.11
+ACLOCAL = ${SHELL} /home/dave/dev/dev.KACHINA/kcat.git/build-aux/missing --run aclocal-1.11
 AC_CONFIG_ARGS = 
-AMTAR = ${SHELL} /home/dave/dev/dev.KACHINA/kachina.git/build-aux/missing --run tar
-AUTOCONF = ${SHELL} /home/dave/dev/dev.KACHINA/kachina.git/build-aux/missing --run autoconf
-AUTOHEADER = ${SHELL} /home/dave/dev/dev.KACHINA/kachina.git/build-aux/missing --run autoheader
-AUTOMAKE = ${SHELL} /home/dave/dev/dev.KACHINA/kachina.git/build-aux/missing --run automake-1.11
+AMTAR = ${SHELL} /home/dave/dev/dev.KACHINA/kcat.git/build-aux/missing --run tar
+AUTOCONF = ${SHELL} /home/dave/dev/dev.KACHINA/kcat.git/build-aux/missing --run autoconf
+AUTOHEADER = ${SHELL} /home/dave/dev/dev.KACHINA/kcat.git/build-aux/missing --run autoheader
+AUTOMAKE = ${SHELL} /home/dave/dev/dev.KACHINA/kcat.git/build-aux/missing --run automake-1.11
 AWK = gawk
 BFD_CFLAGS = 
 BFD_LIBS = 
@@ -144,33 +144,28 @@ INSTALL_DATA = ${INSTALL} -m 644
 INSTALL_PROGRAM = ${INSTALL}
 INSTALL_SCRIPT = ${INSTALL}
 INSTALL_STRIP_PROGRAM = $(install_sh) -c -s
-KC505_BUILD_CPPFLAGS = -I$(srcdir) -I$(srcdir)/include -I$(srcdir)/images
-KC505_BUILD_CXXFLAGS = -I/usr/local/include -I/usr/include/freetype2 -D_THREAD_SAFE -D_REENTRANT -pipe -Wall -fexceptions -O2 -ffast-math -finline-functions -fomit-frame-pointer   -DNDEBUG
-KC505_BUILD_LDADD = -L/usr/local/lib -lfltk_images -lpng -lz -ljpeg -lfltk -lXft -lpthread -ldl -lm -lXext -lX11  -ldl  -lrt  -lpthread  
-KC505_BUILD_LDFLAGS = 
-KC505_VERSION = 1.0.01
-KC505_VERSION_MAJOR = 1
-KC505_VERSION_MINOR = 0
-KC505_VERSION_PATCH = .01
 LDFLAGS = 
 LIBOBJS = 
 LIBS = 
 LTLIBOBJS = 
 MAC_UNIVERSAL_CFLAGS = 
 MAC_UNIVERSAL_LDFLAGS = 
-MAKEINFO = ${SHELL} /home/dave/dev/dev.KACHINA/kachina.git/build-aux/missing --run makeinfo
+MAKEINFO = ${SHELL} /home/dave/dev/dev.KACHINA/kcat.git/build-aux/missing --run makeinfo
 MAKENSIS = 
 MKDIR_P = /bin/mkdir -p
 OBJEXT = o
 OPT_CFLAGS = -O2 -ffast-math -finline-functions -fomit-frame-pointer
-PACKAGE = kc505
+PACKAGE = kcat
 PACKAGE_BUGREPORT = w1hkj AT w1hkj DOT com
-PACKAGE_NAME = KC505
-PACKAGE_STRING = KC505 1.0.01
-PACKAGE_TARNAME = kc505
+PACKAGE_NAME = kcat
+PACKAGE_STRING = kcat 1.0.01
+PACKAGE_TARNAME = kcat
 PACKAGE_URL = 
 PACKAGE_VERSION = 1.0.01
 PATH_SEPARATOR = :
+PKG_CONFIG = /usr/bin/pkg-config
+PKG_CONFIG_LIBDIR = 
+PKG_CONFIG_PATH = 
 POW_LIB = 
 PTW32_CFLAGS = 
 PTW32_LIBS = 
@@ -180,10 +175,12 @@ SHELL = /bin/bash
 STRIP = 
 VERSION = 1.0.01
 WINDRES = 
-abs_builddir = /home/dave/dev/dev.KACHINA/kachina.git
-abs_srcdir = /home/dave/dev/dev.KACHINA/kachina.git
-abs_top_builddir = /home/dave/dev/dev.KACHINA/kachina.git
-abs_top_srcdir = /home/dave/dev/dev.KACHINA/kachina.git
+X_CFLAGS =  
+X_LIBS = -lX11  
+abs_builddir = /home/dave/dev/dev.KACHINA/kcat.git
+abs_srcdir = /home/dave/dev/dev.KACHINA/kcat.git
+abs_top_builddir = /home/dave/dev/dev.KACHINA/kcat.git
+abs_top_srcdir = /home/dave/dev/dev.KACHINA/kcat.git
 ac_ct_CC = gcc
 ac_ct_CXX = g++
 am__include = include
@@ -211,7 +208,15 @@ host_vendor = pc
 htmldir = ${docdir}
 includedir = ${prefix}/include
 infodir = ${datarootdir}/info
-install_sh = ${SHELL} /home/dave/dev/dev.KACHINA/kachina.git/build-aux/install-sh
+install_sh = ${SHELL} /home/dave/dev/dev.KACHINA/kcat.git/build-aux/install-sh
+kcat_BUILD_CPPFLAGS = -I$(srcdir) -I$(srcdir)/include -I$(srcdir)/images
+kcat_BUILD_CXXFLAGS = -I/usr/local/include -I/usr/include/freetype2 -D_THREAD_SAFE -D_REENTRANT -pipe -Wall -fexceptions -O2 -ffast-math -finline-functions -fomit-frame-pointer   -DNDEBUG
+kcat_BUILD_LDADD = -L/usr/local/lib -lfltk_images -lpng -lz -ljpeg -lfltk -lXft -lpthread -ldl -lm -lXext -lX11  -ldl  -lrt  -lpthread  
+kcat_BUILD_LDFLAGS = 
+kcat_VERSION = 1.0.01
+kcat_VERSION_MAJOR = 1
+kcat_VERSION_MINOR = 0
+kcat_VERSION_PATCH = .01
 libdir = ${exec_prefix}/lib
 libexecdir = ${exec_prefix}/libexec
 localedir = ${datarootdir}/locale

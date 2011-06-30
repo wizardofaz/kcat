@@ -68,7 +68,7 @@ extern char cmdK_cmdB[];// BITE - Send T->R switching data.
 extern char cmdK_cmdC[];// BITE - Send synthesizer lock time 1 data.
 extern char cmdK_cmdD[];// BITE - Send synthesizer lock time 2 data.
 extern char cmdK_cmdE[];// BITE - Send ALC over-shoot data.
-extern char cmdK_cmdF[];// BITE - Request on time value.
+extern char cmdK_RTIME[];// BITE - Request on time value.
 extern char cmdK_cmdG[];// BITE - Reset on time value.
 extern char cmdK_cmdH[];// BITE - Request fault data.
 extern char cmdK_cmdI[];// BITE - Reset fault data.
