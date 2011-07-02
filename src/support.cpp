@@ -32,18 +32,12 @@ FREQMODE vfoB = {3500000, {CW} };
 
 char szVfoB[12];
 
-#ifdef SHARED_MEM
 struct ST_SHMEM {
 	int  flag;
 	long freq;
 	long midfreq;
 	char mode[4];
 };
-#endif
-
-#ifdef FILEIO
-bool IOchanged = false;
-#endif
 
 FREQMODE oplist[LISTSIZE];
 int  numinlist = 0;
@@ -181,9 +175,6 @@ void setMode()
 	default: opBW->value(2); setBW(); break;
 	}
 	setInhibits();
-#ifdef FILEIO	
-	IOchanged = true;
-#endif
 }
 
 void sortList() {
@@ -278,9 +269,6 @@ int movFreq() {
 	int ret;
 	setXcvrXmtFreq (FreqDisp->value(), xcvrState.TxOffset);
 	ret = setXcvrRcvFreq (FreqDisp->value(), 0);
-#ifdef FILEIO		
-	IOchanged = true;
-#endif
 	return ret;
 }
 
@@ -846,12 +834,7 @@ void startProcessing(void *d)
 		fl_message("%s not available", szttyport);
 		exit(1);
 	}
-#ifdef SHARED_MEM
 	startSharedMemory();
-#endif
-#ifdef FILEIO
-	startFileIO();
-#endif
 	Fl::add_timeout(1.0, watchDogTimer);
 	Fl::add_timeout(0.05, telemetry);
 	initKachina();
@@ -886,8 +869,6 @@ void saveFreqList()
 	}
 }
 
-
-#ifdef SHARED_MEM
 
 /* following code supports shared memory with gMFSK / fldigi application */
 
@@ -972,89 +953,6 @@ void closeSharedMemory(void)
   shmctl(shmid, IPC_RMID, 0 );
   fmode = (ST_SHMEM *)0;
 }
-
-#endif
-
-#ifdef FILEIO
-/* following code file i/o with vbdigi */
-
-FILE *IOout;
-FILE *IOin;
-
-void FileIOLoop(void *d)
-{
-#ifdef FILEIO
-	if (IOchanged == true) {
-		IOout = fopen("c:/RIGCTL/rig", "w");
-		if (IOout) {
-			fprintf(IOout, "%ld\n", FreqDisp->value());
-			fprintf(IOout, "%s\n", szmodes[opMODE->value()]);
-			fclose(IOout);
-		}
-		IOchanged = false;
-	}
-#endif
-	IOin = fopen("c:/RIGCTL/ptt", "r");
-	if (IOin) {
-	    char c;
-	    int nufreq;
-	    char numode[10];
-	    fscanf(IOin,"%c*\n", &c);
-	    fscanf(IOin,"%d\n", &nufreq);
-	    fscanf(IOin,"%s\n", numode);
-		fclose(IOin);
-		remove("c:/RIGCTL/ptt");
-
-		if (c == 'X') {
-			btnPTT->value(1);
-			cbPTT();
-		} else {
-		    if (btnPTT->value() == 1) {
-    			btnPTT->value(0);
-	    		cbPTT();
-            }
-            if (nufreq > 0) {
-        		FreqDisp->value(nufreq);
-	        	setXcvrRcvFreq(nufreq, 0);
-            }
-        }
-        if (strcmp(numode,"USB") == 0) {
-            opMODE->value(USB);
-            setXcvrMode (USB);
-            opBW->value(2);
-            setBW();
-            setInhibits();        
-        }
-        else if (strcmp(numode,"LSB") == 0) {
-            opMODE->value(LSB);
-            setXcvrMode (LSB);
-            opBW->value(2);
-            setBW();
-            setInhibits();        
-        }
-	}
-	Fl::repeat_timeout (0.05, FileIOLoop);
-	return;	
-}
-
-void startFileIO(void)
-{
-	string tstdir = "c:/RIGCTL";
-	ifstream test(tstdir.c_str());
-	if (!test)
-		mkdir(tstdir.c_str());
-	else
-		test.close();
-    IOchanged = true;
-	Fl::add_timeout (0.05, FileIOLoop);
-}
-
-void closeFileIO(void)
-{
-  Fl::remove_timeout(FileIOLoop);
-}
-#endif
-
 
 void loadConfig()
 {
@@ -1170,9 +1068,7 @@ void saveState()
 
 void cbExit()
 {
-#ifdef SHARED_MEM
 	closeSharedMemory();
-#endif
 	closeTimers();
 	KachinaSerial.ClosePort();
 	saveConfig();
