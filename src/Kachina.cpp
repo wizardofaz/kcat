@@ -17,18 +17,19 @@
 
 #include <FL/x.H>
 
+#include "config.h"
 #include "support.h"
 #include "Kachina.h"
 
-pthread_t *shmem_thread = 0;
 pthread_t *watchdog_thread = 0;
 pthread_t *serial_thread = 0;
 pthread_t *telemetry_thread = 0;
+pthread_t *xmlrpc_thread = 0;
 
-pthread_mutex_t mutex_shmem = PTHREAD_MUTEX_INITIALIZER;
 pthread_mutex_t mutex_watchdog = PTHREAD_MUTEX_INITIALIZER;
 pthread_mutex_t mutex_serial = PTHREAD_MUTEX_INITIALIZER;
 pthread_mutex_t mutex_telemetry = PTHREAD_MUTEX_INITIALIZER;
+pthread_mutex_t mutex_xmlrpc = PTHREAD_MUTEX_INITIALIZER;
 
 Fl_Double_Window *window;
 char homedir[120] = "";
@@ -39,7 +40,6 @@ bool test = false;
 
 #ifndef WIN32
 Pixmap	kachina_icon_pixmap;
-#define KNAME "kcat"
 
 #if defined(__WIN32__) && defined(PTW32_STATIC_LIB)
 static void ptw32_cleanup(void)
@@ -56,8 +56,8 @@ void ptw32_init(void)
 
 void make_pixmap(Pixmap *xpm, const char **data)
 {
-	Fl_Window w(0,0, KNAME);
-	w.xclass(KNAME);
+	Fl_Window w(0,0, PACKAGE_NAME);
+	w.xclass(PACKAGE_NAME);
 	w.show();
 	w.make_current();
 	Fl_Pixmap icon(data);
@@ -75,6 +75,7 @@ void make_pixmap(Pixmap *xpm, const char **data)
 int main (int argc, char *argv[])
 {
 	window = Kachina_window();
+	window->label(PACKAGE_NAME);
 #ifndef WIN32	
 	fl_filename_expand(homedir, 119, "$HOME/.kachina/");
 	int fd = open(homedir, O_RDONLY);
@@ -84,7 +85,7 @@ int main (int argc, char *argv[])
 		close(fd);
 	make_pixmap( &kachina_icon_pixmap, kachina_xpm);
 	window->icon((char*)kachina_icon_pixmap);
-	window->xclass(KNAME);
+	window->xclass(PACKAGE_NAME);
 #endif
 	if (argc == 2) {
 		if (strcmp(argv[1], "TEST") == 0)

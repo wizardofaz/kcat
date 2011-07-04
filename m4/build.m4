@@ -5,7 +5,7 @@ AC_DEFUN([AC_kcat_SH_DQ], [
 AC_DEFUN([AC_kcat_BUILD_INFO], [
 # Define build flags and substitute in Makefile.in
 # CPPFLAGS
-  kcat_BUILD_CPPFLAGS="-I\$(srcdir) -I\$(srcdir)/include -I\$(srcdir)/images"
+  kcat_BUILD_CPPFLAGS="-I\$(srcdir) -I\$(srcdir)/include -I\$(srcdir)/xmlrpcpp -I\$(srcdir)/images"
 # CXXFLAGS
   kcat_BUILD_CXXFLAGS="$FLTK_CFLAGS -pipe -Wall -fexceptions $OPT_CFLAGS $DEBUG_CFLAGS \
 $PTW32_CFLAGS"

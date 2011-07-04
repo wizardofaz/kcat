@@ -128,9 +128,16 @@ kcat_SOURCES += \
 	support.cpp \
 	telemetry.cpp \
 	cstack.cpp \
+	debug.cxx \
+	icons.cxx \
+	pixmaps.cxx \
 	util.cxx \
 	include/cstack.h \
+	include/debug.h \
 	include/dialogs.h \
+	include/gettext.h \
+	include/icons.h \
+	include/pixmaps.h \
 	include/Fl_SigBar.h \
 	include/FreqControl.h \
 	include/images.h \
@@ -145,7 +152,37 @@ kcat_SOURCES += \
 	include/test.h \
 	include/util.h \
 	include/version.h \
-	include/winserial.h
+	include/winserial.h \
+	xml_io.cxx \
+	include/xml_io.h \
+	xmlrpcpp/XmlRpc.h \
+	xmlrpcpp/XmlRpcClient.cpp \
+	xmlrpcpp/XmlRpcClient.h \
+	xmlrpcpp/XmlRpcDispatch.cpp \
+	xmlrpcpp/XmlRpcDispatch.h \
+	xmlrpcpp/XmlRpcException.h \
+	xmlrpcpp/XmlRpcMutex.cpp \
+	xmlrpcpp/XmlRpcMutex.h \
+	xmlrpcpp/XmlRpcServer.cpp \
+	xmlrpcpp/XmlRpcServer.h \
+	xmlrpcpp/XmlRpcServerConnection.cpp \
+	xmlrpcpp/XmlRpcServerConnection.h \
+	xmlrpcpp/XmlRpcServerMethod.cpp \
+	xmlrpcpp/XmlRpcServerMethod.h \
+	xmlrpcpp/XmlRpcSocket.cpp \
+	xmlrpcpp/XmlRpcSocket.h \
+	xmlrpcpp/XmlRpcSource.cpp \
+	xmlrpcpp/XmlRpcSource.h \
+	xmlrpcpp/XmlRpcThread.cpp \
+	xmlrpcpp/XmlRpcThread.h \
+	xmlrpcpp/XmlRpcThreadedServer.cpp \
+	xmlrpcpp/XmlRpcThreadedServer.h \
+	xmlrpcpp/XmlRpcUtil.cpp \
+	xmlrpcpp/XmlRpcUtil.h \
+	xmlrpcpp/XmlRpcValue.cpp \
+	xmlrpcpp/XmlRpcValue.h \
+	xmlrpcpp/base64.h
+
 
 # Additional source files that are distributed
 EXTRA_DIST = \

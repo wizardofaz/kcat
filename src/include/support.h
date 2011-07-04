@@ -25,16 +25,23 @@
 
 #define LISTSIZE 200
 
-// comment out the following to disable shared memory 
-#ifndef WIN32
-#define SHARED_MEM 1
-#else
-#define FILEIO 1
-#endif
+struct FREQMODE {
+	long freq;
+	int  imode;
+	int  iBW;
+	int  src;
+};
 
+enum {UI, XML};
 enum MODES {LSB, USB, CW, AM, FM};
+
+extern const char *szmodes[];
+extern const char modetype[];
 extern const char *szBW[];
 extern int iBW[];
+extern FREQMODE vfoA;
+extern FREQMODE vfoB;
+extern FREQMODE xmlvfo;
 
 extern void cbExit();
 
@@ -53,6 +60,8 @@ extern void setNotch();
 
 extern void setInhibits();
 
+extern void set_xml_values(void *);
+
 extern void cbAttenuator();
 extern void cbPreamp();
 extern void cbbtnNR();
@@ -66,6 +75,7 @@ extern void cbIFsh();
 extern void setVolume();
 extern void setMicGain();
 extern void setPower();
+extern void setPTT(void *);
 extern void cbWPM();
 extern void cbRxAnt();
 extern void cbTxAnt();

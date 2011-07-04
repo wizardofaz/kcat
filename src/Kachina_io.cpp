@@ -267,7 +267,7 @@ void setvfo (char  *cmd, long freq, long offset)
 	cmd[5] = val & 0xFF; val = val >> 8;
 	cmd[4] = val & 0xFF; val = val >> 8;
 	cmd[3] = val & 0xFF; val = val >> 8;
-	cmd[2] = val & 0x3F | antPort(freq);
+	cmd[2] = (val & 0x3F) | antPort(freq);
 }
 
 // freq in Hz

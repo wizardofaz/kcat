@@ -63,13 +63,30 @@ am__kcat_SOURCES_DIST = kachina.rc include/kachinarc.h mingw.c \
 	include/compat.h include/compat-mingw.h dialogs.cpp \
 	Kachina.cpp Fl_SigBar.cpp FreqControl.cpp images.cpp \
 	IOspec.cpp Kachina_io.cpp KachinaPanel.cxx serialcomm.cpp \
-	support.cpp telemetry.cpp cstack.cpp util.cxx include/cstack.h \
-	include/dialogs.h include/Fl_SigBar.h include/FreqControl.h \
+	support.cpp telemetry.cpp cstack.cpp debug.cxx icons.cxx \
+	pixmaps.cxx util.cxx include/cstack.h include/debug.h \
+	include/dialogs.h include/gettext.h include/icons.h \
+	include/pixmaps.h include/Fl_SigBar.h include/FreqControl.h \
 	include/images.h include/IOspec.h include/Kachina.h \
 	include/Kachina_io.h include/KachinaPanel.h \
 	include/linserial.h include/serialcomm.h include/support.h \
 	include/test.h include/util.h include/version.h \
-	include/winserial.h
+	include/winserial.h xml_io.cxx include/xml_io.h \
+	xmlrpcpp/XmlRpc.h xmlrpcpp/XmlRpcClient.cpp \
+	xmlrpcpp/XmlRpcClient.h xmlrpcpp/XmlRpcDispatch.cpp \
+	xmlrpcpp/XmlRpcDispatch.h xmlrpcpp/XmlRpcException.h \
+	xmlrpcpp/XmlRpcMutex.cpp xmlrpcpp/XmlRpcMutex.h \
+	xmlrpcpp/XmlRpcServer.cpp xmlrpcpp/XmlRpcServer.h \
+	xmlrpcpp/XmlRpcServerConnection.cpp \
+	xmlrpcpp/XmlRpcServerConnection.h \
+	xmlrpcpp/XmlRpcServerMethod.cpp xmlrpcpp/XmlRpcServerMethod.h \
+	xmlrpcpp/XmlRpcSocket.cpp xmlrpcpp/XmlRpcSocket.h \
+	xmlrpcpp/XmlRpcSource.cpp xmlrpcpp/XmlRpcSource.h \
+	xmlrpcpp/XmlRpcThread.cpp xmlrpcpp/XmlRpcThread.h \
+	xmlrpcpp/XmlRpcThreadedServer.cpp \
+	xmlrpcpp/XmlRpcThreadedServer.h xmlrpcpp/XmlRpcUtil.cpp \
+	xmlrpcpp/XmlRpcUtil.h xmlrpcpp/XmlRpcValue.cpp \
+	xmlrpcpp/XmlRpcValue.h xmlrpcpp/base64.h
 am__objects_1 = kachina.$(OBJEXT) kcat-mingw.$(OBJEXT)
 ##am__objects_2 = $(am__objects_1)
 am_kcat_OBJECTS = $(am__objects_2) kcat-dialogs.$(OBJEXT) \
@@ -78,7 +95,16 @@ am_kcat_OBJECTS = $(am__objects_2) kcat-dialogs.$(OBJEXT) \
 	kcat-IOspec.$(OBJEXT) kcat-Kachina_io.$(OBJEXT) \
 	kcat-KachinaPanel.$(OBJEXT) kcat-serialcomm.$(OBJEXT) \
 	kcat-support.$(OBJEXT) kcat-telemetry.$(OBJEXT) \
-	kcat-cstack.$(OBJEXT) kcat-util.$(OBJEXT)
+	kcat-cstack.$(OBJEXT) kcat-debug.$(OBJEXT) \
+	kcat-icons.$(OBJEXT) kcat-pixmaps.$(OBJEXT) \
+	kcat-util.$(OBJEXT) kcat-xml_io.$(OBJEXT) \
+	kcat-XmlRpcClient.$(OBJEXT) kcat-XmlRpcDispatch.$(OBJEXT) \
+	kcat-XmlRpcMutex.$(OBJEXT) kcat-XmlRpcServer.$(OBJEXT) \
+	kcat-XmlRpcServerConnection.$(OBJEXT) \
+	kcat-XmlRpcServerMethod.$(OBJEXT) kcat-XmlRpcSocket.$(OBJEXT) \
+	kcat-XmlRpcSource.$(OBJEXT) kcat-XmlRpcThread.$(OBJEXT) \
+	kcat-XmlRpcThreadedServer.$(OBJEXT) kcat-XmlRpcUtil.$(OBJEXT) \
+	kcat-XmlRpcValue.$(OBJEXT)
 am__objects_3 =
 nodist_kcat_OBJECTS = $(am__objects_3)
 kcat_OBJECTS = $(am_kcat_OBJECTS) $(nodist_kcat_OBJECTS)
@@ -205,7 +231,7 @@ htmldir = ${docdir}
 includedir = ${prefix}/include
 infodir = ${datarootdir}/info
 install_sh = ${SHELL} /home/dave/dev/dev.KACHINA/kcat.git/build-aux/install-sh
-kcat_BUILD_CPPFLAGS = -I$(srcdir) -I$(srcdir)/include -I$(srcdir)/images
+kcat_BUILD_CPPFLAGS = -I$(srcdir) -I$(srcdir)/include -I$(srcdir)/xmlrpcpp -I$(srcdir)/images
 kcat_BUILD_CXXFLAGS = -I/usr/local/include -I/usr/include/freetype2 -D_THREAD_SAFE -D_REENTRANT -pipe -Wall -fexceptions -O2 -ffast-math -finline-functions -fomit-frame-pointer   -DNDEBUG
 kcat_BUILD_LDADD = -L/usr/local/lib -lfltk_images -lpng -lz -ljpeg -lfltk -lXft -lpthread -ldl -lm -lXext -lX11  -ldl  -lrt  -lpthread  
 kcat_BUILD_LDFLAGS = 
@@ -238,7 +264,7 @@ target_vendor = pc
 top_build_prefix = ../
 top_builddir = ..
 top_srcdir = ..
-kcat_CPPFLAGS = -I$(srcdir) -I$(srcdir)/include -I$(srcdir)/images
+kcat_CPPFLAGS = -I$(srcdir) -I$(srcdir)/include -I$(srcdir)/xmlrpcpp -I$(srcdir)/images
 kcat_CXXFLAGS = -I/usr/local/include -I/usr/include/freetype2 -D_THREAD_SAFE -D_REENTRANT -pipe -Wall -fexceptions -O2 -ffast-math -finline-functions -fomit-frame-pointer   -DNDEBUG
 kcat_CFLAGS = $(kcat_CXXFLAGS)
 kcat_LDFLAGS = 
@@ -258,12 +284,29 @@ EXTRA_kcat_SOURCES = $(kcat_WIN32_RES_SRC) $(MINGW32_SRC)
 kcat_SOURCES = $(am__append_1) dialogs.cpp Kachina.cpp Fl_SigBar.cpp \
 	FreqControl.cpp images.cpp IOspec.cpp Kachina_io.cpp \
 	KachinaPanel.cxx serialcomm.cpp support.cpp telemetry.cpp \
-	cstack.cpp util.cxx include/cstack.h include/dialogs.h \
+	cstack.cpp debug.cxx icons.cxx pixmaps.cxx util.cxx \
+	include/cstack.h include/debug.h include/dialogs.h \
+	include/gettext.h include/icons.h include/pixmaps.h \
 	include/Fl_SigBar.h include/FreqControl.h include/images.h \
 	include/IOspec.h include/Kachina.h include/Kachina_io.h \
 	include/KachinaPanel.h include/kachinarc.h include/linserial.h \
 	include/serialcomm.h include/support.h include/test.h \
-	include/util.h include/version.h include/winserial.h
+	include/util.h include/version.h include/winserial.h \
+	xml_io.cxx include/xml_io.h xmlrpcpp/XmlRpc.h \
+	xmlrpcpp/XmlRpcClient.cpp xmlrpcpp/XmlRpcClient.h \
+	xmlrpcpp/XmlRpcDispatch.cpp xmlrpcpp/XmlRpcDispatch.h \
+	xmlrpcpp/XmlRpcException.h xmlrpcpp/XmlRpcMutex.cpp \
+	xmlrpcpp/XmlRpcMutex.h xmlrpcpp/XmlRpcServer.cpp \
+	xmlrpcpp/XmlRpcServer.h xmlrpcpp/XmlRpcServerConnection.cpp \
+	xmlrpcpp/XmlRpcServerConnection.h \
+	xmlrpcpp/XmlRpcServerMethod.cpp xmlrpcpp/XmlRpcServerMethod.h \
+	xmlrpcpp/XmlRpcSocket.cpp xmlrpcpp/XmlRpcSocket.h \
+	xmlrpcpp/XmlRpcSource.cpp xmlrpcpp/XmlRpcSource.h \
+	xmlrpcpp/XmlRpcThread.cpp xmlrpcpp/XmlRpcThread.h \
+	xmlrpcpp/XmlRpcThreadedServer.cpp \
+	xmlrpcpp/XmlRpcThreadedServer.h xmlrpcpp/XmlRpcUtil.cpp \
+	xmlrpcpp/XmlRpcUtil.h xmlrpcpp/XmlRpcValue.cpp \
+	xmlrpcpp/XmlRpcValue.h xmlrpcpp/base64.h
 
 # Sources that are generated,
 BUILT_SOURCES = 
@@ -415,14 +458,30 @@ include ./$(DEPDIR)/kcat-IOspec.Po
 include ./$(DEPDIR)/kcat-Kachina.Po
 include ./$(DEPDIR)/kcat-KachinaPanel.Po
 include ./$(DEPDIR)/kcat-Kachina_io.Po
+include ./$(DEPDIR)/kcat-XmlRpcClient.Po
+include ./$(DEPDIR)/kcat-XmlRpcDispatch.Po
+include ./$(DEPDIR)/kcat-XmlRpcMutex.Po
+include ./$(DEPDIR)/kcat-XmlRpcServer.Po
+include ./$(DEPDIR)/kcat-XmlRpcServerConnection.Po
+include ./$(DEPDIR)/kcat-XmlRpcServerMethod.Po
+include ./$(DEPDIR)/kcat-XmlRpcSocket.Po
+include ./$(DEPDIR)/kcat-XmlRpcSource.Po
+include ./$(DEPDIR)/kcat-XmlRpcThread.Po
+include ./$(DEPDIR)/kcat-XmlRpcThreadedServer.Po
+include ./$(DEPDIR)/kcat-XmlRpcUtil.Po
+include ./$(DEPDIR)/kcat-XmlRpcValue.Po
 include ./$(DEPDIR)/kcat-cstack.Po
+include ./$(DEPDIR)/kcat-debug.Po
 include ./$(DEPDIR)/kcat-dialogs.Po
+include ./$(DEPDIR)/kcat-icons.Po
 include ./$(DEPDIR)/kcat-images.Po
 include ./$(DEPDIR)/kcat-mingw.Po
+include ./$(DEPDIR)/kcat-pixmaps.Po
 include ./$(DEPDIR)/kcat-serialcomm.Po
 include ./$(DEPDIR)/kcat-support.Po
 include ./$(DEPDIR)/kcat-telemetry.Po
 include ./$(DEPDIR)/kcat-util.Po
+include ./$(DEPDIR)/kcat-xml_io.Po
 
 .c.o:
 	$(COMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ $<
@@ -634,6 +693,48 @@ kcat-cstack.obj: cstack.cpp
 #	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) \
 #	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -c -o kcat-cstack.obj `if test -f 'cstack.cpp'; then $(CYGPATH_W) 'cstack.cpp'; else $(CYGPATH_W) '$(srcdir)/cstack.cpp'; fi`
 
+kcat-debug.o: debug.cxx
+	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -MT kcat-debug.o -MD -MP -MF $(DEPDIR)/kcat-debug.Tpo -c -o kcat-debug.o `test -f 'debug.cxx' || echo '$(srcdir)/'`debug.cxx
+	$(am__mv) $(DEPDIR)/kcat-debug.Tpo $(DEPDIR)/kcat-debug.Po
+#	source='debug.cxx' object='kcat-debug.o' libtool=no \
+#	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) \
+#	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -c -o kcat-debug.o `test -f 'debug.cxx' || echo '$(srcdir)/'`debug.cxx
+
+kcat-debug.obj: debug.cxx
+	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -MT kcat-debug.obj -MD -MP -MF $(DEPDIR)/kcat-debug.Tpo -c -o kcat-debug.obj `if test -f 'debug.cxx'; then $(CYGPATH_W) 'debug.cxx'; else $(CYGPATH_W) '$(srcdir)/debug.cxx'; fi`
+	$(am__mv) $(DEPDIR)/kcat-debug.Tpo $(DEPDIR)/kcat-debug.Po
+#	source='debug.cxx' object='kcat-debug.obj' libtool=no \
+#	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) \
+#	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -c -o kcat-debug.obj `if test -f 'debug.cxx'; then $(CYGPATH_W) 'debug.cxx'; else $(CYGPATH_W) '$(srcdir)/debug.cxx'; fi`
+
+kcat-icons.o: icons.cxx
+	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -MT kcat-icons.o -MD -MP -MF $(DEPDIR)/kcat-icons.Tpo -c -o kcat-icons.o `test -f 'icons.cxx' || echo '$(srcdir)/'`icons.cxx
+	$(am__mv) $(DEPDIR)/kcat-icons.Tpo $(DEPDIR)/kcat-icons.Po
+#	source='icons.cxx' object='kcat-icons.o' libtool=no \
+#	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) \
+#	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -c -o kcat-icons.o `test -f 'icons.cxx' || echo '$(srcdir)/'`icons.cxx
+
+kcat-icons.obj: icons.cxx
+	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -MT kcat-icons.obj -MD -MP -MF $(DEPDIR)/kcat-icons.Tpo -c -o kcat-icons.obj `if test -f 'icons.cxx'; then $(CYGPATH_W) 'icons.cxx'; else $(CYGPATH_W) '$(srcdir)/icons.cxx'; fi`
+	$(am__mv) $(DEPDIR)/kcat-icons.Tpo $(DEPDIR)/kcat-icons.Po
+#	source='icons.cxx' object='kcat-icons.obj' libtool=no \
+#	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) \
+#	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -c -o kcat-icons.obj `if test -f 'icons.cxx'; then $(CYGPATH_W) 'icons.cxx'; else $(CYGPATH_W) '$(srcdir)/icons.cxx'; fi`
+
+kcat-pixmaps.o: pixmaps.cxx
+	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -MT kcat-pixmaps.o -MD -MP -MF $(DEPDIR)/kcat-pixmaps.Tpo -c -o kcat-pixmaps.o `test -f 'pixmaps.cxx' || echo '$(srcdir)/'`pixmaps.cxx
+	$(am__mv) $(DEPDIR)/kcat-pixmaps.Tpo $(DEPDIR)/kcat-pixmaps.Po
+#	source='pixmaps.cxx' object='kcat-pixmaps.o' libtool=no \
+#	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) \
+#	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -c -o kcat-pixmaps.o `test -f 'pixmaps.cxx' || echo '$(srcdir)/'`pixmaps.cxx
+
+kcat-pixmaps.obj: pixmaps.cxx
+	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -MT kcat-pixmaps.obj -MD -MP -MF $(DEPDIR)/kcat-pixmaps.Tpo -c -o kcat-pixmaps.obj `if test -f 'pixmaps.cxx'; then $(CYGPATH_W) 'pixmaps.cxx'; else $(CYGPATH_W) '$(srcdir)/pixmaps.cxx'; fi`
+	$(am__mv) $(DEPDIR)/kcat-pixmaps.Tpo $(DEPDIR)/kcat-pixmaps.Po
+#	source='pixmaps.cxx' object='kcat-pixmaps.obj' libtool=no \
+#	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) \
+#	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -c -o kcat-pixmaps.obj `if test -f 'pixmaps.cxx'; then $(CYGPATH_W) 'pixmaps.cxx'; else $(CYGPATH_W) '$(srcdir)/pixmaps.cxx'; fi`
+
 kcat-util.o: util.cxx
 	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -MT kcat-util.o -MD -MP -MF $(DEPDIR)/kcat-util.Tpo -c -o kcat-util.o `test -f 'util.cxx' || echo '$(srcdir)/'`util.cxx
 	$(am__mv) $(DEPDIR)/kcat-util.Tpo $(DEPDIR)/kcat-util.Po
@@ -647,6 +748,188 @@ kcat-util.obj: util.cxx
 #	source='util.cxx' object='kcat-util.obj' libtool=no \
 #	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) \
 #	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -c -o kcat-util.obj `if test -f 'util.cxx'; then $(CYGPATH_W) 'util.cxx'; else $(CYGPATH_W) '$(srcdir)/util.cxx'; fi`
+
+kcat-xml_io.o: xml_io.cxx
+	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -MT kcat-xml_io.o -MD -MP -MF $(DEPDIR)/kcat-xml_io.Tpo -c -o kcat-xml_io.o `test -f 'xml_io.cxx' || echo '$(srcdir)/'`xml_io.cxx
+	$(am__mv) $(DEPDIR)/kcat-xml_io.Tpo $(DEPDIR)/kcat-xml_io.Po
+#	source='xml_io.cxx' object='kcat-xml_io.o' libtool=no \
+#	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) \
+#	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -c -o kcat-xml_io.o `test -f 'xml_io.cxx' || echo '$(srcdir)/'`xml_io.cxx
+
+kcat-xml_io.obj: xml_io.cxx
+	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -MT kcat-xml_io.obj -MD -MP -MF $(DEPDIR)/kcat-xml_io.Tpo -c -o kcat-xml_io.obj `if test -f 'xml_io.cxx'; then $(CYGPATH_W) 'xml_io.cxx'; else $(CYGPATH_W) '$(srcdir)/xml_io.cxx'; fi`
+	$(am__mv) $(DEPDIR)/kcat-xml_io.Tpo $(DEPDIR)/kcat-xml_io.Po
+#	source='xml_io.cxx' object='kcat-xml_io.obj' libtool=no \
+#	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) \
+#	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -c -o kcat-xml_io.obj `if test -f 'xml_io.cxx'; then $(CYGPATH_W) 'xml_io.cxx'; else $(CYGPATH_W) '$(srcdir)/xml_io.cxx'; fi`
+
+kcat-XmlRpcClient.o: xmlrpcpp/XmlRpcClient.cpp
+	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -MT kcat-XmlRpcClient.o -MD -MP -MF $(DEPDIR)/kcat-XmlRpcClient.Tpo -c -o kcat-XmlRpcClient.o `test -f 'xmlrpcpp/XmlRpcClient.cpp' || echo '$(srcdir)/'`xmlrpcpp/XmlRpcClient.cpp
+	$(am__mv) $(DEPDIR)/kcat-XmlRpcClient.Tpo $(DEPDIR)/kcat-XmlRpcClient.Po
+#	source='xmlrpcpp/XmlRpcClient.cpp' object='kcat-XmlRpcClient.o' libtool=no \
+#	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) \
+#	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -c -o kcat-XmlRpcClient.o `test -f 'xmlrpcpp/XmlRpcClient.cpp' || echo '$(srcdir)/'`xmlrpcpp/XmlRpcClient.cpp
+
+kcat-XmlRpcClient.obj: xmlrpcpp/XmlRpcClient.cpp
+	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -MT kcat-XmlRpcClient.obj -MD -MP -MF $(DEPDIR)/kcat-XmlRpcClient.Tpo -c -o kcat-XmlRpcClient.obj `if test -f 'xmlrpcpp/XmlRpcClient.cpp'; then $(CYGPATH_W) 'xmlrpcpp/XmlRpcClient.cpp'; else $(CYGPATH_W) '$(srcdir)/xmlrpcpp/XmlRpcClient.cpp'; fi`
+	$(am__mv) $(DEPDIR)/kcat-XmlRpcClient.Tpo $(DEPDIR)/kcat-XmlRpcClient.Po
+#	source='xmlrpcpp/XmlRpcClient.cpp' object='kcat-XmlRpcClient.obj' libtool=no \
+#	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) \
+#	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -c -o kcat-XmlRpcClient.obj `if test -f 'xmlrpcpp/XmlRpcClient.cpp'; then $(CYGPATH_W) 'xmlrpcpp/XmlRpcClient.cpp'; else $(CYGPATH_W) '$(srcdir)/xmlrpcpp/XmlRpcClient.cpp'; fi`
+
+kcat-XmlRpcDispatch.o: xmlrpcpp/XmlRpcDispatch.cpp
+	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -MT kcat-XmlRpcDispatch.o -MD -MP -MF $(DEPDIR)/kcat-XmlRpcDispatch.Tpo -c -o kcat-XmlRpcDispatch.o `test -f 'xmlrpcpp/XmlRpcDispatch.cpp' || echo '$(srcdir)/'`xmlrpcpp/XmlRpcDispatch.cpp
+	$(am__mv) $(DEPDIR)/kcat-XmlRpcDispatch.Tpo $(DEPDIR)/kcat-XmlRpcDispatch.Po
+#	source='xmlrpcpp/XmlRpcDispatch.cpp' object='kcat-XmlRpcDispatch.o' libtool=no \
+#	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) \
+#	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -c -o kcat-XmlRpcDispatch.o `test -f 'xmlrpcpp/XmlRpcDispatch.cpp' || echo '$(srcdir)/'`xmlrpcpp/XmlRpcDispatch.cpp
+
+kcat-XmlRpcDispatch.obj: xmlrpcpp/XmlRpcDispatch.cpp
+	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -MT kcat-XmlRpcDispatch.obj -MD -MP -MF $(DEPDIR)/kcat-XmlRpcDispatch.Tpo -c -o kcat-XmlRpcDispatch.obj `if test -f 'xmlrpcpp/XmlRpcDispatch.cpp'; then $(CYGPATH_W) 'xmlrpcpp/XmlRpcDispatch.cpp'; else $(CYGPATH_W) '$(srcdir)/xmlrpcpp/XmlRpcDispatch.cpp'; fi`
+	$(am__mv) $(DEPDIR)/kcat-XmlRpcDispatch.Tpo $(DEPDIR)/kcat-XmlRpcDispatch.Po
+#	source='xmlrpcpp/XmlRpcDispatch.cpp' object='kcat-XmlRpcDispatch.obj' libtool=no \
+#	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) \
+#	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -c -o kcat-XmlRpcDispatch.obj `if test -f 'xmlrpcpp/XmlRpcDispatch.cpp'; then $(CYGPATH_W) 'xmlrpcpp/XmlRpcDispatch.cpp'; else $(CYGPATH_W) '$(srcdir)/xmlrpcpp/XmlRpcDispatch.cpp'; fi`
+
+kcat-XmlRpcMutex.o: xmlrpcpp/XmlRpcMutex.cpp
+	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -MT kcat-XmlRpcMutex.o -MD -MP -MF $(DEPDIR)/kcat-XmlRpcMutex.Tpo -c -o kcat-XmlRpcMutex.o `test -f 'xmlrpcpp/XmlRpcMutex.cpp' || echo '$(srcdir)/'`xmlrpcpp/XmlRpcMutex.cpp
+	$(am__mv) $(DEPDIR)/kcat-XmlRpcMutex.Tpo $(DEPDIR)/kcat-XmlRpcMutex.Po
+#	source='xmlrpcpp/XmlRpcMutex.cpp' object='kcat-XmlRpcMutex.o' libtool=no \
+#	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) \
+#	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -c -o kcat-XmlRpcMutex.o `test -f 'xmlrpcpp/XmlRpcMutex.cpp' || echo '$(srcdir)/'`xmlrpcpp/XmlRpcMutex.cpp
+
+kcat-XmlRpcMutex.obj: xmlrpcpp/XmlRpcMutex.cpp
+	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -MT kcat-XmlRpcMutex.obj -MD -MP -MF $(DEPDIR)/kcat-XmlRpcMutex.Tpo -c -o kcat-XmlRpcMutex.obj `if test -f 'xmlrpcpp/XmlRpcMutex.cpp'; then $(CYGPATH_W) 'xmlrpcpp/XmlRpcMutex.cpp'; else $(CYGPATH_W) '$(srcdir)/xmlrpcpp/XmlRpcMutex.cpp'; fi`
+	$(am__mv) $(DEPDIR)/kcat-XmlRpcMutex.Tpo $(DEPDIR)/kcat-XmlRpcMutex.Po
+#	source='xmlrpcpp/XmlRpcMutex.cpp' object='kcat-XmlRpcMutex.obj' libtool=no \
+#	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) \
+#	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -c -o kcat-XmlRpcMutex.obj `if test -f 'xmlrpcpp/XmlRpcMutex.cpp'; then $(CYGPATH_W) 'xmlrpcpp/XmlRpcMutex.cpp'; else $(CYGPATH_W) '$(srcdir)/xmlrpcpp/XmlRpcMutex.cpp'; fi`
+
+kcat-XmlRpcServer.o: xmlrpcpp/XmlRpcServer.cpp
+	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -MT kcat-XmlRpcServer.o -MD -MP -MF $(DEPDIR)/kcat-XmlRpcServer.Tpo -c -o kcat-XmlRpcServer.o `test -f 'xmlrpcpp/XmlRpcServer.cpp' || echo '$(srcdir)/'`xmlrpcpp/XmlRpcServer.cpp
+	$(am__mv) $(DEPDIR)/kcat-XmlRpcServer.Tpo $(DEPDIR)/kcat-XmlRpcServer.Po
+#	source='xmlrpcpp/XmlRpcServer.cpp' object='kcat-XmlRpcServer.o' libtool=no \
+#	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) \
+#	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -c -o kcat-XmlRpcServer.o `test -f 'xmlrpcpp/XmlRpcServer.cpp' || echo '$(srcdir)/'`xmlrpcpp/XmlRpcServer.cpp
+
+kcat-XmlRpcServer.obj: xmlrpcpp/XmlRpcServer.cpp
+	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -MT kcat-XmlRpcServer.obj -MD -MP -MF $(DEPDIR)/kcat-XmlRpcServer.Tpo -c -o kcat-XmlRpcServer.obj `if test -f 'xmlrpcpp/XmlRpcServer.cpp'; then $(CYGPATH_W) 'xmlrpcpp/XmlRpcServer.cpp'; else $(CYGPATH_W) '$(srcdir)/xmlrpcpp/XmlRpcServer.cpp'; fi`
+	$(am__mv) $(DEPDIR)/kcat-XmlRpcServer.Tpo $(DEPDIR)/kcat-XmlRpcServer.Po
+#	source='xmlrpcpp/XmlRpcServer.cpp' object='kcat-XmlRpcServer.obj' libtool=no \
+#	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) \
+#	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -c -o kcat-XmlRpcServer.obj `if test -f 'xmlrpcpp/XmlRpcServer.cpp'; then $(CYGPATH_W) 'xmlrpcpp/XmlRpcServer.cpp'; else $(CYGPATH_W) '$(srcdir)/xmlrpcpp/XmlRpcServer.cpp'; fi`
+
+kcat-XmlRpcServerConnection.o: xmlrpcpp/XmlRpcServerConnection.cpp
+	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -MT kcat-XmlRpcServerConnection.o -MD -MP -MF $(DEPDIR)/kcat-XmlRpcServerConnection.Tpo -c -o kcat-XmlRpcServerConnection.o `test -f 'xmlrpcpp/XmlRpcServerConnection.cpp' || echo '$(srcdir)/'`xmlrpcpp/XmlRpcServerConnection.cpp
+	$(am__mv) $(DEPDIR)/kcat-XmlRpcServerConnection.Tpo $(DEPDIR)/kcat-XmlRpcServerConnection.Po
+#	source='xmlrpcpp/XmlRpcServerConnection.cpp' object='kcat-XmlRpcServerConnection.o' libtool=no \
+#	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) \
+#	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -c -o kcat-XmlRpcServerConnection.o `test -f 'xmlrpcpp/XmlRpcServerConnection.cpp' || echo '$(srcdir)/'`xmlrpcpp/XmlRpcServerConnection.cpp
+
+kcat-XmlRpcServerConnection.obj: xmlrpcpp/XmlRpcServerConnection.cpp
+	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -MT kcat-XmlRpcServerConnection.obj -MD -MP -MF $(DEPDIR)/kcat-XmlRpcServerConnection.Tpo -c -o kcat-XmlRpcServerConnection.obj `if test -f 'xmlrpcpp/XmlRpcServerConnection.cpp'; then $(CYGPATH_W) 'xmlrpcpp/XmlRpcServerConnection.cpp'; else $(CYGPATH_W) '$(srcdir)/xmlrpcpp/XmlRpcServerConnection.cpp'; fi`
+	$(am__mv) $(DEPDIR)/kcat-XmlRpcServerConnection.Tpo $(DEPDIR)/kcat-XmlRpcServerConnection.Po
+#	source='xmlrpcpp/XmlRpcServerConnection.cpp' object='kcat-XmlRpcServerConnection.obj' libtool=no \
+#	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) \
+#	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -c -o kcat-XmlRpcServerConnection.obj `if test -f 'xmlrpcpp/XmlRpcServerConnection.cpp'; then $(CYGPATH_W) 'xmlrpcpp/XmlRpcServerConnection.cpp'; else $(CYGPATH_W) '$(srcdir)/xmlrpcpp/XmlRpcServerConnection.cpp'; fi`
+
+kcat-XmlRpcServerMethod.o: xmlrpcpp/XmlRpcServerMethod.cpp
+	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -MT kcat-XmlRpcServerMethod.o -MD -MP -MF $(DEPDIR)/kcat-XmlRpcServerMethod.Tpo -c -o kcat-XmlRpcServerMethod.o `test -f 'xmlrpcpp/XmlRpcServerMethod.cpp' || echo '$(srcdir)/'`xmlrpcpp/XmlRpcServerMethod.cpp
+	$(am__mv) $(DEPDIR)/kcat-XmlRpcServerMethod.Tpo $(DEPDIR)/kcat-XmlRpcServerMethod.Po
+#	source='xmlrpcpp/XmlRpcServerMethod.cpp' object='kcat-XmlRpcServerMethod.o' libtool=no \
+#	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) \
+#	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -c -o kcat-XmlRpcServerMethod.o `test -f 'xmlrpcpp/XmlRpcServerMethod.cpp' || echo '$(srcdir)/'`xmlrpcpp/XmlRpcServerMethod.cpp
+
+kcat-XmlRpcServerMethod.obj: xmlrpcpp/XmlRpcServerMethod.cpp
+	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -MT kcat-XmlRpcServerMethod.obj -MD -MP -MF $(DEPDIR)/kcat-XmlRpcServerMethod.Tpo -c -o kcat-XmlRpcServerMethod.obj `if test -f 'xmlrpcpp/XmlRpcServerMethod.cpp'; then $(CYGPATH_W) 'xmlrpcpp/XmlRpcServerMethod.cpp'; else $(CYGPATH_W) '$(srcdir)/xmlrpcpp/XmlRpcServerMethod.cpp'; fi`
+	$(am__mv) $(DEPDIR)/kcat-XmlRpcServerMethod.Tpo $(DEPDIR)/kcat-XmlRpcServerMethod.Po
+#	source='xmlrpcpp/XmlRpcServerMethod.cpp' object='kcat-XmlRpcServerMethod.obj' libtool=no \
+#	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) \
+#	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -c -o kcat-XmlRpcServerMethod.obj `if test -f 'xmlrpcpp/XmlRpcServerMethod.cpp'; then $(CYGPATH_W) 'xmlrpcpp/XmlRpcServerMethod.cpp'; else $(CYGPATH_W) '$(srcdir)/xmlrpcpp/XmlRpcServerMethod.cpp'; fi`
+
+kcat-XmlRpcSocket.o: xmlrpcpp/XmlRpcSocket.cpp
+	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -MT kcat-XmlRpcSocket.o -MD -MP -MF $(DEPDIR)/kcat-XmlRpcSocket.Tpo -c -o kcat-XmlRpcSocket.o `test -f 'xmlrpcpp/XmlRpcSocket.cpp' || echo '$(srcdir)/'`xmlrpcpp/XmlRpcSocket.cpp
+	$(am__mv) $(DEPDIR)/kcat-XmlRpcSocket.Tpo $(DEPDIR)/kcat-XmlRpcSocket.Po
+#	source='xmlrpcpp/XmlRpcSocket.cpp' object='kcat-XmlRpcSocket.o' libtool=no \
+#	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) \
+#	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -c -o kcat-XmlRpcSocket.o `test -f 'xmlrpcpp/XmlRpcSocket.cpp' || echo '$(srcdir)/'`xmlrpcpp/XmlRpcSocket.cpp
+
+kcat-XmlRpcSocket.obj: xmlrpcpp/XmlRpcSocket.cpp
+	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -MT kcat-XmlRpcSocket.obj -MD -MP -MF $(DEPDIR)/kcat-XmlRpcSocket.Tpo -c -o kcat-XmlRpcSocket.obj `if test -f 'xmlrpcpp/XmlRpcSocket.cpp'; then $(CYGPATH_W) 'xmlrpcpp/XmlRpcSocket.cpp'; else $(CYGPATH_W) '$(srcdir)/xmlrpcpp/XmlRpcSocket.cpp'; fi`
+	$(am__mv) $(DEPDIR)/kcat-XmlRpcSocket.Tpo $(DEPDIR)/kcat-XmlRpcSocket.Po
+#	source='xmlrpcpp/XmlRpcSocket.cpp' object='kcat-XmlRpcSocket.obj' libtool=no \
+#	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) \
+#	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -c -o kcat-XmlRpcSocket.obj `if test -f 'xmlrpcpp/XmlRpcSocket.cpp'; then $(CYGPATH_W) 'xmlrpcpp/XmlRpcSocket.cpp'; else $(CYGPATH_W) '$(srcdir)/xmlrpcpp/XmlRpcSocket.cpp'; fi`
+
+kcat-XmlRpcSource.o: xmlrpcpp/XmlRpcSource.cpp
+	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -MT kcat-XmlRpcSource.o -MD -MP -MF $(DEPDIR)/kcat-XmlRpcSource.Tpo -c -o kcat-XmlRpcSource.o `test -f 'xmlrpcpp/XmlRpcSource.cpp' || echo '$(srcdir)/'`xmlrpcpp/XmlRpcSource.cpp
+	$(am__mv) $(DEPDIR)/kcat-XmlRpcSource.Tpo $(DEPDIR)/kcat-XmlRpcSource.Po
+#	source='xmlrpcpp/XmlRpcSource.cpp' object='kcat-XmlRpcSource.o' libtool=no \
+#	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) \
+#	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -c -o kcat-XmlRpcSource.o `test -f 'xmlrpcpp/XmlRpcSource.cpp' || echo '$(srcdir)/'`xmlrpcpp/XmlRpcSource.cpp
+
+kcat-XmlRpcSource.obj: xmlrpcpp/XmlRpcSource.cpp
+	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -MT kcat-XmlRpcSource.obj -MD -MP -MF $(DEPDIR)/kcat-XmlRpcSource.Tpo -c -o kcat-XmlRpcSource.obj `if test -f 'xmlrpcpp/XmlRpcSource.cpp'; then $(CYGPATH_W) 'xmlrpcpp/XmlRpcSource.cpp'; else $(CYGPATH_W) '$(srcdir)/xmlrpcpp/XmlRpcSource.cpp'; fi`
+	$(am__mv) $(DEPDIR)/kcat-XmlRpcSource.Tpo $(DEPDIR)/kcat-XmlRpcSource.Po
+#	source='xmlrpcpp/XmlRpcSource.cpp' object='kcat-XmlRpcSource.obj' libtool=no \
+#	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) \
+#	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -c -o kcat-XmlRpcSource.obj `if test -f 'xmlrpcpp/XmlRpcSource.cpp'; then $(CYGPATH_W) 'xmlrpcpp/XmlRpcSource.cpp'; else $(CYGPATH_W) '$(srcdir)/xmlrpcpp/XmlRpcSource.cpp'; fi`
+
+kcat-XmlRpcThread.o: xmlrpcpp/XmlRpcThread.cpp
+	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -MT kcat-XmlRpcThread.o -MD -MP -MF $(DEPDIR)/kcat-XmlRpcThread.Tpo -c -o kcat-XmlRpcThread.o `test -f 'xmlrpcpp/XmlRpcThread.cpp' || echo '$(srcdir)/'`xmlrpcpp/XmlRpcThread.cpp
+	$(am__mv) $(DEPDIR)/kcat-XmlRpcThread.Tpo $(DEPDIR)/kcat-XmlRpcThread.Po
+#	source='xmlrpcpp/XmlRpcThread.cpp' object='kcat-XmlRpcThread.o' libtool=no \
+#	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) \
+#	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -c -o kcat-XmlRpcThread.o `test -f 'xmlrpcpp/XmlRpcThread.cpp' || echo '$(srcdir)/'`xmlrpcpp/XmlRpcThread.cpp
+
+kcat-XmlRpcThread.obj: xmlrpcpp/XmlRpcThread.cpp
+	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -MT kcat-XmlRpcThread.obj -MD -MP -MF $(DEPDIR)/kcat-XmlRpcThread.Tpo -c -o kcat-XmlRpcThread.obj `if test -f 'xmlrpcpp/XmlRpcThread.cpp'; then $(CYGPATH_W) 'xmlrpcpp/XmlRpcThread.cpp'; else $(CYGPATH_W) '$(srcdir)/xmlrpcpp/XmlRpcThread.cpp'; fi`
+	$(am__mv) $(DEPDIR)/kcat-XmlRpcThread.Tpo $(DEPDIR)/kcat-XmlRpcThread.Po
+#	source='xmlrpcpp/XmlRpcThread.cpp' object='kcat-XmlRpcThread.obj' libtool=no \
+#	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) \
+#	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -c -o kcat-XmlRpcThread.obj `if test -f 'xmlrpcpp/XmlRpcThread.cpp'; then $(CYGPATH_W) 'xmlrpcpp/XmlRpcThread.cpp'; else $(CYGPATH_W) '$(srcdir)/xmlrpcpp/XmlRpcThread.cpp'; fi`
+
+kcat-XmlRpcThreadedServer.o: xmlrpcpp/XmlRpcThreadedServer.cpp
+	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -MT kcat-XmlRpcThreadedServer.o -MD -MP -MF $(DEPDIR)/kcat-XmlRpcThreadedServer.Tpo -c -o kcat-XmlRpcThreadedServer.o `test -f 'xmlrpcpp/XmlRpcThreadedServer.cpp' || echo '$(srcdir)/'`xmlrpcpp/XmlRpcThreadedServer.cpp
+	$(am__mv) $(DEPDIR)/kcat-XmlRpcThreadedServer.Tpo $(DEPDIR)/kcat-XmlRpcThreadedServer.Po
+#	source='xmlrpcpp/XmlRpcThreadedServer.cpp' object='kcat-XmlRpcThreadedServer.o' libtool=no \
+#	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) \
+#	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -c -o kcat-XmlRpcThreadedServer.o `test -f 'xmlrpcpp/XmlRpcThreadedServer.cpp' || echo '$(srcdir)/'`xmlrpcpp/XmlRpcThreadedServer.cpp
+
+kcat-XmlRpcThreadedServer.obj: xmlrpcpp/XmlRpcThreadedServer.cpp
+	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -MT kcat-XmlRpcThreadedServer.obj -MD -MP -MF $(DEPDIR)/kcat-XmlRpcThreadedServer.Tpo -c -o kcat-XmlRpcThreadedServer.obj `if test -f 'xmlrpcpp/XmlRpcThreadedServer.cpp'; then $(CYGPATH_W) 'xmlrpcpp/XmlRpcThreadedServer.cpp'; else $(CYGPATH_W) '$(srcdir)/xmlrpcpp/XmlRpcThreadedServer.cpp'; fi`
+	$(am__mv) $(DEPDIR)/kcat-XmlRpcThreadedServer.Tpo $(DEPDIR)/kcat-XmlRpcThreadedServer.Po
+#	source='xmlrpcpp/XmlRpcThreadedServer.cpp' object='kcat-XmlRpcThreadedServer.obj' libtool=no \
+#	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) \
+#	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -c -o kcat-XmlRpcThreadedServer.obj `if test -f 'xmlrpcpp/XmlRpcThreadedServer.cpp'; then $(CYGPATH_W) 'xmlrpcpp/XmlRpcThreadedServer.cpp'; else $(CYGPATH_W) '$(srcdir)/xmlrpcpp/XmlRpcThreadedServer.cpp'; fi`
+
+kcat-XmlRpcUtil.o: xmlrpcpp/XmlRpcUtil.cpp
+	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -MT kcat-XmlRpcUtil.o -MD -MP -MF $(DEPDIR)/kcat-XmlRpcUtil.Tpo -c -o kcat-XmlRpcUtil.o `test -f 'xmlrpcpp/XmlRpcUtil.cpp' || echo '$(srcdir)/'`xmlrpcpp/XmlRpcUtil.cpp
+	$(am__mv) $(DEPDIR)/kcat-XmlRpcUtil.Tpo $(DEPDIR)/kcat-XmlRpcUtil.Po
+#	source='xmlrpcpp/XmlRpcUtil.cpp' object='kcat-XmlRpcUtil.o' libtool=no \
+#	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) \
+#	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -c -o kcat-XmlRpcUtil.o `test -f 'xmlrpcpp/XmlRpcUtil.cpp' || echo '$(srcdir)/'`xmlrpcpp/XmlRpcUtil.cpp
+
+kcat-XmlRpcUtil.obj: xmlrpcpp/XmlRpcUtil.cpp
+	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -MT kcat-XmlRpcUtil.obj -MD -MP -MF $(DEPDIR)/kcat-XmlRpcUtil.Tpo -c -o kcat-XmlRpcUtil.obj `if test -f 'xmlrpcpp/XmlRpcUtil.cpp'; then $(CYGPATH_W) 'xmlrpcpp/XmlRpcUtil.cpp'; else $(CYGPATH_W) '$(srcdir)/xmlrpcpp/XmlRpcUtil.cpp'; fi`
+	$(am__mv) $(DEPDIR)/kcat-XmlRpcUtil.Tpo $(DEPDIR)/kcat-XmlRpcUtil.Po
+#	source='xmlrpcpp/XmlRpcUtil.cpp' object='kcat-XmlRpcUtil.obj' libtool=no \
+#	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) \
+#	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -c -o kcat-XmlRpcUtil.obj `if test -f 'xmlrpcpp/XmlRpcUtil.cpp'; then $(CYGPATH_W) 'xmlrpcpp/XmlRpcUtil.cpp'; else $(CYGPATH_W) '$(srcdir)/xmlrpcpp/XmlRpcUtil.cpp'; fi`
+
+kcat-XmlRpcValue.o: xmlrpcpp/XmlRpcValue.cpp
+	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -MT kcat-XmlRpcValue.o -MD -MP -MF $(DEPDIR)/kcat-XmlRpcValue.Tpo -c -o kcat-XmlRpcValue.o `test -f 'xmlrpcpp/XmlRpcValue.cpp' || echo '$(srcdir)/'`xmlrpcpp/XmlRpcValue.cpp
+	$(am__mv) $(DEPDIR)/kcat-XmlRpcValue.Tpo $(DEPDIR)/kcat-XmlRpcValue.Po
+#	source='xmlrpcpp/XmlRpcValue.cpp' object='kcat-XmlRpcValue.o' libtool=no \
+#	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) \
+#	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -c -o kcat-XmlRpcValue.o `test -f 'xmlrpcpp/XmlRpcValue.cpp' || echo '$(srcdir)/'`xmlrpcpp/XmlRpcValue.cpp
+
+kcat-XmlRpcValue.obj: xmlrpcpp/XmlRpcValue.cpp
+	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -MT kcat-XmlRpcValue.obj -MD -MP -MF $(DEPDIR)/kcat-XmlRpcValue.Tpo -c -o kcat-XmlRpcValue.obj `if test -f 'xmlrpcpp/XmlRpcValue.cpp'; then $(CYGPATH_W) 'xmlrpcpp/XmlRpcValue.cpp'; else $(CYGPATH_W) '$(srcdir)/xmlrpcpp/XmlRpcValue.cpp'; fi`
+	$(am__mv) $(DEPDIR)/kcat-XmlRpcValue.Tpo $(DEPDIR)/kcat-XmlRpcValue.Po
+#	source='xmlrpcpp/XmlRpcValue.cpp' object='kcat-XmlRpcValue.obj' libtool=no \
+#	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) \
+#	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -c -o kcat-XmlRpcValue.obj `if test -f 'xmlrpcpp/XmlRpcValue.cpp'; then $(CYGPATH_W) 'xmlrpcpp/XmlRpcValue.cpp'; else $(CYGPATH_W) '$(srcdir)/xmlrpcpp/XmlRpcValue.cpp'; fi`
 
 .cxx.o:
 	$(CXXCOMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ $<

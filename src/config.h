@@ -11,7 +11,7 @@
 #define BUILD_CONFIGURE_ARGS ""
 
 /* Build date */
-#define BUILD_DATE "Mon Jul  4 06:42:19 CDT 2011"
+#define BUILD_DATE "Mon Jul  4 13:39:29 CDT 2011"
 
 /* Build host */
 #define BUILD_HOST "linux-dev"
@@ -353,7 +353,7 @@
 /* #undef int8_t */
 
 /* kcat compiler flags */
-#define kcat_BUILD_CXXFLAGS "-I$(srcdir) -I$(srcdir)/include -I$(srcdir)/images -I/usr/local/include -I/usr/include/freetype2 -D_THREAD_SAFE -D_REENTRANT -pipe -Wall -fexceptions -O2 -ffast-math -finline-functions -fomit-frame-pointer -DNDEBUG"
+#define kcat_BUILD_CXXFLAGS "-I$(srcdir) -I$(srcdir)/include -I$(srcdir)/xmlrpcpp -I$(srcdir)/images -I/usr/local/include -I/usr/include/freetype2 -D_THREAD_SAFE -D_REENTRANT -pipe -Wall -fexceptions -O2 -ffast-math -finline-functions -fomit-frame-pointer -DNDEBUG"
 
 /* kcat linker flags */
 #define kcat_BUILD_LDFLAGS "-L/usr/local/lib -lfltk_images -lpng -lz -ljpeg -lfltk -lXft -lpthread -ldl -lm -lXext -lX11 -ldl -lrt -lpthread"

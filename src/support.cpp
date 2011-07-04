@@ -13,6 +13,7 @@
 #include "Kachina_io.h"
 #include "util.h"
 #include "config.h"
+#include "xml_io.h"
 
 using namespace std;
 
@@ -20,35 +21,21 @@ extern bool test;
 
 extern void resetWatchDog();
 
-//enum MODES {AM, CW, FM, USB, LSB};
-//const char *szmodes[] = {"AM", "CW", "FM", "USB", "LSB", 0};
+const char *szmodes[] = {"LSB", "USB", "CW", "AM", "FM", NULL};
+const char modetype[] = {'L', 'U', 'L', 'U', 'U'};
 
-const char *szmodes[] = {"LSB", "USB", "CW", "AM", "FM", 0};
-
-//const char *szBW[] =  {"3500","2700","2400","2100","1700","1000","500","200","100","DAThi","DATmed", 0};
 const char *szBW[] =  {
-"100", "200", "500", "1000", "1700", "2100", "2400", "2700", "3500",
-"DATmed", "DAThi",
-NULL};
-int iBW[] = { 0x09, 0x08, 0x07, 0x06, 0x05, 0x04, 0x03, 0x02, 0x01, 0x00, 0x0b, 0x0a };
+"100", "200", "500", "1000", "1700", "2100", "2400", "2700", "3500","DATmed", "DAThi", NULL};
+int iBW[] = {
+0x09, 0x08, 0x07, 0x06, 0x05, 0x04, 0x03, 0x02, 0x01, 0x0b, 0x0a };
 
-const char *szNotch[] = {"Wide", "Med", "Nar", 0};
+const char *szNotch[] = {"Wide", "Med", "Nar", NULL};
 
-struct FREQMODE {
-	long freq;
-	union {MODES  mode; int imode;};
-} freqmode;
-
-FREQMODE vfoB = {3500000, {CW} };
+FREQMODE vfoA = {1407000, USB, 7, UI };
+FREQMODE vfoB = {3500000, USB, 7, UI };
+FREQMODE xmlvfo = vfoA;
 
 char szVfoB[12];
-
-struct ST_SHMEM {
-	int  flag;
-	long freq;
-	long midfreq;
-	char mode[4];
-};
 
 FREQMODE oplist[LISTSIZE];
 int  numinlist = 0;
@@ -71,6 +58,17 @@ CSerialComm KachinaSerial;
 #else
 	int baudttyport = B9600;
 #endif
+
+char *print(FREQMODE data)
+{
+	static char str[100];
+	snprintf(str, sizeof(str), "%3s,%10ld,%4s,%5s",
+		data.src == XML ? "xml" : "ui",
+		data.freq,
+		szmodes[data.imode],
+		szBW[data.iBW]);
+	return str;
+}
 
 void initKachina()
 {
@@ -98,11 +96,11 @@ void initOptionMenus()
 	p = szmodes;
 	while (*p) 
 		opMODE->add(*p++);
-	opMODE->value(0);
+	opMODE->value(vfoA.imode);
 	p = szBW;
 	while (*p) 
 		opBW->add(*p++);
-	opBW->value(0);
+	opBW->value(vfoA.iBW);
 	p = szNotch;
 	while (*p)
 		opNOTCH->add(*p++);
@@ -174,8 +172,9 @@ void setFocus()
 }
 
 void setBW() {
-	int sel = opBW->value();
-	setXcvrBW (sel);
+	vfoA.iBW = opBW->value();
+	setXcvrBW (vfoA.iBW);
+	send_new_bandwidth(vfoA.iBW);
 	setIFshift();
 }
 
@@ -185,7 +184,7 @@ void setMode()
 {
 	MODES new_mode = (MODES)opMODE->value();
 	setXcvrMode (new_mode);
-	if (current_mode != new_mode) {
+	if (vfoA.imode != new_mode) {
 		switch (opMODE->value()) {
 			case AM: opBW->value(8); setBW(); break;
 			case FM: opBW->value(8); setBW(); break;
@@ -193,7 +192,8 @@ void setMode()
 			default: opBW->value(7); setBW(); break;
 		}
 		setInhibits();
-		current_mode = new_mode;
+		vfoA.imode = new_mode;
+		send_new_mode(vfoA.imode);
 	} else setBW();
 }
 
@@ -213,7 +213,8 @@ void clearList() {
 	if (!numinlist) return;
 	for (int i = 0; i < LISTSIZE; i++) {
 		oplist[i].freq = 0;
-		oplist[i].mode = CW;
+		oplist[i].imode = USB;
+		oplist[i].iBW = 7;
 	}
 	FreqSelect->clear();
 	numinlist = 0;
@@ -225,14 +226,15 @@ void updateSelect() {
 	sortList();
 	FreqSelect->clear();
 	for (int n = 0; n < numinlist; n++) {
-		sprintf(szFREQMODE, "%9.3f%4s", oplist[n].freq / 1000.0, szmodes[oplist[n].mode]);
+		sprintf(szFREQMODE, "%9.3f%4s", oplist[n].freq / 1000.0, szmodes[oplist[n].imode]);
 		FreqSelect->add (szFREQMODE);
 	}
 }
 
-void addtoList(long val, MODES mode) {
-	oplist[numinlist].mode = mode;
-	oplist[numinlist++].freq = val;
+void addtoList(long val, int mode, int bw) {
+	oplist[numinlist].freq = val;
+	oplist[numinlist].imode = mode;
+	oplist[numinlist++].iBW = bw;
 }
 
 void readFile() {
@@ -242,14 +244,15 @@ void readFile() {
 		return;
 	}
 	clearList();
-	int i = 0, mode;
+	int i = 0, mode = 0, bw = 0;
 	long freq;
 	while (!iList.eof()) {
 		freq = 0L; mode = -1;
-		iList >> freq >> mode;
+		iList >> freq >> mode >> bw;
 	    if (freq && (mode > -1)) {
 			oplist[i].freq = freq;
 			oplist[i].imode = mode;
+			oplist[i].iBW = bw;
 			i++;
 		}
 	}
@@ -270,24 +273,26 @@ void buildlist() {
 	}
 	
 	for (int n = 0; n < LISTSIZE; n++) {oplist[n].freq = 0;}
-	addtoList (10130000L, USB);
-	addtoList (3580000L, USB);
-	addtoList (14070000L, USB);
-	addtoList (21000000L, USB);
-	addtoList (7255000L, LSB);
-	addtoList (7070000L, USB);
-	addtoList (14000000L, CW);
-	addtoList (28000000L, USB);
-	addtoList (7000000L, CW);
-	addtoList (3500000L, CW);
-	addtoList (10100000L, CW);
-	addtoList (7030000L, USB);
+	addtoList (10130000L, USB, 7);
+	addtoList (3580000L, USB, 7);
+	addtoList (14070000L, USB, 7);
+	addtoList (21000000L, USB, 7);
+	addtoList (7255000L, LSB, 7);
+	addtoList (7070000L, USB, 7);
+	addtoList (14000000L, CW, 2);
+	addtoList (28000000L, USB, 7);
+	addtoList (7000000L, CW, 2);
+	addtoList (3500000L, CW, 2);
+	addtoList (10100000L, CW, 2);
+	addtoList (7030000L, USB, 7);
 	updateSelect();
 }
 
 int movFreq() {
 	int ret;
-	setXcvrXmtFreq (FreqDisp->value(), xcvrState.TxOffset);
+	vfoA.freq = FreqDisp->value();
+	setXcvrXmtFreq (vfoA.freq, xcvrState.TxOffset);
+	send_xml_freq(vfoA.freq);
 	ret = setXcvrRcvFreq (FreqDisp->value(), 0);
 	return ret;
 }
@@ -299,36 +304,39 @@ void cbABsplit()
 		setXcvrSplit();
 		setXcvrXmtFreq (vfoB.freq, xcvrState.TxOffset);
 		setXcvrListenOnReceive();
-		setXcvrRcvFreq (FreqDisp->value(), 0);
+		setXcvrRcvFreq (vfoA.freq, 0);
 	} else {
 //		setXcvrSimplex();
 		setXcvrSplit();
-		setXcvrXmtFreq (FreqDisp->value(),xcvrState.TxOffset);
+		setXcvrXmtFreq (vfoA.freq, xcvrState.TxOffset);
 		setXcvrListenOnReceive();
-		setXcvrRcvFreq (FreqDisp->value(),0);
+		setXcvrRcvFreq (vfoA.freq, 0);
 	}
 }
 
 void cbABactive()
 {
 	if (!vfoB.freq) return;
-	FREQMODE temp;
-	temp.freq = FreqDisp->value();
-	temp.imode = opMODE->value();
-	FreqDisp->value(vfoB.freq);
-	opMODE->value(vfoB.imode);
+	FREQMODE temp = vfoA;
+	vfoA = vfoB;
 	vfoB = temp;
+	FreqDisp->value(vfoA.freq);
+	opMODE->value(vfoA.imode);
+	opBW->value(vfoA.iBW);
 	sprintf(szVfoB,"%8ld", vfoB.freq);
 	txtInactive->value(szVfoB);
 	btnSplit->value(0);
 	cbABsplit();
-	setMode();
+	send_xml_freq(vfoA.freq);
+	send_new_mode(vfoA.imode);
+	send_new_bandwidth(vfoA.iBW);
 }
 
 void cbA2B()
 {
-	vfoB.freq = FreqDisp->value();
-	vfoB.imode = opMODE->value();
+	vfoB.freq = vfoA.freq;
+	vfoB.imode = vfoA.imode;
+	vfoB.iBW = vfoA.iBW;
 	sprintf(szVfoB,"%8ld", vfoB.freq);
 	txtInactive->value(szVfoB);
 	btnSplit->value(0);
@@ -341,11 +349,17 @@ void selectFreq() {
 	int n = FreqSelect->value();
 	if (!n) return;
 	n--;
-	FreqDisp->value(oplist[n].freq);
-	opMODE->value(oplist[n].mode);
-	setXcvrRcvFreq (oplist[n].freq, 0);
-	setXcvrXmtFreq (oplist[n].freq,  0);
-	setMode();
+	vfoA = oplist[n];
+	FreqDisp->value(vfoA.freq);
+	opMODE->value(vfoA.imode);
+	opBW->value(vfoA.iBW);
+	setXcvrRcvFreq (vfoA.freq, 0);
+	setXcvrXmtFreq (vfoA.freq,  0);
+	setXcvrMode(vfoA.imode);
+	setXcvrBW(vfoA.iBW);
+	send_xml_freq(vfoA.freq);
+	send_new_mode(vfoA.imode);
+	send_new_bandwidth(vfoA.iBW);
 }
 
 void delFreq() {
@@ -353,7 +367,7 @@ void delFreq() {
 		int n = FreqSelect->value() - 1;
 		for (int i = n; i < numinlist; i ++)
 			oplist[i] = oplist[i+1];
-		oplist[numinlist - 1].mode = USB;
+		oplist[numinlist - 1].imode = USB;
 		oplist[numinlist - 1].freq = 0;
 		numinlist--;
 		updateSelect();
@@ -361,14 +375,11 @@ void delFreq() {
 }
 
 void addFreq() {
-	long freq = FreqDisp->value();
-	if (!freq) return;
-	MODES mode = (MODES)opMODE->value();
 	for (int n = 0; n < numinlist; n++) 
-		if (freq == oplist[n].freq && mode == oplist[n].mode) return;
-	addtoList(freq, mode);
+		if (vfoA.freq == oplist[n].freq && vfoA.imode == oplist[n].imode) return;
+	addtoList(vfoA.freq, vfoA.imode, vfoA.iBW);
 	updateSelect();
-}	
+}
 
 void cbAttenuator()
 {
@@ -789,7 +800,7 @@ void saveFreqList()
 			return;
 		}
 		for (int i = 0; i < numinlist; i++)
-			oList << oplist[i].freq << " " << oplist[i].mode << endl;
+			oList << oplist[i].freq << " " << oplist[i].imode << endl;
 		oList.close();
 		strcpy(defFileName, p);
 	}
@@ -939,6 +950,25 @@ void cbPWR()
 		setPowerImage(sldrPOWER->value());
 }
 
+void setPTT(void *data)
+{
+	bool on = (bool)(reinterpret_cast<long>(data));
+	btnPTT->value(on);
+	cbPTT();
+}
+
+void set_xml_values( void * d)
+{
+	vfoA = xmlvfo;
+	FreqDisp->value(vfoA.freq);
+	opMODE->value(vfoA.imode);
+	opBW->value(vfoA.iBW);
+	setXcvrRcvFreq (vfoA.freq, 0);
+	setXcvrXmtFreq (vfoA.freq,  0);
+	setXcvrMode (vfoA.imode);
+	setXcvrBW (vfoA.iBW);
+}
+
 long RigSerNbr = 0;
 int  RigFirm[2] = {0,0};
 int  RigHard[2] = {0,0};
@@ -1083,100 +1113,12 @@ void * watchdog_thread_loop(void *d)
 }
 
 //======================================================================
-// shared memory with fldigi / fldigi application
-//======================================================================
-struct ST_SHMEM *fmode = (ST_SHMEM *)0;
-struct ST_SHMEM sharedmem;
-
-void *shared_memory = (void *)0;
-bool exit_shared_memory_loop = false;
-
-int  shmid;
-#define MIDFREQ 1000
-
-int k2a[5] = { 0X12, 0X11, 0x13, 0x10, 0x14 }; // LSB, USB, CW, AM, FM
-
-void numode(void *data)
-{
-	int nmode = (int)(reinterpret_cast<long> (data));
-	opMODE->value(nmode);
-	setMode();
-}
-
-void setptt(void *data)
-{
-	int on = (int)(reinterpret_cast<long> (data));
-	btnPTT->value(on);
-	cbPTT();
-}
-
-void setfreq(void *data)
-{
-	FreqDisp->value(fmode->freq);
-	setXcvrRcvFreq(fmode->freq, 0);
-}
-
-void * shared_memory_thread_loop(void *d)
-{
-	for(;;) {
-		MilliSleep(10);
-		if (exit_shared_memory_loop) break;
-		pthread_mutex_lock(&mutex_shmem);
-
-		if (fmode->flag < 0) {
-			switch (fmode->flag) {
-				case -1 :
-					fmode->freq  = FreqDisp->value();
-					fmode->midfreq = MIDFREQ; // in Hz
-					strcpy(fmode->mode, szmodes[opMODE->value()]);
-					break;
-				case -2 :
-printf("freq %ld, mode %s\n", fmode->freq, fmode->mode);
-					Fl::awake(setfreq);
-					if (strcmp(fmode->mode,"USB")==0)
-						Fl::awake(numode, (void *)USB);
-					else
-						Fl::awake(numode, (void *)LSB);
-					break;
-				case -3 :
-					Fl::awake(setptt, (void *)1);
-					break;
-				case -4 :
-					Fl::awake(setptt, (void *)0);
-				break;
-			}
-			fmode->flag = k2a[opMODE->value()];
-		}
-
-		pthread_mutex_unlock(&mutex_shmem);
-	}
-	return NULL;
-}
-//======================================================================
 
 void startProcessing(void *d)
 {
 	if (startComms(szttyport, baudttyport) == 0) {
 		fl_message("%s not available", szttyport);
 		exit(1);
-	}
-// shared memory
-	shmid = shmget ((key_t)1234, sizeof(ST_SHMEM), 0666 | IPC_CREAT);
-	if (shmid < 0) {
-		fl_message("shmid failed");
-		exit(1);
-	}
-	shared_memory = shmat (shmid, (void *)0, 0);
- 	if (shared_memory == (void *)-1) {
-		fl_message("shmat failed");
-		exit(1);
-	}
-	fmode = (ST_SHMEM *) shared_memory;
-
-	shmem_thread = new pthread_t;
-	if (pthread_create(shmem_thread, NULL, shared_memory_thread_loop, NULL)) {
-		perror("pthread_create shared memory");
-		exit(EXIT_FAILURE);
 	}
 
 	watchdog_thread = new pthread_t;
@@ -1191,21 +1133,19 @@ void startProcessing(void *d)
 		exit(EXIT_FAILURE);
 	}
 
+	open_rig_xmlrpc();
+	xmlrpc_thread = new pthread_t;
+	if (pthread_create(xmlrpc_thread, NULL, xmlrpc_thread_loop, NULL)) {
+		perror("pthread_create telemetry");
+		exit(EXIT_FAILURE);
+	}
+
 	initKachina();
 	setInhibits();
 }
 
 void cbExit()
 {
-// close shared memory
-	pthread_mutex_lock(&mutex_shmem);
-	exit_shared_memory_loop = true;
-	pthread_mutex_unlock(&mutex_shmem);
-	pthread_join(*shmem_thread, NULL);
-
-	shmctl(shmid, IPC_RMID, 0 );
-	fmode = (ST_SHMEM *)0;
-
 // close watchdog
 	pthread_mutex_lock(&mutex_watchdog);
 	exit_watchdog = true;
@@ -1217,6 +1157,14 @@ void cbExit()
 	exit_telemetry = true;
 	pthread_mutex_unlock(&mutex_telemetry);
 	pthread_join(*telemetry_thread, NULL);
+
+// close xmlrpc
+	pthread_mutex_lock(&mutex_xmlrpc);
+	exit_telemetry = true;
+	pthread_mutex_unlock(&mutex_xmlrpc);
+	pthread_join(*telemetry_thread, NULL);
+
+	send_no_rig();
 
 	KachinaSerial.ClosePort();
 	saveConfig();
