@@ -128,6 +128,7 @@ kcat_SOURCES += \
 	support.cpp \
 	telemetry.cpp \
 	cstack.cpp \
+	util.cxx \
 	include/cstack.h \
 	include/dialogs.h \
 	include/Fl_SigBar.h \
@@ -142,6 +143,7 @@ kcat_SOURCES += \
 	include/serialcomm.h \
 	include/support.h \
 	include/test.h \
+	include/util.h \
 	include/version.h \
 	include/winserial.h
 

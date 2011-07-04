@@ -9,6 +9,7 @@ extern char cmdK_AGC[];  // AGC speed, 00H = fast to FFH = slow
 extern char cmdK_AON[];  // Amplifier off.
 extern char cmdK_AOF[];  // Amplifier on.
 
+extern char cmdK_BW[];   // BW filter
 extern char cmdK_BW0[];  // RX BW filter, SSB 3.5kHz.
 extern char cmdK_BW1[];  // RX BW filter, SSB 2.7kHz
 extern char cmdK_BW2[];  // RX BW filter, SSB 2.4kHz.

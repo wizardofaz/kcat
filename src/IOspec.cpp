@@ -21,6 +21,7 @@ char cmdK_AGC[] = {2,'A',0x00}; // AGC speed, 00H = fast to FFH = slow
 char cmdK_AON[] = {2,'a',0x00}; // Amplifier off.
 char cmdK_AOF[] = {2,'a',0x01}; // Amplifier on.
 
+char cmdK_BW[]  = {2,'B',0x00}; // never sent unless byte 2 set
 char cmdK_BW0[] = {2,'B',0x01}; // RX BW filter, SSB 3.5kHz.
 char cmdK_BW1[] = {2,'B',0x02}; // RX BW filter, SSB 2.7kHz
 char cmdK_BW2[] = {2,'B',0x03}; // RX BW filter, SSB 2.4kHz.

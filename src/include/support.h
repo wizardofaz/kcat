@@ -32,6 +32,10 @@
 #define FILEIO 1
 #endif
 
+enum MODES {LSB, USB, CW, AM, FM};
+extern const char *szBW[];
+extern int iBW[];
+
 extern void cbExit();
 
 extern void setMode();
@@ -172,14 +176,6 @@ extern void  cbAntRangeDialogOK();
 extern void  cbmnuAntPorts();
 
 extern void setPowerImage(double);
-
-#ifdef SHARED_MEM
-extern void startSharedMemory();
-#endif
-
-#ifdef FILEIO
-extern void startFileIO();
-#endif
 
 // Kachina parameters & state variables
 struct XCVRSTATE {

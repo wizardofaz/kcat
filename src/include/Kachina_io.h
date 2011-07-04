@@ -3,6 +3,8 @@
 
 #include "cstack.h"
 
+extern bool serial_busy;
+
 extern bool startComms(char *, int);
 
 extern bool sendCommand(char *str);

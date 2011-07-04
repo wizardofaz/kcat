@@ -6,8 +6,12 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <fcntl.h>
+#include <pthread.h>
 
 #include "support.h"
+#include "Kachina.h"
+#include "Kachina_io.h"
+#include "util.h"
 #include "config.h"
 
 using namespace std;
@@ -16,10 +20,17 @@ extern bool test;
 
 extern void resetWatchDog();
 
-enum MODES {AM, CW, FM, USB, LSB};
-const char *szmodes[] = {"AM", "CW", "FM", "USB", "LSB", 0};
+//enum MODES {AM, CW, FM, USB, LSB};
+//const char *szmodes[] = {"AM", "CW", "FM", "USB", "LSB", 0};
 
-const char *szBW[] =  {"3500","2700","2400","2100","1700","1000","500","200","100","DAThi","DATmed", 0};
+const char *szmodes[] = {"LSB", "USB", "CW", "AM", "FM", 0};
+
+//const char *szBW[] =  {"3500","2700","2400","2100","1700","1000","500","200","100","DAThi","DATmed", 0};
+const char *szBW[] =  {
+"100", "200", "500", "1000", "1700", "2100", "2400", "2700", "3500",
+"DATmed", "DAThi",
+NULL};
+int iBW[] = { 0x09, 0x08, 0x07, 0x06, 0x05, 0x04, 0x03, 0x02, 0x01, 0x00, 0x0b, 0x0a };
 
 const char *szNotch[] = {"Wide", "Med", "Nar", 0};
 
@@ -87,12 +98,15 @@ void initOptionMenus()
 	p = szmodes;
 	while (*p) 
 		opMODE->add(*p++);
+	opMODE->value(0);
 	p = szBW;
 	while (*p) 
 		opBW->add(*p++);
+	opBW->value(0);
 	p = szNotch;
 	while (*p)
 		opNOTCH->add(*p++);
+	opNOTCH->value(0);
 }
 
 // enables or disables controls based on mode selected
@@ -165,16 +179,22 @@ void setBW() {
 	setIFshift();
 }
 
+MODES current_mode = AM;
+
 void setMode() 
 {
-	setXcvrMode ((MODES)opMODE->value());
-	switch (opMODE->value()) {
-	case AM: opBW->value(0); setBW(); break;
-	case FM: opBW->value(1); setBW(); break;
-	case CW: opBW->value(6); setBW(); break;
-	default: opBW->value(2); setBW(); break;
-	}
-	setInhibits();
+	MODES new_mode = (MODES)opMODE->value();
+	setXcvrMode (new_mode);
+	if (current_mode != new_mode) {
+		switch (opMODE->value()) {
+			case AM: opBW->value(8); setBW(); break;
+			case FM: opBW->value(8); setBW(); break;
+			case CW: opBW->value(2); setBW(); break;
+			default: opBW->value(7); setBW(); break;
+		}
+		setInhibits();
+		current_mode = new_mode;
+	} else setBW();
 }
 
 void sortList() {
@@ -747,100 +767,6 @@ void cbTemp()
 	txtTEMP->redraw();
 }
 
-int ndata = 0;
-void parseTelemetry(unsigned char data)
-{
-	if (data > 139 && data < 215)
-		FreqDisp->enable(false); // transmitting do not allow changes in vfo
-	else
-		FreqDisp->enable(true);
-	
-	if (data < 128)
-		updateRcvSignal(data);
-	else if (data < 130)
-		updateSquelch(data);
-	else if (data < 140)
-		updateALC(data - 130);
-	else if (data < 190) {
-		sldrRcvSignal->value(-128);
-		updateFwdPwr(data - 140);
-	}
-	else if (data < 215) {
-		sldrRcvSignal->value(-128);
-		updateRefPwr(data - 190);
-	}
-	else if (data == 215)
-		setOverTempAlarm();
-	else if (data > 219 && data < 250)
-		updateTempDisplay(data);
-	Fl::flush();
-}
-
-
-// Radio sends telemetry data at a 50 msec rate
-
-int telpass = 0;
-bool teltimeroff = false,
-	 wdtimeroff = false;
-
-#ifdef DEBUG
-#include "telemetry.cpp"
-int loopcount = 5;
-#endif
-
-void telemetry(void *d)
-{
-#ifdef DEBUG
-	if (--loopcount == 0) {
-		loopcount = 5;
-		parseTelemetry(teldata[telptr]);
-		if (teldata[++telptr] == -1) telptr = 0;
-	}
-	setFocus();
-	Fl::repeat_timeout(0.05, telemetry);
-#else
-	extern bool busy;
-	unsigned char buff;
-	while (commstack.pop(buff)) {
-		parseTelemetry(buff);
-	}
-	setFocus();
-	if (!busy) {
-		if (KachinaSerial.ReadBuffer (&buff, 1) == 1)
-			parseTelemetry(buff);
-		Fl::repeat_timeout(0.01, telemetry);
-	} else
-		Fl::repeat_timeout(0.05, telemetry);
-#endif
-}
-
-void watchDogTimer(void *d)
-{
-#ifndef DEBUG
-	setXcvrNOOP();
-#endif
-	Fl::repeat_timeout(15.0, watchDogTimer);
-}
-
-void closeTimers()
-{
-	Fl::remove_timeout(watchDogTimer);
-	Fl::remove_timeout(telemetry);
-}
-
-void startProcessing(void *d)
-{
-	if (startComms(szttyport, baudttyport) == 0) {
-		fl_message("%s not available", szttyport);
-		exit(1);
-	}
-	startSharedMemory();
-	Fl::add_timeout(1.0, watchDogTimer);
-	Fl::add_timeout(0.05, telemetry);
-	initKachina();
-	setInhibits();
-}
-
 void openFreqList()
 {
     char *p = fl_file_chooser("Open freq list", "*.arv", homedir);
@@ -867,91 +793,6 @@ void saveFreqList()
 		oList.close();
 		strcpy(defFileName, p);
 	}
-}
-
-
-/* following code supports shared memory with gMFSK / fldigi application */
-
-struct ST_SHMEM *fmode = (ST_SHMEM *)0;
-struct ST_SHMEM sharedmem;
-
-void *shared_memory = (void *)0;
-
-int  shmid;
-#define MIDFREQ 1000
-
-int Kachina2Argo(int m)
-{
-	int n = 0x11;
-	switch (m) {
-		case 0: n = 0x10; break;
-		case 1: n = 0x13; break;
-		case 2: n = 0x14; break;
-		case 3: n = 0x11; break;
-		case 4: n = 0x12; break;
-		default: break;
-	}
-	return n;
-}
-
-void sharedMemLoop(void *d)
-{
-	if (fmode == (ST_SHMEM *)0) return;
-
-	if (fmode->flag == -1) { // gmfsk asking for new value
-		fmode->freq  = FreqDisp->value();
-		fmode->midfreq = MIDFREQ; // in Hz
-		fmode->flag = Kachina2Argo(opMODE->value());
-		strcpy(fmode->mode, szmodes[opMODE->value()]);
-	} else if (fmode->flag == -2) { // gmfsk setting frequency value
-		FreqDisp->value(fmode->freq);
-		setXcvrRcvFreq(fmode->freq, 0);
-		fmode->flag = Kachina2Argo(opMODE->value());
-		if (strcmp(fmode->mode,"USB")==0) {
-            opMODE->value(USB);
-            setXcvrMode (USB);
-            setInhibits();        
-        }
-        else {
-            opMODE->value(LSB);
-            setXcvrMode (LSB);
-            setInhibits();        
-        }
-	}
-	else if (fmode->flag == -3) { // ptt on
-		btnPTT->value(1);
-		cbPTT();
-		fmode->flag = Kachina2Argo(opMODE->value());
-	} else if (fmode->flag == -4) { // ptt off
-		btnPTT->value(0);
-		cbPTT();
-		fmode->flag = Kachina2Argo(opMODE->value());
-	}
-	Fl::repeat_timeout (0.01, sharedMemLoop);
-	return;	
-}
-
-void startSharedMemory(void)
-{
-	shmid = shmget ((key_t)1234, sizeof(ST_SHMEM), 0666 | IPC_CREAT);
-	if (shmid < 0) {
-		fl_message("shmid failed");
-		exit(1);
-	}
-	shared_memory = shmat (shmid, (void *)0, 0);
- 	if (shared_memory == (void *)-1) {
-		fl_message("shmat failed");
-		exit(1);
-	}
-	fmode = (ST_SHMEM *) shared_memory;
-	Fl::add_timeout (0.05, sharedMemLoop);
-}
-
-void closeSharedMemory(void)
-{
-  Fl::remove_timeout(sharedMemLoop);
-  shmctl(shmid, IPC_RMID, 0 );
-  fmode = (ST_SHMEM *)0;
 }
 
 void loadConfig()
@@ -1065,19 +906,6 @@ void saveState()
 	outCfg.close();
 }
 
-
-void cbExit()
-{
-	closeSharedMemory();
-	closeTimers();
-	KachinaSerial.ClosePort();
-	saveConfig();
-	saveState();
-	if (test)
-		CloseTestLog();
-	exit(0);
-}
-
 void cbSmeter()
 {
 	Fl_Image *img = btnSmeter->image();
@@ -1181,3 +1009,220 @@ void cbClearAntData()
 	sendCommand(cmdK_ANTA0);
 	sendCommand(cmdK_ANTB0);
 }
+
+//======================================================================
+// Radio sends telemetry data at a 50 msec rate
+//======================================================================
+
+bool exit_telemetry = false;
+
+void parseTelemetry(void *val)
+{
+	int data = (int)(reinterpret_cast<long> (val));
+	if (data > 139 && data < 215)
+		FreqDisp->enable(false); // transmitting do not allow changes in vfo
+	else
+		FreqDisp->enable(true);
+	
+	if (data < 128)
+		updateRcvSignal(data);
+	else if (data < 130)
+		updateSquelch(data);
+	else if (data < 140)
+		updateALC(data - 130);
+	else if (data < 190) {
+		sldrRcvSignal->value(-128);
+		updateFwdPwr(data - 140);
+	}
+	else if (data < 215) {
+		sldrRcvSignal->value(-128);
+		updateRefPwr(data - 190);
+	}
+	else if (data == 215)
+		setOverTempAlarm();
+	else if (data > 219 && data < 250)
+		updateTempDisplay(data);
+	Fl::flush();
+	setFocus();
+}
+
+void * telemetry_thread_loop(void *d)
+{
+	unsigned char buff;
+	for (;;) {
+		MilliSleep(50);
+		if (exit_telemetry) break;
+		while (commstack.pop(buff))
+			Fl::awake(parseTelemetry, (void *) buff);
+		if (!serial_busy)
+			if (KachinaSerial.ReadBuffer (&buff, 1) == 1)
+				commstack.push(buff);
+	}
+	return NULL;
+}
+
+//======================================================================
+// watchdog timer sends a NOOP to xcvr every 15 seconds
+//======================================================================
+bool exit_watchdog = false;
+
+void * watchdog_thread_loop(void *d)
+{
+	static int count = 1500;
+	for (;;) {
+		if (exit_watchdog) break;
+		MilliSleep(10);
+		if (--count == 0) {
+			pthread_mutex_lock(&mutex_watchdog);
+			setXcvrNOOP();
+			pthread_mutex_unlock(&mutex_watchdog);
+			count = 1500;
+		}
+	}
+	return NULL;
+}
+
+//======================================================================
+// shared memory with fldigi / fldigi application
+//======================================================================
+struct ST_SHMEM *fmode = (ST_SHMEM *)0;
+struct ST_SHMEM sharedmem;
+
+void *shared_memory = (void *)0;
+bool exit_shared_memory_loop = false;
+
+int  shmid;
+#define MIDFREQ 1000
+
+int k2a[5] = { 0X12, 0X11, 0x13, 0x10, 0x14 }; // LSB, USB, CW, AM, FM
+
+void numode(void *data)
+{
+	int nmode = (int)(reinterpret_cast<long> (data));
+	opMODE->value(nmode);
+	setMode();
+}
+
+void setptt(void *data)
+{
+	int on = (int)(reinterpret_cast<long> (data));
+	btnPTT->value(on);
+	cbPTT();
+}
+
+void setfreq(void *data)
+{
+	FreqDisp->value(fmode->freq);
+	setXcvrRcvFreq(fmode->freq, 0);
+}
+
+void * shared_memory_thread_loop(void *d)
+{
+	for(;;) {
+		MilliSleep(10);
+		if (exit_shared_memory_loop) break;
+		pthread_mutex_lock(&mutex_shmem);
+
+		if (fmode->flag < 0) {
+			switch (fmode->flag) {
+				case -1 :
+					fmode->freq  = FreqDisp->value();
+					fmode->midfreq = MIDFREQ; // in Hz
+					strcpy(fmode->mode, szmodes[opMODE->value()]);
+					break;
+				case -2 :
+printf("freq %ld, mode %s\n", fmode->freq, fmode->mode);
+					Fl::awake(setfreq);
+					if (strcmp(fmode->mode,"USB")==0)
+						Fl::awake(numode, (void *)USB);
+					else
+						Fl::awake(numode, (void *)LSB);
+					break;
+				case -3 :
+					Fl::awake(setptt, (void *)1);
+					break;
+				case -4 :
+					Fl::awake(setptt, (void *)0);
+				break;
+			}
+			fmode->flag = k2a[opMODE->value()];
+		}
+
+		pthread_mutex_unlock(&mutex_shmem);
+	}
+	return NULL;
+}
+//======================================================================
+
+void startProcessing(void *d)
+{
+	if (startComms(szttyport, baudttyport) == 0) {
+		fl_message("%s not available", szttyport);
+		exit(1);
+	}
+// shared memory
+	shmid = shmget ((key_t)1234, sizeof(ST_SHMEM), 0666 | IPC_CREAT);
+	if (shmid < 0) {
+		fl_message("shmid failed");
+		exit(1);
+	}
+	shared_memory = shmat (shmid, (void *)0, 0);
+ 	if (shared_memory == (void *)-1) {
+		fl_message("shmat failed");
+		exit(1);
+	}
+	fmode = (ST_SHMEM *) shared_memory;
+
+	shmem_thread = new pthread_t;
+	if (pthread_create(shmem_thread, NULL, shared_memory_thread_loop, NULL)) {
+		perror("pthread_create shared memory");
+		exit(EXIT_FAILURE);
+	}
+
+	watchdog_thread = new pthread_t;
+	if (pthread_create(watchdog_thread, NULL, watchdog_thread_loop, NULL)) {
+		perror("pthread_create watchdog");
+		exit(EXIT_FAILURE);
+	}
+
+	telemetry_thread = new pthread_t;
+	if (pthread_create(telemetry_thread, NULL, telemetry_thread_loop, NULL)) {
+		perror("pthread_create telemetry");
+		exit(EXIT_FAILURE);
+	}
+
+	initKachina();
+	setInhibits();
+}
+
+void cbExit()
+{
+// close shared memory
+	pthread_mutex_lock(&mutex_shmem);
+	exit_shared_memory_loop = true;
+	pthread_mutex_unlock(&mutex_shmem);
+	pthread_join(*shmem_thread, NULL);
+
+	shmctl(shmid, IPC_RMID, 0 );
+	fmode = (ST_SHMEM *)0;
+
+// close watchdog
+	pthread_mutex_lock(&mutex_watchdog);
+	exit_watchdog = true;
+	pthread_mutex_unlock(&mutex_watchdog);
+	pthread_join(*watchdog_thread, NULL);
+
+// close telemetry
+	pthread_mutex_lock(&mutex_telemetry);
+	exit_telemetry = true;
+	pthread_mutex_unlock(&mutex_telemetry);
+	pthread_join(*telemetry_thread, NULL);
+
+	KachinaSerial.ClosePort();
+	saveConfig();
+	saveState();
+	if (test)
+		CloseTestLog();
+	exit(0);
+}
+

@@ -63,12 +63,13 @@ am__kcat_SOURCES_DIST = kachina.rc include/kachinarc.h mingw.c \
 	include/compat.h include/compat-mingw.h dialogs.cpp \
 	Kachina.cpp Fl_SigBar.cpp FreqControl.cpp images.cpp \
 	IOspec.cpp Kachina_io.cpp KachinaPanel.cxx serialcomm.cpp \
-	support.cpp telemetry.cpp cstack.cpp include/cstack.h \
+	support.cpp telemetry.cpp cstack.cpp util.cxx include/cstack.h \
 	include/dialogs.h include/Fl_SigBar.h include/FreqControl.h \
 	include/images.h include/IOspec.h include/Kachina.h \
 	include/Kachina_io.h include/KachinaPanel.h \
 	include/linserial.h include/serialcomm.h include/support.h \
-	include/test.h include/version.h include/winserial.h
+	include/test.h include/util.h include/version.h \
+	include/winserial.h
 am__objects_1 = kachina.$(OBJEXT) kcat-mingw.$(OBJEXT)
 ##am__objects_2 = $(am__objects_1)
 am_kcat_OBJECTS = $(am__objects_2) kcat-dialogs.$(OBJEXT) \
@@ -77,7 +78,7 @@ am_kcat_OBJECTS = $(am__objects_2) kcat-dialogs.$(OBJEXT) \
 	kcat-IOspec.$(OBJEXT) kcat-Kachina_io.$(OBJEXT) \
 	kcat-KachinaPanel.$(OBJEXT) kcat-serialcomm.$(OBJEXT) \
 	kcat-support.$(OBJEXT) kcat-telemetry.$(OBJEXT) \
-	kcat-cstack.$(OBJEXT)
+	kcat-cstack.$(OBJEXT) kcat-util.$(OBJEXT)
 am__objects_3 =
 nodist_kcat_OBJECTS = $(am__objects_3)
 kcat_OBJECTS = $(am_kcat_OBJECTS) $(nodist_kcat_OBJECTS)
@@ -257,12 +258,12 @@ EXTRA_kcat_SOURCES = $(kcat_WIN32_RES_SRC) $(MINGW32_SRC)
 kcat_SOURCES = $(am__append_1) dialogs.cpp Kachina.cpp Fl_SigBar.cpp \
 	FreqControl.cpp images.cpp IOspec.cpp Kachina_io.cpp \
 	KachinaPanel.cxx serialcomm.cpp support.cpp telemetry.cpp \
-	cstack.cpp include/cstack.h include/dialogs.h \
+	cstack.cpp util.cxx include/cstack.h include/dialogs.h \
 	include/Fl_SigBar.h include/FreqControl.h include/images.h \
 	include/IOspec.h include/Kachina.h include/Kachina_io.h \
 	include/KachinaPanel.h include/kachinarc.h include/linserial.h \
 	include/serialcomm.h include/support.h include/test.h \
-	include/version.h include/winserial.h
+	include/util.h include/version.h include/winserial.h
 
 # Sources that are generated,
 BUILT_SOURCES = 
@@ -421,6 +422,7 @@ include ./$(DEPDIR)/kcat-mingw.Po
 include ./$(DEPDIR)/kcat-serialcomm.Po
 include ./$(DEPDIR)/kcat-support.Po
 include ./$(DEPDIR)/kcat-telemetry.Po
+include ./$(DEPDIR)/kcat-util.Po
 
 .c.o:
 	$(COMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ $<
@@ -631,6 +633,20 @@ kcat-cstack.obj: cstack.cpp
 #	source='cstack.cpp' object='kcat-cstack.obj' libtool=no \
 #	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) \
 #	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -c -o kcat-cstack.obj `if test -f 'cstack.cpp'; then $(CYGPATH_W) 'cstack.cpp'; else $(CYGPATH_W) '$(srcdir)/cstack.cpp'; fi`
+
+kcat-util.o: util.cxx
+	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -MT kcat-util.o -MD -MP -MF $(DEPDIR)/kcat-util.Tpo -c -o kcat-util.o `test -f 'util.cxx' || echo '$(srcdir)/'`util.cxx
+	$(am__mv) $(DEPDIR)/kcat-util.Tpo $(DEPDIR)/kcat-util.Po
+#	source='util.cxx' object='kcat-util.o' libtool=no \
+#	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) \
+#	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -c -o kcat-util.o `test -f 'util.cxx' || echo '$(srcdir)/'`util.cxx
+
+kcat-util.obj: util.cxx
+	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -MT kcat-util.obj -MD -MP -MF $(DEPDIR)/kcat-util.Tpo -c -o kcat-util.obj `if test -f 'util.cxx'; then $(CYGPATH_W) 'util.cxx'; else $(CYGPATH_W) '$(srcdir)/util.cxx'; fi`
+	$(am__mv) $(DEPDIR)/kcat-util.Tpo $(DEPDIR)/kcat-util.Po
+#	source='util.cxx' object='kcat-util.obj' libtool=no \
+#	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) \
+#	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -c -o kcat-util.obj `if test -f 'util.cxx'; then $(CYGPATH_W) 'util.cxx'; else $(CYGPATH_W) '$(srcdir)/util.cxx'; fi`
 
 .cxx.o:
 	$(CXXCOMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ $<

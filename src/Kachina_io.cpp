@@ -11,7 +11,7 @@ extern bool test;
 
 extern CSerialComm KachinaSerial;
 // maximum number of retries on sending the command
-// Rig may be busy internally and not accept the command
+// Rig may be serial_busy internally and not accept the command
 
 #define ANTA 0x40  // 01000000
 #define ANTB 0x80  // 10000000
@@ -86,7 +86,7 @@ bool startComms(char *szPort, int baudrate)
 #endif
 }
 
-bool busy = false;
+bool serial_busy = false;
 
 bool sendCommand (char *str)
 {
@@ -99,7 +99,7 @@ bool sendCommand (char *str)
 	unsigned char retbuff[3];
 	char szVal[20];
 	
-	busy = true;
+	serial_busy = true;
 
 // create command string	
 	sendbuff[0] = STX;
@@ -130,7 +130,7 @@ bool sendCommand (char *str)
 					sprintf(szVal, "\n");
 					writeTestLog(szVal);
 				}
-				busy = false;
+				serial_busy = false;
 				delete [] sendbuff;
 				return true;
 			}
@@ -148,7 +148,7 @@ bool sendCommand (char *str)
 			commstack.push(retbuff[0]); // telemetry data
 		} while (++loopcnt < LOOPS);		
 	}
-	busy = false;
+	serial_busy = false;
 	if (test && sendbuff[1] != 'd') {
 		sprintf(szVal," F\n"); 
 		writeTestLog(szVal);
@@ -169,7 +169,7 @@ bool RequestData (char *cmd, unsigned char *buff, int nbr)
 	unsigned char retbuff[3];
 	char szVal[20];
 
-	busy = true;
+	serial_busy = true;
 
 // create command string	
 	sendbuff[0] = STX;
@@ -205,7 +205,7 @@ bool RequestData (char *cmd, unsigned char *buff, int nbr)
 				}
 				sprintf(szVal, " OK\n");
 				writeTestLog(szVal);
-				busy = false;
+				serial_busy = false;
 				delete [] sendbuff;
 				return true;
 			}
@@ -219,7 +219,7 @@ bool RequestData (char *cmd, unsigned char *buff, int nbr)
 			commstack.push(retbuff[0]); // telemetry data
 		} while (++loopcnt < LOOPS);		
 	}
-	busy = false;
+	serial_busy = false;
 	if (test) {
 		sprintf(szVal," Failed\n");
 		writeTestLog(szVal);
@@ -328,7 +328,25 @@ bool setXcvrListenOnReceive()
 bool setXcvrMode(int mode) 
 {
 	xcvrState.MODE = mode;
-	cmdK_MODE[2] = mode + 1;
+	switch (mode) {
+		case LSB :
+			cmdK_MODE[2] = 0x05;
+			break;
+		case USB :
+			cmdK_MODE[2] = 0x04;
+			break;
+		case CW :
+			cmdK_MODE[2] = 0x02;
+			break;
+		case AM :
+			cmdK_MODE[2] = 0x01;
+			break;
+		case FM :
+			cmdK_MODE[2] = 0x03;
+			break;
+		default :
+			cmdK_MODE[2] = 0x04;
+	}
 	return (sendCommand(cmdK_MODE));
 }
 
@@ -353,19 +371,8 @@ bool setXcvrIFshift(double val)
 bool setXcvrBW(int sel) 
 {
 	xcvrState.BW = sel;
-	switch (sel) {
-		case 0: return(sendCommand(cmdK_BW0));
-		case 1: return(sendCommand(cmdK_BW1));
-		case 2: return(sendCommand(cmdK_BW2));
-		case 3: return(sendCommand(cmdK_BW3));
-		case 4: return(sendCommand(cmdK_BW4));
-		case 5: return(sendCommand(cmdK_BW5));
-		case 6: return(sendCommand(cmdK_BW6));
-		case 7: return(sendCommand(cmdK_BW7));
-		case 8: return(sendCommand(cmdK_BW8));
-		case 9: return(sendCommand(cmdK_BDH));
-		case 10: return(sendCommand(cmdK_BDM));
-	}
+	cmdK_BW[2] = iBW[sel];
+	sendCommand(cmdK_BW);
 	return 0;
 }
 

@@ -9,6 +9,7 @@
 #include <FL/Fl_Double_Window.H>
 #include <FL/Enumerations.H>
 #include <sys/types.h>
+#include <pthread.h>
 
 #ifndef WIN32
 #include <unistd.h>
@@ -24,6 +25,16 @@
 #include "KachinaPanel.h"
 #include "Kachina_io.h"
 #include "serialcomm.h"
+
+extern pthread_t *shmem_thread;
+extern pthread_t *watchdog_thread;
+extern pthread_t *serial_thread;
+extern pthread_t *telemetry_thread;
+
+extern pthread_mutex_t mutex_shmem;
+extern pthread_mutex_t mutex_watchdog;
+extern pthread_mutex_t mutex_serial;
+extern pthread_mutex_t mutex_telemetry;
 
 extern Fl_Double_Window *window;
 extern char homedir[120];

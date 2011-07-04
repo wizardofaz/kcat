@@ -1,4 +1,6 @@
 #include <sys/stat.h>
+#include <fcntl.h>
+#include <pthread.h>
 
 #ifdef WIN32
 	#include "kachinarc.h"
@@ -18,6 +20,16 @@
 #include "support.h"
 #include "Kachina.h"
 
+pthread_t *shmem_thread = 0;
+pthread_t *watchdog_thread = 0;
+pthread_t *serial_thread = 0;
+pthread_t *telemetry_thread = 0;
+
+pthread_mutex_t mutex_shmem = PTHREAD_MUTEX_INITIALIZER;
+pthread_mutex_t mutex_watchdog = PTHREAD_MUTEX_INITIALIZER;
+pthread_mutex_t mutex_serial = PTHREAD_MUTEX_INITIALIZER;
+pthread_mutex_t mutex_telemetry = PTHREAD_MUTEX_INITIALIZER;
+
 Fl_Double_Window *window;
 char homedir[120] = "";
 char defFileName[200];
@@ -28,6 +40,19 @@ bool test = false;
 #ifndef WIN32
 Pixmap	kachina_icon_pixmap;
 #define KNAME "kcat"
+
+#if defined(__WIN32__) && defined(PTW32_STATIC_LIB)
+static void ptw32_cleanup(void)
+{
+	(void)pthread_win32_process_detach_np();
+}
+
+void ptw32_init(void)
+{
+	(void)pthread_win32_process_attach_np();
+	atexit(ptw32_cleanup);
+}
+#endif // __WIN32__
 
 void make_pixmap(Pixmap *xpm, const char **data)
 {
@@ -65,7 +90,13 @@ int main (int argc, char *argv[])
 		if (strcmp(argv[1], "TEST") == 0)
 			test = true;
 	}
-	
+
+	Fl::lock();
+
+#if defined(__WIN32__) && defined(PTW32_STATIC_LIB)
+	ptw32_init();
+#endif
+
 	buildlist();
 	initOptionMenus();
 
@@ -80,6 +111,6 @@ int main (int argc, char *argv[])
 #endif
 
 	Fl::add_timeout(0.05, startProcessing);
-	
+
     return Fl::run();
 }
