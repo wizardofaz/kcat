@@ -1,18 +1,28 @@
+#include <stdlib.h>
+#include <iostream>
+#include <fstream>
+#include <cstring>
+#include <ctime>
+#include <sys/types.h>
 #include <sys/stat.h>
+#include <stdio.h>
 #include <fcntl.h>
+#include <errno.h>
 #include <pthread.h>
 
 #ifdef WIN32
-	#include "kachinarc.h"
+#	include "kachinarc.h"
+#	include "compat.h"
+#	define dirent fl_dirent_no_thanks
 #else
-	#include <stdio.h>
-	#include <stdlib.h>
-	#include <unistd.h>
-	#include <fcntl.h>
-	#include <sys/types.h>
-	#include <FL/Fl_Pixmap.H>
-	#include <FL/Fl_Image.H>
-	#include "kcat.xpm"
+#	include <stdio.h>
+#	include <stdlib.h>
+#	include <unistd.h>
+#	include <fcntl.h>
+#	include <sys/types.h>
+#	include <FL/Fl_Pixmap.H>
+#	include <FL/Fl_Image.H>
+#	include "kcat.xpm"
 #endif
 
 #include <FL/x.H>
@@ -20,6 +30,11 @@
 #include "config.h"
 #include "support.h"
 #include "Kachina.h"
+#include "debug.h"
+#include "gettext.h"
+#include "font_browser.h"
+
+int parse_args(int argc, char **argv, int& idx);
 
 pthread_t *watchdog_thread = 0;
 pthread_t *serial_thread = 0;
@@ -32,7 +47,16 @@ pthread_mutex_t mutex_telemetry = PTHREAD_MUTEX_INITIALIZER;
 pthread_mutex_t mutex_xmlrpc = PTHREAD_MUTEX_INITIALIZER;
 
 Fl_Double_Window *window;
-char homedir[120] = "";
+
+extern Fl_Double_Window *dlgFreqCalib;
+extern Fl_Double_Window *dlgAntPorts;
+extern Fl_Double_Window *dlgDisplayConfig;
+extern Fl_Double_Window *dlgCommsConfig;
+extern Fl_Double_Window *dlgViewLog;
+extern Fl_Double_Window *dlgNRAM;
+extern Font_Browser     *fntbrowser;
+
+string homedir = "";
 char defFileName[200];
 
 // set to true for test file output by executing at Kachina TEST
@@ -72,24 +96,87 @@ void make_pixmap(Pixmap *xpm, const char **data)
 
 #endif
 
+static void checkdirectories(void)
+{
+	struct {
+		string& dir;
+		const char* suffix;
+		void (*new_dir_func)(void);
+	} dirs[] = {
+		{ homedir, 0, 0 }
+	};
+
+	int r;
+	for (size_t i = 0; i < sizeof(dirs)/sizeof(*dirs); i++) {
+		if (dirs[i].suffix)
+			dirs[i].dir.assign(homedir).append(dirs[i].suffix).append("/");
+
+		if ((r = mkdir(dirs[i].dir.c_str(), 0777)) == -1 && errno != EEXIST) {
+			cerr << _("Could not make directory") << ' ' << dirs[i].dir
+				 << ": " << strerror(errno) << '\n';
+			exit(EXIT_FAILURE);
+		}
+		else if (r == 0 && dirs[i].new_dir_func)
+			dirs[i].new_dir_func();
+	}
+}
+
+void exit_main(Fl_Widget *w)
+{
+	if (Fl::event_key() == FL_Escape)
+		return;
+	cbExit();
+}
+
+void * kcat_terminate(void) {
+	std::cerr << "terminating" << std::endl;
+	fl_message("Closing flrig");
+	cbExit();
+	return 0;
+}
+
 int main (int argc, char *argv[])
 {
+	int arg_idx;
+
+	std::terminate_handler(kcat_terminate);
+
+	Fl::args(argc, argv, arg_idx, parse_args);
+
 	window = Kachina_window();
 	window->label(PACKAGE_NAME);
+	window->callback(exit_main);
+
+	fntbrowser = new Font_Browser;
+	dlgFreqCalib = FreqCalibDialog();
+	dlgAntPorts = FreqRangesDialog();
+	dlgDisplayConfig = DisplayDialog();
+	dlgCommsConfig = CommsDialog();
+
+	char dirbuf[FL_PATH_MAX + 1];
+#ifdef __WIN32__
+	fl_filename_expand(dirbuf, sizeof(dirbuf) - 1, "$USERPROFILE/kcat.files/");
+#else
+	fl_filename_expand(dirbuf, sizeof(dirbuf) - 1, "$HOME/.kcat/");
+#endif
+	if (homedir.empty()) homedir = dirbuf;
+	checkdirectories();
+
 #ifndef WIN32	
-	fl_filename_expand(homedir, 119, "$HOME/.kachina/");
-	int fd = open(homedir, O_RDONLY);
-	if (fd == -1)
-		mkdir( homedir, S_IRUSR | S_IWUSR | S_IXUSR);
-	else
-		close(fd);
 	make_pixmap( &kachina_icon_pixmap, kcat_xpm);
 	window->icon((char*)kachina_icon_pixmap);
 	window->xclass(PACKAGE_NAME);
 #endif
-	if (argc == 2) {
-		if (strcmp(argv[1], "TEST") == 0)
-			test = true;
+
+	try {
+		debug::start(string(homedir).append("debug_log.txt").c_str());
+		time_t t = time(NULL);
+		LOG(debug::WARN_LEVEL, debug::LOG_OTHER, _("%s log started on %s"), PACKAGE_STRING, ctime(&t));
+	}
+	catch (const char* error) {
+		cerr << error << '\n';
+		debug::stop();
+		exit(1);
 	}
 
 	Fl::lock();
@@ -101,7 +188,6 @@ int main (int argc, char *argv[])
 	buildlist();
 	initOptionMenus();
 
-	loadConfig();
 	loadState();
 
 #ifdef WIN32
@@ -114,4 +200,19 @@ int main (int argc, char *argv[])
 	Fl::add_timeout(0.05, startProcessing);
 
     return Fl::run();
+}
+
+int parse_args(int argc, char **argv, int& idx)
+{
+	if (strcasecmp("--help", argv[idx]) == 0) {
+		printf("Usage: \n\
+  --help this help text\n\
+  --version\n");
+		exit(0);
+	} 
+	if (strcasecmp("--version", argv[idx]) == 0) {
+		printf("Version: "VERSION"\n");
+		exit (0);
+	}
+	return 0;
 }

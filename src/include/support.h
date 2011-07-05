@@ -16,6 +16,7 @@
 
 #include "cstack.h"
 #include "Kachina_io.h"
+#include "status.h"
 
 #include "images.h"
 
@@ -35,6 +36,10 @@ struct FREQMODE {
 enum {UI, XML};
 enum MODES {LSB, USB, CW, AM, FM};
 
+extern bool rx_on_a;
+extern bool tx_on_a;
+extern int  iAntSel;
+
 extern const char *szmodes[];
 extern const char modetype[];
 extern const char *szBW[];
@@ -52,9 +57,7 @@ extern void delFreq();
 extern void clearList();
 extern int  movFreq();
 extern int  movFreqB();
-extern void adjustFreqs();
-extern void cbABsplit();
-extern void cbABactive();
+extern void cbVFOsel();
 extern void cbA2B();
 extern void setFocus();
 extern void show_controls();
@@ -80,8 +83,7 @@ extern void setMicGain();
 extern void setPower();
 extern void setPTT(void *);
 extern void cbWPM();
-extern void cbRxAnt();
-extern void cbTxAnt();
+extern void cbAntSel();
 extern void cbTune();
 extern void cbPTT();
 extern void cbCarrier();
@@ -129,15 +131,6 @@ extern void closeXmtDialog();
 extern void cbOkCommsDialog();
 extern void initCommPortTable ();
 extern void setCommsPort();
-extern void setDisplayColors();
-
-extern void cbPrefBackground();
-extern void cbPrefForeground();
-extern void cbSelectColor();
-extern void cbSmeterColor();
-extern void cbPWRcolor();
-extern void cbSWRcolor();
-extern void cbOkDisplayDialog();
 
 // CW Dialog
 extern void cbCWattack();
@@ -146,7 +139,7 @@ extern void cbCWmode();
 extern void cbCWoffset();
 extern void cbCWdefFilter();
 extern void cbQSKonoff();
-extern void cbCWspot();
+extern void cbSPOT();
 
 // Log Viewer
 extern void openLogViewer();
@@ -186,64 +179,6 @@ extern void  cbmnuAntPorts();
 
 extern void setPowerImage(double);
 
-// Kachina parameters & state variables
-struct XCVRSTATE {
-	int VFO; // SIMPLEX
-	int NOTCHWIDTH;
-	int ATTEN;
-	int ANTIVOX;
-	int VOXDELAY; //5
-	
-	int QSK;
-	int CWATTACK;
-	int CWWEIGHT;
-	int CWMODE; // left handed 10
-	
-	int SQUELCH; // level sensitive
-	int AMP; // off
-	int SPEECHPROC; // off
-	int SPEECHCOMP; // min
-	int ANTTUNE; // on 15
-
-	int CWOFFSET; // 700 Hz
-	int CWFILTER; // narrow
-	int EQUALIZER; // flat
-	int PREAMP; // off
-	int SQLEVEL; //20
-	
-	int SPCHMONITOR; // off
-	int NR; // off
-	int AGCSPEED; // fast
-	int AGCACTION; //
-	int RIT; //25
-
-	int MODE; // USB
-	int BW; // 2.7 kHz
-	int VOXLEVEL;
-
-	long   FREQ;
-	
-	double VOL;
-	double NOTCHFREQ;
-	double MAXPWR;
-	double MICGAIN;
-	double CWMON;
-	double CWSPEED;
-
-	double NR_LEVEL; // min
-	double RITFREQ;
-	double IFSHIFT;
-	double NOTCHDEPTH;
-	char   vers[10];
-	int	   mainX;
-	int    mainY;
-	int	   TxOffset;
-
-	double VFOADJ;
-};
-
-extern struct XCVRSTATE xcvrState;
-
 extern Fl_Double_Window *dlgFreqCalib;
 extern Fl_Double_Window *dlgRcvConfig;
 extern Fl_Double_Window *dlgXmtConfig;
@@ -265,5 +200,36 @@ extern bool computeavg;
 
 extern int checkCalibrate(long int);
 extern void Calibrate();
+
+void cbEventLog();
+
+extern void setDisplayColors();
+
+extern void cbOkDisplayDialog();
+extern void cbCancelDisplayDialog();
+extern void cbPrefFont();
+extern void cbPrefBackground();
+extern void cbPrefForeground();
+
+extern void cbSMeterColor();
+extern void cbPwrMeterColor();
+extern void cbSWRMeterColor();
+extern void cbPeakMeterColor();
+extern void cbBacklightColor();
+
+extern void cb_sys_defaults();
+extern void cb_sys_foreground();
+extern void cb_sys_background();
+extern void cb_sys_background2();
+
+extern void cb_reset_display_dialog();
+extern void cb_slider_background();
+extern void cb_slider_select();
+extern void cb_slider_defaults();
+
+extern void cb_lighted_button();
+extern void cb_lighted_default();
+
+extern Fl_Color flrig_def_color(int);
 
 #endif

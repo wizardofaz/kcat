@@ -61,18 +61,20 @@ am__installdirs = "$(DESTDIR)$(bindir)"
 PROGRAMS = $(bin_PROGRAMS)
 am__kcat_SOURCES_DIST = kachina.rc include/kachinarc.h mingw.c \
 	include/compat.h include/compat-mingw.h dialogs.cpp \
-	Kachina.cpp Fl_SigBar.cpp FreqControl.cpp images.cpp \
-	IOspec.cpp Kachina_io.cpp KachinaPanel.cxx serialcomm.cpp \
-	support.cpp telemetry.cpp cstack.cpp debug.cxx icons.cxx \
-	pixmaps.cxx util.cxx include/cstack.h include/debug.h \
+	Kachina.cpp Fl_SigBar.cpp flslider2.cxx font_browser.cxx \
+	FreqControl.cpp images.cpp IOspec.cpp Kachina_io.cpp \
+	KachinaPanel.cxx serialcomm.cpp support.cpp telemetry.cpp \
+	cstack.cpp debug.cxx icons.cxx pixmaps.cxx status.cxx util.cxx \
+	ValueSlider.cxx include/cstack.h include/debug.h \
 	include/dialogs.h include/gettext.h include/icons.h \
-	include/pixmaps.h include/Fl_SigBar.h include/FreqControl.h \
-	include/images.h include/IOspec.h include/Kachina.h \
-	include/Kachina_io.h include/KachinaPanel.h \
-	include/linserial.h include/serialcomm.h include/support.h \
-	include/test.h include/util.h include/version.h \
-	include/winserial.h xml_io.cxx include/xml_io.h \
-	xmlrpcpp/XmlRpc.h xmlrpcpp/XmlRpcClient.cpp \
+	include/pixmaps.h include/Fl_SigBar.h include/flslider2.h \
+	include/font_browser.h include/FreqControl.h include/images.h \
+	include/IOspec.h include/Kachina.h include/Kachina_io.h \
+	include/KachinaPanel.h include/linserial.h \
+	include/serialcomm.h include/support.h include/status.h \
+	include/test.h include/util.h include/ValueSlider.h \
+	include/version.h include/winserial.h xml_io.cxx \
+	include/xml_io.h xmlrpcpp/XmlRpc.h xmlrpcpp/XmlRpcClient.cpp \
 	xmlrpcpp/XmlRpcClient.h xmlrpcpp/XmlRpcDispatch.cpp \
 	xmlrpcpp/XmlRpcDispatch.h xmlrpcpp/XmlRpcException.h \
 	xmlrpcpp/XmlRpcMutex.cpp xmlrpcpp/XmlRpcMutex.h \
@@ -91,13 +93,15 @@ am__objects_1 = kachina.$(OBJEXT) kcat-mingw.$(OBJEXT)
 @HAVE_WINDRES_TRUE@@MINGW32_TRUE@am__objects_2 = $(am__objects_1)
 am_kcat_OBJECTS = $(am__objects_2) kcat-dialogs.$(OBJEXT) \
 	kcat-Kachina.$(OBJEXT) kcat-Fl_SigBar.$(OBJEXT) \
+	kcat-flslider2.$(OBJEXT) kcat-font_browser.$(OBJEXT) \
 	kcat-FreqControl.$(OBJEXT) kcat-images.$(OBJEXT) \
 	kcat-IOspec.$(OBJEXT) kcat-Kachina_io.$(OBJEXT) \
 	kcat-KachinaPanel.$(OBJEXT) kcat-serialcomm.$(OBJEXT) \
 	kcat-support.$(OBJEXT) kcat-telemetry.$(OBJEXT) \
 	kcat-cstack.$(OBJEXT) kcat-debug.$(OBJEXT) \
 	kcat-icons.$(OBJEXT) kcat-pixmaps.$(OBJEXT) \
-	kcat-util.$(OBJEXT) kcat-xml_io.$(OBJEXT) \
+	kcat-status.$(OBJEXT) kcat-util.$(OBJEXT) \
+	kcat-ValueSlider.$(OBJEXT) kcat-xml_io.$(OBJEXT) \
 	kcat-XmlRpcClient.$(OBJEXT) kcat-XmlRpcDispatch.$(OBJEXT) \
 	kcat-XmlRpcMutex.$(OBJEXT) kcat-XmlRpcServer.$(OBJEXT) \
 	kcat-XmlRpcServerConnection.$(OBJEXT) \
@@ -282,22 +286,25 @@ EXTRA_kcat_SOURCES = $(kcat_WIN32_RES_SRC) $(MINGW32_SRC)
 
 # Sources that we build. It is OK to have headers here.
 kcat_SOURCES = $(am__append_1) dialogs.cpp Kachina.cpp Fl_SigBar.cpp \
-	FreqControl.cpp images.cpp IOspec.cpp Kachina_io.cpp \
-	KachinaPanel.cxx serialcomm.cpp support.cpp telemetry.cpp \
-	cstack.cpp debug.cxx icons.cxx pixmaps.cxx util.cxx \
+	flslider2.cxx font_browser.cxx FreqControl.cpp images.cpp \
+	IOspec.cpp Kachina_io.cpp KachinaPanel.cxx serialcomm.cpp \
+	support.cpp telemetry.cpp cstack.cpp debug.cxx icons.cxx \
+	pixmaps.cxx status.cxx util.cxx ValueSlider.cxx \
 	include/cstack.h include/debug.h include/dialogs.h \
 	include/gettext.h include/icons.h include/pixmaps.h \
-	include/Fl_SigBar.h include/FreqControl.h include/images.h \
-	include/IOspec.h include/Kachina.h include/Kachina_io.h \
-	include/KachinaPanel.h include/kachinarc.h include/linserial.h \
-	include/serialcomm.h include/support.h include/test.h \
-	include/util.h include/version.h include/winserial.h \
-	xml_io.cxx include/xml_io.h xmlrpcpp/XmlRpc.h \
-	xmlrpcpp/XmlRpcClient.cpp xmlrpcpp/XmlRpcClient.h \
-	xmlrpcpp/XmlRpcDispatch.cpp xmlrpcpp/XmlRpcDispatch.h \
-	xmlrpcpp/XmlRpcException.h xmlrpcpp/XmlRpcMutex.cpp \
-	xmlrpcpp/XmlRpcMutex.h xmlrpcpp/XmlRpcServer.cpp \
-	xmlrpcpp/XmlRpcServer.h xmlrpcpp/XmlRpcServerConnection.cpp \
+	include/Fl_SigBar.h include/flslider2.h include/font_browser.h \
+	include/FreqControl.h include/images.h include/IOspec.h \
+	include/Kachina.h include/Kachina_io.h include/KachinaPanel.h \
+	include/kachinarc.h include/linserial.h include/serialcomm.h \
+	include/support.h include/status.h include/test.h \
+	include/util.h include/ValueSlider.h include/version.h \
+	include/winserial.h xml_io.cxx include/xml_io.h \
+	xmlrpcpp/XmlRpc.h xmlrpcpp/XmlRpcClient.cpp \
+	xmlrpcpp/XmlRpcClient.h xmlrpcpp/XmlRpcDispatch.cpp \
+	xmlrpcpp/XmlRpcDispatch.h xmlrpcpp/XmlRpcException.h \
+	xmlrpcpp/XmlRpcMutex.cpp xmlrpcpp/XmlRpcMutex.h \
+	xmlrpcpp/XmlRpcServer.cpp xmlrpcpp/XmlRpcServer.h \
+	xmlrpcpp/XmlRpcServerConnection.cpp \
 	xmlrpcpp/XmlRpcServerConnection.h \
 	xmlrpcpp/XmlRpcServerMethod.cpp xmlrpcpp/XmlRpcServerMethod.h \
 	xmlrpcpp/XmlRpcSocket.cpp xmlrpcpp/XmlRpcSocket.h \
@@ -324,7 +331,7 @@ APPBUNDLE_NOLIBS = $(APPBUNDLE)-nolibs
 
 # Additional non-source files that are distributed
 # Additional source files that support non-Linux cross compilation
-EXTRA_DIST = kachina.rc images/kachina.xpm images/mvolts.xbm \
+EXTRA_DIST = kachina.rc images/kcat.xpm images/mvolts.xbm \
 	images/p120.xbm images/p150.xbm images/p15.xbm images/p30.xbm \
 	images/p45.xbm images/p60.xbm images/p75.xbm images/p90.xbm \
 	images/rev.xbm images/smeter.xbm images/swr.xbm images/dbm.xbm \
@@ -458,6 +465,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/kcat-Kachina.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/kcat-KachinaPanel.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/kcat-Kachina_io.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/kcat-ValueSlider.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/kcat-XmlRpcClient.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/kcat-XmlRpcDispatch.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/kcat-XmlRpcMutex.Po@am__quote@
@@ -473,11 +481,14 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/kcat-cstack.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/kcat-debug.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/kcat-dialogs.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/kcat-flslider2.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/kcat-font_browser.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/kcat-icons.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/kcat-images.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/kcat-mingw.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/kcat-pixmaps.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/kcat-serialcomm.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/kcat-status.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/kcat-support.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/kcat-telemetry.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/kcat-util.Po@am__quote@
@@ -566,6 +577,34 @@ kcat-Fl_SigBar.obj: Fl_SigBar.cpp
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='Fl_SigBar.cpp' object='kcat-Fl_SigBar.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -c -o kcat-Fl_SigBar.obj `if test -f 'Fl_SigBar.cpp'; then $(CYGPATH_W) 'Fl_SigBar.cpp'; else $(CYGPATH_W) '$(srcdir)/Fl_SigBar.cpp'; fi`
+
+kcat-flslider2.o: flslider2.cxx
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -MT kcat-flslider2.o -MD -MP -MF $(DEPDIR)/kcat-flslider2.Tpo -c -o kcat-flslider2.o `test -f 'flslider2.cxx' || echo '$(srcdir)/'`flslider2.cxx
+@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/kcat-flslider2.Tpo $(DEPDIR)/kcat-flslider2.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='flslider2.cxx' object='kcat-flslider2.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -c -o kcat-flslider2.o `test -f 'flslider2.cxx' || echo '$(srcdir)/'`flslider2.cxx
+
+kcat-flslider2.obj: flslider2.cxx
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -MT kcat-flslider2.obj -MD -MP -MF $(DEPDIR)/kcat-flslider2.Tpo -c -o kcat-flslider2.obj `if test -f 'flslider2.cxx'; then $(CYGPATH_W) 'flslider2.cxx'; else $(CYGPATH_W) '$(srcdir)/flslider2.cxx'; fi`
+@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/kcat-flslider2.Tpo $(DEPDIR)/kcat-flslider2.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='flslider2.cxx' object='kcat-flslider2.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -c -o kcat-flslider2.obj `if test -f 'flslider2.cxx'; then $(CYGPATH_W) 'flslider2.cxx'; else $(CYGPATH_W) '$(srcdir)/flslider2.cxx'; fi`
+
+kcat-font_browser.o: font_browser.cxx
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -MT kcat-font_browser.o -MD -MP -MF $(DEPDIR)/kcat-font_browser.Tpo -c -o kcat-font_browser.o `test -f 'font_browser.cxx' || echo '$(srcdir)/'`font_browser.cxx
+@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/kcat-font_browser.Tpo $(DEPDIR)/kcat-font_browser.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='font_browser.cxx' object='kcat-font_browser.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -c -o kcat-font_browser.o `test -f 'font_browser.cxx' || echo '$(srcdir)/'`font_browser.cxx
+
+kcat-font_browser.obj: font_browser.cxx
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -MT kcat-font_browser.obj -MD -MP -MF $(DEPDIR)/kcat-font_browser.Tpo -c -o kcat-font_browser.obj `if test -f 'font_browser.cxx'; then $(CYGPATH_W) 'font_browser.cxx'; else $(CYGPATH_W) '$(srcdir)/font_browser.cxx'; fi`
+@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/kcat-font_browser.Tpo $(DEPDIR)/kcat-font_browser.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='font_browser.cxx' object='kcat-font_browser.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -c -o kcat-font_browser.obj `if test -f 'font_browser.cxx'; then $(CYGPATH_W) 'font_browser.cxx'; else $(CYGPATH_W) '$(srcdir)/font_browser.cxx'; fi`
 
 kcat-FreqControl.o: FreqControl.cpp
 @am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -MT kcat-FreqControl.o -MD -MP -MF $(DEPDIR)/kcat-FreqControl.Tpo -c -o kcat-FreqControl.o `test -f 'FreqControl.cpp' || echo '$(srcdir)/'`FreqControl.cpp
@@ -735,6 +774,20 @@ kcat-pixmaps.obj: pixmaps.cxx
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -c -o kcat-pixmaps.obj `if test -f 'pixmaps.cxx'; then $(CYGPATH_W) 'pixmaps.cxx'; else $(CYGPATH_W) '$(srcdir)/pixmaps.cxx'; fi`
 
+kcat-status.o: status.cxx
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -MT kcat-status.o -MD -MP -MF $(DEPDIR)/kcat-status.Tpo -c -o kcat-status.o `test -f 'status.cxx' || echo '$(srcdir)/'`status.cxx
+@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/kcat-status.Tpo $(DEPDIR)/kcat-status.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='status.cxx' object='kcat-status.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -c -o kcat-status.o `test -f 'status.cxx' || echo '$(srcdir)/'`status.cxx
+
+kcat-status.obj: status.cxx
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -MT kcat-status.obj -MD -MP -MF $(DEPDIR)/kcat-status.Tpo -c -o kcat-status.obj `if test -f 'status.cxx'; then $(CYGPATH_W) 'status.cxx'; else $(CYGPATH_W) '$(srcdir)/status.cxx'; fi`
+@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/kcat-status.Tpo $(DEPDIR)/kcat-status.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='status.cxx' object='kcat-status.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -c -o kcat-status.obj `if test -f 'status.cxx'; then $(CYGPATH_W) 'status.cxx'; else $(CYGPATH_W) '$(srcdir)/status.cxx'; fi`
+
 kcat-util.o: util.cxx
 @am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -MT kcat-util.o -MD -MP -MF $(DEPDIR)/kcat-util.Tpo -c -o kcat-util.o `test -f 'util.cxx' || echo '$(srcdir)/'`util.cxx
 @am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/kcat-util.Tpo $(DEPDIR)/kcat-util.Po
@@ -748,6 +801,20 @@ kcat-util.obj: util.cxx
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='util.cxx' object='kcat-util.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -c -o kcat-util.obj `if test -f 'util.cxx'; then $(CYGPATH_W) 'util.cxx'; else $(CYGPATH_W) '$(srcdir)/util.cxx'; fi`
+
+kcat-ValueSlider.o: ValueSlider.cxx
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -MT kcat-ValueSlider.o -MD -MP -MF $(DEPDIR)/kcat-ValueSlider.Tpo -c -o kcat-ValueSlider.o `test -f 'ValueSlider.cxx' || echo '$(srcdir)/'`ValueSlider.cxx
+@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/kcat-ValueSlider.Tpo $(DEPDIR)/kcat-ValueSlider.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='ValueSlider.cxx' object='kcat-ValueSlider.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -c -o kcat-ValueSlider.o `test -f 'ValueSlider.cxx' || echo '$(srcdir)/'`ValueSlider.cxx
+
+kcat-ValueSlider.obj: ValueSlider.cxx
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -MT kcat-ValueSlider.obj -MD -MP -MF $(DEPDIR)/kcat-ValueSlider.Tpo -c -o kcat-ValueSlider.obj `if test -f 'ValueSlider.cxx'; then $(CYGPATH_W) 'ValueSlider.cxx'; else $(CYGPATH_W) '$(srcdir)/ValueSlider.cxx'; fi`
+@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/kcat-ValueSlider.Tpo $(DEPDIR)/kcat-ValueSlider.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='ValueSlider.cxx' object='kcat-ValueSlider.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -c -o kcat-ValueSlider.obj `if test -f 'ValueSlider.cxx'; then $(CYGPATH_W) 'ValueSlider.cxx'; else $(CYGPATH_W) '$(srcdir)/ValueSlider.cxx'; fi`
 
 kcat-xml_io.o: xml_io.cxx
 @am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -MT kcat-xml_io.o -MD -MP -MF $(DEPDIR)/kcat-xml_io.Tpo -c -o kcat-xml_io.o `test -f 'xml_io.cxx' || echo '$(srcdir)/'`xml_io.cxx

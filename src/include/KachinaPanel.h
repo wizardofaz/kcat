@@ -10,29 +10,30 @@ extern void openFreqCalibDialog();
 #include "FreqControl.h"
 extern cFreqControl *FreqDisp;
 extern cFreqControl *FreqDispB;
+#include <FL/Fl_Box.H>
 #include <FL/Fl_Browser.H>
 extern Fl_Browser *FreqSelect;
+#include <FL/Fl_Choice.H>
+extern Fl_Choice *vfoSelect;
 #include <FL/Fl_Button.H>
-extern Fl_Button *btnABactive;
 extern Fl_Button *btnA2B;
-#include <FL/Fl_Light_Button.H>
-extern Fl_Light_Button *btnSplit;
 extern Fl_Button *btnAddFreq;
 extern Fl_Button *btnDelFreq;
 extern Fl_Button *btnClearList;
+#include "ValueSlider.h"
+extern Fl_Wheel_Value_Slider *sldrRIT;
+extern Fl_Wheel_Value_Slider *sldrVOLUME;
+extern Fl_Wheel_Value_Slider *sldrIFSHIFT;
+extern Fl_Wheel_Value_Slider *sldrNOTCH;
 #include <FL/Fl_Value_Slider.H>
-extern Fl_Value_Slider *sldrRIT;
-extern Fl_Value_Slider *sldrVOLUME;
-extern Fl_Value_Slider *sldrIFSHIFT;
-extern Fl_Value_Slider *sldrNOTCH;
 extern Fl_Value_Slider *sldrDepth;
-extern Fl_Value_Slider *sldrNR;
-#include <FL/Fl_Choice.H>
+extern Fl_Wheel_Value_Slider *sldrNR;
 extern Fl_Choice *opMODE;
 extern Fl_Choice *opBW;
 extern Fl_Choice *opNOTCH;
-extern Fl_Value_Slider *sldrMICGAIN;
-extern Fl_Value_Slider *sldrPOWER;
+extern Fl_Wheel_Value_Slider *sldrMICGAIN;
+extern Fl_Wheel_Value_Slider *sldrPOWER;
+#include <FL/Fl_Light_Button.H>
 extern Fl_Light_Button *btnRIT;
 extern Fl_Light_Button *btnMute;
 extern Fl_Light_Button *btnIFsh;
@@ -41,35 +42,35 @@ extern Fl_Light_Button *btnNR;
 extern Fl_Light_Button *btnAttenuator;
 extern Fl_Light_Button *btnPreamp;
 #include <FL/Fl_Group.H>
+extern Fl_Group *grpMeters1;
 extern Fl_Button *btnSmeter;
 #include "Fl_SigBar.h"
 extern Fl_SigBar *sldrRcvSignal;
 #include <FL/Fl_Slider.H>
-extern Fl_Slider *sldrSQdisp;
-#include <FL/Fl_Box.H>
+extern Fl_Slider *sldrSQ;
 extern Fl_Box *boxSquelch;
+extern Fl_Group *grpMeters2;
 extern Fl_Button *btnPower;
 extern Fl_SigBar *sldrFwdPwr;
-extern Fl_Button *btnSWR;
 extern Fl_SigBar *sldrRefPwr;
+extern Fl_Button *btnSWR;
 extern Fl_Button *btn_show_controls;
 extern Fl_Light_Button *btnPTT;
 extern Fl_Light_Button *btnTune;
 extern Fl_Light_Button *btnCarrier;
-#include <FL/Fl_Check_Button.H>
-extern Fl_Check_Button *btnSelAnt;
-extern Fl_Button *btnRxAnt;
-extern Fl_Button *btnTxAnt;
+extern Fl_Choice *antSelect;
 #include <FL/Fl_Output.H>
 extern Fl_Output *txtTEMP;
 #include <FL/Fl_Tabs.H>
 extern Fl_Tabs *tabs;
 extern Fl_Group *CWtab;
+extern Fl_Light_Button *btnSPOT;
 #include <FL/Fl_Counter.H>
 extern Fl_Counter *cntrWPM;
 extern Fl_Counter *sldrCWweight;
 extern Fl_Counter *sldrCWattack;
 extern Fl_Choice *mnuCWmode;
+#include <FL/Fl_Check_Button.H>
 extern Fl_Check_Button *btnQSKonoff;
 extern Fl_Group *CW2tab;
 extern Fl_Counter *sldrSideTone;
@@ -111,20 +112,13 @@ extern Fl_Menu_Item menu_[];
 #define mnuFreqCal (menu_+12)
 #define mnuClearAntData (menu_+13)
 #define mnuNRAMdata (menu_+14)
-#define mnuHelp (menu_+18)
-#define mnuAbout (menu_+19)
+#define mnuEvents (menu_+15)
+#define mnuHelp (menu_+17)
+#define mnuAbout (menu_+18)
 #include <FL/Fl_Return_Button.H>
 extern Fl_Return_Button *btnOkCommsDialog;
 extern Fl_Choice *selectCommPort;
 Fl_Double_Window* CommsDialog();
-extern Fl_Box *lblTest;
-extern Fl_Button *prefForeground;
-extern Fl_Button *prefBackground;
-extern Fl_Return_Button *btnOkDisplayDialog;
-extern Fl_Button *btnSmeterColor;
-extern Fl_Button *btnPowercolor;
-extern Fl_Button *btnSWRcolor;
-Fl_Double_Window* DisplayDialog();
 #include <FL/Fl_Input.H>
 extern Fl_Input *txtFreqRange;
 extern Fl_Button *btnRcvAnt;
@@ -155,4 +149,37 @@ extern Fl_Button *btnCalibrate;
 extern void cbCalFinished();
 extern Fl_Button *btnCalFinished;
 Fl_Double_Window* FreqCalibDialog();
+extern Fl_Box *lblTest;
+extern Fl_Button *prefFont;
+extern Fl_Button *prefForeground;
+extern Fl_Button *btnBacklight;
+extern Fl_Button *btnSmeterColor;
+extern Fl_Button *btnSWRcolor;
+extern Fl_Button *btnPowercolor;
+extern Fl_Button *btnPeakColor;
+extern Fl_Group *grpMeter1disp;
+extern Fl_Button *btnSmeterdisp;
+extern Fl_SigBar *sldrRcvSignaldisp;
+extern Fl_Slider *sldrSQdisp;
+extern Fl_Box *boxSquelchdisp;
+extern Fl_Group *grpMeter2disp;
+extern Fl_Button *btnPowerdisp;
+extern Fl_SigBar *sldrFwdPwrdisp;
+extern Fl_Button *btnSWRdisp;
+extern Fl_SigBar *sldrRefPwrdisp;
+extern Fl_Choice *mnuScheme;
+extern Fl_Button *pref_sys_foreground;
+extern Fl_Button *pref_sys_background;
+extern Fl_Button *prefsys_background2;
+extern Fl_Button *prefsys_defaults;
+extern Fl_Wheel_Value_Slider *sldrColors;
+extern Fl_Button *pref_slider_background;
+extern Fl_Button *pref_slider_select;
+extern Fl_Button *prefslider_defaults;
+extern Fl_Button *btnReset;
+extern Fl_Button *btnCancel;
+extern Fl_Return_Button *btnOkDisplayDialog;
+extern Fl_Light_Button *btn_lighted;
+extern Fl_Button *btn_lighted_default;
+Fl_Double_Window* DisplayDialog();
 #endif

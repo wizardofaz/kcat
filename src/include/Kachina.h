@@ -26,6 +26,8 @@
 #include "Kachina_io.h"
 #include "serialcomm.h"
 
+using namespace std;
+
 extern pthread_t *watchdog_thread;
 extern pthread_t *serial_thread;
 extern pthread_t *telemetry_thread;
@@ -37,7 +39,7 @@ extern pthread_mutex_t mutex_telemetry;
 extern pthread_mutex_t mutex_xmlrpc;
 
 extern Fl_Double_Window *window;
-extern char homedir[120];
+extern string homedir;
 extern char defFileName[200];
 
 extern long freqlist[100];

@@ -1,4 +1,6 @@
 #include <math.h>
+#include <string>
+
 #include "Kachina.h"
 #include "IOspec.h"
 #include "test.h"
@@ -6,6 +8,11 @@
 #include "cstack.h"
 #include "Kachina_io.h"
 #include "config.h"
+#include "status.h"
+#include "debug.h"
+#include "util.h"
+
+using namespace std;
 
 extern bool test;
 
@@ -18,52 +25,6 @@ extern CSerialComm KachinaSerial;
 #define ANTBA 0x00 // 00000000
 #define ANTAB 0xC0 // 11000000
 
-struct XCVRSTATE xcvrState = { 
-	1, // VFO TYPE 
-	0, // NOTCHWIDTH 
-	0, // ATTEN
-	0, // ANTIVOX
-	80, // VOXDELAY
-	0, // QSK
-	128, // CWATTACK
-	128, // CWWEIGHT
-	1, // CWMODE
-	0, // SQUELCH
-	0, // AMP
-	0, // SPEECHPROC
-	0, // SPEECHCOMP
-	1, // ANTTUNE
-	4, // CWOFFSET = 700 Hz
-	1, // CWFILTER
-	0, // EQUALIZER
-	0, // PREAMP
-	-127, //SQLEVEL
-	0, // SPCHMONITOR
-	0, // NR
-	128, // AGCSPEED
-	128, // AGCACTION
-	0, // RIT 
-	1, // MODE
-	6, // BW
-	0, // VOXLEVEL
-	7030000L, // FREQ
-	0.4, // VOL
-	0.0, // NOTCHFREQ
-	20.0, // MAXPWR
-	0.5, // MICGAIN
-	0.05, //CWMON 
-	20.0, // CWSPEED
-	0.0, // NR_LEVEL
-	0.0, // RITFREQ
-	0.0, // IFSHIFT
-	0.0,  // NOTCH DEPTH
-	VERSION,
-	0,		// MAIN_X
-	0,		// MAIN_Y
-	0,		// TXOFFSET
-	0.0		// VFOADJ
-};
-	
 #define MAXTRIES 2
 #ifdef WIN32
 #define LOOPS 20
@@ -71,38 +32,37 @@ struct XCVRSTATE xcvrState = {
 #define LOOPS 4
 #endif
 
+static string cmd = "";
+
 cStack commstack(1000);
 
 unsigned char modes[5] = {'0','1','2','3','4'}; // AM, CW, LSB, USB, FM
 
-bool startComms(char *szPort, int baudrate)
+bool startComms(const char *szPort, int baudrate)
 {
-#ifdef DEBUG
-    return true;
-#else
-	if (KachinaSerial.OpenPort(szPort, baudrate) == false)
+	if (KachinaSerial.OpenPort((char *)szPort, baudrate) == false)
 		return false;
 	KachinaSerial.Timeout(50); // msec timeout for read from rig
 	return true;
-#endif
 }
 
 bool serial_busy = false;
 
-bool sendCommand (char *str)
+bool sendCmd(string &str) {
+	return sendCommand( (char*)str.c_str());
+}
+
+bool sendCommand(char *str)
 {
-#ifdef DEBUG
-    return true;
-#else
 	int len = str[0];
 	int nret, loopcnt;
 	unsigned char *sendbuff = new unsigned char(len+2);
 	unsigned char retbuff[3];
 	char szVal[20];
-	
+
 	serial_busy = true;
 
-// create command string	
+// create command string
 	sendbuff[0] = STX;
 	for (int n = 1; n <= len; n++) sendbuff[n] = str[n];
 	sendbuff[len+1] = ETX;
@@ -137,33 +97,29 @@ bool sendCommand (char *str)
 			}
 			if (retbuff[0] == 0xFE) { // Kachina rejected the command
 				if (test && sendbuff[1] != 'd') {
-					sprintf(szVal," R\n"); 
+					sprintf(szVal," R\n");
 					writeTestLog(szVal);
 				}
 				break;
 			}
 			if (test) {
-				sprintf(szVal,">"); 
+				sprintf(szVal,">");
 				writeTestLog(szVal);
 			}
 			commstack.push(retbuff[0]); // telemetry data
-		} while (++loopcnt < LOOPS);		
+		} while (++loopcnt < LOOPS);
 	}
 	serial_busy = false;
 	if (test && sendbuff[1] != 'd') {
-		sprintf(szVal," F\n"); 
+		sprintf(szVal," F\n");
 		writeTestLog(szVal);
 	}
 	delete [] sendbuff;
 	return false;
-#endif
 }
 
 bool RequestData (char *cmd, unsigned char *buff, int nbr)
 {
-#ifdef DEBUG
-    return true;
-#else
 	int len = cmd[0];
 	int nret, loopcnt;
 	unsigned char *sendbuff = new unsigned char(len+2);
@@ -172,7 +128,7 @@ bool RequestData (char *cmd, unsigned char *buff, int nbr)
 
 	serial_busy = true;
 
-// create command string	
+// create command string
 	sendbuff[0] = STX;
 	for (int n = 1; n <= len; n++) sendbuff[n] = cmd[n];
 	sendbuff[len+1] = ETX;
@@ -218,7 +174,7 @@ bool RequestData (char *cmd, unsigned char *buff, int nbr)
 				break;
 			}
 			commstack.push(retbuff[0]); // telemetry data
-		} while (++loopcnt < LOOPS);		
+		} while (++loopcnt < LOOPS);
 	}
 	serial_busy = false;
 	if (test) {
@@ -227,42 +183,28 @@ bool RequestData (char *cmd, unsigned char *buff, int nbr)
 	}
 	delete [] sendbuff;
 	return false;
-#endif
-}
-
-int aPort(int r, int x)
-{
-	int v = r*2 + x;
-	switch (v) {
-		case 0: return 0x40; // rx = A, tx = A
-		case 1: return 0x00; // rx = A, tx = B
-		case 2: return 0xC0; // rx = B, tx = A
-		case 3: return 0x80; // rx = B, tx = B
-	}
-	return 0x40;
 }
 
 #include <FL/Fl_Check_Button.H>
-extern Fl_Check_Button *btnSelAnt;
-extern bool bRxAnt;
-extern bool bTxAnt;
+static int aports[] = {0x40, 0xC0, 0x00, 0x80}; // AA AB BA BB
 
 int antPort( long freq)
 {
-	if (numantports == 0) 
-		return 0x40;  // use port A for receive & transmit
-// if SelAnt is checked then override the table entries for antenna selection
-	if (btnSelAnt->value() == 1)
-		return aPort(bRxAnt, bTxAnt);
-		
-	int f = freq / 1000;
-	for (int i = numantports - 1; i > -1; i--)
-		if (f >= antports[i].freq) 
-			return aPort(antports[i].rcv, antports[i].xmt);
-	return 0x40;
+	int aport = aports[0];
+	if (iAntSel)
+		aport = aports[iAntSel - 1];
+	else if (numantports > 0) {
+		int f = freq / 1000;
+		for (int i = numantports - 1; i > -1; i--)
+			if (f >= antports[i].freq) {
+				aport = aports[ antports[i].rcv + 2*antports[i].xmt ];
+				break;
+			}
+	}
+	return aport;
 }
 
-void setvfo (char  *cmd, long freq, long offset)
+void setvfo (char *cmd, long freq, long offset)
 {
 	long val = 0;
 	freq *= (1 + xcvrState.VFOADJ * 1e-6);
@@ -274,63 +216,55 @@ void setvfo (char  *cmd, long freq, long offset)
 }
 
 // freq in Hz
-bool setXcvrRcvFreq (long freq, int offset) 
+void setXcvrRcvFreq (long freq, int offset)
 {
-	xcvrState.FREQ = freq;
 	setvfo (cmdK_RCVF, freq, offset);
-	if (test) {
-		char szVal[20];
-		sprintf(szVal,"R %ld ", freq);
-		writeTestLog(szVal);
-	}
-	return (!sendCommand (cmdK_RCVF));
+	cmd = cmdK_RCVF;
+	sendCmd(cmd);;
+	LOG_WARN("%ld %s", freq, str2hex(cmd.c_str(), cmd.length()));
 }
 
-bool setXcvrSplitFreq (long freq, int offset)
+void setXcvrSplitFreq (long freq, int offset)
 {
 	setvfo (cmdK_XMTS, freq, offset);
-	if (test) {
-		char szVal[20];
-		sprintf(szVal,"t %ld ", freq - offset);
-		writeTestLog(szVal);
-	}
-	return (sendCommand (cmdK_XMTS));
+	cmd = cmdK_XMTS;
+	sendCmd(cmd);
+	LOG_WARN("%ld %s", freq, str2hex(cmd.c_str(), cmd.length()));
 }
 
-bool setXcvrXmtFreq (long freq, int offset)
+void setXcvrXmtFreq (long freq, int offset)
 {
 	setvfo (cmdK_XMTF, freq, offset);
-	if (test) {
-		char szVal[20];
-		sprintf(szVal,"T %ld ", freq - offset);
-		writeTestLog(szVal);
-	}
-	return (sendCommand (cmdK_XMTF));
+	cmd = cmdK_XMTF;
+	sendCmd(cmd);
+	LOG_WARN("%ld %s", freq, str2hex(cmd.c_str(), cmd.length()));
 }
 
-bool setXcvrSimplex()
+void setXcvrSimplex()
 {
-	cmdK_VFOM[2] = 0x01;		
-	return (sendCommand (cmdK_VFOM));
+	cmd = cmdK_VFOM;
+	cmd[2] = 0x01;
+	sendCmd(cmd);
 }
 
-bool setXcvrSplit()
+void setXcvrSplit()
 {
-	cmdK_VFOM[2] = 0x04;
-	return (sendCommand (cmdK_VFOM));
+	cmd = cmdK_VFOM;
+	cmd[2] = 0x04;
+	sendCmd(cmd);
 }
 
-bool setXcvrListenOnReceive()
+void setXcvrListenOnReceive()
 {
-	cmdK_VFOM[2] = 0x02;
-	return (sendCommand (cmdK_VFOM));
+	cmd = cmdK_VFOM;
+	cmd[2] = 0x02;
+	sendCmd(cmd);
 }
 
 
 // Transceiver mode
-bool setXcvrMode(int mode) 
+void setXcvrMode(int mode)
 {
-	xcvrState.MODE = mode;
 	switch (mode) {
 		case LSB :
 			cmdK_MODE[2] = 0x05;
@@ -350,171 +284,192 @@ bool setXcvrMode(int mode)
 		default :
 			cmdK_MODE[2] = 0x04;
 	}
-	return (sendCommand(cmdK_MODE));
+	cmd = cmdK_MODE;
+	sendCmd(cmd);;
 }
 
 // Volume control
-bool setXcvrVolume(double val) 
+void setXcvrVolume(double val)
 {
 	xcvrState.VOL = val;
 	int short vol = (int short)(val * 255); // 0 - 0xFF;
 	cmdK_VOLU[2] = vol;
-	return (sendCommand(cmdK_VOLU));
+	cmd = cmdK_VOLU;
+	sendCmd(cmd);;
 }
 
 // IF shift control
-bool setXcvrIFshift(double val) 
+void setXcvrIFshift(double val)
 {
 	xcvrState.IFSHIFT = val;
 	cmdK_IFSH[2] = (int)(val / 10) &0xFF;
-	return (sendCommand(cmdK_IFSH));
+	cmd = cmdK_IFSH;
+	sendCmd(cmd);;
 }
 
 // Bandwidth controls
-bool setXcvrBW(int sel) 
+void setXcvrBW(int sel)
 {
-	xcvrState.BW = sel;
 	cmdK_BW[2] = iBW[sel];
-	sendCommand(cmdK_BW);
-	return 0;
+	cmd = cmdK_BW;
+	sendCmd(cmd);;
 }
 
 // Transceiver max power level
-bool setXcvrPower(double val)
+void setXcvrPower(double val)
 {
 	xcvrState.MAXPWR = val;
 	cmdK_PWR[2] = (int) val & 0xFF;
-	return (sendCommand(cmdK_PWR));
+	cmd = cmdK_PWR;
+	sendCmd(cmd);;
 }
 
 
 // Transceiver Notch Width
-bool setXcvrNotchWidth(int val)
+void setXcvrNotchWidth(int val)
 {
 	xcvrState.NOTCHWIDTH = val;
 	cmdK_NTCW[2] = val & 0xFF;
-	return (sendCommand(cmdK_NTCW));
+	cmd = cmdK_NTCW;
+	sendCmd(cmd);;
 }
 
 // Transceiver Notch Filter Freq
-bool setXcvrNotch(double val)
+void setXcvrNotch(double val)
 {
 	xcvrState.NOTCHFREQ = val;
 	int nval = (int)(val) / 10 - 20;
 	cmdK_NTCF[2] = nval & 0xFF;
-	return (sendCommand(cmdK_NTCF));
+	cmd = cmdK_NTCF;
+	sendCmd(cmd);;
 }
 
 // Transceiver Noise reduction - Auto notch depth
 // This uses the same command structure as NR
 // there only Auto Notch AND Noise Reduction are mutually exclusive
 // The software toggles between them (see support.cpp)
-bool setXcvrNotchDepth(double val)
+void setXcvrNotchDepth(double val)
 {
 	xcvrState.NOTCHDEPTH = val;
 	cmdK_NDLV[2] = (int)val & 0xFF;
-	return (sendCommand(cmdK_NDLV));
+	cmd = cmdK_NDLV;
+	sendCmd(cmd);;
 }
 
 // Transceiver Mic/Gain control
-bool setXcvrMicGain(double val)
+void setXcvrMicGain(double val)
 {
 	xcvrState.MICGAIN = val;
 	cmdK_MICG[2] = (int)(val * 255) & 0xFF;
-	return (sendCommand(cmdK_MICG));
+	cmd = cmdK_MICG;
+	sendCmd(cmd);;
 }
 
 // Transceiver attenuator control
-bool setXcvrAttControl(int val)
+void setXcvrAttControl(int val)
 {
 	xcvrState.ATTEN = val;
 	cmdK_ATT[2] = val & 0xFF;
-	return (sendCommand(cmdK_ATT));
+	cmd = cmdK_ATT;
+	sendCmd(cmd);;
 }
 
 // Transceiver preamp control
-bool setXcvrPreamp(int val)
+void setXcvrPreamp(int val)
 {
 	xcvrState.PREAMP = val;
 	cmdK_PRE0[2] = val & 0xFF;
-	return (sendCommand(cmdK_PRE0));
+	cmd = cmdK_PRE0;
+	sendCmd(cmd);;
 }
 
 // Transceiver Noise reduction
-bool setXcvrNR(int val)
+void setXcvrNR(int val)
 {
 	xcvrState.NR = val;
 	cmdK_NDON[2] = val & 0xFF;
-	return (sendCommand(cmdK_NDON));
+	cmd = cmdK_NDON;
+	sendCmd(cmd);;
 }
 
-bool setXcvrNRlevel(double nr)
+void setXcvrNRlevel(double nr)
 {
 	xcvrState.NR_LEVEL = nr;
 	cmdK_NDLV[2] = (int)nr & 0xFF;
-	return (sendCommand(cmdK_NDLV));
+	cmd = cmdK_NDLV;
+	sendCmd(cmd);;
 }
 
 
 // Transceiver TUNE mode
-bool setXcvrTune(int val)
+void setXcvrTune(int val)
 {
 	cmdK_ATU0[2] = val & 0xFF;
-	return (sendCommand(cmdK_ATU0));
+	cmd = cmdK_ATU0;
+	sendCmd(cmd);;
 }
 
 // Tranceiver PTT on/off
-bool setXcvrPTT(int val)
+void setXcvrPTT(int val)
 {
 	cmdK_PTT[2] = val & 0xFF;
-	return (sendCommand(cmdK_PTT));
+	cmd = cmdK_PTT;
+	sendCmd(cmd);;
 }
 
-bool setXcvrRITfreq(double rit)
+void setXcvrRITfreq(double rit)
 {
-	
+
 	int iRIT;
 	if (fabs(rit) < 800) {
 		iRIT = (int)(rit/10);
 		xcvrState.RIT = cmdK_RITL[2] = iRIT;
-		return sendCommand(cmdK_RITL);
+		cmd = cmdK_RITL;
 	} else {
 		iRIT = (int)(rit/100);
 		xcvrState.RIT = cmdK_RITU[2] = iRIT;
-		return sendCommand(cmdK_RITU);
+		cmd = cmdK_RITU;
 	}
+	sendCmd(cmd);;
 }
 
 static double cwK = 255.0 / (log(2) * 4.0 );
 
-bool setXcvrWPM(double wpm)
+void setXcvrWPM(double wpm)
 {
 	xcvrState.CWSPEED = wpm;
 	int iWPM = (int)(ceil(cwK * log(wpm/5)));
-	cmdK_CWSP[2] = iWPM; 		
-	return sendCommand(cmdK_CWSP);
+	cmdK_CWSP[2] = iWPM;
+	cmd = cmdK_CWSP;
+	sendCmd(cmd);;
 }
 
-bool setXcvrCWMON(double val)
+void setXcvrCWMON(double val)
 {
 	xcvrState.CWMON = val;
 	cmdK_CWSM[2] = (int)(val) & 0xFF;
-	return sendCommand(cmdK_CWSM);
+	cmd = cmdK_CWSM;
+	sendCmd(cmd);;
 }
 
-bool setXcvrCarrier(int val)
+void setXcvrSPOT(int val)
 {
-	if (val == 1) {
-		sendCommand(cmdK_TUN1); // constant carrier
-	} else {
-		sendCommand(cmdK_TUN0); // carrier off
-	}
-	return true;
+	cmd = cmdK_CWT0;
+	if (val) cmd = cmdK_CWT1;
+	sendCmd(cmd);;
 }
 
-bool setXcvrNOOP()
+void setXcvrCarrier(int val)
 {
-	return sendCommand(cmdK_NOOP);
+	cmd = cmdK_TUN0;
+	if (val == 1) sendCommand(cmdK_TUN1); // constant carrier
+	sendCmd(cmd);;
+}
+
+void setXcvrNOOP()
+{
+	cmd = cmdK_NOOP;
+	sendCmd(cmd);;
 }
 
 void initXcvrState()
@@ -540,13 +495,12 @@ void initXcvrState()
 	sldrAgcSpeed->value(xcvrState.AGCSPEED);
 	sldrAgcAction->value(xcvrState.AGCACTION);
 	sldrNR->value (xcvrState.NR_LEVEL);
-	sldrIFSHIFT->value(xcvrState.IFSHIFT);	
+	sldrIFSHIFT->value(xcvrState.IFSHIFT);
 	sldrRIT->value(0.0);
-	opMODE->value(xcvrState.MODE);
-	
-	mnuCWmode->value(xcvrState.CWMODE);	
+
+	mnuCWmode->value(xcvrState.CWMODE);
 	mnuCWoffset->value(xcvrState.CWOFFSET);
-	mnuCWdefFilter->value(xcvrState.CWFILTER);	
+	mnuCWdefFilter->value(xcvrState.CWFILTER);
 
 	btnQSKonoff->value(xcvrState.QSK);
 	btnNotch->value(0);								// manual Notch
@@ -556,15 +510,24 @@ void initXcvrState()
 	btnSpchMon->value(xcvrState.SPCHMONITOR);
 	btnNR->value (xcvrState.NR);
 	btnRIT->value(0);
-	
-	sendCommand (cmdK_NOOP);						// send NOOP command
+	ctr_vfo_adj->value(xcvrState.VFOADJ);
 
-	FreqDisp->value (xcvrState.FREQ);				// Set Display Frequency
-	setXcvrRcvFreq (xcvrState.FREQ, 0);				// Receive frequency
-	setXcvrSplitFreq (xcvrState.FREQ, 0);				// Transmit frequency
-	setXcvrSimplex();								// Simplex mode
-	setXcvrListenOnReceive();						// Listen on Receive
-	setXcvrNotch(xcvrState.NOTCHFREQ);
+	vfoA.freq = xcvrState.vfoA_freq;
+	vfoA.imode = xcvrState.vfoA_imode;
+	vfoA.iBW = xcvrState.vfoA_iBW;
+	FreqDisp->value(vfoA.freq);
+	opMODE->value(vfoA.imode);
+	opBW->value(vfoA.iBW);
+
+	vfoB.freq = xcvrState.vfoB_freq;
+	vfoB.imode = xcvrState.vfoB_imode;
+	vfoB.iBW = xcvrState.vfoB_iBW;
+	FreqDispB->value(vfoB.freq);
+
+	movFreq();
+	setXcvrSimplex();							// Simplex mode
+	setXcvrListenOnReceive();					// Listen on Receive
+	setBW();
 
 	cbbtnNotch();
 	cbAttenuator();
@@ -586,9 +549,9 @@ void initXcvrState()
 	btnSQLtype[1]->value(xcvrState.SQUELCH);
 	btnSQLtype[0]->value(!xcvrState.SQUELCH);
 	cbSQLtype();
-	
+
 	cbbtnAmpOnOff();
-	cbbtnSpchProc();	
+	cbbtnSpchProc();
 	cbsldrCompression();
 
 	cmdK_ATU0[2] = xcvrState.ANTTUNE;	// ****
@@ -596,20 +559,16 @@ void initXcvrState()
 
 	cbCWoffset();
 	cbCWdefFilter();
-	cbsldrXmtEqualizer();	
+	cbsldrXmtEqualizer();
 	cbSqlLevel();
 	cbSpchMon()	;
 	cbsldrAgcSpeed();
 	cbNR();
 	cbbtnNR();
 	cbsldrAgcAction();
-	cbRIT();
 	cbbtnRIT();
-	setMode();
-	setIFshift();
-	
-	setXcvrRcvFreq (xcvrState.FREQ, 0);
-	setXcvrListenOnReceive();
+	cbIFsh();
+
 }
 
 void Calibrate()
@@ -637,7 +596,7 @@ int checkCalibrate(long int refstd)
 	avgrcvsig = 0;
 	avgcnt = 0;
 	computeavg = true;
-	while (avgcnt < 32) 
+	while (avgcnt < 32)
 		Fl::wait();
 	computeavg = false;
 	avgrcvsig /= avgcnt;

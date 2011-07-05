@@ -1,7 +1,7 @@
 #include <windows.h> // include for version info constants
 #include "wraprc.h"
 
-IDI_ICON ICON DISCARDABLE "kachina.ico"
+IDI_ICON ICON DISCARDABLE "kcat.ico"
 
-//A ICON MOVEABLE PURE LOADONCALL DISCARDABLE "kachina.ico"
+//A ICON MOVEABLE PURE LOADONCALL DISCARDABLE "kcat.ico"
 

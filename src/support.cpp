@@ -14,6 +14,7 @@
 #include "util.h"
 #include "config.h"
 #include "xml_io.h"
+#include "status.h"
 
 using namespace std;
 
@@ -59,6 +60,9 @@ CSerialComm KachinaSerial;
 	int baudttyport = B9600;
 #endif
 
+bool rx_on_a = true;
+bool tx_on_a = true;
+
 char *print(FREQMODE data)
 {
 	static char str[100];
@@ -82,7 +86,6 @@ void initKachina()
 		mnuViewLog->hide();
 	GetKachinaVersion();
 	initXcvrState();
-	cbA2B();
 }
 
 void initOptionMenus()
@@ -99,7 +102,7 @@ void initOptionMenus()
 	p = szNotch;
 	while (*p)
 		opNOTCH->add(*p++);
-	opNOTCH->value(0);
+	opNOTCH->value(3);
 }
 
 // enables or disables controls based on mode selected
@@ -152,7 +155,7 @@ void setInhibits() {
 	}
 	cbIFsh();
 	cbbtnNR();
-	
+
 }
 
 static bool nofocus = false;
@@ -258,7 +261,7 @@ void readFile() {
 
 void buildlist() {
 	
-	strcpy (defFileName, homedir);
+	strcpy (defFileName, homedir.c_str());
 	strcat (defFileName, "default.arv");
 	FILE *fh = fopen(defFileName, "r");
 	if (fh != NULL) {
@@ -285,50 +288,80 @@ void buildlist() {
 
 int movFreq()
 {
-	int ret;
+	Fl_Color bgclr = fl_rgb_color(xcvrState.bg_red, xcvrState.bg_green, xcvrState.bg_blue);
+	Fl_Color fgclr = fl_rgb_color(xcvrState.fg_red, xcvrState.fg_green, xcvrState.fg_blue);
 	vfoA.freq = FreqDisp->value();
-	setXcvrXmtFreq (vfoA.freq, xcvrState.TxOffset);
-	send_xml_freq(vfoA.freq);
-	ret = setXcvrRcvFreq (FreqDisp->value(), 0);
-	return ret;
+	if (rx_on_a) {
+		setXcvrRcvFreq(vfoA.freq, 0);
+		send_xml_freq(vfoA.freq);
+		FreqDisp->SetONOFFCOLOR( fgclr, bgclr);
+		FreqDispB->SetONOFFCOLOR( fgclr, fl_color_average(bgclr, FL_BLACK, 0.87));
+	}
+	if (tx_on_a) setXcvrXmtFreq(vfoA.freq, 0);
+	setXcvrSplit();
+	return 0;
 }
 
 int movFreqB()
 {
+	Fl_Color bgclr = fl_rgb_color(xcvrState.bg_red, xcvrState.bg_green, xcvrState.bg_blue);
+	Fl_Color fgclr = fl_rgb_color(xcvrState.fg_red, xcvrState.fg_green, xcvrState.fg_blue);
 	vfoB.freq = FreqDispB->value();
+	if (!rx_on_a) {
+		setXcvrRcvFreq(vfoB.freq, 0);
+		send_xml_freq(vfoB.freq);
+		FreqDispB->SetONOFFCOLOR( fgclr, bgclr);
+		FreqDisp->SetONOFFCOLOR( fgclr, fl_color_average(bgclr, FL_BLACK, 0.87));
+	}
+	if (!tx_on_a) setXcvrXmtFreq(vfoB.freq, 0);
+	setXcvrSplit();
 	return 0;
 }
 
-void cbABsplit()
+void cbVFOsel()
 {
-	if (btnSplit->value() == 1) {
-		setXcvrSplit();
-		setXcvrXmtFreq (vfoB.freq, xcvrState.TxOffset);
-		setXcvrListenOnReceive();
-		setXcvrRcvFreq (vfoA.freq, 0);
-	} else {
-//		setXcvrSimplex();
-		setXcvrSplit();
-		setXcvrXmtFreq (vfoA.freq, xcvrState.TxOffset);
-		setXcvrListenOnReceive();
-		setXcvrRcvFreq (vfoA.freq, 0);
+	switch (vfoSelect->value()) {
+		case 0 : // t/r on A
+			rx_on_a = tx_on_a = true;
+			opMODE->value(vfoA.imode);
+			opBW->value(vfoA.iBW);
+			setXcvrMode(vfoA.imode);
+			setXcvrBW(vfoA.iBW);
+			send_new_mode(vfoA.imode);
+			send_new_bandwidth(vfoA.iBW);
+			break;
+		case 1 : // t/r on B
+			rx_on_a = tx_on_a = false; 
+			opMODE->value(vfoB.imode);
+			opBW->value(vfoB.iBW);
+			setXcvrMode(vfoB.imode);
+			setXcvrBW(vfoB.iBW);
+			send_new_mode(vfoB.imode);
+			send_new_bandwidth(vfoB.iBW);
+			break;
+		case 2 : 
+			rx_on_a = true; 
+			tx_on_a = false; 
+			opMODE->value(vfoB.imode);
+			opBW->value(vfoB.iBW);
+			setXcvrMode(vfoB.imode);
+			setXcvrBW(vfoB.iBW);
+			send_new_mode(vfoB.imode);
+			send_new_bandwidth(vfoB.iBW);
+			break;
+		case 3 : 
+			rx_on_a = false; 
+			tx_on_a = true; 
+			opMODE->value(vfoA.imode);
+			opBW->value(vfoA.iBW);
+			setXcvrMode(vfoA.imode);
+			setXcvrBW(vfoA.iBW);
+			send_new_mode(vfoA.imode);
+			send_new_bandwidth(vfoA.iBW);
+			break;
 	}
-}
-
-void cbABactive()
-{
-	FREQMODE temp = vfoA;
-	vfoA = vfoB;
-	vfoB = temp;
-	FreqDisp->value(vfoA.freq);
-	opMODE->value(vfoA.imode);
-	opBW->value(vfoA.iBW);
-	FreqDispB->value(vfoB.freq);
-	btnSplit->value(0);
-	cbABsplit();
-	send_xml_freq(vfoA.freq);
-	send_new_mode(vfoA.imode);
-	send_new_bandwidth(vfoA.iBW);
+	movFreq();
+	movFreqB();
 }
 
 void cbA2B()
@@ -337,8 +370,7 @@ void cbA2B()
 	vfoB.imode = vfoA.imode;
 	vfoB.iBW = vfoA.iBW;
 	FreqDispB->value(vfoB.freq);
-	btnSplit->value(0);
-	cbABsplit();
+	cbVFOsel();
 }
 
 
@@ -562,47 +594,34 @@ void cbTune()
 void setTx(bool on)
 {
 	if (on) {
-		if (btnSplit->value()) {
-			setXcvrXmtFreq(vfoB.freq, xcvrState.TxOffset);
-			setXcvrRcvFreq (FreqDisp->value(), 0);
-		} else {
-			setXcvrXmtFreq(FreqDisp->value(), xcvrState.TxOffset);
-			setXcvrRcvFreq(FreqDisp->value(), 0);
-		}
+		FreqDisp->deactivate();
+		FreqDispB->deactivate();
 		btnTune->deactivate();
 		btnCarrier->deactivate();
 		setXcvrPTT(1);
 	} else {
 		setXcvrPTT(0);
-		if (btnSplit->value()) {
-			setXcvrXmtFreq(vfoB.freq, 0);
-			setXcvrRcvFreq (FreqDisp->value(), 0);
-		} else {
-			setXcvrRcvFreq(FreqDisp->value(), 0);
-		}
+		FreqDisp->activate();
+		FreqDispB->activate();
 		btnTune->activate();
 		btnCarrier->activate();
 	}
+	send_ptt_changed(on);
 }
 
 void cbPTT()
 {
 	if (btnPTT->value() == 1) {
 		setTx(true);
+		grpMeters1->hide();
+		grpMeters2->show();
 	} else {
 		setTx(false);
+		grpMeters1->show();
+		grpMeters2->hide();
 	}
-}
-
-void adjustFreqs()
-{
-	if (btnSplit->value()) {
-		setXcvrXmtFreq(vfoB.freq, xcvrState.TxOffset);
-		setXcvrRcvFreq (FreqDisp->value(), 0);
-	} else {
-		setXcvrXmtFreq(FreqDisp->value(), xcvrState.TxOffset);
-		setXcvrRcvFreq(FreqDisp->value(), 0);
-	}
+	grpMeters1->redraw();
+	grpMeters2->redraw();
 }
 
 void cbCarrier()
@@ -635,35 +654,16 @@ void cbWPM()
 	setXcvrWPM(cntrWPM->value());
 }
 
-bool bRxAnt = false;
-bool bTxAnt = false;
-
-void cbRxAnt()
+void cbSPOT()
 {
-	if (bRxAnt == true) {
-		bRxAnt = false;
-		btnRxAnt->label("Rx-A");
-	} else {
-		bRxAnt = true;
-		btnRxAnt->label("Rx-B");
-	}
-	btnRxAnt->redraw_label();
-	if (btnSelAnt->value() == true)
-		movFreq();
+	setXcvrSPOT(btnSPOT->value());
 }
 
-void cbTxAnt()
+int iAntSel = 0;
+void cbAntSel()
 {
-	if (bTxAnt == true) {
-		bTxAnt = false;
-		btnTxAnt->label("Tx-A");
-	} else {
-		bTxAnt = true;
-		btnTxAnt->label("Tx-B");
-	}
-	btnTxAnt->redraw_label();
-	if (btnSelAnt->value() == true)
-		movFreq();
+	iAntSel = antSelect->value();
+	movFreq();
 }
 
 void updateSquelch( int data)
@@ -777,7 +777,7 @@ void cbTemp()
 
 void openFreqList()
 {
-    char *p = fl_file_chooser("Open freq list", "*.arv", homedir);
+    char *p = fl_file_chooser("Open freq list", "*.arv", homedir.c_str());
     if (p) {
 		strcpy (defFileName, p);
 		readFile();
@@ -803,112 +803,18 @@ void saveFreqList()
 	}
 }
 
-void loadConfig()
-{
-	char fname[200];
-	int red, green, blue, baud;
-	int clr1, clr2, clr3;
-	int freq, rcv, xmt;
-	strcpy(fname, homedir);
-	strcat(fname, "kachina.ini");
-	
-	ifstream inCfg(fname);
-	if (!inCfg)
-		setCommsPort();
-	else {
-		inCfg >> szttyport >> baud;
-		inCfg >> red >> green >> blue;
-		FreqDisp->SetONCOLOR (red, green, blue);
-		inCfg >> red >> green >> blue;
-		FreqDisp->SetOFFCOLOR (red, green, blue);
-		if (!inCfg.eof()) {
-			inCfg >> clr1 >> clr2 >> clr3; 
-			btnSWR->color(clr1); btnSWR->redraw();
-			btnPower->color(clr2); btnPower->redraw();
-			btnSmeter->color(clr3); btnSmeter->redraw();
-		}
-		int ports = 0;
-		while (!inCfg.eof()) {
-			freq = 0;
-			inCfg >> freq >> rcv >> xmt;
-			if (freq) {
-				if (!ports) { ports = 1; numantports = 0;}
-				antports[numantports].freq = freq;
-				antports[numantports].rcv = rcv;
-				antports[numantports].xmt = xmt;
-				numantports++;
-			}
-		}
-		inCfg.close();
-	}
-}
-
-void saveConfig()
-{
-	char fname[200];
-	uchar red, green, blue;
-	int iRed, iGreen, iBlue;
-	strcpy(fname, homedir);
-	strcat(fname, "kachina.ini");
-
-	ofstream outCfg(fname);
-	if (!outCfg) return;
-// ttyport & baud rate
-	outCfg << szttyport << " " << 9600 << endl;
-// digit color
-	FreqDisp->GetONCOLOR(red,green,blue);
-	iRed = red; iGreen = green; iBlue = blue;
-	outCfg << iRed << " " << iGreen << " " << iBlue << endl;
-// digit background
-	FreqDisp->GetOFFCOLOR(red,green,blue);
-	iRed = red; iGreen = green; iBlue = blue;
-	outCfg << iRed << " " << iGreen << " " << iBlue << endl;
-// save mode
-	outCfg << btnSWR->color() << " ";
-	outCfg << btnPower->color() << " ";
-	outCfg << btnSmeter->color() << endl;
-	for (int i = 0; i < numantports; i++) {
-		outCfg << antports[i].freq << " ";
-		outCfg << antports[i].rcv << " ";
-		outCfg << antports[i].xmt << endl;
-	}
-	outCfg.close();
-}
-
-
 void loadState()
 {
-	char fname[200];
-	XCVRSTATE ondisk;
-	strcpy(fname, homedir);
-	strcat(fname, "kachina.sta");
-	ifstream inCfg(fname);
-	if (inCfg) {
-		inCfg.read((char *)&ondisk, sizeof(ondisk));
-		inCfg.close();
-		if (strcmp(ondisk.vers, VERSION) == 0)
-			xcvrState = ondisk;
-		else
-			fl_message("State file not current version.");
-		tabs->hide();
-		btn_show_controls->label("@-22->");
-		btn_show_controls->redraw_label();
-		window->resize(xcvrState.mainX, xcvrState.mainY, window->w(), window->h() - tabs->h());
-	}
+	xcvrState.loadLastState();
+	tabs->hide();
+	btn_show_controls->label("@-22->");
+	btn_show_controls->redraw_label();
+	window->resize(xcvrState.mainX, xcvrState.mainY, window->w(), window->h() - tabs->h());
 }
 
 void saveState()
 {
-	char fname[200];
-	strcpy(fname, homedir);
-	strcat(fname, "kachina.sta");
-
-	ofstream outCfg(fname);
-	if (!outCfg) return;
-	xcvrState.mainX = window->x();
-	xcvrState.mainY = window->y();
-	outCfg.write((char *)&xcvrState, sizeof(xcvrState));
-	outCfg.close();
+	xcvrState.saveLastState();
 }
 
 void cbSmeter()
@@ -1110,8 +1016,8 @@ void * watchdog_thread_loop(void *d)
 
 void startProcessing(void *d)
 {
-	if (startComms(szttyport, baudttyport) == 0) {
-		fl_message("%s not available", szttyport);
+	if (startComms(xcvrState.ttyport.c_str(), baudttyport) == 0) {
+		fl_message("%s not available", xcvrState.ttyport.c_str());
 		exit(1);
 	}
 
@@ -1154,14 +1060,14 @@ void cbExit()
 
 // close xmlrpc
 	pthread_mutex_lock(&mutex_xmlrpc);
-	exit_telemetry = true;
+	exit_xmlrpc = true;
 	pthread_mutex_unlock(&mutex_xmlrpc);
 	pthread_join(*telemetry_thread, NULL);
 
 	send_no_rig();
+	close_rig_xmlrpc();
 
 	KachinaSerial.ClosePort();
-	saveConfig();
 	saveState();
 	if (test)
 		CloseTestLog();

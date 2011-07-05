@@ -2,5 +2,5 @@
 
 #include "kachinarc.h"
 
-IDI_ICON ICON DISCARDABLE "kachina.ico"
+IDI_ICON ICON DISCARDABLE "kcat.ico"
 

@@ -119,6 +119,8 @@ kcat_SOURCES += \
 	dialogs.cpp \
 	Kachina.cpp \
 	Fl_SigBar.cpp \
+	flslider2.cxx \
+	font_browser.cxx \
 	FreqControl.cpp \
 	images.cpp \
 	IOspec.cpp \
@@ -131,7 +133,9 @@ kcat_SOURCES += \
 	debug.cxx \
 	icons.cxx \
 	pixmaps.cxx \
+	status.cxx \
 	util.cxx \
+	ValueSlider.cxx \
 	include/cstack.h \
 	include/debug.h \
 	include/dialogs.h \
@@ -139,6 +143,8 @@ kcat_SOURCES += \
 	include/icons.h \
 	include/pixmaps.h \
 	include/Fl_SigBar.h \
+	include/flslider2.h \
+	include/font_browser.h \
 	include/FreqControl.h \
 	include/images.h \
 	include/IOspec.h \
@@ -149,8 +155,10 @@ kcat_SOURCES += \
 	include/linserial.h \
 	include/serialcomm.h \
 	include/support.h \
+	include/status.h \
 	include/test.h \
 	include/util.h \
+	include/ValueSlider.h \
 	include/version.h \
 	include/winserial.h \
 	xml_io.cxx \
@@ -187,7 +195,7 @@ kcat_SOURCES += \
 # Additional source files that are distributed
 EXTRA_DIST = \
 	kachina.rc \
-	images/kachina.xpm \
+	images/kcat.xpm \
 	images/mvolts.xbm \
 	images/p120.xbm \
 	images/p150.xbm \

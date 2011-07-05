@@ -344,13 +344,17 @@ static void send_rig_info()
 void send_no_rig()
 {
 	XmlRpcValue res;
-	execute(rig_set_name, "No rig", res);
-	send_bandwidths();
-	send_modes();
-	execute(rig_set_mode, "USB", res);
-	XmlRpcValue sideband("USB");
-	execute(main_set_wf_sideband, sideband, res);
-	execute(rig_release_control, XmlRpcValue(), res);
+	try {
+		execute(rig_set_name, "No rig", res);
+		send_bandwidths();
+		send_modes();
+		execute(rig_set_mode, "USB", res);
+		XmlRpcValue sideband("USB");
+		execute(main_set_wf_sideband, sideband, res);
+		execute(rig_release_control, XmlRpcValue(), res);
+	} catch (...) {
+		printf("Fldigi not running!\n");
+	}
 }
 
 static void get_fldigi_status()
