@@ -12,7 +12,7 @@
 	#include <sys/types.h>
 	#include <FL/Fl_Pixmap.H>
 	#include <FL/Fl_Image.H>
-	#include "kachina.xpm"
+	#include "kcat.xpm"
 #endif
 
 #include <FL/x.H>
@@ -83,7 +83,7 @@ int main (int argc, char *argv[])
 		mkdir( homedir, S_IRUSR | S_IWUSR | S_IXUSR);
 	else
 		close(fd);
-	make_pixmap( &kachina_icon_pixmap, kachina_xpm);
+	make_pixmap( &kachina_icon_pixmap, kcat_xpm);
 	window->icon((char*)kachina_icon_pixmap);
 	window->xclass(PACKAGE_NAME);
 #endif

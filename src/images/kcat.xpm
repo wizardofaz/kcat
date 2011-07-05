@@ -1,5 +1,5 @@
 /* XPM */
-static char * kcat_3_xpm[] = {
+static const char * kcat_xpm[] = {
 "64 64 166 2",
 "  	c None",
 ". 	c #FEFFFC",

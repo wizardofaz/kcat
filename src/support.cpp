@@ -31,8 +31,8 @@ int iBW[] = {
 
 const char *szNotch[] = {"Wide", "Med", "Nar", NULL};
 
-FREQMODE vfoA = {1407000, USB, 7, UI };
-FREQMODE vfoB = {3500000, USB, 7, UI };
+FREQMODE vfoA = {14070000, USB, 7, UI };
+FREQMODE vfoB = { 3580000, USB, 7, UI };
 FREQMODE xmlvfo = vfoA;
 
 char szVfoB[12];
@@ -72,12 +72,7 @@ char *print(FREQMODE data)
 
 void initKachina()
 {
-	dlgRcvConfig = RcvParamDialog();
-	dlgXmtConfig = XmtParamDialog();
-	dlgCwParams  = CwParamDialog();
 	dlgAntPorts  = FreqRangesDialog();
-    FreqDisp->setMaxVal(30000000L);
-    FreqDisp->setMinVal(30000L);
 
 	if (test) {
 		mnuViewLog->show();
@@ -288,7 +283,8 @@ void buildlist() {
 	updateSelect();
 }
 
-int movFreq() {
+int movFreq()
+{
 	int ret;
 	vfoA.freq = FreqDisp->value();
 	setXcvrXmtFreq (vfoA.freq, xcvrState.TxOffset);
@@ -297,7 +293,12 @@ int movFreq() {
 	return ret;
 }
 
-	
+int movFreqB()
+{
+	vfoB.freq = FreqDispB->value();
+	return 0;
+}
+
 void cbABsplit()
 {
 	if (btnSplit->value() == 1) {
@@ -316,15 +317,13 @@ void cbABsplit()
 
 void cbABactive()
 {
-	if (!vfoB.freq) return;
 	FREQMODE temp = vfoA;
 	vfoA = vfoB;
 	vfoB = temp;
 	FreqDisp->value(vfoA.freq);
 	opMODE->value(vfoA.imode);
 	opBW->value(vfoA.iBW);
-	sprintf(szVfoB,"%8ld", vfoB.freq);
-	txtInactive->value(szVfoB);
+	FreqDispB->value(vfoB.freq);
 	btnSplit->value(0);
 	cbABsplit();
 	send_xml_freq(vfoA.freq);
@@ -337,15 +336,13 @@ void cbA2B()
 	vfoB.freq = vfoA.freq;
 	vfoB.imode = vfoA.imode;
 	vfoB.iBW = vfoA.iBW;
-	sprintf(szVfoB,"%8ld", vfoB.freq);
-	txtInactive->value(szVfoB);
+	FreqDispB->value(vfoB.freq);
 	btnSplit->value(0);
 	cbABsplit();
 }
 
 
 void selectFreq() {
-	if (FreqDisp->enable() == false) return;
 	int n = FreqSelect->value();
 	if (!n) return;
 	n--;
@@ -462,7 +459,7 @@ void cbbtnNotch()
 
 void cbDepth()
 {
-	setXcvrNotchDepth(sldrDepth->value());
+	setXcvrNotchDepth(sldrDepth->value()*2.55);
 }
 
 void setNotch()
@@ -824,8 +821,6 @@ void loadConfig()
 		FreqDisp->SetONCOLOR (red, green, blue);
 		inCfg >> red >> green >> blue;
 		FreqDisp->SetOFFCOLOR (red, green, blue);
-		inCfg >> red >> green >> blue;
-		FreqDisp->SetSELCOLOR (red, green, blue);
 		if (!inCfg.eof()) {
 			inCfg >> clr1 >> clr2 >> clr3; 
 			btnSWR->color(clr1); btnSWR->redraw();
@@ -868,10 +863,6 @@ void saveConfig()
 	FreqDisp->GetOFFCOLOR(red,green,blue);
 	iRed = red; iGreen = green; iBlue = blue;
 	outCfg << iRed << " " << iGreen << " " << iBlue << endl;
-// digit select color
-	FreqDisp->GetSELCOLOR(red,green,blue);
-	iRed = red; iGreen = green; iBlue = blue;
-	outCfg << iRed << " " << iGreen << " " << iBlue << endl;
 // save mode
 	outCfg << btnSWR->color() << " ";
 	outCfg << btnPower->color() << " ";
@@ -899,7 +890,10 @@ void loadState()
 			xcvrState = ondisk;
 		else
 			fl_message("State file not current version.");
-		window->resize(xcvrState.mainX, xcvrState.mainY, 500, 315);
+		tabs->hide();
+		btn_show_controls->label("@-22->");
+		btn_show_controls->redraw_label();
+		window->resize(xcvrState.mainX, xcvrState.mainY, window->w(), window->h() - tabs->h());
 	}
 }
 
@@ -1049,11 +1043,11 @@ bool exit_telemetry = false;
 void parseTelemetry(void *val)
 {
 	int data = (int)(reinterpret_cast<long> (val));
-	if (data > 139 && data < 215)
-		FreqDisp->enable(false); // transmitting do not allow changes in vfo
-	else
-		FreqDisp->enable(true);
-	
+//	if (data > 139 && data < 215)
+//		FreqDisp->enable(false); // transmitting do not allow changes in vfo
+//	else
+//		FreqDisp->enable(true);
+
 	if (data < 128)
 		updateRcvSignal(data);
 	else if (data < 130)

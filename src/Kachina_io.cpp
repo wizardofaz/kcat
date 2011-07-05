@@ -60,7 +60,8 @@ struct XCVRSTATE xcvrState = {
 	VERSION,
 	0,		// MAIN_X
 	0,		// MAIN_Y
-	0		// TXOFFSET
+	0,		// TXOFFSET
+	0.0		// VFOADJ
 };
 	
 #define MAXTRIES 2
@@ -263,7 +264,9 @@ int antPort( long freq)
 
 void setvfo (char  *cmd, long freq, long offset)
 {
-	long val = (long)ceil(2.2369621333 * (75000000 + freq - offset));
+	long val = 0;
+	freq *= (1 + xcvrState.VFOADJ * 1e-6);
+	val = (long)ceil(2.2369621333 * (75000000 + freq - offset));
 	cmd[5] = val & 0xFF; val = val >> 8;
 	cmd[4] = val & 0xFF; val = val >> 8;
 	cmd[3] = val & 0xFF; val = val >> 8;

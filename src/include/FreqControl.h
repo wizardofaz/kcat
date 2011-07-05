@@ -22,7 +22,7 @@
 // Please report all bugs and problems to "w1hkj@w1hkj.com".
 //
 // Usage:
-//    Create a multi-digit receiver / transceiver frequency control widget
+//	Create a multi-digit receiver / transceiver frequency control widget
 //
 // label used to pass # digits & decimal position to control
 // the widget can be used in Fluid & initialized with the
@@ -35,76 +35,75 @@
 #ifndef _FREQCONTROL_H_
 #define _FREQCONTROL_H_
 
-#include <math.h>
-#include <stdio.h>
-#include <string.h>
-
 #include <FL/Fl.H>
-#include <FL/fl_draw.H>
 #include <FL/Fl_Widget.H>
 #include <FL/Fl_Repeat_Button.H>
 #include <FL/Fl_Group.H>
-#include <FL/Fl_Box.H>
 #include <FL/Enumerations.H>
 
 #ifdef MAX_DIGITS
 #undef MAX_DIGITS
 #endif
-#define MAX_DIGITS 9
+#define MAX_DIGITS 10
+
+#ifdef MIN_DIGITS
+#undef MIN_DIGITS
+#endif
+#define MIN_DIGITS 4
+
+class Fl_Box;
+class Fl_Float_Input;
 
 class cFreqControl : public Fl_Group {
 friend void cbSelectDigit (Fl_Widget *btn, void * nbr);
 public:
-	cFreqControl(int x, int y, int w, int h, char *lbl = "7");
+	cFreqControl(int x, int y, int w, int h, const char *lbl = "7");
 	~cFreqControl();
 	void updatevalue();
 	void value(long lv);
 	long value(){return val;};
-	void SetColors();
+	void font(Fl_Font fnt);
 	void SetONCOLOR (uchar r, uchar g, uchar b);
 	void SetOFFCOLOR (uchar r, uchar g, uchar b);
-	void SetSELCOLOR (uchar r, uchar g, uchar b);
 	void GetONCOLOR (uchar &r, uchar &g, uchar &b) {
 			Fl::get_color(ONCOLOR, r, g, b);
 	};
 	void GetOFFCOLOR (uchar &r, uchar &g, uchar &b) {
 			Fl::get_color(OFFCOLOR, r, g, b);
 	};
-	void GetSELCOLOR (uchar &r, uchar &g, uchar &b) {
-		Fl::get_color(SELCOLOR, r, g, b);
-	};
-    void SetONOFFCOLOR( Fl_Color, Fl_Color);
+	void SetONOFFCOLOR( Fl_Color, Fl_Color);
 	void setCallBack (int (*cbf)() ){ cbFunc = cbf;};
+	void do_callback() { if (cbFunc) cbFunc(); }
+	int  handle(int event);
+	void visual_beep();
 
-    void setMaxVal (long maxV) { maxVal = maxV;}
-    void setMinVal (long minV) { minVal = minV;}
+	void set_precision(int val) {
+		if (val % 10) val = 1;
+		precision = (val < 1) ? 1 : (val > 1000) ? 1000 : val;
+	}
 
-	void Illuminate(int n);
-	void RotR();
-	void RotL();
-	void focus() { Fl::focus(Digit[active]);};
-	void enable(bool val) { enabled = val;};
-	bool enable() { return enabled;};
-	
-	int handle(int event);
 private:
-	Fl_Button      		*Digit[MAX_DIGITS];
-	static const char		 	*Label[];
+	Fl_Repeat_Button	  	*Digit[MAX_DIGITS];
+	Fl_Float_Input			*finp;
+	static const char	 	*Label[];
 	int					mult[MAX_DIGITS];
 	Fl_Box				*decbx;
+	Fl_Font  font_number;
 	Fl_Color OFFCOLOR;
 	Fl_Color ONCOLOR;
 	Fl_Color SELCOLOR;
+	Fl_Color ILLUMCOLOR;
 	int nD;
 	int active;
-	bool enabled;
 	long maxVal;
 	long minVal;
 	void DecFreq(int n);
 	void IncFreq(int n);
 	int (*cbFunc)();
+	static void freq_input_cb(Fl_Widget* input, void* arg);
 protected:
-  long val;
+	long val, oldval;
+	int  precision;
 };
 
 #endif 

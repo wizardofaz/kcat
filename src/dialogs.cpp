@@ -53,18 +53,6 @@ void cbCalFinished()
 
 //-----------Receiver settings dialog
 
-void openRcvConfigDialog()
-{
-	if (!dlgRcvConfig)
-		dlgRcvConfig = RcvParamDialog();
-	dlgRcvConfig->show();
-}
-
-void closeRcvDialog()
-{
-	dlgRcvConfig->hide();
-}
-
 void cbsldrAgcAction()
 {
 	xcvrState.AGCACTION = (int)sldrAgcAction->value();
@@ -108,18 +96,6 @@ void cbSQLtype()
 }
 
 //-----------Transmit settings dialog
-
-void openXmtConfigDialog()
-{
-	if (!dlgXmtConfig)
-		dlgXmtConfig = XmtParamDialog();
-	dlgXmtConfig->show();
-}
-
-void closeXmtDialog()
-{
-	dlgXmtConfig->hide();
-}
 
 void cbbtnSpchProc()
 {
@@ -248,22 +224,6 @@ void cbQSKonoff()
 	xcvrState.QSK = btnQSKonoff->value();
 	cmdK_QSK0[2] = xcvrState.QSK; 			
 	sendCommand(cmdK_QSK0);
-}
-
-void cbCWspot()
-{
-}
-
-void openCwParamDialog()
-{
-	if (!dlgCwParams)
-		dlgCwParams = CwParamDialog();
-	dlgCwParams->show();
-}
-
-void closeCwParamDialog()
-{
-	dlgCwParams->hide();
 }
 
 // Antenna Port Dialog
@@ -513,18 +473,6 @@ void cbPrefForeground()
 	dlgDisplayConfig->redraw();
 }
 
-void cbSelectColor()
-{
-	FreqDisp->GetSELCOLOR(sl_red, sl_green, sl_blue);
-	lblSelect->labelcolor(fl_rgb_color(sl_red, sl_green, sl_blue));
-	const char *title = "Digit Select color";
-	if (fl_color_chooser(title, sl_red, sl_green, sl_blue)) {
-		FreqDisp->SetSELCOLOR(sl_red, sl_green, sl_blue);
-		lblSelect->labelcolor(fl_rgb_color (sl_red, sl_green, sl_blue));
-	}
-	dlgDisplayConfig->redraw();
-}
-
 void cbSmeterColor()
 {
 	uchar red, green, blue;
@@ -576,9 +524,6 @@ void setDisplayColors()
 	lblTest->labelcolor(fl_rgb_color(red,green,blue));
 	FreqDisp->GetOFFCOLOR(red,green,blue);
 	lblTest->color(fl_rgb_color(red,green,blue));
-	lblSelect->color(fl_rgb_color(red,green,blue));
-	FreqDisp->GetSELCOLOR(red,green,blue);
-	lblSelect->labelcolor(fl_rgb_color(red,green,blue));
 	btnSWRcolor->color(btnSWR->color());
 	btnPowercolor->color(btnPower->color());
 	btnSmeterColor->color(btnSmeter->color());
@@ -876,3 +821,27 @@ void cbNRAMSave()
 void cbNRAMRestore()
 {
 }
+
+void cb_vfo_adj()
+{
+	xcvrState.VFOADJ = ctr_vfo_adj->value();
+	movFreq();
+}
+
+void show_controls()
+{
+	if (tabs->visible()) {
+		tabs->hide();
+		btn_show_controls->label("@-22->");
+		btn_show_controls->redraw_label();
+		window->size( window->w(), window->h() - tabs->h());
+	} else {
+		tabs->show();
+		btn_show_controls->label("@-28->");
+		btn_show_controls->redraw_label();
+		window->size( window->w(), window->h() + tabs->h());
+	}
+	window->redraw();
+	setFocus();
+}
+

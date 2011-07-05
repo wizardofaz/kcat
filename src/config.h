@@ -11,7 +11,7 @@
 #define BUILD_CONFIGURE_ARGS ""
 
 /* Build date */
-#define BUILD_DATE "Mon Jul  4 13:39:29 CDT 2011"
+#define BUILD_DATE "Tue Jul  5 18:29:26 CDT 2011"
 
 /* Build host */
 #define BUILD_HOST "linux-dev"

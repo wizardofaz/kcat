@@ -51,10 +51,13 @@ extern void addFreq();
 extern void delFreq();
 extern void clearList();
 extern int  movFreq();
+extern int  movFreqB();
 extern void adjustFreqs();
 extern void cbABsplit();
 extern void cbABactive();
 extern void cbA2B();
+extern void setFocus();
+extern void show_controls();
 
 extern void setNotch();
 
@@ -94,6 +97,7 @@ extern void OpenTestLog();
 extern void CloseTestLog();
 extern void writeTestLog( char *str);
 
+extern void cb_vfo_adj();
 
 extern void loadConfig();
 extern void saveConfig();
@@ -101,7 +105,6 @@ extern void loadState();
 extern void saveState();
 extern void initKachina();
 
-// receive dialog
 extern void openRcvConfigDialog();
 extern void cbsldrAgcAction();
 extern void cbsldrAgcSpeed();
@@ -109,7 +112,6 @@ extern void cbSqlLevel();
 extern void cbSQLtype();
 extern void closeRcvDialog();
 
-// transmit dialog
 extern void openXmtConfigDialog();
 extern void cbbtnSpchProc();
 extern void cbSpchMon();
@@ -124,23 +126,20 @@ extern void cbbtnAmpOnOff();
 extern void closeXmtDialog();
 
 
-// Display Dialog
 extern void cbOkCommsDialog();
 extern void initCommPortTable ();
 extern void setCommsPort();
 extern void setDisplayColors();
 
-extern void cbOkDisplayDialog();
 extern void cbPrefBackground();
 extern void cbPrefForeground();
 extern void cbSelectColor();
 extern void cbSmeterColor();
 extern void cbPWRcolor();
 extern void cbSWRcolor();
+extern void cbOkDisplayDialog();
 
 // CW Dialog
-extern void openCwParamDialog();
-extern void closeCwParamDialog();
 extern void cbCWattack();
 extern void cbCWweight();
 extern void cbCWmode();
@@ -239,6 +238,8 @@ struct XCVRSTATE {
 	int	   mainX;
 	int    mainY;
 	int	   TxOffset;
+
+	double VFOADJ;
 };
 
 extern struct XCVRSTATE xcvrState;
