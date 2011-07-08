@@ -606,7 +606,7 @@ void setTx(bool on)
 		btnTune->activate();
 		btnCarrier->activate();
 	}
-	send_ptt_changed(on);
+//	send_ptt_changed(on);
 }
 
 void cbPTT()
