@@ -1,0 +1,18 @@
+2011-07-08  David Freese  <w1hkj@w1hkj.com>
+
+	1f1f366: Alpha test version
+	8735194: ARV file
+	13d0263: Config-dir
+	7fd5322: Keyboard focus
+	09810a9: Debugging
+	0621b1e: Signal Bar
+	6d762c5: PTT
+	15d8dcf: State file
+	201a530: GUI redesign
+	0d67dad: XMLRPC
+	a2cb7d9: Threads
+	559c59f: FILEIO
+	c157fb9: Make distribution
+	e20b894: Code cleanup
+	99395ad: Install update
+	88933fa: Initial Kachina repository
