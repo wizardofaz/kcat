@@ -207,12 +207,20 @@ int parse_args(int argc, char **argv, int& idx)
 	if (strcasecmp("--help", argv[idx]) == 0) {
 		printf("Usage: \n\
   --help this help text\n\
+  --config-dir <DIR>\n\
   --version\n");
 		exit(0);
 	} 
 	if (strcasecmp("--version", argv[idx]) == 0) {
 		printf("Version: "VERSION"\n");
 		exit (0);
+	}
+	if (strcasecmp("--config-dir", argv[idx]) == 0) {
+		homedir = argv[idx + 1];
+		if (homedir[homedir.length()-1] != '/')
+			homedir += '/';
+		idx += 2;
+		return 1;
 	}
 	return 0;
 }
