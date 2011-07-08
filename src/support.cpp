@@ -27,7 +27,8 @@ const char *szmodes[] = {"LSB", "USB", "CW", "AM", "FM", NULL};
 const char modetype[] = {'L', 'U', 'L', 'U', 'U'};
 
 const char *szBW[] =  {
-"100", "200", "500", "1000", "1700", "2100", "2400", "2700", "3500","DATmed", "DAThi", NULL};
+"100", "200", "500", "1000", "1700", "2100", "2400", "2700", "3500","DataM", "DataH", NULL};
+
 int iBW[] = {
 0x09, 0x08, 0x07, 0x06, 0x05, 0x04, 0x03, 0x02, 0x01, 0x0b, 0x0a };
 
@@ -219,13 +220,21 @@ void clearList() {
 	numinlist = 0;
 }
 
+int coltabs[] = {10, 3, 0};
 void updateSelect() {
+	coltabs[0] = 0.45 * FreqSelect->w();
+	coltabs[1] = 0.1 * FreqSelect->w();
+	FreqSelect->column_widths((const int *)coltabs);
 	char szFREQMODE[20];
 	if (!numinlist) return;
 	sortList();
 	FreqSelect->clear();
 	for (int n = 0; n < numinlist; n++) {
-		sprintf(szFREQMODE, "%9.3f%4s", oplist[n].freq / 1000.0, szmodes[oplist[n].imode]);
+		snprintf(szFREQMODE, sizeof(szFREQMODE),
+			"%.2f\t%c\t%-s", 
+			oplist[n].freq / 1000.0, 
+			szmodes[oplist[n].imode][0], 
+			szBW[oplist[n].iBW]);
 		FreqSelect->add (szFREQMODE);
 	}
 }
@@ -406,7 +415,9 @@ void delFreq() {
 
 void addFreq() {
 	for (int n = 0; n < numinlist; n++) 
-		if (vfoA.freq == oplist[n].freq && vfoA.imode == oplist[n].imode) return;
+		if (vfoA.freq == oplist[n].freq && 
+			vfoA.imode == oplist[n].imode &&
+			vfoA.iBW == oplist[n].iBW ) return;
 	addtoList(vfoA.freq, vfoA.imode, vfoA.iBW);
 	updateSelect();
 }
@@ -803,7 +814,7 @@ void saveFreqList()
 			return;
 		}
 		for (int i = 0; i < numinlist; i++)
-			oList << oplist[i].freq << " " << oplist[i].imode << endl;
+			oList << oplist[i].freq << " " << oplist[i].imode << " " << oplist[i].iBW << endl;
 		oList.close();
 		strcpy(defFileName, p);
 	}
