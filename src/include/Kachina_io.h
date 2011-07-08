@@ -6,6 +6,8 @@
 
 extern bool serial_busy;
 
+extern std::string retval;
+
 extern bool startComms(const char *, int);
 
 extern bool sendCommand(char *str);

@@ -15,6 +15,7 @@
 #include "config.h"
 #include "xml_io.h"
 #include "status.h"
+#include "debug.h"
 
 using namespace std;
 
@@ -606,7 +607,6 @@ void setTx(bool on)
 		btnTune->activate();
 		btnCarrier->activate();
 	}
-//	send_ptt_changed(on);
 }
 
 void cbPTT()
@@ -673,6 +673,7 @@ void updateSquelch( int data)
 	else
 		boxSquelch->color(FL_LIGHT1);
 	boxSquelch->redraw();
+	LOG_DEBUG("%d", data);
 }
 
 void updateALC(int data)
@@ -682,6 +683,7 @@ void updateALC(int data)
 		sldrFwdPwr->value(data * 1.0);
 	}
 	sldrFwdPwr->redraw();
+	LOG_DEBUG("%d", data);
 }
 
 float fp_ = 0.0, rp_ = 0.0;
@@ -695,6 +697,7 @@ void updateFwdPwr(int data)
 		sldrFwdPwr->value(power);
 		sldrFwdPwr->redraw();
 	}
+	LOG_DEBUG("%d", data);
 }
 
 void updateRefPwr(int data)
@@ -702,6 +705,7 @@ void updateRefPwr(int data)
 	rp_ = 2 * data;
 	sldrRefPwr->value(rp_); // 0 - 50 scale;
 	sldrRefPwr->redraw();
+	LOG_DEBUG("%d", data);
 }
 
 void zeroSmeter()
@@ -729,6 +733,7 @@ void updateRcvSignal( int data)
 	}
 	sldrRcvSignal->value(-data);
 	zeroXmtMeters();
+	LOG_DEBUG("%d", data);
 }
 
 void setOverTempAlarm()
@@ -760,6 +765,7 @@ void updateTempDisplay(int data)
 	sprintf(buff,"%3.0f",temp);
 	txtTEMP->value(buff);
 	txtTEMP->redraw();
+	LOG_DEBUG("%d", data);
 }
 
 void cbTemp()
@@ -876,6 +882,7 @@ void GetKachinaVersion()
 {
 	unsigned char buffer[10];
 	RequestData (cmdK_RSER, buffer, 10);
+	LOG_WARN("%s", retval.c_str());
 	RigSerNbr = (((buffer[0]*256 + buffer[1])*256) + buffer[2])*256 + buffer[3];
 	RigFirm[0] = buffer[6]; RigFirm[1] = buffer[7];
 	RigHard[0] = buffer[4]; RigHard[1] = buffer[5];
@@ -949,14 +956,10 @@ bool exit_telemetry = false;
 void parseTelemetry(void *val)
 {
 	int data = (int)(reinterpret_cast<long> (val));
-//	if (data > 139 && data < 215)
-//		FreqDisp->enable(false); // transmitting do not allow changes in vfo
-//	else
-//		FreqDisp->enable(true);
 
 	if (data < 128)
 		updateRcvSignal(data);
-	else if (data < 130)
+	else if (data == 128 || data == 129)
 		updateSquelch(data);
 	else if (data < 140)
 		updateALC(data - 130);

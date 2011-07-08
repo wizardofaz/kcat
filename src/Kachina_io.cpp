@@ -52,32 +52,24 @@ bool sendCmd(string &str) {
 	return sendCommand( (char*)str.c_str());
 }
 
+string retval;
+
 bool sendCommand(char *str)
 {
 	int len = str[0];
 	int nret, loopcnt;
 	unsigned char *sendbuff = new unsigned char(len+2);
 	unsigned char retbuff[3];
-	char szVal[20];
 
 	serial_busy = true;
+
 
 // create command string
 	sendbuff[0] = STX;
 	for (int n = 1; n <= len; n++) sendbuff[n] = str[n];
 	sendbuff[len+1] = ETX;
-
-	if (test && sendbuff[1] != 'd') {
-		if (sendbuff[1] != 'R' && sendbuff[1] != 't' && sendbuff[1] != 'T') {
-			sprintf(szVal,"%c ", sendbuff[1]);
-			writeTestLog(szVal);
-		}
-			for (int i = 2; i <= len; i++) {
-				sprintf(szVal,"%02X ", sendbuff[i]);
-				writeTestLog(szVal);
-			}
-	}
 	len += 2;
+
 	for (int i = 0; i < MAXTRIES; i++) {
 		nret = KachinaSerial.WriteBuffer (sendbuff, len);
 		if (nret != len)
@@ -87,33 +79,20 @@ bool sendCommand(char *str)
 			memset(retbuff, 0, 3);
 			nret = KachinaSerial.ReadBuffer (retbuff, 1);
 			if (retbuff[0] == 0xFF) { // Kachina accepted the command
-				if (test && sendbuff[1] != 'd') {
-					sprintf(szVal, "\n");
-					writeTestLog(szVal);
-				}
+				retval = "OK";
 				serial_busy = false;
 				delete [] sendbuff;
 				return true;
 			}
 			if (retbuff[0] == 0xFE) { // Kachina rejected the command
-				if (test && sendbuff[1] != 'd') {
-					sprintf(szVal," R\n");
-					writeTestLog(szVal);
-				}
+				retval = "REJ";
 				break;
-			}
-			if (test) {
-				sprintf(szVal,">");
-				writeTestLog(szVal);
 			}
 			commstack.push(retbuff[0]); // telemetry data
 		} while (++loopcnt < LOOPS);
 	}
 	serial_busy = false;
-	if (test && sendbuff[1] != 'd') {
-		sprintf(szVal," F\n");
-		writeTestLog(szVal);
-	}
+	retval = "FAIL";
 	delete [] sendbuff;
 	return false;
 }
@@ -124,7 +103,7 @@ bool RequestData (char *cmd, unsigned char *buff, int nbr)
 	int nret, loopcnt;
 	unsigned char *sendbuff = new unsigned char(len+2);
 	unsigned char retbuff[3];
-	char szVal[20];
+	char szTemp[10];
 
 	serial_busy = true;
 
@@ -132,16 +111,9 @@ bool RequestData (char *cmd, unsigned char *buff, int nbr)
 	sendbuff[0] = STX;
 	for (int n = 1; n <= len; n++) sendbuff[n] = cmd[n];
 	sendbuff[len+1] = ETX;
-
-	if (test) {
-		sprintf(szVal,"%c ", sendbuff[1]);
-		writeTestLog(szVal);
-		for (int i = 2; i <= len; i++) {
-			sprintf(szVal,"%02X ", sendbuff[i]);
-			writeTestLog(szVal);
-		}
-	}
 	len += 2;
+
+	retval.clear();
 	for (int i = 0; i < MAXTRIES; i++) {
 		nret = KachinaSerial.WriteBuffer (sendbuff, len);
 		if (nret != len)
@@ -151,36 +123,25 @@ bool RequestData (char *cmd, unsigned char *buff, int nbr)
 			memset(retbuff, 0, 3);
 			nret = KachinaSerial.ReadBuffer (retbuff, 1);
 			if (retbuff[0] == 0xFD) { // Kachina is sending the data
-				if (test) {
-					sprintf(szVal, " %02X", retbuff[0]);
-					writeTestLog(szVal);
-				}
 				KachinaSerial.ReadBuffer (buff, nbr);
 				for (int i = 0; i < nbr; i++) {
-					sprintf(szVal, " %02X", buff[i]);
-					writeTestLog(szVal);
+					snprintf(szTemp, sizeof(szTemp), " %02X", buff[i]);
+					retval.append(szTemp);
+					if (i != 0 && !(i%16)) retval.append("\n");
 				}
-				sprintf(szVal, " OK\n");
-				writeTestLog(szVal);
 				serial_busy = false;
 				delete [] sendbuff;
 				return true;
 			}
 			if (retbuff[0] == 0xFE) { // Kachina rejected the command
-				if (test) {
-					sprintf(szVal, " %02X Rejected\n", retbuff[0]);
-					writeTestLog(szVal);
-				}
+				retval = "REJ";
 				break;
 			}
 			commstack.push(retbuff[0]); // telemetry data
 		} while (++loopcnt < LOOPS);
 	}
 	serial_busy = false;
-	if (test) {
-		sprintf(szVal," Failed\n");
-		writeTestLog(szVal);
-	}
+	retval = "FAIL";
 	delete [] sendbuff;
 	return false;
 }
@@ -220,8 +181,8 @@ void setXcvrRcvFreq (long freq, int offset)
 {
 	setvfo (cmdK_RCVF, freq, offset);
 	cmd = cmdK_RCVF;
-	sendCmd(cmd);;
-	LOG_WARN("%ld %s", freq, str2hex(cmd.c_str(), cmd.length()));
+	sendCmd(cmd);
+	LOG_INFO("%ld %s : %s", freq, str2hex(cmd.c_str(), cmd.length()), retval.c_str());
 }
 
 void setXcvrSplitFreq (long freq, int offset)
@@ -229,7 +190,7 @@ void setXcvrSplitFreq (long freq, int offset)
 	setvfo (cmdK_XMTS, freq, offset);
 	cmd = cmdK_XMTS;
 	sendCmd(cmd);
-	LOG_WARN("%ld %s", freq, str2hex(cmd.c_str(), cmd.length()));
+	LOG_INFO("%ld %s : %s", freq, str2hex(cmd.c_str(), cmd.length()), retval.c_str());
 }
 
 void setXcvrXmtFreq (long freq, int offset)
@@ -237,7 +198,7 @@ void setXcvrXmtFreq (long freq, int offset)
 	setvfo (cmdK_XMTF, freq, offset);
 	cmd = cmdK_XMTF;
 	sendCmd(cmd);
-	LOG_WARN("%ld %s", freq, str2hex(cmd.c_str(), cmd.length()));
+	LOG_INFO("%ld %s : %s", freq, str2hex(cmd.c_str(), cmd.length()), retval.c_str());
 }
 
 void setXcvrSimplex()
@@ -245,6 +206,7 @@ void setXcvrSimplex()
 	cmd = cmdK_VFOM;
 	cmd[2] = 0x01;
 	sendCmd(cmd);
+	LOG_INFO("%s : %s", str2hex(cmd.c_str(), cmd.length()), retval.c_str());
 }
 
 void setXcvrSplit()
@@ -252,6 +214,7 @@ void setXcvrSplit()
 	cmd = cmdK_VFOM;
 	cmd[2] = 0x04;
 	sendCmd(cmd);
+	LOG_INFO("%s : %s", str2hex(cmd.c_str(), cmd.length()), retval.c_str());
 }
 
 void setXcvrListenOnReceive()
@@ -259,6 +222,7 @@ void setXcvrListenOnReceive()
 	cmd = cmdK_VFOM;
 	cmd[2] = 0x02;
 	sendCmd(cmd);
+	LOG_INFO("%s : %s", str2hex(cmd.c_str(), cmd.length()), retval.c_str());
 }
 
 
@@ -285,7 +249,8 @@ void setXcvrMode(int mode)
 			cmdK_MODE[2] = 0x04;
 	}
 	cmd = cmdK_MODE;
-	sendCmd(cmd);;
+	sendCmd(cmd);
+	LOG_INFO("%s : %s", str2hex(cmd.c_str(), cmd.length()), retval.c_str());
 }
 
 // Volume control
@@ -295,7 +260,8 @@ void setXcvrVolume(double val)
 	int short vol = (int short)(val * 255); // 0 - 0xFF;
 	cmdK_VOLU[2] = vol;
 	cmd = cmdK_VOLU;
-	sendCmd(cmd);;
+	sendCmd(cmd);
+	LOG_INFO("%s : %s", str2hex(cmd.c_str(), cmd.length()), retval.c_str());
 }
 
 // IF shift control
@@ -304,7 +270,8 @@ void setXcvrIFshift(double val)
 	xcvrState.IFSHIFT = val;
 	cmdK_IFSH[2] = (int)(val / 10) &0xFF;
 	cmd = cmdK_IFSH;
-	sendCmd(cmd);;
+	sendCmd(cmd);
+	LOG_INFO("%s : %s", str2hex(cmd.c_str(), cmd.length()), retval.c_str());
 }
 
 // Bandwidth controls
@@ -312,7 +279,8 @@ void setXcvrBW(int sel)
 {
 	cmdK_BW[2] = iBW[sel];
 	cmd = cmdK_BW;
-	sendCmd(cmd);;
+	sendCmd(cmd);
+	LOG_INFO("%s : %s", str2hex(cmd.c_str(), cmd.length()), retval.c_str());
 }
 
 // Transceiver max power level
@@ -321,7 +289,8 @@ void setXcvrPower(double val)
 	xcvrState.MAXPWR = val;
 	cmdK_PWR[2] = (int) val & 0xFF;
 	cmd = cmdK_PWR;
-	sendCmd(cmd);;
+	sendCmd(cmd);
+	LOG_INFO("%s : %s", str2hex(cmd.c_str(), cmd.length()), retval.c_str());
 }
 
 
@@ -331,7 +300,8 @@ void setXcvrNotchWidth(int val)
 	xcvrState.NOTCHWIDTH = val;
 	cmdK_NTCW[2] = val & 0xFF;
 	cmd = cmdK_NTCW;
-	sendCmd(cmd);;
+	sendCmd(cmd);
+	LOG_INFO("%s : %s", str2hex(cmd.c_str(), cmd.length()), retval.c_str());
 }
 
 // Transceiver Notch Filter Freq
@@ -341,7 +311,8 @@ void setXcvrNotch(double val)
 	int nval = (int)(val) / 10 - 20;
 	cmdK_NTCF[2] = nval & 0xFF;
 	cmd = cmdK_NTCF;
-	sendCmd(cmd);;
+	sendCmd(cmd);
+	LOG_INFO("%s : %s", str2hex(cmd.c_str(), cmd.length()), retval.c_str());
 }
 
 // Transceiver Noise reduction - Auto notch depth
@@ -353,7 +324,8 @@ void setXcvrNotchDepth(double val)
 	xcvrState.NOTCHDEPTH = val;
 	cmdK_NDLV[2] = (int)val & 0xFF;
 	cmd = cmdK_NDLV;
-	sendCmd(cmd);;
+	sendCmd(cmd);
+	LOG_INFO("%s : %s", str2hex(cmd.c_str(), cmd.length()), retval.c_str());
 }
 
 // Transceiver Mic/Gain control
@@ -362,7 +334,8 @@ void setXcvrMicGain(double val)
 	xcvrState.MICGAIN = val;
 	cmdK_MICG[2] = (int)(val * 255) & 0xFF;
 	cmd = cmdK_MICG;
-	sendCmd(cmd);;
+	sendCmd(cmd);
+	LOG_INFO("%s : %s", str2hex(cmd.c_str(), cmd.length()), retval.c_str());
 }
 
 // Transceiver attenuator control
@@ -371,7 +344,8 @@ void setXcvrAttControl(int val)
 	xcvrState.ATTEN = val;
 	cmdK_ATT[2] = val & 0xFF;
 	cmd = cmdK_ATT;
-	sendCmd(cmd);;
+	sendCmd(cmd);
+	LOG_INFO("%s : %s", str2hex(cmd.c_str(), cmd.length()), retval.c_str());
 }
 
 // Transceiver preamp control
@@ -380,7 +354,8 @@ void setXcvrPreamp(int val)
 	xcvrState.PREAMP = val;
 	cmdK_PRE0[2] = val & 0xFF;
 	cmd = cmdK_PRE0;
-	sendCmd(cmd);;
+	sendCmd(cmd);
+	LOG_INFO("%s : %s", str2hex(cmd.c_str(), cmd.length()), retval.c_str());
 }
 
 // Transceiver Noise reduction
@@ -389,7 +364,8 @@ void setXcvrNR(int val)
 	xcvrState.NR = val;
 	cmdK_NDON[2] = val & 0xFF;
 	cmd = cmdK_NDON;
-	sendCmd(cmd);;
+	sendCmd(cmd);
+	LOG_INFO("%s : %s", str2hex(cmd.c_str(), cmd.length()), retval.c_str());
 }
 
 void setXcvrNRlevel(double nr)
@@ -397,7 +373,8 @@ void setXcvrNRlevel(double nr)
 	xcvrState.NR_LEVEL = nr;
 	cmdK_NDLV[2] = (int)nr & 0xFF;
 	cmd = cmdK_NDLV;
-	sendCmd(cmd);;
+	sendCmd(cmd);
+	LOG_INFO("%s : %s", str2hex(cmd.c_str(), cmd.length()), retval.c_str());
 }
 
 
@@ -406,7 +383,8 @@ void setXcvrTune(int val)
 {
 	cmdK_ATU0[2] = val & 0xFF;
 	cmd = cmdK_ATU0;
-	sendCmd(cmd);;
+	sendCmd(cmd);
+	LOG_INFO("%s : %s", str2hex(cmd.c_str(), cmd.length()), retval.c_str());
 }
 
 // Tranceiver PTT on/off
@@ -414,7 +392,8 @@ void setXcvrPTT(int val)
 {
 	cmdK_PTT[2] = val & 0xFF;
 	cmd = cmdK_PTT;
-	sendCmd(cmd);;
+	sendCmd(cmd);
+	LOG_INFO("%s : %s", str2hex(cmd.c_str(), cmd.length()), retval.c_str());
 }
 
 void setXcvrRITfreq(double rit)
@@ -430,7 +409,8 @@ void setXcvrRITfreq(double rit)
 		xcvrState.RIT = cmdK_RITU[2] = iRIT;
 		cmd = cmdK_RITU;
 	}
-	sendCmd(cmd);;
+	sendCmd(cmd);
+	LOG_INFO("%s : %s", str2hex(cmd.c_str(), cmd.length()), retval.c_str());
 }
 
 static double cwK = 255.0 / (log(2) * 4.0 );
@@ -441,7 +421,8 @@ void setXcvrWPM(double wpm)
 	int iWPM = (int)(ceil(cwK * log(wpm/5)));
 	cmdK_CWSP[2] = iWPM;
 	cmd = cmdK_CWSP;
-	sendCmd(cmd);;
+	sendCmd(cmd);
+	LOG_INFO("%s : %s", str2hex(cmd.c_str(), cmd.length()), retval.c_str());
 }
 
 void setXcvrCWMON(double val)
@@ -449,27 +430,31 @@ void setXcvrCWMON(double val)
 	xcvrState.CWMON = val;
 	cmdK_CWSM[2] = (int)(val) & 0xFF;
 	cmd = cmdK_CWSM;
-	sendCmd(cmd);;
+	sendCmd(cmd);
+	LOG_INFO("%s : %s", str2hex(cmd.c_str(), cmd.length()), retval.c_str());
 }
 
 void setXcvrSPOT(int val)
 {
 	cmd = cmdK_CWT0;
 	if (val) cmd = cmdK_CWT1;
-	sendCmd(cmd);;
+	sendCmd(cmd);
+	LOG_INFO("%s : %s", str2hex(cmd.c_str(), cmd.length()), retval.c_str());
 }
 
 void setXcvrCarrier(int val)
 {
 	cmd = cmdK_TUN0;
 	if (val == 1) sendCommand(cmdK_TUN1); // constant carrier
-	sendCmd(cmd);;
+	sendCmd(cmd);
+	LOG_INFO("%s : %s", str2hex(cmd.c_str(), cmd.length()), retval.c_str());
 }
 
 void setXcvrNOOP()
 {
 	cmd = cmdK_NOOP;
-	sendCmd(cmd);;
+	sendCmd(cmd);
+	LOG_INFO("%s : %s", str2hex(cmd.c_str(), cmd.length()), retval.c_str());
 }
 
 void initXcvrState()
