@@ -93,12 +93,12 @@ void Fl_SigBar::draw()
 		if (SigBar > 0 ) { //|| PeakPos > 0) {
 
 			fl_clip(x(), y(), w(), SigBar + by);
-			draw_box(box(), x(), y(), w(), h(), FL_BLACK);
+			draw_box(box(), x(), y(), w(), h(), active_r() ? color2() : fl_inactive(color2()));
 			fl_pop_clip();
 			
 
 			fl_clip(x(), ty + SigBar, w(), h() - SigBar);
-			draw_box(box(), x(), y(), w(), h(), color());
+			draw_box(box(), x(), y(), w(), h(), active_r() ? color() : fl_inactive(color()));
 			fl_pop_clip();
 			
 			fl_clip(x(), ty + PeakPos, w(), 2);
