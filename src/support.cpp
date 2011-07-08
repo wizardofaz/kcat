@@ -166,8 +166,8 @@ void setFocus()
 	if (dlgAntPorts != NULL && dlgAntPorts->visible())
 		return;
 	if (nofocus) return;
-	if (Fl::focus() != FreqDisp)
-		Fl::focus(FreqDisp);
+	if (rx_on_a) Fl::focus(FreqDisp);
+	else Fl::focus(FreqDispB);
 }
 
 void setBW() {
