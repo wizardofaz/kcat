@@ -59,28 +59,19 @@ void cbCalFinished()
 void cbsldrAgcAction()
 {
 	xcvrState.AGCACTION = (int)sldrAgcAction->value();
-	cmdK_AGCA[2] = xcvrState.AGCACTION;
-	sendCommand(cmdK_AGCA);
+	setXcvrAGCaction(xcvrState.AGCACTION);
 }
 
 void cbsldrAgcSpeed()
 {
-	int agcval;
 	xcvrState.AGCSPEED = (int)sldrAgcSpeed->value();
-	agcval = 255 - xcvrState.AGCSPEED;
-	if (btnNR->value() == 1) {
-		agcval -= 0x10;
-		if (agcval < 0x02) agcval = 0x02;
-	}
-	cmdK_AGC[2]  = agcval;
-	sendCommand(cmdK_AGC);
+	setXcvrAgcSpeed(xcvrState.AGCSPEED);
 }
 
 void cbSqlLevel()
 {
 	xcvrState.SQLEVEL = (int)sldrSqlLevel->value();
-	cmdK_SQL[2]  = -xcvrState.SQLEVEL;
-	sendCommand(cmdK_SQL);
+	setXcvrSqlLevel(xcvrState.SQLEVEL);
 }
 
 void cbSQLtype()
@@ -89,8 +80,7 @@ void cbSQLtype()
 		xcvrState.SQUELCH = 1;
 	else
 		xcvrState.SQUELCH = 0;
-	cmdK_SQL0[2] = xcvrState.SQUELCH;
-	sendCommand(cmdK_SQL0);
+	setXcvrSqlType(xcvrState.SQUELCH);
 }
 
 //-----------Transmit settings dialog
@@ -98,32 +88,19 @@ void cbSQLtype()
 void cbbtnSpchProc()
 {
 	xcvrState.SPEECHPROC = btnSpchProc->value();
-	cmdK_SPP0[2] = xcvrState.SPEECHPROC;
-	sendCommand(cmdK_SPP0);
+	setXcvrSpeechProcessor (xcvrState.SPEECHPROC);
 }
 
 void cbSpchMon()
 {
 	xcvrState.SPCHMONITOR = btnSpchMon->value();
-	cmdK_SPOF[2] = xcvrState.SPCHMONITOR;
-	sendCommand(cmdK_SPOF);
+	setXcvrSpchMon(xcvrState.SPCHMONITOR);
 }
 
 void cbsldrCompression()
 {
-	int val = (int)sldrCompression->value();
-	xcvrState.SPEECHCOMP = val;
-	if (val >= 230) val = 184 + (val - 230)*(255 - 184)/(255 - 230);
-	else if (val >= 205) val = 128 + (val - 205)*(184 - 128)/(230 - 205);
-	else if (val >= 180) val = 86 + (val - 180)*(128 - 86)/(205 - 180);
-	else if (val >= 155) val = 55 + (val - 155)*(86 - 55)/(180 - 155);
-	else if (val >= 128) val = 31 + (val - 128)*(55 - 31)/(155 - 128);
-	else if (val >= 105) val = 16 + (val - 105)*(31 - 16)/(128 - 105);
-	else if (val >= 80) val = 6 + (val - 80)*(16 - 6)/(105 - 80);
-	else if (val >= 50) val = 1 + (val - 50)*(6 - 1)/(80 - 50);
-	else val = 0;
-	cmdK_CMPR[2] = xcvrState.SPEECHCOMP;
-	sendCommand(cmdK_CMPR);
+	xcvrState.SPEECHCOMP = (int)sldrCompression->value();
+	setXcvrCompression(xcvrState.SPEECHCOMP);
 }
 
 void cbSidetone()
@@ -133,48 +110,37 @@ void cbSidetone()
 
 void cbVoxOnOff()
 {
-	if (btnVoxOnOff->value() == 0) {
-		cmdK_VOXL[2] = 0;
-		sendCommand(cmdK_VOXL);
-	} else {
-		cmdK_VOXL[2] = xcvrState.VOXLEVEL;
-		sendCommand(cmdK_VOXL);
-	}
+	setXcvrVoxOnOff(btnVoxOnOff->value());
 }
 
 void cbsldrVoxLevel()
 {
 	xcvrState.VOXLEVEL = (int)sldrVoxLevel->value();
-	cmdK_VOXL[2] = xcvrState.VOXLEVEL;
-	sendCommand(cmdK_VOXL);
+	if (btnVoxOnOff->value()) setXcvrVoxOnOff(1);
 }
 
 void cbsldrAntiVox()
 {
 	xcvrState.ANTIVOX = (int)sldrAntiVox->value();
-	cmdK_AVXL[2] = xcvrState.ANTIVOX;
-	sendCommand(cmdK_AVXL);
+	setXcvrAntiVox(xcvrState.ANTIVOX);
 }
 
 void cbsldrVoxDelay()
 {
 	xcvrState.VOXDELAY = (int)sldrVoxDelay->value();
-	cmdK_AVXD[2] = xcvrState.VOXDELAY;
-	sendCommand(cmdK_AVXD);
+	setXcvrVoxDelay(xcvrState.VOXDELAY);
 }
 
 void cbsldrXmtEqualizer()
 {
 	xcvrState.EQUALIZER = (int)sldrXmtEqualizer->value();
-	cmdK_cmdR[2] = xcvrState.EQUALIZER;
-	sendCommand(cmdK_cmdR);
+	setXcvrEqualizer(xcvrState.EQUALIZER);
 }
 
 void cbbtnAmpOnOff()
 {
 	xcvrState.AMP = btnAmpOnOff->value();
-	cmdK_AON[2]  = xcvrState.AMP;
-	sendCommand(cmdK_AON); 
+	setXcvrAmpOnOff(xcvrState.AMP);
 }
 
 
@@ -183,48 +149,42 @@ void cbbtnAmpOnOff()
 void cbCWattack()
 {
 	xcvrState.CWATTACK = (int)sldrCWattack->value();
-	cmdK_CWDY[2] = xcvrState.CWATTACK; 		
-	sendCommand(cmdK_CWDY);
+	setXcvrCWattack(xcvrState.CWATTACK);
 }
 
 void cbCWweight()
 {
 	xcvrState.CWWEIGHT = (int)sldrCWweight->value();
-	cmdK_XWGT[2] = xcvrState.CWWEIGHT; 		
-	sendCommand(cmdK_XWGT);
+	setXcvrCWweight(xcvrState.CWWEIGHT);
 }
 
 void cbCWmode()
 {
 	xcvrState.CWMODE = mnuCWmode->value();
-	cmdK_CWLH[2] = xcvrState.CWMODE; 		
-	sendCommand(cmdK_CWLH);
+	setXcvrCWmode(xcvrState.CWMODE);
 }
 
 void cbCWoffset()
 {
 	xcvrState.CWOFFSET = mnuCWoffset->value();
-	cmdK_CWO0[2] = xcvrState.CWOFFSET + 3;		
-	sendCommand(cmdK_CWO0);
+	setXcvrCWoffset(xcvrState.CWOFFSET);
 }
 
 void cbCWdefFilter()
 {
 	xcvrState.CWFILTER = mnuCWdefFilter->value();
-	cmdK_CWWI[2] = xcvrState.CWFILTER;		
-	sendCommand(cmdK_CWWI);
+	setXcvrCWdefFilter(xcvrState.CWFILTER);
 }
 
 void cbQSKonoff()
 {
 	xcvrState.QSK = btnQSKonoff->value();
-	cmdK_QSK0[2] = xcvrState.QSK; 			
-	sendCommand(cmdK_QSK0);
+	setXcvrQSKonoff(xcvrState.QSK);
 }
 
 // Antenna Port Dialog
 
-void sortAntPortList() 
+void sortAntPortList()
 {
 	if (!numantports) return;
 	stANTPORT temp;
@@ -237,7 +197,7 @@ void sortAntPortList()
 			}
 }
 
-void clearAntPortList() 
+void clearAntPortList()
 {
 	if (!numantports) return;
 	for (int i = 0; i < LISTSIZE; i++) {
@@ -280,7 +240,7 @@ void updateAntRanges()
 	char szListEntry[30];
 	brwsAntRanges->clear();
 	for (int n = 0; n < numantports; n++) {
-		sprintf(szListEntry,"%5d %c %c", 
+		sprintf(szListEntry,"%5d %c %c",
 			antports[n].freq,
 			antports[n].rcv == 0 ? 'A' : 'B',
 			antports[n].xmt == 0 ? 'A' : 'B');
@@ -292,11 +252,11 @@ void  cbAddAntRange()
 {
 	int freq = 0;
 	if (!sscanf(txtFreqRange->value(),"%d",&freq));
-	if (!freq) 
+	if (!freq)
 		return;
 	int n = 0;
 	while (n < LISTSIZE) {
-		if (freq == antports[n].freq) 
+		if (freq == antports[n].freq)
 			break;
 		if (antports[n].freq == 0)
 			break;
@@ -510,9 +470,9 @@ char *szBinary(int n)
 {
 	static char bin[9];
 	for (int i = 0; i < 8; i ++) {
-		if (n & 1) 
+		if (n & 1)
 			bin[7-i] = '1';
-		else 
+		else
 			bin[7-i] = '0';
 		n /= 2;
 	}
@@ -537,11 +497,11 @@ void cbNRAMAntImp()
 		unsigned char data[258];
 		struct ANTIMP antimp[64];
 	}antdata;
-	
+
 	char line[256];
 	int chksum, aport;
 	ANTIMP temp;
-	
+
 	setXcvrVolume(0.0);
 
 	RequestData (cmdK_RIMP, antdata.data, 258);
@@ -569,12 +529,12 @@ void cbNRAMAntImp()
 		for (int i = 0; i < 64; i++) {
 			int f = IntFreq(antdata.antimp[i].freq);
 			if (f) {
-				sprintf(line, "%10.0f ", 
+				sprintf(line, "%10.0f ",
 						AntImpFreq(antdata.antimp[i].freq));
 				txtDataDisp->insert(line);
 				aport = antdata.data[4*i] >> 6;
 				if (aport == 1 || aport == 2)
-					sprintf(line, "%c CL %5d pF %c, %4.1f uH\n", 
+					sprintf(line, "%c CL %5d pF %c, %4.1f uH\n",
 							aport == 1 ? 'A' : 'B',
 							binCaps(antdata.data[4*i+2]),
 							antdata.data[4*i+2] > 127 ? 'S' : 'L',
@@ -592,7 +552,7 @@ void cbNRAMAntImp()
 		sprintf(line,"Ant Impedance: Check sum Error\n");
 		txtDataDisp->insert(line);
 	}
-	
+
 	setVolume();
 
 }
@@ -602,7 +562,7 @@ void cbNRAMsmeter()
 	unsigned char data[18];
 	char line[256];
 	int chksum;
-	
+
 	setXcvrVolume(0.0);
 
 	RequestData (cmdK_RSMTR, data, 18);
@@ -614,7 +574,7 @@ void cbNRAMsmeter()
 		for (int j = 0; j < 16; j++) {
 			if (j % 8 == 0)
 				txtDataDisp->insert("\n");
-			sprintf(line, "%02x ", data[j]); 
+			sprintf(line, "%02x ", data[j]);
 			txtDataDisp->insert(line);
 		}
 		txtDataDisp->insert("\n");
@@ -623,7 +583,7 @@ void cbNRAMsmeter()
 		sprintf(line,"S meter cal. table: Check sum Error\n");
 		txtDataDisp->insert(line);
 	}
-	
+
 	setVolume();
 
 }
@@ -633,7 +593,7 @@ void cbNRAMFreqRef()
 	unsigned char data[34];
 	char line[256];
 	int chksum;
-	
+
 	setXcvrVolume(0.0);
 
 	RequestData (cmdK_RFCAL, data, 34);
@@ -645,7 +605,7 @@ void cbNRAMFreqRef()
 		for (int j = 0; j < 32; j++) {
 			if (j % 8 == 0)
 				txtDataDisp->insert("\n");
-			sprintf(line, "%02x ", data[j]); 
+			sprintf(line, "%02x ", data[j]);
 			txtDataDisp->insert(line);
 		}
 		txtDataDisp->insert("\n");
@@ -654,7 +614,7 @@ void cbNRAMFreqRef()
 		sprintf(line,"Freq. Ref. Cal. Check sum Error\n");
 		txtDataDisp->insert(line);
 	}
-	
+
 	setVolume();
 }
 
@@ -663,7 +623,7 @@ void cbNRAMPhase()
 	unsigned char data[18];
 	char line[256];
 	int chksum;
-	
+
 	setXcvrVolume(0.0);
 
 	RequestData (cmdK_RPCAL, data, 18);
@@ -684,7 +644,7 @@ void cbNRAMPhase()
 		sprintf(line,"Phase Cal. Check sum Error\n");
 		txtDataDisp->insert(line);
 	}
-	
+
 	setVolume();
 }
 
@@ -692,14 +652,14 @@ void cbNRAMCarrier()
 {
 	unsigned char data[2];
 	char line[256];
-	
+
 	setXcvrVolume(0.0);
 
 	RequestData (cmdK_RCBAL, data, 2);
 	txtDataDisp->insert("Carrier Balance value\n");
-	sprintf(line, "%02x %02x", data[0], data[1]); 
+	sprintf(line, "%02x %02x", data[0], data[1]);
 	txtDataDisp->insert(line);
-	
+
 	setVolume();
 }
 

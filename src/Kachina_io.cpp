@@ -470,6 +470,149 @@ void setXcvrSpeechProcessor(int val)
 	LOG_INFO("%s : %s", str2hex(cmd.c_str(), cmd[0]+1), retval.c_str());
 }
 
+void setXcvrCompression(int val)
+{
+	if (val >= 230) val = 184 + (val - 230)*(255 - 184)/(255 - 230);
+	else if (val >= 205) val = 128 + (val - 205)*(184 - 128)/(230 - 205);
+	else if (val >= 180) val = 86 + (val - 180)*(128 - 86)/(205 - 180);
+	else if (val >= 155) val = 55 + (val - 155)*(86 - 55)/(180 - 155);
+	else if (val >= 128) val = 31 + (val - 128)*(55 - 31)/(155 - 128);
+	else if (val >= 105) val = 16 + (val - 105)*(31 - 16)/(128 - 105);
+	else if (val >= 80) val = 6 + (val - 80)*(16 - 6)/(105 - 80);
+	else if (val >= 50) val = 1 + (val - 50)*(6 - 1)/(80 - 50);
+	else val = 0;
+	cmd = cmdK_CMPR;
+	cmd[2] = val;
+	sendCmd(cmd);
+	LOG_INFO("%s : %s", str2hex(cmd.c_str(), cmd[0]+1), retval.c_str());
+}
+
+void setXcvrSpchMon(int val)
+{
+	cmd = cmdK_SPOF;
+	cmd[2] = xcvrState.SPCHMONITOR;
+	sendCmd(cmd);
+	LOG_INFO("%s : %s", str2hex(cmd.c_str(), cmd[0]+1), retval.c_str());
+}
+
+void setXcvrVoxOnOff(int val)
+{
+	cmd = cmdK_VOXL;
+	cmd[2] = 0;
+	if (val) cmd[2] = xcvrState.VOXLEVEL;
+	sendCmd(cmd);
+	LOG_INFO("%s : %s", str2hex(cmd.c_str(), cmd[0]+1), retval.c_str());
+}
+
+void setXcvrAntiVox(int val)
+{
+	cmd = cmdK_AVXL;
+	cmd[2] = val;
+	sendCmd(cmd);
+	LOG_INFO("%s : %s", str2hex(cmd.c_str(), cmd[0]+1), retval.c_str());
+}
+
+void setXcvrVoxDelay(int val)
+{
+	cmd = cmdK_AVXD;
+	cmd[2] = val;
+	sendCmd(cmd);
+	LOG_INFO("%s : %s", str2hex(cmd.c_str(), cmd[0]+1), retval.c_str());
+}
+
+void setXcvrAmpOnOff(int val)
+{
+	cmd = cmdK_AON;
+	cmd[2]  = val;
+	sendCmd(cmd);
+	LOG_INFO("%s : %s", str2hex(cmd.c_str(), cmd[0]+1), retval.c_str());
+}
+
+void setXcvrCWattack(int val)
+{
+	cmd = cmdK_CWDY;
+	cmd[2] = val;
+	sendCmd(cmd);
+	LOG_INFO("%s : %s", str2hex(cmd.c_str(), cmd[0]+1), retval.c_str());
+}
+
+void setXcvrCWweight(int val)
+{
+	cmd = cmdK_XWGT;
+	cmd[2] = val;
+	sendCmd(cmd);
+	LOG_INFO("%s : %s", str2hex(cmd.c_str(), cmd[0]+1), retval.c_str());
+}
+
+void setXcvrCWmode(int val)
+{
+	cmd = cmdK_CWLH;
+	cmd[2] = val;
+	sendCmd(cmd);
+	LOG_INFO("%s : %s", str2hex(cmd.c_str(), cmd[0]+1), retval.c_str());
+}
+
+void setXcvrCWoffset(int val)
+{
+	cmd = cmdK_CWO0;
+	cmd[2] = val + 3;
+	sendCmd(cmd);
+	LOG_INFO("%s : %s", str2hex(cmd.c_str(), cmd[0]+1), retval.c_str());
+}
+
+void setXcvrCWdefFilter(int val)
+{
+	cmd = cmdK_CWWI;
+	cmd[2] = val;
+	sendCmd(cmd);
+	LOG_INFO("%s : %s", str2hex(cmd.c_str(), cmd[0]+1), retval.c_str());
+}
+
+void setXcvrQSKonoff(int val)
+{
+	cmd = cmdK_QSK0;
+	cmd[2] = val;
+	sendCmd(cmd);
+	LOG_INFO("%s : %s", str2hex(cmd.c_str(), cmd[0]+1), retval.c_str());
+}
+
+void setXcvrAGCaction(int val)
+{
+	cmd = cmdK_AGCA;
+	cmd[2] = val;
+	sendCmd(cmd);
+	LOG_INFO("%s : %s", str2hex(cmd.c_str(), cmd[0]+1), retval.c_str());
+}
+
+void setXcvrAgcSpeed(int val)
+{
+	int agcval = 255 - val;
+	if (xcvrState.NR) {
+		agcval -= 0x10;
+		if (agcval < 0x02) agcval = 0x02;
+	}
+	cmd = cmdK_AGC;
+	cmd[2]  = agcval;
+	sendCmd(cmd);
+	LOG_INFO("%s : %s", str2hex(cmd.c_str(), cmd[0]+1), retval.c_str());
+}
+
+void setXcvrSqlLevel(int val)
+{
+	cmd = cmdK_SQL;
+	cmd[2]  = -val;
+	sendCmd(cmd);
+	LOG_INFO("%s : %s", str2hex(cmd.c_str(), cmd[0]+1), retval.c_str());
+}
+
+void setXcvrSqlType(int val)
+{
+	cmd = cmdK_SQL0;
+	cmd[2] = val;
+	sendCmd(cmd);
+	LOG_INFO("%s : %s", str2hex(cmd.c_str(), cmd[0]+1), retval.c_str());
+}
+
 void setXcvrNOOP()
 {
 	cmd = cmdK_NOOP;
