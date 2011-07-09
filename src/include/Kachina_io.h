@@ -38,6 +38,8 @@ extern void setXcvrSplit();
 extern void setXcvrListenOnReceive();
 extern void setXcvrCarrier(int val);
 extern void setXcvrSPOT(int val);
+extern void setXcvrEqualizer(int val);
+extern void setXcvrSpeechProcessor(int val);
 
 extern void setXcvrWPM(double wpm);
 extern void setXcvrCWMON(double val);

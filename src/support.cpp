@@ -635,21 +635,12 @@ void cbCarrier()
 		btnPTT->deactivate();
 		btnTune->deactivate();
 		setXcvrCarrier(1); // carrier on
-		cmdK_cmdR[2] = 0; // Equalizer set to 0
-		sendCommand(cmdK_cmdR);
-		cmdK_SPP0[2] = 0; // Speech processor OFF
-		sendCommand(cmdK_SPP0);
 		setXcvrPTT(1);
 	} else {
 		btnPTT->activate();
 		btnTune->activate();
-		setXcvrPTT(0);
 		setXcvrCarrier(0); // carrier OFF
-		cmdK_cmdR[2] = xcvrState.EQUALIZER;
-		sendCommand(cmdK_cmdR);
-		cmdK_SPP0[2] = xcvrState.SPEECHPROC;
-		sendCommand(cmdK_SPP0);
-		setMode();
+		setXcvrPTT(0);
 	}
 }
 
