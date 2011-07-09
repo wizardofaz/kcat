@@ -1,5 +1,9 @@
 2011-07-09  David Freese  <w1hkj@w1hkj.com>
 
+	75353ee: SndCmd usage
+	2c219a4: Termination Handler
+	cbc2aa3: XMLRPC Debug
+	7a436ba: Equalizer/Processor
 	1d33f7a: Metering
 	a1d4e79: Telemetry
 	8735194: ARV file
