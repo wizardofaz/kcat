@@ -18,7 +18,7 @@
 
 #include "XmlRpc.h"
 
-#define XML_DEBUG 1
+#define XML_DEBUG 0
 
 using namespace std;
 using XmlRpc::XmlRpcValue;
@@ -329,9 +329,6 @@ static void send_rig_info()
 		send_sideband();
 
 		send_new_freq(xmlvfo.freq);
-
-//if (XML_DEBUG)
-//	LOG_WARN("%s", print(xmlvfo));
 
 		fldigi_online = true;
 		rig_reset = false;
