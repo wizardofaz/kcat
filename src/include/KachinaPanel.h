@@ -42,18 +42,14 @@ extern Fl_Light_Button *btnNR;
 extern Fl_Light_Button *btnAttenuator;
 extern Fl_Light_Button *btnPreamp;
 #include <FL/Fl_Group.H>
-extern Fl_Group *grpMeters1;
+extern Fl_Group *grpMeters;
 extern Fl_Button *btnSmeter;
 #include "Fl_SigBar.h"
 extern Fl_SigBar *sldrRcvSignal;
-#include <FL/Fl_Slider.H>
-extern Fl_Slider *sldrSQ;
-extern Fl_Box *boxSquelch;
-extern Fl_Group *grpMeters2;
 extern Fl_Button *btnPower;
 extern Fl_SigBar *sldrFwdPwr;
 extern Fl_SigBar *sldrRefPwr;
-extern Fl_Button *btnSWR;
+extern Fl_Box *boxSquelch;
 extern Fl_Button *btn_show_controls;
 extern Fl_Light_Button *btnPTT;
 extern Fl_Light_Button *btnTune;
@@ -160,7 +156,6 @@ extern Fl_Button *btnPeakColor;
 extern Fl_Group *grpMeter1disp;
 extern Fl_Button *btnSmeterdisp;
 extern Fl_SigBar *sldrRcvSignaldisp;
-extern Fl_Slider *sldrSQdisp;
 extern Fl_Box *boxSquelchdisp;
 extern Fl_Group *grpMeter2disp;
 extern Fl_Button *btnPowerdisp;

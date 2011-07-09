@@ -594,7 +594,7 @@ void setPower()
 	Fl_Image *img = btnPower->image();
 
 	setXcvrPower(pwr);
-	if (img != &image_alc)
+	if ((img != &image_alc) && (img != &image_swr))
 		setPowerImage(pwr);
 }
 
@@ -624,15 +624,9 @@ void cbPTT()
 {
 	if (btnPTT->value() == 1) {
 		setTx(true);
-		grpMeters1->hide();
-		grpMeters2->show();
 	} else {
 		setTx(false);
-		grpMeters1->show();
-		grpMeters2->hide();
 	}
-	grpMeters1->redraw();
-	grpMeters2->redraw();
 }
 
 void cbCarrier()
@@ -646,8 +640,6 @@ void cbCarrier()
 		cmdK_SPP0[2] = 0; // Speech processor OFF
 		sendCommand(cmdK_SPP0);
 		setXcvrPTT(1);
-		grpMeters1->hide();
-		grpMeters2->show();
 	} else {
 		btnPTT->activate();
 		btnTune->activate();
@@ -658,8 +650,6 @@ void cbCarrier()
 		cmdK_SPP0[2] = xcvrState.SPEECHPROC;
 		sendCommand(cmdK_SPP0);
 		setMode();
-		grpMeters2->hide();
-		grpMeters1->show();
 	}
 }
 
@@ -682,10 +672,10 @@ void cbAntSel()
 
 void updateSquelch( int data)
 {
-	if (data == 128)
-		boxSquelch->color(FL_GREEN);
+	if (data == 128 && xcvrState.SQLEVEL > -127)
+		boxSquelch->color(fl_rgb_color(xcvrState.smeterRed, xcvrState.smeterGreen, xcvrState.smeterBlue));
 	else
-		boxSquelch->color(FL_LIGHT1);
+		boxSquelch->color(fl_rgb_color(xcvrState.bg_red, xcvrState.bg_green, xcvrState.bg_blue));
 	boxSquelch->redraw();
 	LOG_DEBUG("%d", data);
 }
@@ -694,7 +684,10 @@ void updateALC(int data)
 {
 	Fl_Image *img = btnPower->image();
 	if (img == &image_alc) {
+		sldrFwdPwr->show();
+		sldrRefPwr->hide();
 		sldrFwdPwr->value(data * 1.0);
+		sldrFwdPwr->redraw();
 	}
 	sldrFwdPwr->redraw();
 	LOG_DEBUG("%d", data);
@@ -707,7 +700,9 @@ void updateFwdPwr(int data)
 	fp_ = 2 * data;
 	double power = xcvrState.MAXPWR * fp_ / 99.0;
 	Fl_Image *img = btnPower->image();
-	if (img != &image_alc) {
+	if (img != &image_alc && img != &image_swr) {
+		sldrFwdPwr->show();
+		sldrRefPwr->hide();
 		sldrFwdPwr->value(power);
 		sldrFwdPwr->redraw();
 	}
@@ -717,8 +712,13 @@ void updateFwdPwr(int data)
 void updateRefPwr(int data)
 {
 	rp_ = 2 * data;
-	sldrRefPwr->value(rp_); // 0 - 50 scale;
-	sldrRefPwr->redraw();
+	Fl_Image *img = btnPower->image();
+	if (img == &image_swr) {
+		sldrRefPwr->show();
+		sldrFwdPwr->hide();
+		sldrRefPwr->value(rp_); // 0 - 50 scale;
+		sldrRefPwr->redraw();
+	}
 	LOG_DEBUG("%d", data);
 }
 
@@ -849,25 +849,17 @@ void cbSmeter()
 	btnSmeter->redraw();
 }
 
-void cbSWR()
-{
-	Fl_Image *img = btnSWR->image();
-	if (img == &image_swr)
-		btnSWR->image(image_rev);
-	else
-		btnSWR->image(image_swr);
-	btnSWR->redraw();
-}
-
 void cbPWR()
 {
 	Fl_Image *img = btnPower->image();
-	if (img != &image_alc) {
-		btnPower->image(image_alc);
-		sldrFwdPwr->minimum(10.0f);
-	}
-	else
+	if (img == &image_alc) {
+		btnPower->image(image_swr);
+	} else if (img == &image_swr) {
 		setPowerImage(sldrPOWER->value());
+	} else {
+		btnPower->image(image_alc);
+	}
+	btnPower->redraw();
 }
 
 void setPTT(void *data)
@@ -972,19 +964,11 @@ void parseTelemetry(void *val)
 	int data = (int)(reinterpret_cast<long> (val));
 
 	if (data < 130) { // receive telemetry
-		if (grpMeters2->visible()) {
-			grpMeters2->hide();
-			grpMeters1->show();
-		}
 		if (data < 128) // smeter
 			updateRcvSignal(data);
 		else if (data == 128 || data == 129) // squelch
 			updateSquelch(data);
 	} else if (data < 215) { // transmit telemetry
-		if (grpMeters1->visible()) {
-			grpMeters1->hide();
-			grpMeters2->show();
-		}
 		if (data < 140) // ALC
 			updateALC(data - 130);
 		else if (data < 190) // forward power

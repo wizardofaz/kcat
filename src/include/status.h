@@ -122,6 +122,9 @@ struct XCVRSTATE {
 	string	server_port;
 	string	server_address;
 
+	Fl_Color bgclr;
+	Fl_Color fgclr;
+
 	void saveLastState();
 	void loadLastState();
 };

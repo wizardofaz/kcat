@@ -136,6 +136,7 @@ struct XCVRSTATE xcvrState = {
 
 	"7362",		// string server_port
 	"127.0.0.1"	// string server_address
+
 };
 
 void XCVRSTATE::saveLastState()
@@ -435,8 +436,8 @@ void XCVRSTATE::loadLastState()
 		inANT.close();
 	}
 
-	Fl_Color bgclr = fl_rgb_color(bg_red, bg_green, bg_blue);
-	Fl_Color fgclr = fl_rgb_color(fg_red, fg_green, fg_blue);
+	bgclr = fl_rgb_color(bg_red, bg_green, bg_blue);
+	fgclr = fl_rgb_color(fg_red, fg_green, fg_blue);
 
 	Fl::background( bg_sys_red, bg_sys_green, bg_sys_blue);
 	Fl::background2( bg2_sys_red, bg2_sys_green, bg2_sys_blue);
@@ -452,8 +453,7 @@ void XCVRSTATE::loadLastState()
 	FreqDisp->font(fontnbr);
 	FreqDispB->font(fontnbr);
 
-	grpMeters1->color(bgclr);
-	grpMeters2->color(bgclr);
+	grpMeters->color(bgclr);
 
 	btnSmeter->color(bgclr, bgclr);
 	btnSmeter->labelcolor(fgclr);
@@ -461,8 +461,8 @@ void XCVRSTATE::loadLastState()
 	btnPower->color(bgclr, bgclr);
 	btnPower->labelcolor(fgclr);
 
-	btnSWR->color(bgclr, bgclr);
-	btnSWR->labelcolor(fgclr);
+//	btnSWR->color(bgclr, bgclr);
+//	btnSWR->labelcolor(fgclr);
 
 	sldrFwdPwr->color(fl_rgb_color (pwrRed, pwrGreen, pwrBlue), bgclr);
 	sldrFwdPwr->PeakColor(fl_rgb_color(peakRed, peakGreen, peakBlue));
@@ -498,8 +498,8 @@ void XCVRSTATE::loadLastState()
 	sldrMICGAIN->selection_color(btn_slider);
 	sldrNOTCH->color(bg_slider);
 	sldrNOTCH->selection_color(btn_slider);
-	sldrSQ->color(bgclr, bgclr);
-	sldrSQ->selection_color(btn_slider);
+//	sldrSQ->color(bgclr, bgclr);
+//	sldrSQ->selection_color(btn_slider);
 	sldrPOWER->color(bg_slider);
 	sldrPOWER->selection_color(btn_slider);
 

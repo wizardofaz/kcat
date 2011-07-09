@@ -79,11 +79,6 @@ void cbsldrAgcSpeed()
 void cbSqlLevel()
 {
 	xcvrState.SQLEVEL = (int)sldrSqlLevel->value();
-	sldrSQ->value(xcvrState.SQLEVEL);
-//	if (xcvrState.SQLEVEL == -127)
-//		sldrSQ->hide();
-//	else
-//		sldrSQ->show();
 	cmdK_SQL[2]  = -xcvrState.SQLEVEL;
 	sendCommand(cmdK_SQL);
 }
@@ -952,10 +947,8 @@ void cbBacklightColor()
 		sldrRcvSignaldisp->color( fl_rgb_color (smeterRed, smeterGreen, smeterBlue), bgclr );
 		sldrFwdPwrdisp->color(fl_rgb_color (pwrRed, pwrGreen, pwrBlue), bgclr);
 		sldrRefPwrdisp->color(fl_rgb_color (pwrRed, pwrGreen, pwrBlue), bgclr);
-		sldrSQdisp->color( bgclr);
 		btnSmeterdisp->color(bgclr);
 		btnPowerdisp->color(bgclr);
-		btnSWRdisp->color(bgclr);
 		grpMeter1disp->color(bgclr);
 		grpMeter2disp->color(bgclr);
 		dlgDisplayConfig->redraw();
@@ -972,10 +965,8 @@ void cbPrefForeground()
 		btnSmeterdisp->labelcolor(fgclr);
 		sldrFwdPwrdisp->labelcolor(fgclr);
 		sldrRefPwrdisp->labelcolor(fgclr);
-		sldrSQdisp->labelcolor(fgclr);
 		btnSmeterdisp->labelcolor(fgclr);
 		btnPowerdisp->labelcolor(fgclr);
-		btnSWRdisp->labelcolor(fgclr);
 		grpMeter1disp->labelcolor(fgclr);
 		grpMeter2disp->labelcolor(fgclr);
 		dlgDisplayConfig->redraw();
@@ -993,7 +984,6 @@ void default_meters()
 		sldrRefPwrdisp->color(fl_rgb_color (swrRed, swrGreen, swrBlue), bgclr);
 		btnSmeterdisp->color(bgclr, bgclr);
 		btnPowerdisp->color(bgclr, bgclr);
-		btnSWRdisp->color(bgclr, bgclr);
 		grpMeter1disp->color(bgclr);
 		grpMeter2disp->color(bgclr);
 	fg_red = 0; fg_green = 0; fg_blue = 0;
@@ -1001,13 +991,11 @@ void default_meters()
 		lblTest->labelcolor(fgclr);
 		btnSmeterdisp->labelcolor(fgclr);
 		btnPowerdisp->labelcolor(fgclr);
-		btnSWRdisp->labelcolor(fgclr);
 		grpMeter1disp->labelcolor(fgclr);
 		grpMeter2disp->labelcolor(fgclr);
 	smeterRed = 0; smeterGreen = 180; smeterBlue = 0;
 		c = fl_rgb_color (smeterRed, smeterGreen, smeterBlue);
 		sldrRcvSignaldisp->color(c, bgclr );
-		sldrSQdisp->color(bgclr, bgclr);//c, bgclr );
 	peakRed = 255; peakGreen = 0; peakBlue = 0;
 		c = fl_rgb_color( peakRed, peakGreen, peakBlue );
 		sldrRcvSignaldisp->PeakColor(c);
@@ -1138,8 +1126,7 @@ void setColors()
 			fl_color_average(bgclr, FL_BLACK, 0.87));
 	}
 
-	grpMeters1->color(bgclr);
-	grpMeters2->color(bgclr);
+	grpMeters->color(bgclr);
 
 	btnSmeter->color(bgclr, bgclr);
 	btnSmeter->labelcolor(fgclr);
@@ -1147,8 +1134,8 @@ void setColors()
 	btnPower->color(bgclr, bgclr);
 	btnPower->labelcolor(fgclr);
 
-	btnSWR->color(bgclr, bgclr);
-	btnSWR->labelcolor(fgclr);
+//	btnSWR->color(bgclr, bgclr);
+//	btnSWR->labelcolor(fgclr);
 
 	sldrFwdPwr->color(fl_rgb_color (pwrRed, pwrGreen, pwrBlue), bgclr);
 	sldrFwdPwr->PeakColor(fl_rgb_color(peakRed, peakGreen, peakBlue));
@@ -1159,8 +1146,7 @@ void setColors()
 	sldrRefPwr->color(fl_rgb_color (swrRed, swrGreen, swrBlue), bgclr);
 	sldrRefPwr->PeakColor(fl_rgb_color(peakRed, peakGreen, peakBlue));
 
-	grpMeters1->redraw();
-	grpMeters2->redraw();
+	grpMeters->redraw();
 
 	btnMute->selection_color(btn_lt_color);
 	btnNR->selection_color(btn_lt_color);
@@ -1187,8 +1173,6 @@ void setColors()
 	sldrMICGAIN->selection_color(btn_slider);
 	sldrNOTCH->color(bg_slider);
 	sldrNOTCH->selection_color(btn_slider);
-	sldrSQ->color(bgclr, bgclr);
-	sldrSQ->selection_color(btn_slider);
 	sldrPOWER->color(bg_slider);
 	sldrPOWER->selection_color(btn_slider);
 
@@ -1291,7 +1275,6 @@ void setDisplayColors()
 	sldrRcvSignaldisp->color(
 		fl_rgb_color (smeterRed, smeterGreen, smeterBlue),
 		bgclr );
-	sldrSQdisp->color( bgclr, bgclr);
 
 	sldrFwdPwrdisp->color(
 		fl_rgb_color (pwrRed, pwrGreen, pwrBlue),

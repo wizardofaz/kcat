@@ -14,7 +14,7 @@ decl {\#include "support.h"} {}
 Function {Kachina_window()} {open
 } {
   Fl_Window {} {
-    label kcat open selected
+    label kcat
     xywh {623 170 495 355} type Double color 51
     code0 {\#include <stdlib.h>} visible
   } {
@@ -246,39 +246,29 @@ selectFreq();}
       callback {cbPreamp();}
       tooltip {Preamp On/Off} xywh {344 194 60 20}
     }
-    Fl_Group grpMeters1 {open
+    Fl_Group grpMeters {open
       xywh {408 68 84 210} box THIN_DOWN_BOX color 32 selection_color 52 align 20
     } {
       Fl_Button btnSmeter {
         callback {cbSmeter();}
-        tooltip {Click - change scale} xywh {416 73 40 200} box FLAT_BOX down_box FLAT_BOX color 48 selection_color 48 align 16
+        tooltip {Click - change scale} xywh {409 73 30 200} box FLAT_BOX down_box FLAT_BOX color 48 selection_color 48 align 16
         code0 {o->image(image_smeter);}
       }
       Fl_Box sldrRcvSignal {
-        xywh {459 82 10 182} box FLAT_BOX color 10 selection_color 2
+        xywh {441 82 9 182} box FLAT_BOX color 10 selection_color 2
         code0 {\#include "Fl_SigBar.h"}
         code1 {o->minimum(0.0f);}
         code2 {o->maximum(-128.0f);}
         code3 {o->horizontal(false);}
         class Fl_SigBar
       }
-      Fl_Slider sldrSQ {
-        xywh {472 82 12 182} box FLAT_BOX color 0 selection_color 3 labeltype NO_LABEL labelcolor 3 maximum -127 step 1 value -100 deactivate
-      }
-      Fl_Box boxSquelch {
-        xywh {473 71 9 9} box OVAL_BOX color 6 selection_color 0
-      }
-    }
-    Fl_Group grpMeters2 {open
-      xywh {408 68 84 210} box THIN_DOWN_BOX color 0 selection_color 52 align 20 hide
-    } {
       Fl_Button btnPower {
         callback {cbPWR();}
-        tooltip {Click - FWD / ALC} xywh {411 73 26 200} box FLAT_BOX down_box FLAT_BOX color 48 selection_color 48 align 16
+        tooltip {Click - FWD / ALC} xywh {453 73 25 200} box FLAT_BOX down_box FLAT_BOX color 48 selection_color 48 align 16
         code0 {o->image(image_p150);}
       }
       Fl_Box sldrFwdPwr {
-        xywh {438 82 11 182} box FLAT_BOX color 14 selection_color 6
+        xywh {480 82 9 182} box FLAT_BOX color 14 selection_color 6
         code0 {\#include "Fl_SigBar.h"}
         code1 {o->minimum(120.0f);}
         code2 {o->maximum(0.0f);}
@@ -286,17 +276,15 @@ selectFreq();}
         class Fl_SigBar
       }
       Fl_Box sldrRefPwr {
-        xywh {451 82 10 182} box FLAT_BOX color 9 selection_color 1
+        xywh {480 82 9 182} box FLAT_BOX color 9 selection_color 1
         code0 {\#include "Fl_SigBar.h"}
         code1 {o->minimum(50.0f);}
         code2 {o->maximum(0.0f);}
         code3 {o->horizontal(false);}
         class Fl_SigBar
       }
-      Fl_Button btnSWR {
-        callback {cbSWR();}
-        tooltip {Click REF / SWR} xywh {463 73 26 200} box FLAT_BOX down_box FLAT_BOX color 48 selection_color 48 align 16
-        code0 {o->image(image_swr);}
+      Fl_Box boxSquelch {
+        xywh {441 71 9 9} box FLAT_BOX color 175 align 16
       }
     }
     Fl_Button btn_show_controls {
@@ -331,7 +319,7 @@ selectFreq();}
       tooltip {Click C / F} xywh {344 258 40 20} color 0 selection_color 7 labelfont 13 align 8 textfont 13 textcolor 62
     }
     Fl_Tabs tabs {open
-      xywh {1 282 490 70} selection_color 50
+      xywh {1 282 491 70} selection_color 50
     } {
       Fl_Group CWtab {
         label CW open
@@ -675,10 +663,11 @@ Function {FreqCalibDialog()} {} {
   }
 } 
 
-Function {DisplayDialog()} {} {
+Function {DisplayDialog()} {open
+} {
   Fl_Window {} {
     label {kcat colors / scheme} open
-    xywh {764 592 424 295} type Double hide
+    xywh {764 592 424 295} type Double visible
   } {
     Fl_Group {} {open
       xywh {2 2 218 70} box ENGRAVED_FRAME
@@ -733,23 +722,20 @@ Function {DisplayDialog()} {} {
       Fl_Group grpMeter1disp {open
         xywh {4 78 65 210} box DOWN_BOX color 0 selection_color 52 align 20
       } {
-        Fl_Button btnSmeterdisp {
-          tooltip {Click - change scale} xywh {6 83 40 200} box FLAT_BOX down_box FLAT_BOX color 2 selection_color 2 align 16
+        Fl_Button btnSmeterdisp {selected
+          tooltip {Click - change scale} xywh {9 83 40 200} box FLAT_BOX down_box FLAT_BOX color 2 selection_color 2 align 16
           code0 {o->image(image_smeter);}
         }
-        Fl_Box sldrRcvSignaldisp {
-          xywh {48 92 10 182} box FLAT_BOX color 10 selection_color 2
+        Fl_Box sldrRcvSignaldisp {selected
+          xywh {51 92 10 182} box FLAT_BOX color 10 selection_color 2
           code0 {\#include "Fl_SigBar.h"}
           code1 {o->minimum(0.0f);}
           code2 {o->maximum(-128.0f);}
           code3 {o->horizontal(false);}
           class Fl_SigBar
         }
-        Fl_Slider sldrSQdisp {
-          xywh {60 92 8 182} box FLAT_BOX color 0 selection_color 3 labeltype NO_LABEL labelcolor 3 maximum -127 step 1 value -100 deactivate
-        }
-        Fl_Box boxSquelchdisp {
-          xywh {57 81 9 9} box OVAL_BOX color 6 selection_color 0
+        Fl_Box boxSquelchdisp {selected
+          xywh {51 81 9 9} box OVAL_BOX color 6 selection_color 0
         }
       }
       Fl_Group grpMeter2disp {open

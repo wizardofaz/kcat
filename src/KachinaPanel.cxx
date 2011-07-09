@@ -223,7 +223,7 @@ static void cb_btnPreamp(Fl_Light_Button*, void*) {
   cbPreamp();
 }
 
-Fl_Group *grpMeters1=(Fl_Group *)0;
+Fl_Group *grpMeters=(Fl_Group *)0;
 
 Fl_Button *btnSmeter=(Fl_Button *)0;
 
@@ -232,12 +232,6 @@ static void cb_btnSmeter(Fl_Button*, void*) {
 }
 
 Fl_SigBar *sldrRcvSignal=(Fl_SigBar *)0;
-
-Fl_Slider *sldrSQ=(Fl_Slider *)0;
-
-Fl_Box *boxSquelch=(Fl_Box *)0;
-
-Fl_Group *grpMeters2=(Fl_Group *)0;
 
 Fl_Button *btnPower=(Fl_Button *)0;
 
@@ -249,11 +243,7 @@ Fl_SigBar *sldrFwdPwr=(Fl_SigBar *)0;
 
 Fl_SigBar *sldrRefPwr=(Fl_SigBar *)0;
 
-Fl_Button *btnSWR=(Fl_Button *)0;
-
-static void cb_btnSWR(Fl_Button*, void*) {
-  cbSWR();
-}
+Fl_Box *boxSquelch=(Fl_Box *)0;
 
 Fl_Button *btn_show_controls=(Fl_Button *)0;
 
@@ -718,12 +708,12 @@ Fl_Double_Window* Kachina_window() {
       btnPreamp->tooltip(_("Preamp On/Off"));
       btnPreamp->callback((Fl_Callback*)cb_btnPreamp);
     } // Fl_Light_Button* btnPreamp
-    { grpMeters1 = new Fl_Group(408, 68, 84, 210);
-      grpMeters1->box(FL_THIN_DOWN_BOX);
-      grpMeters1->color((Fl_Color)FL_GRAY0);
-      grpMeters1->selection_color((Fl_Color)FL_LIGHT2);
-      grpMeters1->align(FL_ALIGN_LEFT|FL_ALIGN_INSIDE);
-      { Fl_Button* o = btnSmeter = new Fl_Button(416, 73, 40, 200);
+    { grpMeters = new Fl_Group(408, 68, 84, 210);
+      grpMeters->box(FL_THIN_DOWN_BOX);
+      grpMeters->color((Fl_Color)FL_GRAY0);
+      grpMeters->selection_color((Fl_Color)FL_LIGHT2);
+      grpMeters->align(FL_ALIGN_LEFT|FL_ALIGN_INSIDE);
+      { Fl_Button* o = btnSmeter = new Fl_Button(409, 73, 30, 200);
         btnSmeter->tooltip(_("Click - change scale"));
         btnSmeter->box(FL_FLAT_BOX);
         btnSmeter->down_box(FL_FLAT_BOX);
@@ -733,7 +723,7 @@ Fl_Double_Window* Kachina_window() {
         btnSmeter->align(FL_ALIGN_CENTER|FL_ALIGN_INSIDE);
         o->image(image_smeter);
       } // Fl_Button* btnSmeter
-      { Fl_SigBar* o = sldrRcvSignal = new Fl_SigBar(459, 82, 10, 182);
+      { Fl_SigBar* o = sldrRcvSignal = new Fl_SigBar(441, 82, 9, 182);
         sldrRcvSignal->box(FL_FLAT_BOX);
         sldrRcvSignal->color((Fl_Color)10);
         sldrRcvSignal->selection_color((Fl_Color)2);
@@ -747,31 +737,7 @@ Fl_Double_Window* Kachina_window() {
         o->maximum(-128.0f);
         o->horizontal(false);
       } // Fl_SigBar* sldrRcvSignal
-      { sldrSQ = new Fl_Slider(472, 82, 12, 182);
-        sldrSQ->box(FL_FLAT_BOX);
-        sldrSQ->color((Fl_Color)FL_FOREGROUND_COLOR);
-        sldrSQ->selection_color((Fl_Color)3);
-        sldrSQ->labeltype(FL_NO_LABEL);
-        sldrSQ->labelcolor((Fl_Color)3);
-        sldrSQ->maximum(-127);
-        sldrSQ->step(1);
-        sldrSQ->value(-100);
-        sldrSQ->deactivate();
-      } // Fl_Slider* sldrSQ
-      { boxSquelch = new Fl_Box(473, 71, 9, 9);
-        boxSquelch->box(FL_OVAL_BOX);
-        boxSquelch->color((Fl_Color)6);
-        boxSquelch->selection_color((Fl_Color)FL_FOREGROUND_COLOR);
-      } // Fl_Box* boxSquelch
-      grpMeters1->end();
-    } // Fl_Group* grpMeters1
-    { grpMeters2 = new Fl_Group(408, 68, 84, 210);
-      grpMeters2->box(FL_THIN_DOWN_BOX);
-      grpMeters2->color((Fl_Color)FL_FOREGROUND_COLOR);
-      grpMeters2->selection_color((Fl_Color)FL_LIGHT2);
-      grpMeters2->align(FL_ALIGN_LEFT|FL_ALIGN_INSIDE);
-      grpMeters2->hide();
-      { Fl_Button* o = btnPower = new Fl_Button(411, 73, 26, 200);
+      { Fl_Button* o = btnPower = new Fl_Button(453, 73, 25, 200);
         btnPower->tooltip(_("Click - FWD / ALC"));
         btnPower->box(FL_FLAT_BOX);
         btnPower->down_box(FL_FLAT_BOX);
@@ -781,7 +747,7 @@ Fl_Double_Window* Kachina_window() {
         btnPower->align(FL_ALIGN_CENTER|FL_ALIGN_INSIDE);
         o->image(image_p150);
       } // Fl_Button* btnPower
-      { Fl_SigBar* o = sldrFwdPwr = new Fl_SigBar(438, 82, 11, 182);
+      { Fl_SigBar* o = sldrFwdPwr = new Fl_SigBar(480, 82, 9, 182);
         sldrFwdPwr->box(FL_FLAT_BOX);
         sldrFwdPwr->color((Fl_Color)14);
         sldrFwdPwr->selection_color((Fl_Color)6);
@@ -795,7 +761,7 @@ Fl_Double_Window* Kachina_window() {
         o->maximum(0.0f);
         o->horizontal(false);
       } // Fl_SigBar* sldrFwdPwr
-      { Fl_SigBar* o = sldrRefPwr = new Fl_SigBar(451, 82, 10, 182);
+      { Fl_SigBar* o = sldrRefPwr = new Fl_SigBar(480, 82, 9, 182);
         sldrRefPwr->box(FL_FLAT_BOX);
         sldrRefPwr->color((Fl_Color)9);
         sldrRefPwr->selection_color((Fl_Color)1);
@@ -809,18 +775,13 @@ Fl_Double_Window* Kachina_window() {
         o->maximum(0.0f);
         o->horizontal(false);
       } // Fl_SigBar* sldrRefPwr
-      { Fl_Button* o = btnSWR = new Fl_Button(463, 73, 26, 200);
-        btnSWR->tooltip(_("Click REF / SWR"));
-        btnSWR->box(FL_FLAT_BOX);
-        btnSWR->down_box(FL_FLAT_BOX);
-        btnSWR->color((Fl_Color)48);
-        btnSWR->selection_color((Fl_Color)48);
-        btnSWR->callback((Fl_Callback*)cb_btnSWR);
-        btnSWR->align(FL_ALIGN_CENTER|FL_ALIGN_INSIDE);
-        o->image(image_swr);
-      } // Fl_Button* btnSWR
-      grpMeters2->end();
-    } // Fl_Group* grpMeters2
+      { boxSquelch = new Fl_Box(441, 71, 9, 9);
+        boxSquelch->box(FL_FLAT_BOX);
+        boxSquelch->color((Fl_Color)175);
+        boxSquelch->align(FL_ALIGN_CENTER|FL_ALIGN_INSIDE);
+      } // Fl_Box* boxSquelch
+      grpMeters->end();
+    } // Fl_Group* grpMeters
     { btn_show_controls = new Fl_Button(2, 258, 18, 20, _("@-22->"));
       btn_show_controls->tooltip(_("Show/Hide controls"));
       btn_show_controls->callback((Fl_Callback*)cb_btn_show_controls);
@@ -854,7 +815,7 @@ Fl_Double_Window* Kachina_window() {
       txtTEMP->callback((Fl_Callback*)cb_txtTEMP);
       txtTEMP->align(FL_ALIGN_RIGHT);
     } // Fl_Output* txtTEMP
-    { tabs = new Fl_Tabs(1, 282, 490, 70);
+    { tabs = new Fl_Tabs(1, 282, 491, 70);
       tabs->selection_color((Fl_Color)FL_LIGHT1);
       { CWtab = new Fl_Group(2, 302, 490, 50, _("CW"));
         CWtab->color((Fl_Color)FL_LIGHT1);
@@ -1375,8 +1336,6 @@ Fl_Button *btnSmeterdisp=(Fl_Button *)0;
 
 Fl_SigBar *sldrRcvSignaldisp=(Fl_SigBar *)0;
 
-Fl_Slider *sldrSQdisp=(Fl_Slider *)0;
-
 Fl_Box *boxSquelchdisp=(Fl_Box *)0;
 
 Fl_Group *grpMeter2disp=(Fl_Group *)0;
@@ -1515,7 +1474,7 @@ Fl_Double_Window* DisplayDialog() {
         grpMeter1disp->color((Fl_Color)FL_FOREGROUND_COLOR);
         grpMeter1disp->selection_color((Fl_Color)FL_LIGHT2);
         grpMeter1disp->align(FL_ALIGN_LEFT|FL_ALIGN_INSIDE);
-        { Fl_Button* o = btnSmeterdisp = new Fl_Button(6, 83, 40, 200);
+        { Fl_Button* o = btnSmeterdisp = new Fl_Button(9, 83, 40, 200);
           btnSmeterdisp->tooltip(_("Click - change scale"));
           btnSmeterdisp->box(FL_FLAT_BOX);
           btnSmeterdisp->down_box(FL_FLAT_BOX);
@@ -1524,7 +1483,7 @@ Fl_Double_Window* DisplayDialog() {
           btnSmeterdisp->align(FL_ALIGN_CENTER|FL_ALIGN_INSIDE);
           o->image(image_smeter);
         } // Fl_Button* btnSmeterdisp
-        { Fl_SigBar* o = sldrRcvSignaldisp = new Fl_SigBar(48, 92, 10, 182);
+        { Fl_SigBar* o = sldrRcvSignaldisp = new Fl_SigBar(51, 92, 10, 182);
           sldrRcvSignaldisp->box(FL_FLAT_BOX);
           sldrRcvSignaldisp->color((Fl_Color)10);
           sldrRcvSignaldisp->selection_color((Fl_Color)2);
@@ -1538,18 +1497,7 @@ Fl_Double_Window* DisplayDialog() {
           o->maximum(-128.0f);
           o->horizontal(false);
         } // Fl_SigBar* sldrRcvSignaldisp
-        { sldrSQdisp = new Fl_Slider(60, 92, 8, 182);
-          sldrSQdisp->box(FL_FLAT_BOX);
-          sldrSQdisp->color((Fl_Color)FL_FOREGROUND_COLOR);
-          sldrSQdisp->selection_color((Fl_Color)3);
-          sldrSQdisp->labeltype(FL_NO_LABEL);
-          sldrSQdisp->labelcolor((Fl_Color)3);
-          sldrSQdisp->maximum(-127);
-          sldrSQdisp->step(1);
-          sldrSQdisp->value(-100);
-          sldrSQdisp->deactivate();
-        } // Fl_Slider* sldrSQdisp
-        { boxSquelchdisp = new Fl_Box(57, 81, 9, 9);
+        { boxSquelchdisp = new Fl_Box(51, 81, 9, 9);
           boxSquelchdisp->box(FL_OVAL_BOX);
           boxSquelchdisp->color((Fl_Color)6);
           boxSquelchdisp->selection_color((Fl_Color)FL_FOREGROUND_COLOR);
