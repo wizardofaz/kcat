@@ -63,7 +63,6 @@ bool sendCommand(char *str)
 
 	serial_busy = true;
 
-
 // create command string
 	sendbuff[0] = STX;
 	for (int n = 1; n <= len; n++) sendbuff[n] = str[n];
@@ -445,7 +444,7 @@ void setXcvrSPOT(int val)
 void setXcvrCarrier(int val)
 {
 	cmd = cmdK_TUN0;
-	if (val == 1) sendCommand(cmdK_TUN1); // constant carrier
+	if (val == 1) cmd = cmdK_TUN1; // constant carrier
 	sendCmd(cmd);
 	LOG_INFO("%s : %s", str2hex(cmd.c_str(), cmd.length()), retval.c_str());
 }

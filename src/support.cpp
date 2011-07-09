@@ -646,7 +646,8 @@ void cbCarrier()
 		cmdK_SPP0[2] = 0; // Speech processor OFF
 		sendCommand(cmdK_SPP0);
 		setXcvrPTT(1);
-		
+		grpMeters1->hide();
+		grpMeters2->show();
 	} else {
 		btnPTT->activate();
 		btnTune->activate();
@@ -657,6 +658,8 @@ void cbCarrier()
 		cmdK_SPP0[2] = xcvrState.SPEECHPROC;
 		sendCommand(cmdK_SPP0);
 		setMode();
+		grpMeters2->hide();
+		grpMeters1->show();
 	}
 }
 
@@ -968,26 +971,32 @@ void parseTelemetry(void *val)
 {
 	int data = (int)(reinterpret_cast<long> (val));
 
-	if (data < 128)
-		updateRcvSignal(data);
-	else if (data == 128 || data == 129)
-		updateSquelch(data);
-	else if (data < 140)
-		updateALC(data - 130);
-	else if (data < 190) {
-		sldrRcvSignal->value(-128);
-		updateFwdPwr(data - 140);
+	if (data < 130) { // receive telemetry
+		if (grpMeters2->visible()) {
+			grpMeters2->hide();
+			grpMeters1->show();
+		}
+		if (data < 128) // smeter
+			updateRcvSignal(data);
+		else if (data == 128 || data == 129) // squelch
+			updateSquelch(data);
+	} else if (data < 215) { // transmit telemetry
+		if (grpMeters1->visible()) {
+			grpMeters1->hide();
+			grpMeters2->show();
+		}
+		if (data < 140) // ALC
+			updateALC(data - 130);
+		else if (data < 190) // forward power
+			updateFwdPwr(data - 140);
+		else if (data < 215)
+			updateRefPwr(data - 190);
 	}
-	else if (data < 215) {
-		sldrRcvSignal->value(-128);
-		updateRefPwr(data - 190);
-	}
-	else if (data == 215)
+	else if (data == 215) // temperature alarm
 		setOverTempAlarm();
-	else if (data > 219 && data < 250)
+	else if (data > 219 && data < 250) // temperature value
 		updateTempDisplay(data);
 	Fl::flush();
-	setFocus();
 }
 
 void * telemetry_thread_loop(void *d)
