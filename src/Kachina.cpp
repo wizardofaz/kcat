@@ -128,18 +128,17 @@ void exit_main(Fl_Widget *w)
 	cbExit();
 }
 
-void * kcat_terminate(void) {
+void kcat_terminate() {
 	std::cerr << "terminating" << std::endl;
-	fl_message("Closing flrig");
+	fl_message("Unrecoverable error\nTerminating kcat");
 	cbExit();
-	return 0;
 }
 
 int main (int argc, char *argv[])
 {
 	int arg_idx;
 
-	std::terminate_handler(kcat_terminate);
+	std::set_terminate(kcat_terminate);
 
 	Fl::args(argc, argv, arg_idx, parse_args);
 
