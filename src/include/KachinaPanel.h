@@ -78,7 +78,6 @@ extern Fl_Counter *sldrAntiVox;
 extern Fl_Counter *sldrVoxDelay;
 extern Fl_Light_Button *btnVoxOnOff;
 extern Fl_Group *SPCHtab;
-extern Fl_Counter *MonVol;
 extern Fl_Light_Button *btnSpchMon;
 extern Fl_Counter *sldrCompression;
 extern Fl_Light_Button *btnSpchProc;

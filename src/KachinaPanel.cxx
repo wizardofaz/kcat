@@ -369,8 +369,6 @@ static void cb_btnVoxOnOff(Fl_Light_Button*, void*) {
 
 Fl_Group *SPCHtab=(Fl_Group *)0;
 
-Fl_Counter *MonVol=(Fl_Counter *)0;
-
 Fl_Light_Button *btnSpchMon=(Fl_Light_Button *)0;
 
 static void cb_btnSpchMon(Fl_Light_Button*, void*) {
@@ -866,7 +864,7 @@ Fl_Double_Window* Kachina_window() {
         CW2tab->color((Fl_Color)FL_LIGHT1);
         CW2tab->selection_color((Fl_Color)FL_LIGHT1);
         CW2tab->hide();
-        { sldrSideTone = new Fl_Counter(88, 310, 60, 22, _("S-T vol"));
+        { sldrSideTone = new Fl_Counter(88, 310, 60, 22, _("S-T/Spch-Mon Level"));
           sldrSideTone->tooltip(_("Side tone volume"));
           sldrSideTone->type(1);
           sldrSideTone->minimum(0);
@@ -921,25 +919,18 @@ Fl_Double_Window* Kachina_window() {
       } // Fl_Group* VOXtab
       { SPCHtab = new Fl_Group(2, 302, 490, 50, _("Speech"));
         SPCHtab->hide();
-        { MonVol = new Fl_Counter(36, 310, 70, 22, _("Mon vol"));
-          MonVol->tooltip(_("Side tone volume"));
-          MonVol->type(1);
-          MonVol->minimum(0);
-          MonVol->maximum(100);
-          MonVol->step(1);
-          MonVol->value(25);
-        } // Fl_Counter* MonVol
-        { btnSpchMon = new Fl_Light_Button(153, 310, 70, 22, _("Mon\'"));
+        { btnSpchMon = new Fl_Light_Button(89, 310, 70, 22, _("Mon\'"));
+          btnSpchMon->tooltip(_("Monitor both mic and aux input"));
           btnSpchMon->callback((Fl_Callback*)cb_btnSpchMon);
         } // Fl_Light_Button* btnSpchMon
-        { sldrCompression = new Fl_Counter(270, 310, 70, 22, _("Comp"));
+        { sldrCompression = new Fl_Counter(206, 310, 70, 22, _("Comp"));
           sldrCompression->type(1);
           sldrCompression->minimum(0);
           sldrCompression->maximum(255);
           sldrCompression->step(1);
           sldrCompression->callback((Fl_Callback*)cb_sldrCompression);
         } // Fl_Counter* sldrCompression
-        { btnSpchProc = new Fl_Light_Button(387, 310, 70, 22, _("Proc\'"));
+        { btnSpchProc = new Fl_Light_Button(323, 310, 70, 22, _("Proc\'"));
           btnSpchProc->callback((Fl_Callback*)cb_btnSpchProc);
         } // Fl_Light_Button* btnSpchProc
         SPCHtab->end();

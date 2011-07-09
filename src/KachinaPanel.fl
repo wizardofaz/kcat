@@ -14,7 +14,7 @@ decl {\#include "support.h"} {}
 Function {Kachina_window()} {open
 } {
   Fl_Window {} {
-    label kcat
+    label kcat open
     xywh {623 170 495 355} type Double color 51
     code0 {\#include <stdlib.h>} visible
   } {
@@ -322,7 +322,7 @@ selectFreq();}
       xywh {1 282 491 70} selection_color 50
     } {
       Fl_Group CWtab {
-        label CW open
+        label CW open selected
         xywh {2 302 490 50} color 50 selection_color 50
       } {
         Fl_Light_Button btnSPOT {
@@ -363,7 +363,7 @@ selectFreq();}
         xywh {2 302 490 50} color 50 selection_color 50 hide
       } {
         Fl_Counter sldrSideTone {
-          label {S-T vol}
+          label {S-T/Spch-Mon Level}
           callback {cbSidetone();}
           tooltip {Side tone volume} xywh {88 310 60 22} type Simple minimum 0 maximum 100 step 1 value 24
         }
@@ -411,24 +411,20 @@ selectFreq();}
         label Speech open
         xywh {2 302 490 50} hide
       } {
-        Fl_Counter MonVol {
-          label {Mon vol}
-          tooltip {Side tone volume} xywh {36 310 70 22} type Simple minimum 0 maximum 100 step 1 value 25
-        }
         Fl_Light_Button btnSpchMon {
           label {Mon'}
           callback {cbSpchMon();}
-          xywh {153 310 70 22}
+          tooltip {Monitor both mic and aux input} xywh {89 310 70 22}
         }
         Fl_Counter sldrCompression {
           label Comp
           callback {cbsldrCompression();}
-          xywh {270 310 70 22} type Simple minimum 0 maximum 255 step 1
+          xywh {206 310 70 22} type Simple minimum 0 maximum 255 step 1
         }
         Fl_Light_Button btnSpchProc {
           label {Proc'}
           callback {cbbtnSpchProc();}
-          xywh {387 310 70 22}
+          xywh {323 310 70 22}
         }
       }
       Fl_Group RXtab {
@@ -667,7 +663,7 @@ Function {DisplayDialog()} {open
 } {
   Fl_Window {} {
     label {kcat colors / scheme} open
-    xywh {764 592 424 295} type Double visible
+    xywh {764 592 424 295} type Double hide
   } {
     Fl_Group {} {open
       xywh {2 2 218 70} box ENGRAVED_FRAME
@@ -722,11 +718,11 @@ Function {DisplayDialog()} {open
       Fl_Group grpMeter1disp {open
         xywh {4 78 65 210} box DOWN_BOX color 0 selection_color 52 align 20
       } {
-        Fl_Button btnSmeterdisp {selected
+        Fl_Button btnSmeterdisp {
           tooltip {Click - change scale} xywh {9 83 40 200} box FLAT_BOX down_box FLAT_BOX color 2 selection_color 2 align 16
           code0 {o->image(image_smeter);}
         }
-        Fl_Box sldrRcvSignaldisp {selected
+        Fl_Box sldrRcvSignaldisp {
           xywh {51 92 10 182} box FLAT_BOX color 10 selection_color 2
           code0 {\#include "Fl_SigBar.h"}
           code1 {o->minimum(0.0f);}
@@ -734,7 +730,7 @@ Function {DisplayDialog()} {open
           code3 {o->horizontal(false);}
           class Fl_SigBar
         }
-        Fl_Box boxSquelchdisp {selected
+        Fl_Box boxSquelchdisp {
           xywh {51 81 9 9} box OVAL_BOX color 6 selection_color 0
         }
       }
