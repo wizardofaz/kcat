@@ -135,8 +135,9 @@ struct XCVRSTATE xcvrState = {
 	"",			// string ttyport
 
 	"7362",		// string server_port
-	"127.0.0.1"	// string server_address
+	"127.0.0.1",// string server_address
 
+	true		// bool tooltips
 };
 
 void XCVRSTATE::saveLastState()
@@ -267,6 +268,8 @@ void XCVRSTATE::saveLastState()
 	spref.set("ttyport", ttyport.c_str());
 	spref.set("server_port", server_port.c_str());
 	spref.set("server_addr", server_address.c_str());
+
+	spref.set("tooltips", tooltips);
 
 	std::string fname = homedir;
 	fname.append("kcat.ant");
@@ -411,6 +414,9 @@ void XCVRSTATE::loadLastState()
 		spref.get("server_addr", defbuffer, "127.0.0.1", 199);
 		server_address = defbuffer;
 
+		i = 0;
+		if (spref.get("tooltips", i, i)) tooltips = i;
+
 	}
 
 	std::string fname = homedir;
@@ -499,5 +505,13 @@ void XCVRSTATE::loadLastState()
 	sldrPOWER->selection_color(btn_slider);
 
 	Fl::scheme(ui_scheme.c_str());
+
+	if (tooltips) {
+		Fl_Tooltip::enable(1);
+		mnuTooltips->set();
+	} else {
+		mnuTooltips->clear();
+		Fl_Tooltip::enable(0);
+	}
 
 }

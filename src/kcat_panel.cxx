@@ -5,6 +5,7 @@
 #include "images.h"
 #include "kcat.h"
 #include "support.h"
+#include "status.h"
 
 static void cb_mnuOpen(Fl_Menu_*, void*) {
   openFreqList();
@@ -28,6 +29,11 @@ static void cb_mnuPreferences(Fl_Menu_*, void*) {
 
 static void cb_mnuAntPorts(Fl_Menu_*, void*) {
   cbmnuAntPorts();
+}
+
+static void cb_mnuTooltips(Fl_Menu_*, void*) {
+  xcvrState.tooltips=mnuTooltips->value();
+Fl_Tooltip::enable(xcvrState.tooltips);
 }
 
 static void cb_mnuFreqCal(Fl_Menu_*, void*) {
@@ -64,6 +70,7 @@ Fl_Menu_Item menu_[] = {
  {_("&Config"), 0,  0, 0, 64, FL_NORMAL_LABEL, 0, 14, 0},
  {_("&Display Colors"), 0,  (Fl_Callback*)cb_mnuPreferences, 0, 0, FL_NORMAL_LABEL, 0, 14, 0},
  {_("Antenna Ports"), 0,  (Fl_Callback*)cb_mnuAntPorts, 0, 128, FL_NORMAL_LABEL, 0, 14, 0},
+ {_("Tooltips"), 0,  (Fl_Callback*)cb_mnuTooltips, 0, 130, FL_NORMAL_LABEL, 0, 14, 0},
  {0,0,0,0,0,0,0,0,0},
  {_("Utils"), 0,  0, 0, 64, FL_NORMAL_LABEL, 0, 14, 0},
  {_("&Ant Imped"), 0,  0, 0, 16, FL_NORMAL_LABEL, 0, 14, 0},
@@ -456,10 +463,12 @@ Fl_Double_Window* kcat_window() {
     { Fl_Menu_Bar* o = new Fl_Menu_Bar(2, 2, 340, 22);
       o->labelsize(12);
       o->textsize(12);
+      { Fl_Menu_Item* o = &menu_[9];
+        xcvrState.tooltips ? o->set() :o->clear();
+      }
       o->menu(menu_);
     } // Fl_Menu_Bar* o
     { cFreqControl* o = FreqDisp = new cFreqControl(2, 25, 170, 40, _("8"));
-      FreqDisp->tooltip(_("Set Frequency"));
       FreqDisp->box(FL_DOWN_BOX);
       FreqDisp->color((Fl_Color)FL_BACKGROUND_COLOR);
       FreqDisp->selection_color((Fl_Color)FL_BACKGROUND_COLOR);
@@ -473,7 +482,6 @@ Fl_Double_Window* kcat_window() {
       o->setCallBack(movFreq);
     } // cFreqControl* FreqDisp
     { cFreqControl* o = FreqDispB = new cFreqControl(172, 25, 170, 40, _("8"));
-      FreqDispB->tooltip(_("Set Frequency"));
       FreqDispB->box(FL_DOWN_BOX);
       FreqDispB->color((Fl_Color)FL_BACKGROUND_COLOR);
       FreqDispB->selection_color((Fl_Color)FL_BACKGROUND_COLOR);
@@ -604,7 +612,6 @@ Fl_Double_Window* kcat_window() {
       sldrNOTCH->callback((Fl_Callback*)cb_sldrNOTCH);
       sldrNOTCH->align(FL_ALIGN_CENTER);
       sldrNOTCH->when(FL_WHEN_CHANGED);
-      sldrNOTCH->hide();
     } // Fl_Wheel_Value_Slider* sldrNOTCH
     { sldrDepth = new Fl_Value_Slider(2, 152, 340, 18);
       sldrDepth->tooltip(_("Set Notch Depth"));
@@ -742,7 +749,7 @@ Fl_Double_Window* kcat_window() {
         o->horizontal(false);
       } // Fl_SigBar* sldrRcvSignal
       { Fl_Button* o = btnPower = new Fl_Button(453, 73, 25, 200);
-        btnPower->tooltip(_("Click - FWD / ALC"));
+        btnPower->tooltip(_("Click - FWD / ALC / SWR"));
         btnPower->box(FL_FLAT_BOX);
         btnPower->down_box(FL_FLAT_BOX);
         btnPower->color((Fl_Color)48);

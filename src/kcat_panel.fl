@@ -11,6 +11,8 @@ decl {\#include "kcat.h"} {}
 
 decl {\#include "support.h"} {} 
 
+decl {\#include "status.h"} {} 
+
 Function {kcat_window()} {open
 } {
   Fl_Window {} {
@@ -59,6 +61,14 @@ Function {kcat_window()} {open
           label {Antenna Ports}
           callback {cbmnuAntPorts();}
           tooltip {Specify frequency / ant. port Pairs} xywh {0 0 100 20} divider
+        }
+        MenuItem mnuTooltips {
+          label Tooltips
+          callback {xcvrState.tooltips=mnuTooltips->value();
+Fl_Tooltip::enable(xcvrState.tooltips);}
+          xywh {0 0 36 21} type Toggle divider
+          code0 {\#include <FL/Fl_Tooltip.H>}
+          code1 {xcvrState.tooltips ? o->set() :o->clear();}
         }
       }
       Submenu mnuUtils {
@@ -109,7 +119,7 @@ Function {kcat_window()} {open
     }
     Fl_Box FreqDisp {
       label 8
-      tooltip {Set Frequency} xywh {2 25 170 40} box DOWN_BOX
+      xywh {2 25 170 40} box DOWN_BOX
       code0 {\#include "FreqControl.h"}
       code2 {o->SetONOFFCOLOR (FL_YELLOW, FL_BLACK);}
       code3 {o->setCallBack(movFreq);}
@@ -117,7 +127,7 @@ Function {kcat_window()} {open
     }
     Fl_Box FreqDispB {
       label 8
-      tooltip {Set Frequency} xywh {172 25 170 40} box DOWN_BOX
+      xywh {172 25 170 40} box DOWN_BOX
       code2 {o->SetONOFFCOLOR (FL_YELLOW, FL_BLACK);}
       code3 {o->setCallBack(movFreqB);}
       class cFreqControl
@@ -233,7 +243,7 @@ selectFreq();}
     }
     Fl_Light_Button btnNotch {
       label Ntch
-      callback {cbbtnNotch();} selected
+      callback {cbbtnNotch();}
       tooltip {Notch - Manual (off) Auto (on)} xywh {344 152 60 18}
     }
     Fl_Light_Button btnNR {
@@ -268,8 +278,8 @@ selectFreq();}
         class Fl_SigBar
       }
       Fl_Button btnPower {
-        callback {cbPWR();}
-        tooltip {Click - FWD / ALC} xywh {453 73 25 200} box FLAT_BOX down_box FLAT_BOX color 48 selection_color 48 align 16
+        callback {cbPWR();} selected
+        tooltip {Click - FWD / ALC / SWR} xywh {453 73 25 200} box FLAT_BOX down_box FLAT_BOX color 48 selection_color 48 align 16
         code0 {o->image(image_p150);}
       }
       Fl_Box sldrFwdPwr {

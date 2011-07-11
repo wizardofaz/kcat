@@ -6,6 +6,7 @@
 #include <FL/Fl_Double_Window.H>
 #include <stdlib.h>
 #include <FL/Fl_Menu_Bar.H>
+#include <FL/Fl_Tooltip.H>
 extern void openFreqCalibDialog();
 #include "FreqControl.h"
 extern cFreqControl *FreqDisp;
@@ -102,15 +103,16 @@ extern Fl_Menu_Item menu_[];
 #define mnuConfig (menu_+6)
 #define mnuPreferences (menu_+7)
 #define mnuAntPorts (menu_+8)
-#define mnuUtils (menu_+10)
-#define mnuAntImp (menu_+11)
-#define mnuFreqCal (menu_+12)
-#define mnuClearAntData (menu_+13)
-#define mnuNRAMdata (menu_+14)
-#define mnuEvents (menu_+15)
-#define mnuHelp (menu_+17)
-#define mnuOnLineHelp (menu_+18)
-#define mnuAbout (menu_+19)
+#define mnuTooltips (menu_+9)
+#define mnuUtils (menu_+11)
+#define mnuAntImp (menu_+12)
+#define mnuFreqCal (menu_+13)
+#define mnuClearAntData (menu_+14)
+#define mnuNRAMdata (menu_+15)
+#define mnuEvents (menu_+16)
+#define mnuHelp (menu_+18)
+#define mnuOnLineHelp (menu_+19)
+#define mnuAbout (menu_+20)
 extern Fl_Choice *selectCommPort;
 #include <FL/Fl_Return_Button.H>
 extern Fl_Return_Button *btnOkCommsDialog;

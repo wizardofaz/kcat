@@ -106,7 +106,12 @@ cFreqControl::cFreqControl(int x, int y, int w, int h, const char *lbl):
 		fmaxval = maxVal / 1000.0;
 	}
 	static char tt[100];
-	snprintf(tt, sizeof(tt), "Enter frequency (max %.3f) or\nLeft/Right/Up/Down/Pg_Up/Pg_Down", fmaxval);
+	snprintf(tt, sizeof(tt), "\
+Left btn - up\n\
+Right btn - dwn\n\
+Wheel - up/dwn\n\
+Enter frequency (max %.3f)\n\
+Left/Right/Up/Down/Pg_Up/Pg_Down", fmaxval);
 	tooltip(tt);
 
 	for (int n = 0; n < nD; n++) {
@@ -146,7 +151,6 @@ cFreqControl::cFreqControl(int x, int y, int w, int h, const char *lbl):
 
 	precision = 1;
 
-//	tooltip(_("Enter frequency or change with\nLeft/Right/Up/Down/Pg_Up/Pg_Down"));
 }
 
 cFreqControl::~cFreqControl()
