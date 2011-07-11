@@ -16,6 +16,7 @@
 #include <unistd.h>
 
 #include <memory>
+#include <string>
 
 #define bzero(b,len) memset(b,0,(size_t)(len))
 
@@ -41,7 +42,7 @@ public:
 	
 private:
 //Members
-	char szPortName[12];
+	std::string		szPortName;
 	int  fd;
 	struct termios oldtio, newtio;
 	int  timeout;

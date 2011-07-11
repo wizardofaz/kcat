@@ -16,12 +16,11 @@
 // Argument         : CString strPortName
 ///////////////////////////////////////////////////////
 BOOL CSerialComm::OpenPort(char * szPort, int baud)  {
-  
-	szPortName = new char[strlen(szPort) + 5];
-	strcpy (szPortName, "//./");
-	strcat (szPortName, szPort);
 
-	hComm = CreateFile(szPortName,
+	szPortName = "//./";
+	szPortName.append(szPort);
+
+	hComm = CreateFile(szPortName.c_str(),
               GENERIC_READ | GENERIC_WRITE,
               0,
               0,
@@ -204,7 +203,7 @@ BOOL CSerialComm::ConfigurePort(DWORD	BaudRate,
 								BYTE	StopBits)
 {
 	if((bPortReady = GetCommState(hComm, &dcb))==0) {
-//		fl_message("GetCommState Error on %s", szPortName);
+//		fl_message("GetCommState Error on %s", szPortName.c_str());
 		CloseHandle(hComm);
 		return FALSE;
 	}
@@ -260,9 +259,9 @@ CSerialComm::~CSerialComm() {
 // Argument         : CString strPortName
 ///////////////////////////////////////////////////////
 bool CSerialComm::OpenPort(char * szPort, int baud)  {
-	strcpy(szPortName,"/dev/");
-	strcat(szPortName, szPort);
-	if ((fd = open( szPortName, O_RDWR | O_NOCTTY | O_NDELAY)) < 0)
+	szPortName = "/dev/";
+	szPortName.append(szPort);
+	if ((fd = open( szPortName.c_str(), O_RDWR | O_NOCTTY | O_NDELAY)) < 0)
 		return false;
 // save current port settings
 	tcgetattr (fd, &oldtio);

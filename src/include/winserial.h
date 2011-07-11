@@ -6,6 +6,7 @@
 #define SERIALCOMM_H
 
 #include <windows.h>
+#include <string>
 
 #ifdef UCHAR
 #undef UCHAR
@@ -50,7 +51,7 @@ public:
 
 //Members
 private:
-  char * szPortName;	
+	std::string		szPortName;
 	//For use by CreateFile
 	HANDLE			hComm;
 
