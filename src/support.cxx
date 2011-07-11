@@ -483,14 +483,14 @@ void cbbtnRIT()
 
 void cbbtnNotch()
 {
-	if (btnNotch->value() == 1) {
+	if (btnNotch->value() == 1) { // Auto notch
 		sldrNOTCH->hide(); // NOTCH freq adjust hidden
 		sldrDepth->show(); // AUTO depth shown
 		sldrNR->deactivate(); // NR controls deactivated
 		btnNR->deactivate();
 		setXcvrNotchWidth(3); // Put into AUTO notch mode
 		setXcvrNotchDepth(sldrDepth->value()); // With last postion of slider control
-	} else {
+	} else { // Manual notch
 		sldrDepth->hide(); // Depth control hidden
 		sldrNOTCH->show(); // NOTCH freq adjust shown
 		sldrNR->activate(); // NR controls activated
@@ -878,11 +878,28 @@ int  RigHard[2] = {0,0};
 void GetKachinaVersion()
 {
 	unsigned char buffer[10];
-	RequestData (cmdK_RSER, buffer, 10);
-	LOG_WARN("%s", retval.c_str());
-	RigSerNbr = (((buffer[0]*256 + buffer[1])*256) + buffer[2])*256 + buffer[3];
-	RigFirm[0] = buffer[6]; RigFirm[1] = buffer[7];
-	RigHard[0] = buffer[4]; RigHard[1] = buffer[5];
+	if (testing) {
+		RigSerNbr = 0L;
+		RigFirm[0] = 1;
+		RigHard[0] = 'A';
+		RigHard[1] = 1;
+	} else {
+		bool dataok = RequestData (cmdK_RSER, buffer, 10);
+		if (!dataok) {
+			const char errmsg[] = "KC505 not responding!";
+			LOG_ERROR("%s", errmsg);
+			fl_message("%s", errmsg);
+			perror(errmsg);
+			exit(EXIT_FAILURE);
+		}
+		RigSerNbr = (((buffer[0]*256 + buffer[1])*256) + buffer[2])*256 + buffer[3];
+		RigFirm[0] = buffer[6]; RigFirm[1] = buffer[7];
+		RigHard[0] = buffer[4]; RigHard[1] = buffer[5];
+	}
+	LOG_WARN("Serial number %ld\nFirmware version %d.%d\nHardware version %c.%d", 
+		RigSerNbr, 
+		RigFirm[0], RigFirm[1],
+		RigHard[0], RigHard[1]);
 }
 
 // cmdK_RTIME does not seem to respond with any data

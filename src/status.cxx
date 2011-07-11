@@ -413,8 +413,6 @@ void XCVRSTATE::loadLastState()
 
 	}
 
-	if (ttyport.empty()) setCommsPort();
-
 	std::string fname = homedir;
 	int freq, rcv, xmt;
 	fname.append("kcat.ant");
@@ -461,9 +459,6 @@ void XCVRSTATE::loadLastState()
 	btnPower->color(bgclr, bgclr);
 	btnPower->labelcolor(fgclr);
 
-//	btnSWR->color(bgclr, bgclr);
-//	btnSWR->labelcolor(fgclr);
-
 	sldrFwdPwr->color(fl_rgb_color (pwrRed, pwrGreen, pwrBlue), bgclr);
 	sldrFwdPwr->PeakColor(fl_rgb_color(peakRed, peakGreen, peakBlue));
 
@@ -498,8 +493,8 @@ void XCVRSTATE::loadLastState()
 	sldrMICGAIN->selection_color(btn_slider);
 	sldrNOTCH->color(bg_slider);
 	sldrNOTCH->selection_color(btn_slider);
-//	sldrSQ->color(bgclr, bgclr);
-//	sldrSQ->selection_color(btn_slider);
+	sldrDepth->color(bg_slider);
+	sldrDepth->selection_color(btn_slider);
 	sldrPOWER->color(bg_slider);
 	sldrPOWER->selection_color(btn_slider);
 

@@ -97,7 +97,7 @@ Function {kcat_window()} {open
       } {
         MenuItem mnuOnLineHelp {
           label {On-line help}
-          callback {visit_URL((void *)("http://www.w1hkj.com/kcat-help/index.html"));} selected
+          callback {visit_URL((void *)("http://www.w1hkj.com/kcat-help/index.html"));}
           xywh {0 0 36 21} divider
         }
         MenuItem mnuAbout {
@@ -185,7 +185,7 @@ selectFreq();}
     }
     Fl_Value_Slider sldrDepth {
       callback {cbDepth();}
-      tooltip {Set Notch Depth} xywh {2 152 295 18} type {Horz Knob} color 26 labeltype NO_LABEL align 0 maximum 100 step 1 value 50 textsize 14 hide
+      tooltip {Set Notch Depth} xywh {2 152 340 18} type {Horz Knob} color 26 labeltype NO_LABEL align 0 maximum 100 step 1 value 50 textsize 14 hide
     }
     Fl_Value_Slider sldrNR {
       callback {cbNR();}
@@ -233,7 +233,7 @@ selectFreq();}
     }
     Fl_Light_Button btnNotch {
       label Ntch
-      callback {cbbtnNotch();}
+      callback {cbbtnNotch();} selected
       tooltip {Notch - Manual (off) Auto (on)} xywh {344 152 60 18}
     }
     Fl_Light_Button btnNR {
@@ -500,17 +500,21 @@ cbSQLtype();}
 Function {CommsDialog()} {} {
   Fl_Window {} {
     label Select open
-    xywh {422 454 151 94} type Double box UP_BOX hide modal
+    xywh {580 583 323 104} type Double box UP_BOX hide modal
   } {
+    Fl_Choice selectCommPort {
+      label {Port:} open
+      xywh {30 50 105 21} down_box BORDER_BOX align 5
+    } {}
     Fl_Return_Button btnOkCommsDialog {
       label OK
       callback {cbOkCommsDialog();}
-      xywh {20 55 105 25}
+      xywh {174 50 105 21}
     }
-    Fl_Choice selectCommPort {
-      label {tty Port:} open
-      xywh {20 19 105 21} down_box BORDER_BOX align 5
-    } {}
+    Fl_Box {} {
+      label {Select the KC505 serial port}
+      xywh {5 11 312 17}
+    }
   }
 } 
 
@@ -664,8 +668,7 @@ Function {FreqCalibDialog()} {} {
   }
 } 
 
-Function {DisplayDialog()} {open
-} {
+Function {DisplayDialog()} {} {
   Fl_Window {} {
     label {kcat colors / scheme} open
     xywh {764 592 424 295} type Double hide

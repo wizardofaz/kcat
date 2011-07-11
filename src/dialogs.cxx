@@ -323,8 +323,8 @@ void initCommPortTable () {
     commPortTable[i].szPort = 0;
   }
   commPortTable[0].szPort = new char(6);
-  strcpy(commPortTable[0].szPort,"None");
-  strcpy(szCommPorts,"None");
+  strcpy(commPortTable[0].szPort,"TEST");
+  strcpy(szCommPorts,"TEST");
   iNbrCommPorts = 0;
   for (int i = 1; i < 12; i++) {
 	sprintf(szTestPort, "COM%d", i);
@@ -346,8 +346,8 @@ void initCommPortTable () {
     commPortTable[i].szPort = 0;
   }
   commPortTable[0].szPort = new char(6);
-  strcpy(commPortTable[0].szPort,"None");
-  strcpy(szCommPorts,"None");
+  strcpy(commPortTable[0].szPort,"TEST");
+  strcpy(szCommPorts,"TEST");
   iNbrCommPorts = 0;
   for (int i = 1; i < 8; i++) {
     szTestPort[4] = '0' + i - 1;
@@ -383,6 +383,7 @@ void cbOkCommsDialog()
 	waitfordialog = false;
 	commportnbr = selectCommPort->value();
 	xcvrState.ttyport =  commPortTable[commportnbr].szPort;
+	if (xcvrState.ttyport == "TEST") testing = true;
 }
 
 
@@ -1133,6 +1134,8 @@ void setColors()
 	sldrMICGAIN->selection_color(btn_slider);
 	sldrNOTCH->color(bg_slider);
 	sldrNOTCH->selection_color(btn_slider);
+	sldrDepth->color(bg_slider);
+	sldrDepth->selection_color(btn_slider);
 	sldrPOWER->color(bg_slider);
 	sldrPOWER->selection_color(btn_slider);
 

@@ -40,6 +40,7 @@ unsigned char modes[5] = {'0','1','2','3','4'}; // AM, CW, LSB, USB, FM
 
 bool startComms(const char *szPort, int baudrate)
 {
+	if (testing) return true;
 	if (kcatSerial.OpenPort((char *)szPort, baudrate) == false)
 		return false;
 	kcatSerial.Timeout(50); // msec timeout for read from rig
@@ -56,6 +57,10 @@ string retval;
 
 bool sendCommand(char *str)
 {
+	if (testing) {
+		retval = "TESTING";
+		return true;
+	}
 	int len = str[0];
 	int nret, loopcnt;
 	unsigned char *sendbuff = new unsigned char(len+2);
@@ -98,6 +103,10 @@ bool sendCommand(char *str)
 
 bool RequestData (char *cmd, unsigned char *buff, int nbr)
 {
+	if (testing) {
+		retval = "TESTING";
+		return false;
+	}
 	int len = cmd[0];
 	int nret, loopcnt;
 	unsigned char *sendbuff = new unsigned char(len+2);

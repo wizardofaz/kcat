@@ -46,6 +46,8 @@ pthread_mutex_t mutex_serial = PTHREAD_MUTEX_INITIALIZER;
 pthread_mutex_t mutex_telemetry = PTHREAD_MUTEX_INITIALIZER;
 pthread_mutex_t mutex_xmlrpc = PTHREAD_MUTEX_INITIALIZER;
 
+bool testing = false;
+
 Fl_Double_Window *window;
 
 extern Fl_Double_Window *dlgFreqCalib;
@@ -241,6 +243,8 @@ int main (int argc, char *argv[])
 #else
 	window->show();
 #endif
+
+	if (xcvrState.ttyport.empty() || xcvrState.ttyport == "TEST") setCommsPort();
 
 	Fl::add_timeout(0.05, startProcessing);
 

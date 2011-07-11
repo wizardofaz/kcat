@@ -604,8 +604,9 @@ Fl_Double_Window* kcat_window() {
       sldrNOTCH->callback((Fl_Callback*)cb_sldrNOTCH);
       sldrNOTCH->align(FL_ALIGN_CENTER);
       sldrNOTCH->when(FL_WHEN_CHANGED);
+      sldrNOTCH->hide();
     } // Fl_Wheel_Value_Slider* sldrNOTCH
-    { sldrDepth = new Fl_Value_Slider(2, 152, 295, 18);
+    { sldrDepth = new Fl_Value_Slider(2, 152, 340, 18);
       sldrDepth->tooltip(_("Set Notch Depth"));
       sldrDepth->type(5);
       sldrDepth->color((Fl_Color)26);
@@ -1011,26 +1012,28 @@ Fl_Double_Window* kcat_window() {
   return w;
 }
 
+Fl_Choice *selectCommPort=(Fl_Choice *)0;
+
 Fl_Return_Button *btnOkCommsDialog=(Fl_Return_Button *)0;
 
 static void cb_btnOkCommsDialog(Fl_Return_Button*, void*) {
   cbOkCommsDialog();
 }
 
-Fl_Choice *selectCommPort=(Fl_Choice *)0;
-
 Fl_Double_Window* CommsDialog() {
   Fl_Double_Window* w;
-  { Fl_Double_Window* o = new Fl_Double_Window(151, 94, _("Select"));
+  { Fl_Double_Window* o = new Fl_Double_Window(323, 104, _("Select"));
     w = o;
     o->box(FL_UP_BOX);
-    { btnOkCommsDialog = new Fl_Return_Button(20, 55, 105, 25, _("OK"));
-      btnOkCommsDialog->callback((Fl_Callback*)cb_btnOkCommsDialog);
-    } // Fl_Return_Button* btnOkCommsDialog
-    { selectCommPort = new Fl_Choice(20, 19, 105, 21, _("tty Port:"));
+    { selectCommPort = new Fl_Choice(30, 50, 105, 21, _("Port:"));
       selectCommPort->down_box(FL_BORDER_BOX);
       selectCommPort->align(FL_ALIGN_TOP_LEFT);
     } // Fl_Choice* selectCommPort
+    { btnOkCommsDialog = new Fl_Return_Button(174, 50, 105, 21, _("OK"));
+      btnOkCommsDialog->callback((Fl_Callback*)cb_btnOkCommsDialog);
+    } // Fl_Return_Button* btnOkCommsDialog
+    { new Fl_Box(5, 11, 312, 17, _("Select the KC505 serial port"));
+    } // Fl_Box* o
     o->set_modal();
     o->end();
   } // Fl_Double_Window* o

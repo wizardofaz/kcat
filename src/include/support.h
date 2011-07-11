@@ -36,6 +36,8 @@ struct FREQMODE {
 enum {UI, XML};
 enum MODES {LSB, USB, CW, AM, FM};
 
+extern bool testing;
+
 extern bool rx_on_a;
 extern bool tx_on_a;
 extern int  iAntSel;

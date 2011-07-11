@@ -111,9 +111,9 @@ extern Fl_Menu_Item menu_[];
 #define mnuHelp (menu_+17)
 #define mnuOnLineHelp (menu_+18)
 #define mnuAbout (menu_+19)
+extern Fl_Choice *selectCommPort;
 #include <FL/Fl_Return_Button.H>
 extern Fl_Return_Button *btnOkCommsDialog;
-extern Fl_Choice *selectCommPort;
 Fl_Double_Window* CommsDialog();
 #include <FL/Fl_Input.H>
 extern Fl_Input *txtFreqRange;
