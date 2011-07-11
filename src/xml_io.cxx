@@ -13,7 +13,7 @@
 #include "xml_io.h"
 #include "support.h"
 #include "debug.h"
-#include "Kachina.h"
+#include "kcat.h"
 #include "config.h"
 
 #include "XmlRpc.h"

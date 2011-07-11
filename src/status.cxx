@@ -14,12 +14,12 @@
 #include <FL/Fl_Preferences.H>
 #include <FL/Fl_Progress.H>
 
-#include "Kachina.h"
+#include "kcat.h"
 #include "IOspec.h"
 #include "test.h"
 #include "support.h"
 #include "cstack.h"
-#include "Kachina_io.h"
+#include "kcat_io.h"
 #include "config.h"
 #include "status.h"
 

@@ -7,11 +7,11 @@ header_name {.h}
 code_name {.cpp}
 decl {\#include "images.h"} {} 
 
-decl {\#include "Kachina.h"} {} 
+decl {\#include "kcat.h"} {} 
 
 decl {\#include "support.h"} {} 
 
-Function {Kachina_window()} {open
+Function {kcat_window()} {open selected
 } {
   Fl_Window {} {
     label kcat open
@@ -322,7 +322,7 @@ selectFreq();}
       xywh {1 282 491 70} selection_color 50
     } {
       Fl_Group CWtab {
-        label CW open selected
+        label CW open
         xywh {2 302 490 50} color 50 selection_color 50
       } {
         Fl_Light_Button btnSPOT {

@@ -1,12 +1,12 @@
 #include <math.h>
 #include <string>
 
-#include "Kachina.h"
+#include "kcat.h"
 #include "IOspec.h"
 #include "test.h"
 #include "support.h"
 #include "cstack.h"
-#include "Kachina_io.h"
+#include "kcat_io.h"
 #include "config.h"
 #include "status.h"
 #include "debug.h"
@@ -16,7 +16,7 @@ using namespace std;
 
 extern bool test;
 
-extern CSerialComm KachinaSerial;
+extern CSerialComm kcatSerial;
 // maximum number of retries on sending the command
 // Rig may be serial_busy internally and not accept the command
 
@@ -40,9 +40,9 @@ unsigned char modes[5] = {'0','1','2','3','4'}; // AM, CW, LSB, USB, FM
 
 bool startComms(const char *szPort, int baudrate)
 {
-	if (KachinaSerial.OpenPort((char *)szPort, baudrate) == false)
+	if (kcatSerial.OpenPort((char *)szPort, baudrate) == false)
 		return false;
-	KachinaSerial.Timeout(50); // msec timeout for read from rig
+	kcatSerial.Timeout(50); // msec timeout for read from rig
 	return true;
 }
 
@@ -70,20 +70,20 @@ bool sendCommand(char *str)
 	len += 2;
 
 	for (int i = 0; i < MAXTRIES; i++) {
-		nret = KachinaSerial.WriteBuffer (sendbuff, len);
+		nret = kcatSerial.WriteBuffer (sendbuff, len);
 		if (nret != len)
 			continue; // write error, retry
 		loopcnt = 0;
 		do  {
 			memset(retbuff, 0, 3);
-			nret = KachinaSerial.ReadBuffer (retbuff, 1);
-			if (retbuff[0] == 0xFF) { // Kachina accepted the command
+			nret = kcatSerial.ReadBuffer (retbuff, 1);
+			if (retbuff[0] == 0xFF) { // kcat accepted the command
 				retval = "OK";
 				serial_busy = false;
 				delete [] sendbuff;
 				return true;
 			}
-			if (retbuff[0] == 0xFE) { // Kachina rejected the command
+			if (retbuff[0] == 0xFE) { // kcat rejected the command
 				retval = "REJ";
 				break;
 			}
@@ -114,15 +114,15 @@ bool RequestData (char *cmd, unsigned char *buff, int nbr)
 
 	retval.clear();
 	for (int i = 0; i < MAXTRIES; i++) {
-		nret = KachinaSerial.WriteBuffer (sendbuff, len);
+		nret = kcatSerial.WriteBuffer (sendbuff, len);
 		if (nret != len)
 			continue; // write error, retry
 		loopcnt = 0;
 		do  {
 			memset(retbuff, 0, 3);
-			nret = KachinaSerial.ReadBuffer (retbuff, 1);
-			if (retbuff[0] == 0xFD) { // Kachina is sending the data
-				KachinaSerial.ReadBuffer (buff, nbr);
+			nret = kcatSerial.ReadBuffer (retbuff, 1);
+			if (retbuff[0] == 0xFD) { // kcat is sending the data
+				kcatSerial.ReadBuffer (buff, nbr);
 				for (int i = 0; i < nbr; i++) {
 					snprintf(szTemp, sizeof(szTemp), " %02X", buff[i]);
 					retval.append(szTemp);
@@ -132,7 +132,7 @@ bool RequestData (char *cmd, unsigned char *buff, int nbr)
 				delete [] sendbuff;
 				return true;
 			}
-			if (retbuff[0] == 0xFE) { // Kachina rejected the command
+			if (retbuff[0] == 0xFE) { // 505 rejected the command
 				retval = "REJ";
 				break;
 			}

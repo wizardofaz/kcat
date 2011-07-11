@@ -1,5 +1,5 @@
-#ifndef _KACHINA_H
-#define _KACHINA_H
+#ifndef _KCAT_H
+#define _KCAT_H
 
 //#define DEBUG 1
 
@@ -22,8 +22,8 @@
 #include <FL/fl_draw.H>
 
 #include "FreqControl.h"
-#include "KachinaPanel.h"
-#include "Kachina_io.h"
+#include "kcat_panel.h"
+#include "kcat_io.h"
 #include "serialcomm.h"
 
 using namespace std;

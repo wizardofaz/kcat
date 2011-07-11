@@ -2,15 +2,15 @@
 
 bin_PROGRAMS = kcat
 
-kcat_CPPFLAGS = @kcat_BUILD_CPPFLAGS@
+kcat_cxxFLAGS = @kcat_BUILD_cxxFLAGS@
 kcat_CXXFLAGS = @kcat_BUILD_CXXFLAGS@
 kcat_CFLAGS = $(kcat_CXXFLAGS)
 kcat_LDFLAGS = @kcat_BUILD_LDFLAGS@
 kcat_LDADD = @kcat_BUILD_LDADD@
 
 MINGW32_SRC = \
-	kachina.rc \
-	include/kachinarc.h \
+	kcat.rc \
+	include/kcatrc.h \
 	mingw.c \
 	include/compat.h \
 	include/compat-mingw.h
@@ -66,7 +66,7 @@ uninstall-local:
 	rm -f $(DESTDIR)/$(datadir)/pixmaps/kcat.xpm
 	rm -f $(DESTDIR)/$(datadir)/applications/kcat.desktop
 
-FL_SRC = KachinaPanel.fl
+FL_SRC = kcat_panel.fl
 
 if HAVE_FLUID
 flgen: $(FL_SRC)
@@ -116,20 +116,20 @@ clean-local:
 
 # Sources that we build. It is OK to have headers here.
 kcat_SOURCES += \
-	dialogs.cpp \
-	Kachina.cpp \
-	Fl_SigBar.cpp \
+	dialogs.cxx \
+	main.cxx \
+	Fl_SigBar.cxx \
 	flslider2.cxx \
 	font_browser.cxx \
-	FreqControl.cpp \
-	images.cpp \
-	IOspec.cpp \
-	Kachina_io.cpp \
-	KachinaPanel.cxx \
-	serialcomm.cpp \
-	support.cpp \
-	telemetry.cpp \
-	cstack.cpp \
+	FreqControl.cxx \
+	images.cxx \
+	IOspec.cxx \
+	kcat_io.cxx \
+	kcat_panel.cxx \
+	serialcomm.cxx \
+	support.cxx \
+	telemetry.cxx \
+	cstack.cxx \
 	debug.cxx \
 	icons.cxx \
 	pixmaps.cxx \
@@ -148,10 +148,10 @@ kcat_SOURCES += \
 	include/FreqControl.h \
 	include/images.h \
 	include/IOspec.h \
-	include/Kachina.h \
-	include/Kachina_io.h \
-	include/KachinaPanel.h \
-	include/kachinarc.h \
+	include/kcat.h \
+	include/kcat_io.h \
+	include/kcat_panel.h \
+	include/kcatrc.h \
 	include/linserial.h \
 	include/serialcomm.h \
 	include/support.h \
@@ -194,7 +194,7 @@ kcat_SOURCES += \
 
 # Additional source files that are distributed
 EXTRA_DIST = \
-	kachina.rc \
+	kcat.rc \
 	images/kcat.xpm \
 	images/mvolts.xbm \
 	images/p120.xbm \

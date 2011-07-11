@@ -43,7 +43,7 @@
 #include "debug.h"
 #include "icons.h"
 #include "gettext.h"
-#include "Kachina.h"
+#include "kcat.h"
 
 using namespace std;
 

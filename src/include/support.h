@@ -10,12 +10,12 @@
 #include <sys/shm.h>
 #endif
 
-#include "Kachina.h"
+#include "kcat.h"
 #include "version.h"
 #include "IOspec.h"
 
 #include "cstack.h"
-#include "Kachina_io.h"
+#include "kcat_io.h"
 #include "status.h"
 
 #include "images.h"
@@ -105,7 +105,7 @@ extern void loadConfig();
 extern void saveConfig();
 extern void loadState();
 extern void saveState();
-extern void initKachina();
+extern void initkcat();
 
 extern void openRcvConfigDialog();
 extern void cbsldrAgcAction();
@@ -189,7 +189,7 @@ extern Fl_Double_Window *dlgCommsConfig;
 extern Fl_Double_Window *dlgViewLog;
 extern Fl_Double_Window *dlgNRAM;
 
-extern CSerialComm KachinaSerial;
+extern CSerialComm kcatSerial;
 extern char szttyport[];
 extern int  baudttyport;
 

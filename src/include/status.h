@@ -7,7 +7,7 @@
 
 using namespace std;
 
-// Kachina parameters & state variables
+// kcat parameters & state variables
 struct XCVRSTATE {
 	int		VFO; // SIMPLEX
 	int		NOTCHWIDTH;

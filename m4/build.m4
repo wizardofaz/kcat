@@ -10,10 +10,9 @@ AC_DEFUN([AC_kcat_BUILD_INFO], [
       kcat_BUILD_CPPFLAGS="$kcat_BUILD_CPPFLAGS -D_WINDOWS"
   fi
 # CXXFLAGS
-  kcat_BUILD_CXXFLAGS="$FLTK_CFLAGS -pipe -Wall -fexceptions $OPT_CFLAGS $DEBUG_CFLAGS \
-$PTW32_CFLAGS"
+  kcat_BUILD_CXXFLAGS="$FLTK_CFLAGS $kcat_BUILD_CPPFLAGS -pipe -Wall -fexceptions $OPT_CFLAGS $DEBUG_CFLAGS $PTW32_CFLAGS"
   if test "x$target_mingw32" = "xyes"; then
-      kcat_BUILD_CXXFLAGS="-mthreads $kcat_BUILD_CXXFLAGS"
+      kcat_BUILD_CXXFLAGS="-mthreads $kcat_BUILD_CXXFLAGS -D_WINDOWS"
   fi
 # LDFLAGS
   kcat_BUILD_LDFLAGS=

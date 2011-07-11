@@ -1,7 +1,7 @@
 #include "dialogs.h"
 #include "debug.h"
 #include "font_browser.h"
-#include "KachinaPanel.h"
+#include "kcat_panel.h"
 
 Fl_Double_Window *dlgFreqCalib = NULL;
 Fl_Double_Window *dlgAntPorts  = NULL;
@@ -328,7 +328,7 @@ void initCommPortTable () {
   iNbrCommPorts = 0;
   for (int i = 1; i < 12; i++) {
 	sprintf(szTestPort, "COM%d", i);
-    if (KachinaSerial.OpenPort (szTestPort) == true) {
+    if (kcatSerial.OpenPort (szTestPort) == true) {
       iNbrCommPorts++;
       commPortTable[iNbrCommPorts].szPort = new char(strlen(szTestPort)+1);
       commPortTable[iNbrCommPorts].nbr = i;
@@ -336,7 +336,7 @@ void initCommPortTable () {
       strcat(szCommPorts,"|");
       strcat(szCommPorts, szTestPort);
     }
-	KachinaSerial.ClosePort();
+	kcatSerial.ClosePort();
   }
 #else
   char szTestPort[] = "ttySx";
@@ -352,7 +352,7 @@ void initCommPortTable () {
   for (int i = 1; i < 8; i++) {
     szTestPort[4] = '0' + i - 1;
     szTestUSB[6] = '0' + i - 1;
-    if (KachinaSerial.OpenPort (szTestPort) == true) {
+    if (kcatSerial.OpenPort (szTestPort) == true) {
       iNbrCommPorts++;
       commPortTable[iNbrCommPorts].szPort = new char(6);
       commPortTable[iNbrCommPorts].nbr = i;
@@ -364,7 +364,7 @@ void initCommPortTable () {
   int j = 0;
   for (int k = iNbrCommPorts; k < 8; k++, j++) {
     szTestUSB[6] = '0' + j - 1;
-    if (KachinaSerial.OpenPort (szTestUSB) == true) {
+    if (kcatSerial.OpenPort (szTestUSB) == true) {
       iNbrCommPorts++;
       commPortTable[iNbrCommPorts].szPort = new char(6);
       commPortTable[iNbrCommPorts].nbr = j + 8;
@@ -372,7 +372,7 @@ void initCommPortTable () {
       strcat(szCommPorts,"|");
       strcat(szCommPorts, szTestUSB);
     }
-	KachinaSerial.ClosePort();
+	kcatSerial.ClosePort();
   }
 #endif
 }

@@ -59,27 +59,26 @@ CONFIG_CLEAN_FILES =
 CONFIG_CLEAN_VPATH_FILES =
 am__installdirs = "$(DESTDIR)$(bindir)"
 PROGRAMS = $(bin_PROGRAMS)
-am__kcat_SOURCES_DIST = kachina.rc include/kachinarc.h mingw.c \
-	include/compat.h include/compat-mingw.h dialogs.cpp \
-	Kachina.cpp Fl_SigBar.cpp flslider2.cxx font_browser.cxx \
-	FreqControl.cpp images.cpp IOspec.cpp Kachina_io.cpp \
-	KachinaPanel.cxx serialcomm.cpp support.cpp telemetry.cpp \
-	cstack.cpp debug.cxx icons.cxx pixmaps.cxx status.cxx util.cxx \
-	ValueSlider.cxx include/cstack.h include/debug.h \
-	include/dialogs.h include/gettext.h include/icons.h \
-	include/pixmaps.h include/Fl_SigBar.h include/flslider2.h \
-	include/font_browser.h include/FreqControl.h include/images.h \
-	include/IOspec.h include/Kachina.h include/Kachina_io.h \
-	include/KachinaPanel.h include/linserial.h \
-	include/serialcomm.h include/support.h include/status.h \
-	include/test.h include/util.h include/ValueSlider.h \
-	include/version.h include/winserial.h xml_io.cxx \
-	include/xml_io.h xmlrpcpp/XmlRpc.h xmlrpcpp/XmlRpcClient.cpp \
-	xmlrpcpp/XmlRpcClient.h xmlrpcpp/XmlRpcDispatch.cpp \
-	xmlrpcpp/XmlRpcDispatch.h xmlrpcpp/XmlRpcException.h \
-	xmlrpcpp/XmlRpcMutex.cpp xmlrpcpp/XmlRpcMutex.h \
-	xmlrpcpp/XmlRpcServer.cpp xmlrpcpp/XmlRpcServer.h \
-	xmlrpcpp/XmlRpcServerConnection.cpp \
+am__kcat_SOURCES_DIST = kcat.rc include/kcatrc.h mingw.c \
+	include/compat.h include/compat-mingw.h dialogs.cxx main.cxx \
+	Fl_SigBar.cxx flslider2.cxx font_browser.cxx FreqControl.cxx \
+	images.cxx IOspec.cxx kcat_io.cxx kcat_panel.cxx \
+	serialcomm.cxx support.cxx telemetry.cxx cstack.cxx debug.cxx \
+	icons.cxx pixmaps.cxx status.cxx util.cxx ValueSlider.cxx \
+	include/cstack.h include/debug.h include/dialogs.h \
+	include/gettext.h include/icons.h include/pixmaps.h \
+	include/Fl_SigBar.h include/flslider2.h include/font_browser.h \
+	include/FreqControl.h include/images.h include/IOspec.h \
+	include/kcat.h include/kcat_io.h include/kcat_panel.h \
+	include/linserial.h include/serialcomm.h include/support.h \
+	include/status.h include/test.h include/util.h \
+	include/ValueSlider.h include/version.h include/winserial.h \
+	xml_io.cxx include/xml_io.h xmlrpcpp/XmlRpc.h \
+	xmlrpcpp/XmlRpcClient.cpp xmlrpcpp/XmlRpcClient.h \
+	xmlrpcpp/XmlRpcDispatch.cpp xmlrpcpp/XmlRpcDispatch.h \
+	xmlrpcpp/XmlRpcException.h xmlrpcpp/XmlRpcMutex.cpp \
+	xmlrpcpp/XmlRpcMutex.h xmlrpcpp/XmlRpcServer.cpp \
+	xmlrpcpp/XmlRpcServer.h xmlrpcpp/XmlRpcServerConnection.cpp \
 	xmlrpcpp/XmlRpcServerConnection.h \
 	xmlrpcpp/XmlRpcServerMethod.cpp xmlrpcpp/XmlRpcServerMethod.h \
 	xmlrpcpp/XmlRpcSocket.cpp xmlrpcpp/XmlRpcSocket.h \
@@ -89,14 +88,14 @@ am__kcat_SOURCES_DIST = kachina.rc include/kachinarc.h mingw.c \
 	xmlrpcpp/XmlRpcThreadedServer.h xmlrpcpp/XmlRpcUtil.cpp \
 	xmlrpcpp/XmlRpcUtil.h xmlrpcpp/XmlRpcValue.cpp \
 	xmlrpcpp/XmlRpcValue.h xmlrpcpp/base64.h
-am__objects_1 = kachina.$(OBJEXT) kcat-mingw.$(OBJEXT)
+am__objects_1 = kcat.$(OBJEXT) kcat-mingw.$(OBJEXT)
 @HAVE_WINDRES_TRUE@@MINGW32_TRUE@am__objects_2 = $(am__objects_1)
 am_kcat_OBJECTS = $(am__objects_2) kcat-dialogs.$(OBJEXT) \
-	kcat-Kachina.$(OBJEXT) kcat-Fl_SigBar.$(OBJEXT) \
+	kcat-main.$(OBJEXT) kcat-Fl_SigBar.$(OBJEXT) \
 	kcat-flslider2.$(OBJEXT) kcat-font_browser.$(OBJEXT) \
 	kcat-FreqControl.$(OBJEXT) kcat-images.$(OBJEXT) \
-	kcat-IOspec.$(OBJEXT) kcat-Kachina_io.$(OBJEXT) \
-	kcat-KachinaPanel.$(OBJEXT) kcat-serialcomm.$(OBJEXT) \
+	kcat-IOspec.$(OBJEXT) kcat-kcat_io.$(OBJEXT) \
+	kcat-kcat_panel.$(OBJEXT) kcat-serialcomm.$(OBJEXT) \
 	kcat-support.$(OBJEXT) kcat-telemetry.$(OBJEXT) \
 	kcat-cstack.$(OBJEXT) kcat-debug.$(OBJEXT) \
 	kcat-icons.$(OBJEXT) kcat-pixmaps.$(OBJEXT) \
@@ -268,14 +267,14 @@ target_vendor = @target_vendor@
 top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
-kcat_CPPFLAGS = @kcat_BUILD_CPPFLAGS@
+kcat_cxxFLAGS = @kcat_BUILD_cxxFLAGS@
 kcat_CXXFLAGS = @kcat_BUILD_CXXFLAGS@
 kcat_CFLAGS = $(kcat_CXXFLAGS)
 kcat_LDFLAGS = @kcat_BUILD_LDFLAGS@
 kcat_LDADD = @kcat_BUILD_LDADD@
 MINGW32_SRC = \
-	kachina.rc \
-	include/kachinarc.h \
+	kcat.rc \
+	include/kcatrc.h \
 	mingw.c \
 	include/compat.h \
 	include/compat-mingw.h
@@ -285,17 +284,17 @@ MINGW32_SRC = \
 EXTRA_kcat_SOURCES = $(kcat_WIN32_RES_SRC) $(MINGW32_SRC)
 
 # Sources that we build. It is OK to have headers here.
-kcat_SOURCES = $(am__append_1) dialogs.cpp Kachina.cpp Fl_SigBar.cpp \
-	flslider2.cxx font_browser.cxx FreqControl.cpp images.cpp \
-	IOspec.cpp Kachina_io.cpp KachinaPanel.cxx serialcomm.cpp \
-	support.cpp telemetry.cpp cstack.cpp debug.cxx icons.cxx \
+kcat_SOURCES = $(am__append_1) dialogs.cxx main.cxx Fl_SigBar.cxx \
+	flslider2.cxx font_browser.cxx FreqControl.cxx images.cxx \
+	IOspec.cxx kcat_io.cxx kcat_panel.cxx serialcomm.cxx \
+	support.cxx telemetry.cxx cstack.cxx debug.cxx icons.cxx \
 	pixmaps.cxx status.cxx util.cxx ValueSlider.cxx \
 	include/cstack.h include/debug.h include/dialogs.h \
 	include/gettext.h include/icons.h include/pixmaps.h \
 	include/Fl_SigBar.h include/flslider2.h include/font_browser.h \
 	include/FreqControl.h include/images.h include/IOspec.h \
-	include/Kachina.h include/Kachina_io.h include/KachinaPanel.h \
-	include/kachinarc.h include/linserial.h include/serialcomm.h \
+	include/kcat.h include/kcat_io.h include/kcat_panel.h \
+	include/kcatrc.h include/linserial.h include/serialcomm.h \
 	include/support.h include/status.h include/test.h \
 	include/util.h include/ValueSlider.h include/version.h \
 	include/winserial.h xml_io.cxx include/xml_io.h \
@@ -322,7 +321,7 @@ nodist_kcat_SOURCES = $(BUILT_SOURCES)
 # and deleted by the clean targets
 CLEANFILES = $(BUILT_SOURCES) $(am__append_2)
 CLEAN_LOCAL = $(am__append_3)
-FL_SRC = KachinaPanel.fl
+FL_SRC = kcat_panel.fl
 INSTALLER_FILE = kcat-$(kcat_VERSION)_setup.exe
 APPBUNDLE = kcat-$(kcat_VERSION)
 APPBUNDLE_NOLIBS = $(APPBUNDLE)-nolibs
@@ -331,12 +330,12 @@ APPBUNDLE_NOLIBS = $(APPBUNDLE)-nolibs
 
 # Additional non-source files that are distributed
 # Additional source files that support non-Linux cross compilation
-EXTRA_DIST = kachina.rc images/kcat.xpm images/mvolts.xbm \
-	images/p120.xbm images/p150.xbm images/p15.xbm images/p30.xbm \
-	images/p45.xbm images/p60.xbm images/p75.xbm images/p90.xbm \
-	images/rev.xbm images/smeter.xbm images/swr.xbm images/dbm.xbm \
-	images/alc.xbm $(srcdir)/../data/kcat.desktop \
-	$(srcdir)/../data/kcat.xpm $(srcdir)/../data/win32/fl_app.nsi \
+EXTRA_DIST = kcat.rc images/kcat.xpm images/mvolts.xbm images/p120.xbm \
+	images/p150.xbm images/p15.xbm images/p30.xbm images/p45.xbm \
+	images/p60.xbm images/p75.xbm images/p90.xbm images/rev.xbm \
+	images/smeter.xbm images/swr.xbm images/dbm.xbm images/alc.xbm \
+	$(srcdir)/../data/kcat.desktop $(srcdir)/../data/kcat.xpm \
+	$(srcdir)/../data/win32/fl_app.nsi \
 	$(srcdir)/../data/win32/kcat.ico \
 	$(srcdir)/../scripts/mknsisinst.sh \
 	$(srcdir)/../scripts/build4mingw.sh \
@@ -462,9 +461,6 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/kcat-Fl_SigBar.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/kcat-FreqControl.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/kcat-IOspec.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/kcat-Kachina.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/kcat-KachinaPanel.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/kcat-Kachina_io.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/kcat-ValueSlider.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/kcat-XmlRpcClient.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/kcat-XmlRpcDispatch.Po@am__quote@
@@ -485,6 +481,9 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/kcat-font_browser.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/kcat-icons.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/kcat-images.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/kcat-kcat_io.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/kcat-kcat_panel.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/kcat-main.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/kcat-mingw.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/kcat-pixmaps.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/kcat-serialcomm.Po@am__quote@
@@ -509,18 +508,18 @@ distclean-compile:
 @am__fastdepCC_FALSE@	$(COMPILE) -c `$(CYGPATH_W) '$<'`
 
 kcat-mingw.o: mingw.c
-@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CFLAGS) $(CFLAGS) -MT kcat-mingw.o -MD -MP -MF $(DEPDIR)/kcat-mingw.Tpo -c -o kcat-mingw.o `test -f 'mingw.c' || echo '$(srcdir)/'`mingw.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(kcat_CFLAGS) $(CFLAGS) -MT kcat-mingw.o -MD -MP -MF $(DEPDIR)/kcat-mingw.Tpo -c -o kcat-mingw.o `test -f 'mingw.c' || echo '$(srcdir)/'`mingw.c
 @am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/kcat-mingw.Tpo $(DEPDIR)/kcat-mingw.Po
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	source='mingw.c' object='kcat-mingw.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CFLAGS) $(CFLAGS) -c -o kcat-mingw.o `test -f 'mingw.c' || echo '$(srcdir)/'`mingw.c
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(kcat_CFLAGS) $(CFLAGS) -c -o kcat-mingw.o `test -f 'mingw.c' || echo '$(srcdir)/'`mingw.c
 
 kcat-mingw.obj: mingw.c
-@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CFLAGS) $(CFLAGS) -MT kcat-mingw.obj -MD -MP -MF $(DEPDIR)/kcat-mingw.Tpo -c -o kcat-mingw.obj `if test -f 'mingw.c'; then $(CYGPATH_W) 'mingw.c'; else $(CYGPATH_W) '$(srcdir)/mingw.c'; fi`
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(kcat_CFLAGS) $(CFLAGS) -MT kcat-mingw.obj -MD -MP -MF $(DEPDIR)/kcat-mingw.Tpo -c -o kcat-mingw.obj `if test -f 'mingw.c'; then $(CYGPATH_W) 'mingw.c'; else $(CYGPATH_W) '$(srcdir)/mingw.c'; fi`
 @am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/kcat-mingw.Tpo $(DEPDIR)/kcat-mingw.Po
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	source='mingw.c' object='kcat-mingw.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CFLAGS) $(CFLAGS) -c -o kcat-mingw.obj `if test -f 'mingw.c'; then $(CYGPATH_W) 'mingw.c'; else $(CYGPATH_W) '$(srcdir)/mingw.c'; fi`
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(kcat_CFLAGS) $(CFLAGS) -c -o kcat-mingw.obj `if test -f 'mingw.c'; then $(CYGPATH_W) 'mingw.c'; else $(CYGPATH_W) '$(srcdir)/mingw.c'; fi`
 
 .cpp.o:
 @am__fastdepCXX_TRUE@	$(CXXCOMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ $<
@@ -536,467 +535,467 @@ kcat-mingw.obj: mingw.c
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(CXXCOMPILE) -c -o $@ `$(CYGPATH_W) '$<'`
 
-kcat-dialogs.o: dialogs.cpp
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -MT kcat-dialogs.o -MD -MP -MF $(DEPDIR)/kcat-dialogs.Tpo -c -o kcat-dialogs.o `test -f 'dialogs.cpp' || echo '$(srcdir)/'`dialogs.cpp
+kcat-dialogs.o: dialogs.cxx
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -MT kcat-dialogs.o -MD -MP -MF $(DEPDIR)/kcat-dialogs.Tpo -c -o kcat-dialogs.o `test -f 'dialogs.cxx' || echo '$(srcdir)/'`dialogs.cxx
 @am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/kcat-dialogs.Tpo $(DEPDIR)/kcat-dialogs.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='dialogs.cpp' object='kcat-dialogs.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='dialogs.cxx' object='kcat-dialogs.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -c -o kcat-dialogs.o `test -f 'dialogs.cpp' || echo '$(srcdir)/'`dialogs.cpp
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -c -o kcat-dialogs.o `test -f 'dialogs.cxx' || echo '$(srcdir)/'`dialogs.cxx
 
-kcat-dialogs.obj: dialogs.cpp
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -MT kcat-dialogs.obj -MD -MP -MF $(DEPDIR)/kcat-dialogs.Tpo -c -o kcat-dialogs.obj `if test -f 'dialogs.cpp'; then $(CYGPATH_W) 'dialogs.cpp'; else $(CYGPATH_W) '$(srcdir)/dialogs.cpp'; fi`
+kcat-dialogs.obj: dialogs.cxx
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -MT kcat-dialogs.obj -MD -MP -MF $(DEPDIR)/kcat-dialogs.Tpo -c -o kcat-dialogs.obj `if test -f 'dialogs.cxx'; then $(CYGPATH_W) 'dialogs.cxx'; else $(CYGPATH_W) '$(srcdir)/dialogs.cxx'; fi`
 @am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/kcat-dialogs.Tpo $(DEPDIR)/kcat-dialogs.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='dialogs.cpp' object='kcat-dialogs.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='dialogs.cxx' object='kcat-dialogs.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -c -o kcat-dialogs.obj `if test -f 'dialogs.cpp'; then $(CYGPATH_W) 'dialogs.cpp'; else $(CYGPATH_W) '$(srcdir)/dialogs.cpp'; fi`
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -c -o kcat-dialogs.obj `if test -f 'dialogs.cxx'; then $(CYGPATH_W) 'dialogs.cxx'; else $(CYGPATH_W) '$(srcdir)/dialogs.cxx'; fi`
 
-kcat-Kachina.o: Kachina.cpp
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -MT kcat-Kachina.o -MD -MP -MF $(DEPDIR)/kcat-Kachina.Tpo -c -o kcat-Kachina.o `test -f 'Kachina.cpp' || echo '$(srcdir)/'`Kachina.cpp
-@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/kcat-Kachina.Tpo $(DEPDIR)/kcat-Kachina.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='Kachina.cpp' object='kcat-Kachina.o' libtool=no @AMDEPBACKSLASH@
+kcat-main.o: main.cxx
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -MT kcat-main.o -MD -MP -MF $(DEPDIR)/kcat-main.Tpo -c -o kcat-main.o `test -f 'main.cxx' || echo '$(srcdir)/'`main.cxx
+@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/kcat-main.Tpo $(DEPDIR)/kcat-main.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='main.cxx' object='kcat-main.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -c -o kcat-Kachina.o `test -f 'Kachina.cpp' || echo '$(srcdir)/'`Kachina.cpp
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -c -o kcat-main.o `test -f 'main.cxx' || echo '$(srcdir)/'`main.cxx
 
-kcat-Kachina.obj: Kachina.cpp
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -MT kcat-Kachina.obj -MD -MP -MF $(DEPDIR)/kcat-Kachina.Tpo -c -o kcat-Kachina.obj `if test -f 'Kachina.cpp'; then $(CYGPATH_W) 'Kachina.cpp'; else $(CYGPATH_W) '$(srcdir)/Kachina.cpp'; fi`
-@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/kcat-Kachina.Tpo $(DEPDIR)/kcat-Kachina.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='Kachina.cpp' object='kcat-Kachina.obj' libtool=no @AMDEPBACKSLASH@
+kcat-main.obj: main.cxx
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -MT kcat-main.obj -MD -MP -MF $(DEPDIR)/kcat-main.Tpo -c -o kcat-main.obj `if test -f 'main.cxx'; then $(CYGPATH_W) 'main.cxx'; else $(CYGPATH_W) '$(srcdir)/main.cxx'; fi`
+@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/kcat-main.Tpo $(DEPDIR)/kcat-main.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='main.cxx' object='kcat-main.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -c -o kcat-Kachina.obj `if test -f 'Kachina.cpp'; then $(CYGPATH_W) 'Kachina.cpp'; else $(CYGPATH_W) '$(srcdir)/Kachina.cpp'; fi`
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -c -o kcat-main.obj `if test -f 'main.cxx'; then $(CYGPATH_W) 'main.cxx'; else $(CYGPATH_W) '$(srcdir)/main.cxx'; fi`
 
-kcat-Fl_SigBar.o: Fl_SigBar.cpp
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -MT kcat-Fl_SigBar.o -MD -MP -MF $(DEPDIR)/kcat-Fl_SigBar.Tpo -c -o kcat-Fl_SigBar.o `test -f 'Fl_SigBar.cpp' || echo '$(srcdir)/'`Fl_SigBar.cpp
+kcat-Fl_SigBar.o: Fl_SigBar.cxx
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -MT kcat-Fl_SigBar.o -MD -MP -MF $(DEPDIR)/kcat-Fl_SigBar.Tpo -c -o kcat-Fl_SigBar.o `test -f 'Fl_SigBar.cxx' || echo '$(srcdir)/'`Fl_SigBar.cxx
 @am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/kcat-Fl_SigBar.Tpo $(DEPDIR)/kcat-Fl_SigBar.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='Fl_SigBar.cpp' object='kcat-Fl_SigBar.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='Fl_SigBar.cxx' object='kcat-Fl_SigBar.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -c -o kcat-Fl_SigBar.o `test -f 'Fl_SigBar.cpp' || echo '$(srcdir)/'`Fl_SigBar.cpp
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -c -o kcat-Fl_SigBar.o `test -f 'Fl_SigBar.cxx' || echo '$(srcdir)/'`Fl_SigBar.cxx
 
-kcat-Fl_SigBar.obj: Fl_SigBar.cpp
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -MT kcat-Fl_SigBar.obj -MD -MP -MF $(DEPDIR)/kcat-Fl_SigBar.Tpo -c -o kcat-Fl_SigBar.obj `if test -f 'Fl_SigBar.cpp'; then $(CYGPATH_W) 'Fl_SigBar.cpp'; else $(CYGPATH_W) '$(srcdir)/Fl_SigBar.cpp'; fi`
+kcat-Fl_SigBar.obj: Fl_SigBar.cxx
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -MT kcat-Fl_SigBar.obj -MD -MP -MF $(DEPDIR)/kcat-Fl_SigBar.Tpo -c -o kcat-Fl_SigBar.obj `if test -f 'Fl_SigBar.cxx'; then $(CYGPATH_W) 'Fl_SigBar.cxx'; else $(CYGPATH_W) '$(srcdir)/Fl_SigBar.cxx'; fi`
 @am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/kcat-Fl_SigBar.Tpo $(DEPDIR)/kcat-Fl_SigBar.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='Fl_SigBar.cpp' object='kcat-Fl_SigBar.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='Fl_SigBar.cxx' object='kcat-Fl_SigBar.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -c -o kcat-Fl_SigBar.obj `if test -f 'Fl_SigBar.cpp'; then $(CYGPATH_W) 'Fl_SigBar.cpp'; else $(CYGPATH_W) '$(srcdir)/Fl_SigBar.cpp'; fi`
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -c -o kcat-Fl_SigBar.obj `if test -f 'Fl_SigBar.cxx'; then $(CYGPATH_W) 'Fl_SigBar.cxx'; else $(CYGPATH_W) '$(srcdir)/Fl_SigBar.cxx'; fi`
 
 kcat-flslider2.o: flslider2.cxx
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -MT kcat-flslider2.o -MD -MP -MF $(DEPDIR)/kcat-flslider2.Tpo -c -o kcat-flslider2.o `test -f 'flslider2.cxx' || echo '$(srcdir)/'`flslider2.cxx
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -MT kcat-flslider2.o -MD -MP -MF $(DEPDIR)/kcat-flslider2.Tpo -c -o kcat-flslider2.o `test -f 'flslider2.cxx' || echo '$(srcdir)/'`flslider2.cxx
 @am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/kcat-flslider2.Tpo $(DEPDIR)/kcat-flslider2.Po
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='flslider2.cxx' object='kcat-flslider2.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -c -o kcat-flslider2.o `test -f 'flslider2.cxx' || echo '$(srcdir)/'`flslider2.cxx
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -c -o kcat-flslider2.o `test -f 'flslider2.cxx' || echo '$(srcdir)/'`flslider2.cxx
 
 kcat-flslider2.obj: flslider2.cxx
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -MT kcat-flslider2.obj -MD -MP -MF $(DEPDIR)/kcat-flslider2.Tpo -c -o kcat-flslider2.obj `if test -f 'flslider2.cxx'; then $(CYGPATH_W) 'flslider2.cxx'; else $(CYGPATH_W) '$(srcdir)/flslider2.cxx'; fi`
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -MT kcat-flslider2.obj -MD -MP -MF $(DEPDIR)/kcat-flslider2.Tpo -c -o kcat-flslider2.obj `if test -f 'flslider2.cxx'; then $(CYGPATH_W) 'flslider2.cxx'; else $(CYGPATH_W) '$(srcdir)/flslider2.cxx'; fi`
 @am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/kcat-flslider2.Tpo $(DEPDIR)/kcat-flslider2.Po
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='flslider2.cxx' object='kcat-flslider2.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -c -o kcat-flslider2.obj `if test -f 'flslider2.cxx'; then $(CYGPATH_W) 'flslider2.cxx'; else $(CYGPATH_W) '$(srcdir)/flslider2.cxx'; fi`
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -c -o kcat-flslider2.obj `if test -f 'flslider2.cxx'; then $(CYGPATH_W) 'flslider2.cxx'; else $(CYGPATH_W) '$(srcdir)/flslider2.cxx'; fi`
 
 kcat-font_browser.o: font_browser.cxx
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -MT kcat-font_browser.o -MD -MP -MF $(DEPDIR)/kcat-font_browser.Tpo -c -o kcat-font_browser.o `test -f 'font_browser.cxx' || echo '$(srcdir)/'`font_browser.cxx
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -MT kcat-font_browser.o -MD -MP -MF $(DEPDIR)/kcat-font_browser.Tpo -c -o kcat-font_browser.o `test -f 'font_browser.cxx' || echo '$(srcdir)/'`font_browser.cxx
 @am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/kcat-font_browser.Tpo $(DEPDIR)/kcat-font_browser.Po
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='font_browser.cxx' object='kcat-font_browser.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -c -o kcat-font_browser.o `test -f 'font_browser.cxx' || echo '$(srcdir)/'`font_browser.cxx
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -c -o kcat-font_browser.o `test -f 'font_browser.cxx' || echo '$(srcdir)/'`font_browser.cxx
 
 kcat-font_browser.obj: font_browser.cxx
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -MT kcat-font_browser.obj -MD -MP -MF $(DEPDIR)/kcat-font_browser.Tpo -c -o kcat-font_browser.obj `if test -f 'font_browser.cxx'; then $(CYGPATH_W) 'font_browser.cxx'; else $(CYGPATH_W) '$(srcdir)/font_browser.cxx'; fi`
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -MT kcat-font_browser.obj -MD -MP -MF $(DEPDIR)/kcat-font_browser.Tpo -c -o kcat-font_browser.obj `if test -f 'font_browser.cxx'; then $(CYGPATH_W) 'font_browser.cxx'; else $(CYGPATH_W) '$(srcdir)/font_browser.cxx'; fi`
 @am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/kcat-font_browser.Tpo $(DEPDIR)/kcat-font_browser.Po
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='font_browser.cxx' object='kcat-font_browser.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -c -o kcat-font_browser.obj `if test -f 'font_browser.cxx'; then $(CYGPATH_W) 'font_browser.cxx'; else $(CYGPATH_W) '$(srcdir)/font_browser.cxx'; fi`
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -c -o kcat-font_browser.obj `if test -f 'font_browser.cxx'; then $(CYGPATH_W) 'font_browser.cxx'; else $(CYGPATH_W) '$(srcdir)/font_browser.cxx'; fi`
 
-kcat-FreqControl.o: FreqControl.cpp
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -MT kcat-FreqControl.o -MD -MP -MF $(DEPDIR)/kcat-FreqControl.Tpo -c -o kcat-FreqControl.o `test -f 'FreqControl.cpp' || echo '$(srcdir)/'`FreqControl.cpp
+kcat-FreqControl.o: FreqControl.cxx
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -MT kcat-FreqControl.o -MD -MP -MF $(DEPDIR)/kcat-FreqControl.Tpo -c -o kcat-FreqControl.o `test -f 'FreqControl.cxx' || echo '$(srcdir)/'`FreqControl.cxx
 @am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/kcat-FreqControl.Tpo $(DEPDIR)/kcat-FreqControl.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='FreqControl.cpp' object='kcat-FreqControl.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='FreqControl.cxx' object='kcat-FreqControl.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -c -o kcat-FreqControl.o `test -f 'FreqControl.cpp' || echo '$(srcdir)/'`FreqControl.cpp
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -c -o kcat-FreqControl.o `test -f 'FreqControl.cxx' || echo '$(srcdir)/'`FreqControl.cxx
 
-kcat-FreqControl.obj: FreqControl.cpp
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -MT kcat-FreqControl.obj -MD -MP -MF $(DEPDIR)/kcat-FreqControl.Tpo -c -o kcat-FreqControl.obj `if test -f 'FreqControl.cpp'; then $(CYGPATH_W) 'FreqControl.cpp'; else $(CYGPATH_W) '$(srcdir)/FreqControl.cpp'; fi`
+kcat-FreqControl.obj: FreqControl.cxx
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -MT kcat-FreqControl.obj -MD -MP -MF $(DEPDIR)/kcat-FreqControl.Tpo -c -o kcat-FreqControl.obj `if test -f 'FreqControl.cxx'; then $(CYGPATH_W) 'FreqControl.cxx'; else $(CYGPATH_W) '$(srcdir)/FreqControl.cxx'; fi`
 @am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/kcat-FreqControl.Tpo $(DEPDIR)/kcat-FreqControl.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='FreqControl.cpp' object='kcat-FreqControl.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='FreqControl.cxx' object='kcat-FreqControl.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -c -o kcat-FreqControl.obj `if test -f 'FreqControl.cpp'; then $(CYGPATH_W) 'FreqControl.cpp'; else $(CYGPATH_W) '$(srcdir)/FreqControl.cpp'; fi`
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -c -o kcat-FreqControl.obj `if test -f 'FreqControl.cxx'; then $(CYGPATH_W) 'FreqControl.cxx'; else $(CYGPATH_W) '$(srcdir)/FreqControl.cxx'; fi`
 
-kcat-images.o: images.cpp
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -MT kcat-images.o -MD -MP -MF $(DEPDIR)/kcat-images.Tpo -c -o kcat-images.o `test -f 'images.cpp' || echo '$(srcdir)/'`images.cpp
+kcat-images.o: images.cxx
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -MT kcat-images.o -MD -MP -MF $(DEPDIR)/kcat-images.Tpo -c -o kcat-images.o `test -f 'images.cxx' || echo '$(srcdir)/'`images.cxx
 @am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/kcat-images.Tpo $(DEPDIR)/kcat-images.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='images.cpp' object='kcat-images.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='images.cxx' object='kcat-images.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -c -o kcat-images.o `test -f 'images.cpp' || echo '$(srcdir)/'`images.cpp
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -c -o kcat-images.o `test -f 'images.cxx' || echo '$(srcdir)/'`images.cxx
 
-kcat-images.obj: images.cpp
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -MT kcat-images.obj -MD -MP -MF $(DEPDIR)/kcat-images.Tpo -c -o kcat-images.obj `if test -f 'images.cpp'; then $(CYGPATH_W) 'images.cpp'; else $(CYGPATH_W) '$(srcdir)/images.cpp'; fi`
+kcat-images.obj: images.cxx
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -MT kcat-images.obj -MD -MP -MF $(DEPDIR)/kcat-images.Tpo -c -o kcat-images.obj `if test -f 'images.cxx'; then $(CYGPATH_W) 'images.cxx'; else $(CYGPATH_W) '$(srcdir)/images.cxx'; fi`
 @am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/kcat-images.Tpo $(DEPDIR)/kcat-images.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='images.cpp' object='kcat-images.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='images.cxx' object='kcat-images.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -c -o kcat-images.obj `if test -f 'images.cpp'; then $(CYGPATH_W) 'images.cpp'; else $(CYGPATH_W) '$(srcdir)/images.cpp'; fi`
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -c -o kcat-images.obj `if test -f 'images.cxx'; then $(CYGPATH_W) 'images.cxx'; else $(CYGPATH_W) '$(srcdir)/images.cxx'; fi`
 
-kcat-IOspec.o: IOspec.cpp
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -MT kcat-IOspec.o -MD -MP -MF $(DEPDIR)/kcat-IOspec.Tpo -c -o kcat-IOspec.o `test -f 'IOspec.cpp' || echo '$(srcdir)/'`IOspec.cpp
+kcat-IOspec.o: IOspec.cxx
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -MT kcat-IOspec.o -MD -MP -MF $(DEPDIR)/kcat-IOspec.Tpo -c -o kcat-IOspec.o `test -f 'IOspec.cxx' || echo '$(srcdir)/'`IOspec.cxx
 @am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/kcat-IOspec.Tpo $(DEPDIR)/kcat-IOspec.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='IOspec.cpp' object='kcat-IOspec.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='IOspec.cxx' object='kcat-IOspec.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -c -o kcat-IOspec.o `test -f 'IOspec.cpp' || echo '$(srcdir)/'`IOspec.cpp
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -c -o kcat-IOspec.o `test -f 'IOspec.cxx' || echo '$(srcdir)/'`IOspec.cxx
 
-kcat-IOspec.obj: IOspec.cpp
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -MT kcat-IOspec.obj -MD -MP -MF $(DEPDIR)/kcat-IOspec.Tpo -c -o kcat-IOspec.obj `if test -f 'IOspec.cpp'; then $(CYGPATH_W) 'IOspec.cpp'; else $(CYGPATH_W) '$(srcdir)/IOspec.cpp'; fi`
+kcat-IOspec.obj: IOspec.cxx
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -MT kcat-IOspec.obj -MD -MP -MF $(DEPDIR)/kcat-IOspec.Tpo -c -o kcat-IOspec.obj `if test -f 'IOspec.cxx'; then $(CYGPATH_W) 'IOspec.cxx'; else $(CYGPATH_W) '$(srcdir)/IOspec.cxx'; fi`
 @am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/kcat-IOspec.Tpo $(DEPDIR)/kcat-IOspec.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='IOspec.cpp' object='kcat-IOspec.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='IOspec.cxx' object='kcat-IOspec.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -c -o kcat-IOspec.obj `if test -f 'IOspec.cpp'; then $(CYGPATH_W) 'IOspec.cpp'; else $(CYGPATH_W) '$(srcdir)/IOspec.cpp'; fi`
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -c -o kcat-IOspec.obj `if test -f 'IOspec.cxx'; then $(CYGPATH_W) 'IOspec.cxx'; else $(CYGPATH_W) '$(srcdir)/IOspec.cxx'; fi`
 
-kcat-Kachina_io.o: Kachina_io.cpp
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -MT kcat-Kachina_io.o -MD -MP -MF $(DEPDIR)/kcat-Kachina_io.Tpo -c -o kcat-Kachina_io.o `test -f 'Kachina_io.cpp' || echo '$(srcdir)/'`Kachina_io.cpp
-@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/kcat-Kachina_io.Tpo $(DEPDIR)/kcat-Kachina_io.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='Kachina_io.cpp' object='kcat-Kachina_io.o' libtool=no @AMDEPBACKSLASH@
+kcat-kcat_io.o: kcat_io.cxx
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -MT kcat-kcat_io.o -MD -MP -MF $(DEPDIR)/kcat-kcat_io.Tpo -c -o kcat-kcat_io.o `test -f 'kcat_io.cxx' || echo '$(srcdir)/'`kcat_io.cxx
+@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/kcat-kcat_io.Tpo $(DEPDIR)/kcat-kcat_io.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='kcat_io.cxx' object='kcat-kcat_io.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -c -o kcat-Kachina_io.o `test -f 'Kachina_io.cpp' || echo '$(srcdir)/'`Kachina_io.cpp
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -c -o kcat-kcat_io.o `test -f 'kcat_io.cxx' || echo '$(srcdir)/'`kcat_io.cxx
 
-kcat-Kachina_io.obj: Kachina_io.cpp
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -MT kcat-Kachina_io.obj -MD -MP -MF $(DEPDIR)/kcat-Kachina_io.Tpo -c -o kcat-Kachina_io.obj `if test -f 'Kachina_io.cpp'; then $(CYGPATH_W) 'Kachina_io.cpp'; else $(CYGPATH_W) '$(srcdir)/Kachina_io.cpp'; fi`
-@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/kcat-Kachina_io.Tpo $(DEPDIR)/kcat-Kachina_io.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='Kachina_io.cpp' object='kcat-Kachina_io.obj' libtool=no @AMDEPBACKSLASH@
+kcat-kcat_io.obj: kcat_io.cxx
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -MT kcat-kcat_io.obj -MD -MP -MF $(DEPDIR)/kcat-kcat_io.Tpo -c -o kcat-kcat_io.obj `if test -f 'kcat_io.cxx'; then $(CYGPATH_W) 'kcat_io.cxx'; else $(CYGPATH_W) '$(srcdir)/kcat_io.cxx'; fi`
+@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/kcat-kcat_io.Tpo $(DEPDIR)/kcat-kcat_io.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='kcat_io.cxx' object='kcat-kcat_io.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -c -o kcat-Kachina_io.obj `if test -f 'Kachina_io.cpp'; then $(CYGPATH_W) 'Kachina_io.cpp'; else $(CYGPATH_W) '$(srcdir)/Kachina_io.cpp'; fi`
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -c -o kcat-kcat_io.obj `if test -f 'kcat_io.cxx'; then $(CYGPATH_W) 'kcat_io.cxx'; else $(CYGPATH_W) '$(srcdir)/kcat_io.cxx'; fi`
 
-kcat-KachinaPanel.o: KachinaPanel.cxx
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -MT kcat-KachinaPanel.o -MD -MP -MF $(DEPDIR)/kcat-KachinaPanel.Tpo -c -o kcat-KachinaPanel.o `test -f 'KachinaPanel.cxx' || echo '$(srcdir)/'`KachinaPanel.cxx
-@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/kcat-KachinaPanel.Tpo $(DEPDIR)/kcat-KachinaPanel.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='KachinaPanel.cxx' object='kcat-KachinaPanel.o' libtool=no @AMDEPBACKSLASH@
+kcat-kcat_panel.o: kcat_panel.cxx
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -MT kcat-kcat_panel.o -MD -MP -MF $(DEPDIR)/kcat-kcat_panel.Tpo -c -o kcat-kcat_panel.o `test -f 'kcat_panel.cxx' || echo '$(srcdir)/'`kcat_panel.cxx
+@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/kcat-kcat_panel.Tpo $(DEPDIR)/kcat-kcat_panel.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='kcat_panel.cxx' object='kcat-kcat_panel.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -c -o kcat-KachinaPanel.o `test -f 'KachinaPanel.cxx' || echo '$(srcdir)/'`KachinaPanel.cxx
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -c -o kcat-kcat_panel.o `test -f 'kcat_panel.cxx' || echo '$(srcdir)/'`kcat_panel.cxx
 
-kcat-KachinaPanel.obj: KachinaPanel.cxx
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -MT kcat-KachinaPanel.obj -MD -MP -MF $(DEPDIR)/kcat-KachinaPanel.Tpo -c -o kcat-KachinaPanel.obj `if test -f 'KachinaPanel.cxx'; then $(CYGPATH_W) 'KachinaPanel.cxx'; else $(CYGPATH_W) '$(srcdir)/KachinaPanel.cxx'; fi`
-@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/kcat-KachinaPanel.Tpo $(DEPDIR)/kcat-KachinaPanel.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='KachinaPanel.cxx' object='kcat-KachinaPanel.obj' libtool=no @AMDEPBACKSLASH@
+kcat-kcat_panel.obj: kcat_panel.cxx
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -MT kcat-kcat_panel.obj -MD -MP -MF $(DEPDIR)/kcat-kcat_panel.Tpo -c -o kcat-kcat_panel.obj `if test -f 'kcat_panel.cxx'; then $(CYGPATH_W) 'kcat_panel.cxx'; else $(CYGPATH_W) '$(srcdir)/kcat_panel.cxx'; fi`
+@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/kcat-kcat_panel.Tpo $(DEPDIR)/kcat-kcat_panel.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='kcat_panel.cxx' object='kcat-kcat_panel.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -c -o kcat-KachinaPanel.obj `if test -f 'KachinaPanel.cxx'; then $(CYGPATH_W) 'KachinaPanel.cxx'; else $(CYGPATH_W) '$(srcdir)/KachinaPanel.cxx'; fi`
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -c -o kcat-kcat_panel.obj `if test -f 'kcat_panel.cxx'; then $(CYGPATH_W) 'kcat_panel.cxx'; else $(CYGPATH_W) '$(srcdir)/kcat_panel.cxx'; fi`
 
-kcat-serialcomm.o: serialcomm.cpp
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -MT kcat-serialcomm.o -MD -MP -MF $(DEPDIR)/kcat-serialcomm.Tpo -c -o kcat-serialcomm.o `test -f 'serialcomm.cpp' || echo '$(srcdir)/'`serialcomm.cpp
+kcat-serialcomm.o: serialcomm.cxx
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -MT kcat-serialcomm.o -MD -MP -MF $(DEPDIR)/kcat-serialcomm.Tpo -c -o kcat-serialcomm.o `test -f 'serialcomm.cxx' || echo '$(srcdir)/'`serialcomm.cxx
 @am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/kcat-serialcomm.Tpo $(DEPDIR)/kcat-serialcomm.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='serialcomm.cpp' object='kcat-serialcomm.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='serialcomm.cxx' object='kcat-serialcomm.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -c -o kcat-serialcomm.o `test -f 'serialcomm.cpp' || echo '$(srcdir)/'`serialcomm.cpp
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -c -o kcat-serialcomm.o `test -f 'serialcomm.cxx' || echo '$(srcdir)/'`serialcomm.cxx
 
-kcat-serialcomm.obj: serialcomm.cpp
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -MT kcat-serialcomm.obj -MD -MP -MF $(DEPDIR)/kcat-serialcomm.Tpo -c -o kcat-serialcomm.obj `if test -f 'serialcomm.cpp'; then $(CYGPATH_W) 'serialcomm.cpp'; else $(CYGPATH_W) '$(srcdir)/serialcomm.cpp'; fi`
+kcat-serialcomm.obj: serialcomm.cxx
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -MT kcat-serialcomm.obj -MD -MP -MF $(DEPDIR)/kcat-serialcomm.Tpo -c -o kcat-serialcomm.obj `if test -f 'serialcomm.cxx'; then $(CYGPATH_W) 'serialcomm.cxx'; else $(CYGPATH_W) '$(srcdir)/serialcomm.cxx'; fi`
 @am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/kcat-serialcomm.Tpo $(DEPDIR)/kcat-serialcomm.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='serialcomm.cpp' object='kcat-serialcomm.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='serialcomm.cxx' object='kcat-serialcomm.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -c -o kcat-serialcomm.obj `if test -f 'serialcomm.cpp'; then $(CYGPATH_W) 'serialcomm.cpp'; else $(CYGPATH_W) '$(srcdir)/serialcomm.cpp'; fi`
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -c -o kcat-serialcomm.obj `if test -f 'serialcomm.cxx'; then $(CYGPATH_W) 'serialcomm.cxx'; else $(CYGPATH_W) '$(srcdir)/serialcomm.cxx'; fi`
 
-kcat-support.o: support.cpp
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -MT kcat-support.o -MD -MP -MF $(DEPDIR)/kcat-support.Tpo -c -o kcat-support.o `test -f 'support.cpp' || echo '$(srcdir)/'`support.cpp
+kcat-support.o: support.cxx
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -MT kcat-support.o -MD -MP -MF $(DEPDIR)/kcat-support.Tpo -c -o kcat-support.o `test -f 'support.cxx' || echo '$(srcdir)/'`support.cxx
 @am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/kcat-support.Tpo $(DEPDIR)/kcat-support.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='support.cpp' object='kcat-support.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='support.cxx' object='kcat-support.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -c -o kcat-support.o `test -f 'support.cpp' || echo '$(srcdir)/'`support.cpp
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -c -o kcat-support.o `test -f 'support.cxx' || echo '$(srcdir)/'`support.cxx
 
-kcat-support.obj: support.cpp
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -MT kcat-support.obj -MD -MP -MF $(DEPDIR)/kcat-support.Tpo -c -o kcat-support.obj `if test -f 'support.cpp'; then $(CYGPATH_W) 'support.cpp'; else $(CYGPATH_W) '$(srcdir)/support.cpp'; fi`
+kcat-support.obj: support.cxx
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -MT kcat-support.obj -MD -MP -MF $(DEPDIR)/kcat-support.Tpo -c -o kcat-support.obj `if test -f 'support.cxx'; then $(CYGPATH_W) 'support.cxx'; else $(CYGPATH_W) '$(srcdir)/support.cxx'; fi`
 @am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/kcat-support.Tpo $(DEPDIR)/kcat-support.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='support.cpp' object='kcat-support.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='support.cxx' object='kcat-support.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -c -o kcat-support.obj `if test -f 'support.cpp'; then $(CYGPATH_W) 'support.cpp'; else $(CYGPATH_W) '$(srcdir)/support.cpp'; fi`
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -c -o kcat-support.obj `if test -f 'support.cxx'; then $(CYGPATH_W) 'support.cxx'; else $(CYGPATH_W) '$(srcdir)/support.cxx'; fi`
 
-kcat-telemetry.o: telemetry.cpp
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -MT kcat-telemetry.o -MD -MP -MF $(DEPDIR)/kcat-telemetry.Tpo -c -o kcat-telemetry.o `test -f 'telemetry.cpp' || echo '$(srcdir)/'`telemetry.cpp
+kcat-telemetry.o: telemetry.cxx
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -MT kcat-telemetry.o -MD -MP -MF $(DEPDIR)/kcat-telemetry.Tpo -c -o kcat-telemetry.o `test -f 'telemetry.cxx' || echo '$(srcdir)/'`telemetry.cxx
 @am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/kcat-telemetry.Tpo $(DEPDIR)/kcat-telemetry.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='telemetry.cpp' object='kcat-telemetry.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='telemetry.cxx' object='kcat-telemetry.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -c -o kcat-telemetry.o `test -f 'telemetry.cpp' || echo '$(srcdir)/'`telemetry.cpp
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -c -o kcat-telemetry.o `test -f 'telemetry.cxx' || echo '$(srcdir)/'`telemetry.cxx
 
-kcat-telemetry.obj: telemetry.cpp
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -MT kcat-telemetry.obj -MD -MP -MF $(DEPDIR)/kcat-telemetry.Tpo -c -o kcat-telemetry.obj `if test -f 'telemetry.cpp'; then $(CYGPATH_W) 'telemetry.cpp'; else $(CYGPATH_W) '$(srcdir)/telemetry.cpp'; fi`
+kcat-telemetry.obj: telemetry.cxx
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -MT kcat-telemetry.obj -MD -MP -MF $(DEPDIR)/kcat-telemetry.Tpo -c -o kcat-telemetry.obj `if test -f 'telemetry.cxx'; then $(CYGPATH_W) 'telemetry.cxx'; else $(CYGPATH_W) '$(srcdir)/telemetry.cxx'; fi`
 @am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/kcat-telemetry.Tpo $(DEPDIR)/kcat-telemetry.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='telemetry.cpp' object='kcat-telemetry.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='telemetry.cxx' object='kcat-telemetry.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -c -o kcat-telemetry.obj `if test -f 'telemetry.cpp'; then $(CYGPATH_W) 'telemetry.cpp'; else $(CYGPATH_W) '$(srcdir)/telemetry.cpp'; fi`
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -c -o kcat-telemetry.obj `if test -f 'telemetry.cxx'; then $(CYGPATH_W) 'telemetry.cxx'; else $(CYGPATH_W) '$(srcdir)/telemetry.cxx'; fi`
 
-kcat-cstack.o: cstack.cpp
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -MT kcat-cstack.o -MD -MP -MF $(DEPDIR)/kcat-cstack.Tpo -c -o kcat-cstack.o `test -f 'cstack.cpp' || echo '$(srcdir)/'`cstack.cpp
+kcat-cstack.o: cstack.cxx
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -MT kcat-cstack.o -MD -MP -MF $(DEPDIR)/kcat-cstack.Tpo -c -o kcat-cstack.o `test -f 'cstack.cxx' || echo '$(srcdir)/'`cstack.cxx
 @am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/kcat-cstack.Tpo $(DEPDIR)/kcat-cstack.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='cstack.cpp' object='kcat-cstack.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='cstack.cxx' object='kcat-cstack.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -c -o kcat-cstack.o `test -f 'cstack.cpp' || echo '$(srcdir)/'`cstack.cpp
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -c -o kcat-cstack.o `test -f 'cstack.cxx' || echo '$(srcdir)/'`cstack.cxx
 
-kcat-cstack.obj: cstack.cpp
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -MT kcat-cstack.obj -MD -MP -MF $(DEPDIR)/kcat-cstack.Tpo -c -o kcat-cstack.obj `if test -f 'cstack.cpp'; then $(CYGPATH_W) 'cstack.cpp'; else $(CYGPATH_W) '$(srcdir)/cstack.cpp'; fi`
+kcat-cstack.obj: cstack.cxx
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -MT kcat-cstack.obj -MD -MP -MF $(DEPDIR)/kcat-cstack.Tpo -c -o kcat-cstack.obj `if test -f 'cstack.cxx'; then $(CYGPATH_W) 'cstack.cxx'; else $(CYGPATH_W) '$(srcdir)/cstack.cxx'; fi`
 @am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/kcat-cstack.Tpo $(DEPDIR)/kcat-cstack.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='cstack.cpp' object='kcat-cstack.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='cstack.cxx' object='kcat-cstack.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -c -o kcat-cstack.obj `if test -f 'cstack.cpp'; then $(CYGPATH_W) 'cstack.cpp'; else $(CYGPATH_W) '$(srcdir)/cstack.cpp'; fi`
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -c -o kcat-cstack.obj `if test -f 'cstack.cxx'; then $(CYGPATH_W) 'cstack.cxx'; else $(CYGPATH_W) '$(srcdir)/cstack.cxx'; fi`
 
 kcat-debug.o: debug.cxx
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -MT kcat-debug.o -MD -MP -MF $(DEPDIR)/kcat-debug.Tpo -c -o kcat-debug.o `test -f 'debug.cxx' || echo '$(srcdir)/'`debug.cxx
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -MT kcat-debug.o -MD -MP -MF $(DEPDIR)/kcat-debug.Tpo -c -o kcat-debug.o `test -f 'debug.cxx' || echo '$(srcdir)/'`debug.cxx
 @am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/kcat-debug.Tpo $(DEPDIR)/kcat-debug.Po
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='debug.cxx' object='kcat-debug.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -c -o kcat-debug.o `test -f 'debug.cxx' || echo '$(srcdir)/'`debug.cxx
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -c -o kcat-debug.o `test -f 'debug.cxx' || echo '$(srcdir)/'`debug.cxx
 
 kcat-debug.obj: debug.cxx
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -MT kcat-debug.obj -MD -MP -MF $(DEPDIR)/kcat-debug.Tpo -c -o kcat-debug.obj `if test -f 'debug.cxx'; then $(CYGPATH_W) 'debug.cxx'; else $(CYGPATH_W) '$(srcdir)/debug.cxx'; fi`
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -MT kcat-debug.obj -MD -MP -MF $(DEPDIR)/kcat-debug.Tpo -c -o kcat-debug.obj `if test -f 'debug.cxx'; then $(CYGPATH_W) 'debug.cxx'; else $(CYGPATH_W) '$(srcdir)/debug.cxx'; fi`
 @am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/kcat-debug.Tpo $(DEPDIR)/kcat-debug.Po
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='debug.cxx' object='kcat-debug.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -c -o kcat-debug.obj `if test -f 'debug.cxx'; then $(CYGPATH_W) 'debug.cxx'; else $(CYGPATH_W) '$(srcdir)/debug.cxx'; fi`
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -c -o kcat-debug.obj `if test -f 'debug.cxx'; then $(CYGPATH_W) 'debug.cxx'; else $(CYGPATH_W) '$(srcdir)/debug.cxx'; fi`
 
 kcat-icons.o: icons.cxx
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -MT kcat-icons.o -MD -MP -MF $(DEPDIR)/kcat-icons.Tpo -c -o kcat-icons.o `test -f 'icons.cxx' || echo '$(srcdir)/'`icons.cxx
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -MT kcat-icons.o -MD -MP -MF $(DEPDIR)/kcat-icons.Tpo -c -o kcat-icons.o `test -f 'icons.cxx' || echo '$(srcdir)/'`icons.cxx
 @am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/kcat-icons.Tpo $(DEPDIR)/kcat-icons.Po
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='icons.cxx' object='kcat-icons.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -c -o kcat-icons.o `test -f 'icons.cxx' || echo '$(srcdir)/'`icons.cxx
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -c -o kcat-icons.o `test -f 'icons.cxx' || echo '$(srcdir)/'`icons.cxx
 
 kcat-icons.obj: icons.cxx
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -MT kcat-icons.obj -MD -MP -MF $(DEPDIR)/kcat-icons.Tpo -c -o kcat-icons.obj `if test -f 'icons.cxx'; then $(CYGPATH_W) 'icons.cxx'; else $(CYGPATH_W) '$(srcdir)/icons.cxx'; fi`
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -MT kcat-icons.obj -MD -MP -MF $(DEPDIR)/kcat-icons.Tpo -c -o kcat-icons.obj `if test -f 'icons.cxx'; then $(CYGPATH_W) 'icons.cxx'; else $(CYGPATH_W) '$(srcdir)/icons.cxx'; fi`
 @am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/kcat-icons.Tpo $(DEPDIR)/kcat-icons.Po
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='icons.cxx' object='kcat-icons.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -c -o kcat-icons.obj `if test -f 'icons.cxx'; then $(CYGPATH_W) 'icons.cxx'; else $(CYGPATH_W) '$(srcdir)/icons.cxx'; fi`
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -c -o kcat-icons.obj `if test -f 'icons.cxx'; then $(CYGPATH_W) 'icons.cxx'; else $(CYGPATH_W) '$(srcdir)/icons.cxx'; fi`
 
 kcat-pixmaps.o: pixmaps.cxx
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -MT kcat-pixmaps.o -MD -MP -MF $(DEPDIR)/kcat-pixmaps.Tpo -c -o kcat-pixmaps.o `test -f 'pixmaps.cxx' || echo '$(srcdir)/'`pixmaps.cxx
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -MT kcat-pixmaps.o -MD -MP -MF $(DEPDIR)/kcat-pixmaps.Tpo -c -o kcat-pixmaps.o `test -f 'pixmaps.cxx' || echo '$(srcdir)/'`pixmaps.cxx
 @am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/kcat-pixmaps.Tpo $(DEPDIR)/kcat-pixmaps.Po
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='pixmaps.cxx' object='kcat-pixmaps.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -c -o kcat-pixmaps.o `test -f 'pixmaps.cxx' || echo '$(srcdir)/'`pixmaps.cxx
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -c -o kcat-pixmaps.o `test -f 'pixmaps.cxx' || echo '$(srcdir)/'`pixmaps.cxx
 
 kcat-pixmaps.obj: pixmaps.cxx
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -MT kcat-pixmaps.obj -MD -MP -MF $(DEPDIR)/kcat-pixmaps.Tpo -c -o kcat-pixmaps.obj `if test -f 'pixmaps.cxx'; then $(CYGPATH_W) 'pixmaps.cxx'; else $(CYGPATH_W) '$(srcdir)/pixmaps.cxx'; fi`
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -MT kcat-pixmaps.obj -MD -MP -MF $(DEPDIR)/kcat-pixmaps.Tpo -c -o kcat-pixmaps.obj `if test -f 'pixmaps.cxx'; then $(CYGPATH_W) 'pixmaps.cxx'; else $(CYGPATH_W) '$(srcdir)/pixmaps.cxx'; fi`
 @am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/kcat-pixmaps.Tpo $(DEPDIR)/kcat-pixmaps.Po
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='pixmaps.cxx' object='kcat-pixmaps.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -c -o kcat-pixmaps.obj `if test -f 'pixmaps.cxx'; then $(CYGPATH_W) 'pixmaps.cxx'; else $(CYGPATH_W) '$(srcdir)/pixmaps.cxx'; fi`
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -c -o kcat-pixmaps.obj `if test -f 'pixmaps.cxx'; then $(CYGPATH_W) 'pixmaps.cxx'; else $(CYGPATH_W) '$(srcdir)/pixmaps.cxx'; fi`
 
 kcat-status.o: status.cxx
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -MT kcat-status.o -MD -MP -MF $(DEPDIR)/kcat-status.Tpo -c -o kcat-status.o `test -f 'status.cxx' || echo '$(srcdir)/'`status.cxx
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -MT kcat-status.o -MD -MP -MF $(DEPDIR)/kcat-status.Tpo -c -o kcat-status.o `test -f 'status.cxx' || echo '$(srcdir)/'`status.cxx
 @am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/kcat-status.Tpo $(DEPDIR)/kcat-status.Po
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='status.cxx' object='kcat-status.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -c -o kcat-status.o `test -f 'status.cxx' || echo '$(srcdir)/'`status.cxx
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -c -o kcat-status.o `test -f 'status.cxx' || echo '$(srcdir)/'`status.cxx
 
 kcat-status.obj: status.cxx
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -MT kcat-status.obj -MD -MP -MF $(DEPDIR)/kcat-status.Tpo -c -o kcat-status.obj `if test -f 'status.cxx'; then $(CYGPATH_W) 'status.cxx'; else $(CYGPATH_W) '$(srcdir)/status.cxx'; fi`
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -MT kcat-status.obj -MD -MP -MF $(DEPDIR)/kcat-status.Tpo -c -o kcat-status.obj `if test -f 'status.cxx'; then $(CYGPATH_W) 'status.cxx'; else $(CYGPATH_W) '$(srcdir)/status.cxx'; fi`
 @am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/kcat-status.Tpo $(DEPDIR)/kcat-status.Po
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='status.cxx' object='kcat-status.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -c -o kcat-status.obj `if test -f 'status.cxx'; then $(CYGPATH_W) 'status.cxx'; else $(CYGPATH_W) '$(srcdir)/status.cxx'; fi`
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -c -o kcat-status.obj `if test -f 'status.cxx'; then $(CYGPATH_W) 'status.cxx'; else $(CYGPATH_W) '$(srcdir)/status.cxx'; fi`
 
 kcat-util.o: util.cxx
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -MT kcat-util.o -MD -MP -MF $(DEPDIR)/kcat-util.Tpo -c -o kcat-util.o `test -f 'util.cxx' || echo '$(srcdir)/'`util.cxx
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -MT kcat-util.o -MD -MP -MF $(DEPDIR)/kcat-util.Tpo -c -o kcat-util.o `test -f 'util.cxx' || echo '$(srcdir)/'`util.cxx
 @am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/kcat-util.Tpo $(DEPDIR)/kcat-util.Po
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='util.cxx' object='kcat-util.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -c -o kcat-util.o `test -f 'util.cxx' || echo '$(srcdir)/'`util.cxx
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -c -o kcat-util.o `test -f 'util.cxx' || echo '$(srcdir)/'`util.cxx
 
 kcat-util.obj: util.cxx
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -MT kcat-util.obj -MD -MP -MF $(DEPDIR)/kcat-util.Tpo -c -o kcat-util.obj `if test -f 'util.cxx'; then $(CYGPATH_W) 'util.cxx'; else $(CYGPATH_W) '$(srcdir)/util.cxx'; fi`
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -MT kcat-util.obj -MD -MP -MF $(DEPDIR)/kcat-util.Tpo -c -o kcat-util.obj `if test -f 'util.cxx'; then $(CYGPATH_W) 'util.cxx'; else $(CYGPATH_W) '$(srcdir)/util.cxx'; fi`
 @am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/kcat-util.Tpo $(DEPDIR)/kcat-util.Po
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='util.cxx' object='kcat-util.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -c -o kcat-util.obj `if test -f 'util.cxx'; then $(CYGPATH_W) 'util.cxx'; else $(CYGPATH_W) '$(srcdir)/util.cxx'; fi`
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -c -o kcat-util.obj `if test -f 'util.cxx'; then $(CYGPATH_W) 'util.cxx'; else $(CYGPATH_W) '$(srcdir)/util.cxx'; fi`
 
 kcat-ValueSlider.o: ValueSlider.cxx
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -MT kcat-ValueSlider.o -MD -MP -MF $(DEPDIR)/kcat-ValueSlider.Tpo -c -o kcat-ValueSlider.o `test -f 'ValueSlider.cxx' || echo '$(srcdir)/'`ValueSlider.cxx
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -MT kcat-ValueSlider.o -MD -MP -MF $(DEPDIR)/kcat-ValueSlider.Tpo -c -o kcat-ValueSlider.o `test -f 'ValueSlider.cxx' || echo '$(srcdir)/'`ValueSlider.cxx
 @am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/kcat-ValueSlider.Tpo $(DEPDIR)/kcat-ValueSlider.Po
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='ValueSlider.cxx' object='kcat-ValueSlider.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -c -o kcat-ValueSlider.o `test -f 'ValueSlider.cxx' || echo '$(srcdir)/'`ValueSlider.cxx
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -c -o kcat-ValueSlider.o `test -f 'ValueSlider.cxx' || echo '$(srcdir)/'`ValueSlider.cxx
 
 kcat-ValueSlider.obj: ValueSlider.cxx
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -MT kcat-ValueSlider.obj -MD -MP -MF $(DEPDIR)/kcat-ValueSlider.Tpo -c -o kcat-ValueSlider.obj `if test -f 'ValueSlider.cxx'; then $(CYGPATH_W) 'ValueSlider.cxx'; else $(CYGPATH_W) '$(srcdir)/ValueSlider.cxx'; fi`
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -MT kcat-ValueSlider.obj -MD -MP -MF $(DEPDIR)/kcat-ValueSlider.Tpo -c -o kcat-ValueSlider.obj `if test -f 'ValueSlider.cxx'; then $(CYGPATH_W) 'ValueSlider.cxx'; else $(CYGPATH_W) '$(srcdir)/ValueSlider.cxx'; fi`
 @am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/kcat-ValueSlider.Tpo $(DEPDIR)/kcat-ValueSlider.Po
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='ValueSlider.cxx' object='kcat-ValueSlider.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -c -o kcat-ValueSlider.obj `if test -f 'ValueSlider.cxx'; then $(CYGPATH_W) 'ValueSlider.cxx'; else $(CYGPATH_W) '$(srcdir)/ValueSlider.cxx'; fi`
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -c -o kcat-ValueSlider.obj `if test -f 'ValueSlider.cxx'; then $(CYGPATH_W) 'ValueSlider.cxx'; else $(CYGPATH_W) '$(srcdir)/ValueSlider.cxx'; fi`
 
 kcat-xml_io.o: xml_io.cxx
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -MT kcat-xml_io.o -MD -MP -MF $(DEPDIR)/kcat-xml_io.Tpo -c -o kcat-xml_io.o `test -f 'xml_io.cxx' || echo '$(srcdir)/'`xml_io.cxx
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -MT kcat-xml_io.o -MD -MP -MF $(DEPDIR)/kcat-xml_io.Tpo -c -o kcat-xml_io.o `test -f 'xml_io.cxx' || echo '$(srcdir)/'`xml_io.cxx
 @am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/kcat-xml_io.Tpo $(DEPDIR)/kcat-xml_io.Po
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='xml_io.cxx' object='kcat-xml_io.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -c -o kcat-xml_io.o `test -f 'xml_io.cxx' || echo '$(srcdir)/'`xml_io.cxx
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -c -o kcat-xml_io.o `test -f 'xml_io.cxx' || echo '$(srcdir)/'`xml_io.cxx
 
 kcat-xml_io.obj: xml_io.cxx
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -MT kcat-xml_io.obj -MD -MP -MF $(DEPDIR)/kcat-xml_io.Tpo -c -o kcat-xml_io.obj `if test -f 'xml_io.cxx'; then $(CYGPATH_W) 'xml_io.cxx'; else $(CYGPATH_W) '$(srcdir)/xml_io.cxx'; fi`
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -MT kcat-xml_io.obj -MD -MP -MF $(DEPDIR)/kcat-xml_io.Tpo -c -o kcat-xml_io.obj `if test -f 'xml_io.cxx'; then $(CYGPATH_W) 'xml_io.cxx'; else $(CYGPATH_W) '$(srcdir)/xml_io.cxx'; fi`
 @am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/kcat-xml_io.Tpo $(DEPDIR)/kcat-xml_io.Po
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='xml_io.cxx' object='kcat-xml_io.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -c -o kcat-xml_io.obj `if test -f 'xml_io.cxx'; then $(CYGPATH_W) 'xml_io.cxx'; else $(CYGPATH_W) '$(srcdir)/xml_io.cxx'; fi`
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -c -o kcat-xml_io.obj `if test -f 'xml_io.cxx'; then $(CYGPATH_W) 'xml_io.cxx'; else $(CYGPATH_W) '$(srcdir)/xml_io.cxx'; fi`
 
 kcat-XmlRpcClient.o: xmlrpcpp/XmlRpcClient.cpp
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -MT kcat-XmlRpcClient.o -MD -MP -MF $(DEPDIR)/kcat-XmlRpcClient.Tpo -c -o kcat-XmlRpcClient.o `test -f 'xmlrpcpp/XmlRpcClient.cpp' || echo '$(srcdir)/'`xmlrpcpp/XmlRpcClient.cpp
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -MT kcat-XmlRpcClient.o -MD -MP -MF $(DEPDIR)/kcat-XmlRpcClient.Tpo -c -o kcat-XmlRpcClient.o `test -f 'xmlrpcpp/XmlRpcClient.cpp' || echo '$(srcdir)/'`xmlrpcpp/XmlRpcClient.cpp
 @am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/kcat-XmlRpcClient.Tpo $(DEPDIR)/kcat-XmlRpcClient.Po
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='xmlrpcpp/XmlRpcClient.cpp' object='kcat-XmlRpcClient.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -c -o kcat-XmlRpcClient.o `test -f 'xmlrpcpp/XmlRpcClient.cpp' || echo '$(srcdir)/'`xmlrpcpp/XmlRpcClient.cpp
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -c -o kcat-XmlRpcClient.o `test -f 'xmlrpcpp/XmlRpcClient.cpp' || echo '$(srcdir)/'`xmlrpcpp/XmlRpcClient.cpp
 
 kcat-XmlRpcClient.obj: xmlrpcpp/XmlRpcClient.cpp
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -MT kcat-XmlRpcClient.obj -MD -MP -MF $(DEPDIR)/kcat-XmlRpcClient.Tpo -c -o kcat-XmlRpcClient.obj `if test -f 'xmlrpcpp/XmlRpcClient.cpp'; then $(CYGPATH_W) 'xmlrpcpp/XmlRpcClient.cpp'; else $(CYGPATH_W) '$(srcdir)/xmlrpcpp/XmlRpcClient.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -MT kcat-XmlRpcClient.obj -MD -MP -MF $(DEPDIR)/kcat-XmlRpcClient.Tpo -c -o kcat-XmlRpcClient.obj `if test -f 'xmlrpcpp/XmlRpcClient.cpp'; then $(CYGPATH_W) 'xmlrpcpp/XmlRpcClient.cpp'; else $(CYGPATH_W) '$(srcdir)/xmlrpcpp/XmlRpcClient.cpp'; fi`
 @am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/kcat-XmlRpcClient.Tpo $(DEPDIR)/kcat-XmlRpcClient.Po
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='xmlrpcpp/XmlRpcClient.cpp' object='kcat-XmlRpcClient.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -c -o kcat-XmlRpcClient.obj `if test -f 'xmlrpcpp/XmlRpcClient.cpp'; then $(CYGPATH_W) 'xmlrpcpp/XmlRpcClient.cpp'; else $(CYGPATH_W) '$(srcdir)/xmlrpcpp/XmlRpcClient.cpp'; fi`
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -c -o kcat-XmlRpcClient.obj `if test -f 'xmlrpcpp/XmlRpcClient.cpp'; then $(CYGPATH_W) 'xmlrpcpp/XmlRpcClient.cpp'; else $(CYGPATH_W) '$(srcdir)/xmlrpcpp/XmlRpcClient.cpp'; fi`
 
 kcat-XmlRpcDispatch.o: xmlrpcpp/XmlRpcDispatch.cpp
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -MT kcat-XmlRpcDispatch.o -MD -MP -MF $(DEPDIR)/kcat-XmlRpcDispatch.Tpo -c -o kcat-XmlRpcDispatch.o `test -f 'xmlrpcpp/XmlRpcDispatch.cpp' || echo '$(srcdir)/'`xmlrpcpp/XmlRpcDispatch.cpp
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -MT kcat-XmlRpcDispatch.o -MD -MP -MF $(DEPDIR)/kcat-XmlRpcDispatch.Tpo -c -o kcat-XmlRpcDispatch.o `test -f 'xmlrpcpp/XmlRpcDispatch.cpp' || echo '$(srcdir)/'`xmlrpcpp/XmlRpcDispatch.cpp
 @am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/kcat-XmlRpcDispatch.Tpo $(DEPDIR)/kcat-XmlRpcDispatch.Po
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='xmlrpcpp/XmlRpcDispatch.cpp' object='kcat-XmlRpcDispatch.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -c -o kcat-XmlRpcDispatch.o `test -f 'xmlrpcpp/XmlRpcDispatch.cpp' || echo '$(srcdir)/'`xmlrpcpp/XmlRpcDispatch.cpp
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -c -o kcat-XmlRpcDispatch.o `test -f 'xmlrpcpp/XmlRpcDispatch.cpp' || echo '$(srcdir)/'`xmlrpcpp/XmlRpcDispatch.cpp
 
 kcat-XmlRpcDispatch.obj: xmlrpcpp/XmlRpcDispatch.cpp
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -MT kcat-XmlRpcDispatch.obj -MD -MP -MF $(DEPDIR)/kcat-XmlRpcDispatch.Tpo -c -o kcat-XmlRpcDispatch.obj `if test -f 'xmlrpcpp/XmlRpcDispatch.cpp'; then $(CYGPATH_W) 'xmlrpcpp/XmlRpcDispatch.cpp'; else $(CYGPATH_W) '$(srcdir)/xmlrpcpp/XmlRpcDispatch.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -MT kcat-XmlRpcDispatch.obj -MD -MP -MF $(DEPDIR)/kcat-XmlRpcDispatch.Tpo -c -o kcat-XmlRpcDispatch.obj `if test -f 'xmlrpcpp/XmlRpcDispatch.cpp'; then $(CYGPATH_W) 'xmlrpcpp/XmlRpcDispatch.cpp'; else $(CYGPATH_W) '$(srcdir)/xmlrpcpp/XmlRpcDispatch.cpp'; fi`
 @am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/kcat-XmlRpcDispatch.Tpo $(DEPDIR)/kcat-XmlRpcDispatch.Po
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='xmlrpcpp/XmlRpcDispatch.cpp' object='kcat-XmlRpcDispatch.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -c -o kcat-XmlRpcDispatch.obj `if test -f 'xmlrpcpp/XmlRpcDispatch.cpp'; then $(CYGPATH_W) 'xmlrpcpp/XmlRpcDispatch.cpp'; else $(CYGPATH_W) '$(srcdir)/xmlrpcpp/XmlRpcDispatch.cpp'; fi`
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -c -o kcat-XmlRpcDispatch.obj `if test -f 'xmlrpcpp/XmlRpcDispatch.cpp'; then $(CYGPATH_W) 'xmlrpcpp/XmlRpcDispatch.cpp'; else $(CYGPATH_W) '$(srcdir)/xmlrpcpp/XmlRpcDispatch.cpp'; fi`
 
 kcat-XmlRpcMutex.o: xmlrpcpp/XmlRpcMutex.cpp
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -MT kcat-XmlRpcMutex.o -MD -MP -MF $(DEPDIR)/kcat-XmlRpcMutex.Tpo -c -o kcat-XmlRpcMutex.o `test -f 'xmlrpcpp/XmlRpcMutex.cpp' || echo '$(srcdir)/'`xmlrpcpp/XmlRpcMutex.cpp
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -MT kcat-XmlRpcMutex.o -MD -MP -MF $(DEPDIR)/kcat-XmlRpcMutex.Tpo -c -o kcat-XmlRpcMutex.o `test -f 'xmlrpcpp/XmlRpcMutex.cpp' || echo '$(srcdir)/'`xmlrpcpp/XmlRpcMutex.cpp
 @am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/kcat-XmlRpcMutex.Tpo $(DEPDIR)/kcat-XmlRpcMutex.Po
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='xmlrpcpp/XmlRpcMutex.cpp' object='kcat-XmlRpcMutex.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -c -o kcat-XmlRpcMutex.o `test -f 'xmlrpcpp/XmlRpcMutex.cpp' || echo '$(srcdir)/'`xmlrpcpp/XmlRpcMutex.cpp
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -c -o kcat-XmlRpcMutex.o `test -f 'xmlrpcpp/XmlRpcMutex.cpp' || echo '$(srcdir)/'`xmlrpcpp/XmlRpcMutex.cpp
 
 kcat-XmlRpcMutex.obj: xmlrpcpp/XmlRpcMutex.cpp
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -MT kcat-XmlRpcMutex.obj -MD -MP -MF $(DEPDIR)/kcat-XmlRpcMutex.Tpo -c -o kcat-XmlRpcMutex.obj `if test -f 'xmlrpcpp/XmlRpcMutex.cpp'; then $(CYGPATH_W) 'xmlrpcpp/XmlRpcMutex.cpp'; else $(CYGPATH_W) '$(srcdir)/xmlrpcpp/XmlRpcMutex.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -MT kcat-XmlRpcMutex.obj -MD -MP -MF $(DEPDIR)/kcat-XmlRpcMutex.Tpo -c -o kcat-XmlRpcMutex.obj `if test -f 'xmlrpcpp/XmlRpcMutex.cpp'; then $(CYGPATH_W) 'xmlrpcpp/XmlRpcMutex.cpp'; else $(CYGPATH_W) '$(srcdir)/xmlrpcpp/XmlRpcMutex.cpp'; fi`
 @am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/kcat-XmlRpcMutex.Tpo $(DEPDIR)/kcat-XmlRpcMutex.Po
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='xmlrpcpp/XmlRpcMutex.cpp' object='kcat-XmlRpcMutex.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -c -o kcat-XmlRpcMutex.obj `if test -f 'xmlrpcpp/XmlRpcMutex.cpp'; then $(CYGPATH_W) 'xmlrpcpp/XmlRpcMutex.cpp'; else $(CYGPATH_W) '$(srcdir)/xmlrpcpp/XmlRpcMutex.cpp'; fi`
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -c -o kcat-XmlRpcMutex.obj `if test -f 'xmlrpcpp/XmlRpcMutex.cpp'; then $(CYGPATH_W) 'xmlrpcpp/XmlRpcMutex.cpp'; else $(CYGPATH_W) '$(srcdir)/xmlrpcpp/XmlRpcMutex.cpp'; fi`
 
 kcat-XmlRpcServer.o: xmlrpcpp/XmlRpcServer.cpp
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -MT kcat-XmlRpcServer.o -MD -MP -MF $(DEPDIR)/kcat-XmlRpcServer.Tpo -c -o kcat-XmlRpcServer.o `test -f 'xmlrpcpp/XmlRpcServer.cpp' || echo '$(srcdir)/'`xmlrpcpp/XmlRpcServer.cpp
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -MT kcat-XmlRpcServer.o -MD -MP -MF $(DEPDIR)/kcat-XmlRpcServer.Tpo -c -o kcat-XmlRpcServer.o `test -f 'xmlrpcpp/XmlRpcServer.cpp' || echo '$(srcdir)/'`xmlrpcpp/XmlRpcServer.cpp
 @am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/kcat-XmlRpcServer.Tpo $(DEPDIR)/kcat-XmlRpcServer.Po
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='xmlrpcpp/XmlRpcServer.cpp' object='kcat-XmlRpcServer.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -c -o kcat-XmlRpcServer.o `test -f 'xmlrpcpp/XmlRpcServer.cpp' || echo '$(srcdir)/'`xmlrpcpp/XmlRpcServer.cpp
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -c -o kcat-XmlRpcServer.o `test -f 'xmlrpcpp/XmlRpcServer.cpp' || echo '$(srcdir)/'`xmlrpcpp/XmlRpcServer.cpp
 
 kcat-XmlRpcServer.obj: xmlrpcpp/XmlRpcServer.cpp
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -MT kcat-XmlRpcServer.obj -MD -MP -MF $(DEPDIR)/kcat-XmlRpcServer.Tpo -c -o kcat-XmlRpcServer.obj `if test -f 'xmlrpcpp/XmlRpcServer.cpp'; then $(CYGPATH_W) 'xmlrpcpp/XmlRpcServer.cpp'; else $(CYGPATH_W) '$(srcdir)/xmlrpcpp/XmlRpcServer.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -MT kcat-XmlRpcServer.obj -MD -MP -MF $(DEPDIR)/kcat-XmlRpcServer.Tpo -c -o kcat-XmlRpcServer.obj `if test -f 'xmlrpcpp/XmlRpcServer.cpp'; then $(CYGPATH_W) 'xmlrpcpp/XmlRpcServer.cpp'; else $(CYGPATH_W) '$(srcdir)/xmlrpcpp/XmlRpcServer.cpp'; fi`
 @am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/kcat-XmlRpcServer.Tpo $(DEPDIR)/kcat-XmlRpcServer.Po
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='xmlrpcpp/XmlRpcServer.cpp' object='kcat-XmlRpcServer.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -c -o kcat-XmlRpcServer.obj `if test -f 'xmlrpcpp/XmlRpcServer.cpp'; then $(CYGPATH_W) 'xmlrpcpp/XmlRpcServer.cpp'; else $(CYGPATH_W) '$(srcdir)/xmlrpcpp/XmlRpcServer.cpp'; fi`
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -c -o kcat-XmlRpcServer.obj `if test -f 'xmlrpcpp/XmlRpcServer.cpp'; then $(CYGPATH_W) 'xmlrpcpp/XmlRpcServer.cpp'; else $(CYGPATH_W) '$(srcdir)/xmlrpcpp/XmlRpcServer.cpp'; fi`
 
 kcat-XmlRpcServerConnection.o: xmlrpcpp/XmlRpcServerConnection.cpp
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -MT kcat-XmlRpcServerConnection.o -MD -MP -MF $(DEPDIR)/kcat-XmlRpcServerConnection.Tpo -c -o kcat-XmlRpcServerConnection.o `test -f 'xmlrpcpp/XmlRpcServerConnection.cpp' || echo '$(srcdir)/'`xmlrpcpp/XmlRpcServerConnection.cpp
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -MT kcat-XmlRpcServerConnection.o -MD -MP -MF $(DEPDIR)/kcat-XmlRpcServerConnection.Tpo -c -o kcat-XmlRpcServerConnection.o `test -f 'xmlrpcpp/XmlRpcServerConnection.cpp' || echo '$(srcdir)/'`xmlrpcpp/XmlRpcServerConnection.cpp
 @am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/kcat-XmlRpcServerConnection.Tpo $(DEPDIR)/kcat-XmlRpcServerConnection.Po
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='xmlrpcpp/XmlRpcServerConnection.cpp' object='kcat-XmlRpcServerConnection.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -c -o kcat-XmlRpcServerConnection.o `test -f 'xmlrpcpp/XmlRpcServerConnection.cpp' || echo '$(srcdir)/'`xmlrpcpp/XmlRpcServerConnection.cpp
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -c -o kcat-XmlRpcServerConnection.o `test -f 'xmlrpcpp/XmlRpcServerConnection.cpp' || echo '$(srcdir)/'`xmlrpcpp/XmlRpcServerConnection.cpp
 
 kcat-XmlRpcServerConnection.obj: xmlrpcpp/XmlRpcServerConnection.cpp
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -MT kcat-XmlRpcServerConnection.obj -MD -MP -MF $(DEPDIR)/kcat-XmlRpcServerConnection.Tpo -c -o kcat-XmlRpcServerConnection.obj `if test -f 'xmlrpcpp/XmlRpcServerConnection.cpp'; then $(CYGPATH_W) 'xmlrpcpp/XmlRpcServerConnection.cpp'; else $(CYGPATH_W) '$(srcdir)/xmlrpcpp/XmlRpcServerConnection.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -MT kcat-XmlRpcServerConnection.obj -MD -MP -MF $(DEPDIR)/kcat-XmlRpcServerConnection.Tpo -c -o kcat-XmlRpcServerConnection.obj `if test -f 'xmlrpcpp/XmlRpcServerConnection.cpp'; then $(CYGPATH_W) 'xmlrpcpp/XmlRpcServerConnection.cpp'; else $(CYGPATH_W) '$(srcdir)/xmlrpcpp/XmlRpcServerConnection.cpp'; fi`
 @am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/kcat-XmlRpcServerConnection.Tpo $(DEPDIR)/kcat-XmlRpcServerConnection.Po
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='xmlrpcpp/XmlRpcServerConnection.cpp' object='kcat-XmlRpcServerConnection.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -c -o kcat-XmlRpcServerConnection.obj `if test -f 'xmlrpcpp/XmlRpcServerConnection.cpp'; then $(CYGPATH_W) 'xmlrpcpp/XmlRpcServerConnection.cpp'; else $(CYGPATH_W) '$(srcdir)/xmlrpcpp/XmlRpcServerConnection.cpp'; fi`
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -c -o kcat-XmlRpcServerConnection.obj `if test -f 'xmlrpcpp/XmlRpcServerConnection.cpp'; then $(CYGPATH_W) 'xmlrpcpp/XmlRpcServerConnection.cpp'; else $(CYGPATH_W) '$(srcdir)/xmlrpcpp/XmlRpcServerConnection.cpp'; fi`
 
 kcat-XmlRpcServerMethod.o: xmlrpcpp/XmlRpcServerMethod.cpp
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -MT kcat-XmlRpcServerMethod.o -MD -MP -MF $(DEPDIR)/kcat-XmlRpcServerMethod.Tpo -c -o kcat-XmlRpcServerMethod.o `test -f 'xmlrpcpp/XmlRpcServerMethod.cpp' || echo '$(srcdir)/'`xmlrpcpp/XmlRpcServerMethod.cpp
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -MT kcat-XmlRpcServerMethod.o -MD -MP -MF $(DEPDIR)/kcat-XmlRpcServerMethod.Tpo -c -o kcat-XmlRpcServerMethod.o `test -f 'xmlrpcpp/XmlRpcServerMethod.cpp' || echo '$(srcdir)/'`xmlrpcpp/XmlRpcServerMethod.cpp
 @am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/kcat-XmlRpcServerMethod.Tpo $(DEPDIR)/kcat-XmlRpcServerMethod.Po
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='xmlrpcpp/XmlRpcServerMethod.cpp' object='kcat-XmlRpcServerMethod.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -c -o kcat-XmlRpcServerMethod.o `test -f 'xmlrpcpp/XmlRpcServerMethod.cpp' || echo '$(srcdir)/'`xmlrpcpp/XmlRpcServerMethod.cpp
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -c -o kcat-XmlRpcServerMethod.o `test -f 'xmlrpcpp/XmlRpcServerMethod.cpp' || echo '$(srcdir)/'`xmlrpcpp/XmlRpcServerMethod.cpp
 
 kcat-XmlRpcServerMethod.obj: xmlrpcpp/XmlRpcServerMethod.cpp
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -MT kcat-XmlRpcServerMethod.obj -MD -MP -MF $(DEPDIR)/kcat-XmlRpcServerMethod.Tpo -c -o kcat-XmlRpcServerMethod.obj `if test -f 'xmlrpcpp/XmlRpcServerMethod.cpp'; then $(CYGPATH_W) 'xmlrpcpp/XmlRpcServerMethod.cpp'; else $(CYGPATH_W) '$(srcdir)/xmlrpcpp/XmlRpcServerMethod.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -MT kcat-XmlRpcServerMethod.obj -MD -MP -MF $(DEPDIR)/kcat-XmlRpcServerMethod.Tpo -c -o kcat-XmlRpcServerMethod.obj `if test -f 'xmlrpcpp/XmlRpcServerMethod.cpp'; then $(CYGPATH_W) 'xmlrpcpp/XmlRpcServerMethod.cpp'; else $(CYGPATH_W) '$(srcdir)/xmlrpcpp/XmlRpcServerMethod.cpp'; fi`
 @am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/kcat-XmlRpcServerMethod.Tpo $(DEPDIR)/kcat-XmlRpcServerMethod.Po
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='xmlrpcpp/XmlRpcServerMethod.cpp' object='kcat-XmlRpcServerMethod.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -c -o kcat-XmlRpcServerMethod.obj `if test -f 'xmlrpcpp/XmlRpcServerMethod.cpp'; then $(CYGPATH_W) 'xmlrpcpp/XmlRpcServerMethod.cpp'; else $(CYGPATH_W) '$(srcdir)/xmlrpcpp/XmlRpcServerMethod.cpp'; fi`
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -c -o kcat-XmlRpcServerMethod.obj `if test -f 'xmlrpcpp/XmlRpcServerMethod.cpp'; then $(CYGPATH_W) 'xmlrpcpp/XmlRpcServerMethod.cpp'; else $(CYGPATH_W) '$(srcdir)/xmlrpcpp/XmlRpcServerMethod.cpp'; fi`
 
 kcat-XmlRpcSocket.o: xmlrpcpp/XmlRpcSocket.cpp
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -MT kcat-XmlRpcSocket.o -MD -MP -MF $(DEPDIR)/kcat-XmlRpcSocket.Tpo -c -o kcat-XmlRpcSocket.o `test -f 'xmlrpcpp/XmlRpcSocket.cpp' || echo '$(srcdir)/'`xmlrpcpp/XmlRpcSocket.cpp
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -MT kcat-XmlRpcSocket.o -MD -MP -MF $(DEPDIR)/kcat-XmlRpcSocket.Tpo -c -o kcat-XmlRpcSocket.o `test -f 'xmlrpcpp/XmlRpcSocket.cpp' || echo '$(srcdir)/'`xmlrpcpp/XmlRpcSocket.cpp
 @am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/kcat-XmlRpcSocket.Tpo $(DEPDIR)/kcat-XmlRpcSocket.Po
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='xmlrpcpp/XmlRpcSocket.cpp' object='kcat-XmlRpcSocket.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -c -o kcat-XmlRpcSocket.o `test -f 'xmlrpcpp/XmlRpcSocket.cpp' || echo '$(srcdir)/'`xmlrpcpp/XmlRpcSocket.cpp
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -c -o kcat-XmlRpcSocket.o `test -f 'xmlrpcpp/XmlRpcSocket.cpp' || echo '$(srcdir)/'`xmlrpcpp/XmlRpcSocket.cpp
 
 kcat-XmlRpcSocket.obj: xmlrpcpp/XmlRpcSocket.cpp
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -MT kcat-XmlRpcSocket.obj -MD -MP -MF $(DEPDIR)/kcat-XmlRpcSocket.Tpo -c -o kcat-XmlRpcSocket.obj `if test -f 'xmlrpcpp/XmlRpcSocket.cpp'; then $(CYGPATH_W) 'xmlrpcpp/XmlRpcSocket.cpp'; else $(CYGPATH_W) '$(srcdir)/xmlrpcpp/XmlRpcSocket.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -MT kcat-XmlRpcSocket.obj -MD -MP -MF $(DEPDIR)/kcat-XmlRpcSocket.Tpo -c -o kcat-XmlRpcSocket.obj `if test -f 'xmlrpcpp/XmlRpcSocket.cpp'; then $(CYGPATH_W) 'xmlrpcpp/XmlRpcSocket.cpp'; else $(CYGPATH_W) '$(srcdir)/xmlrpcpp/XmlRpcSocket.cpp'; fi`
 @am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/kcat-XmlRpcSocket.Tpo $(DEPDIR)/kcat-XmlRpcSocket.Po
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='xmlrpcpp/XmlRpcSocket.cpp' object='kcat-XmlRpcSocket.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -c -o kcat-XmlRpcSocket.obj `if test -f 'xmlrpcpp/XmlRpcSocket.cpp'; then $(CYGPATH_W) 'xmlrpcpp/XmlRpcSocket.cpp'; else $(CYGPATH_W) '$(srcdir)/xmlrpcpp/XmlRpcSocket.cpp'; fi`
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -c -o kcat-XmlRpcSocket.obj `if test -f 'xmlrpcpp/XmlRpcSocket.cpp'; then $(CYGPATH_W) 'xmlrpcpp/XmlRpcSocket.cpp'; else $(CYGPATH_W) '$(srcdir)/xmlrpcpp/XmlRpcSocket.cpp'; fi`
 
 kcat-XmlRpcSource.o: xmlrpcpp/XmlRpcSource.cpp
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -MT kcat-XmlRpcSource.o -MD -MP -MF $(DEPDIR)/kcat-XmlRpcSource.Tpo -c -o kcat-XmlRpcSource.o `test -f 'xmlrpcpp/XmlRpcSource.cpp' || echo '$(srcdir)/'`xmlrpcpp/XmlRpcSource.cpp
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -MT kcat-XmlRpcSource.o -MD -MP -MF $(DEPDIR)/kcat-XmlRpcSource.Tpo -c -o kcat-XmlRpcSource.o `test -f 'xmlrpcpp/XmlRpcSource.cpp' || echo '$(srcdir)/'`xmlrpcpp/XmlRpcSource.cpp
 @am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/kcat-XmlRpcSource.Tpo $(DEPDIR)/kcat-XmlRpcSource.Po
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='xmlrpcpp/XmlRpcSource.cpp' object='kcat-XmlRpcSource.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -c -o kcat-XmlRpcSource.o `test -f 'xmlrpcpp/XmlRpcSource.cpp' || echo '$(srcdir)/'`xmlrpcpp/XmlRpcSource.cpp
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -c -o kcat-XmlRpcSource.o `test -f 'xmlrpcpp/XmlRpcSource.cpp' || echo '$(srcdir)/'`xmlrpcpp/XmlRpcSource.cpp
 
 kcat-XmlRpcSource.obj: xmlrpcpp/XmlRpcSource.cpp
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -MT kcat-XmlRpcSource.obj -MD -MP -MF $(DEPDIR)/kcat-XmlRpcSource.Tpo -c -o kcat-XmlRpcSource.obj `if test -f 'xmlrpcpp/XmlRpcSource.cpp'; then $(CYGPATH_W) 'xmlrpcpp/XmlRpcSource.cpp'; else $(CYGPATH_W) '$(srcdir)/xmlrpcpp/XmlRpcSource.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -MT kcat-XmlRpcSource.obj -MD -MP -MF $(DEPDIR)/kcat-XmlRpcSource.Tpo -c -o kcat-XmlRpcSource.obj `if test -f 'xmlrpcpp/XmlRpcSource.cpp'; then $(CYGPATH_W) 'xmlrpcpp/XmlRpcSource.cpp'; else $(CYGPATH_W) '$(srcdir)/xmlrpcpp/XmlRpcSource.cpp'; fi`
 @am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/kcat-XmlRpcSource.Tpo $(DEPDIR)/kcat-XmlRpcSource.Po
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='xmlrpcpp/XmlRpcSource.cpp' object='kcat-XmlRpcSource.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -c -o kcat-XmlRpcSource.obj `if test -f 'xmlrpcpp/XmlRpcSource.cpp'; then $(CYGPATH_W) 'xmlrpcpp/XmlRpcSource.cpp'; else $(CYGPATH_W) '$(srcdir)/xmlrpcpp/XmlRpcSource.cpp'; fi`
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -c -o kcat-XmlRpcSource.obj `if test -f 'xmlrpcpp/XmlRpcSource.cpp'; then $(CYGPATH_W) 'xmlrpcpp/XmlRpcSource.cpp'; else $(CYGPATH_W) '$(srcdir)/xmlrpcpp/XmlRpcSource.cpp'; fi`
 
 kcat-XmlRpcThread.o: xmlrpcpp/XmlRpcThread.cpp
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -MT kcat-XmlRpcThread.o -MD -MP -MF $(DEPDIR)/kcat-XmlRpcThread.Tpo -c -o kcat-XmlRpcThread.o `test -f 'xmlrpcpp/XmlRpcThread.cpp' || echo '$(srcdir)/'`xmlrpcpp/XmlRpcThread.cpp
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -MT kcat-XmlRpcThread.o -MD -MP -MF $(DEPDIR)/kcat-XmlRpcThread.Tpo -c -o kcat-XmlRpcThread.o `test -f 'xmlrpcpp/XmlRpcThread.cpp' || echo '$(srcdir)/'`xmlrpcpp/XmlRpcThread.cpp
 @am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/kcat-XmlRpcThread.Tpo $(DEPDIR)/kcat-XmlRpcThread.Po
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='xmlrpcpp/XmlRpcThread.cpp' object='kcat-XmlRpcThread.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -c -o kcat-XmlRpcThread.o `test -f 'xmlrpcpp/XmlRpcThread.cpp' || echo '$(srcdir)/'`xmlrpcpp/XmlRpcThread.cpp
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -c -o kcat-XmlRpcThread.o `test -f 'xmlrpcpp/XmlRpcThread.cpp' || echo '$(srcdir)/'`xmlrpcpp/XmlRpcThread.cpp
 
 kcat-XmlRpcThread.obj: xmlrpcpp/XmlRpcThread.cpp
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -MT kcat-XmlRpcThread.obj -MD -MP -MF $(DEPDIR)/kcat-XmlRpcThread.Tpo -c -o kcat-XmlRpcThread.obj `if test -f 'xmlrpcpp/XmlRpcThread.cpp'; then $(CYGPATH_W) 'xmlrpcpp/XmlRpcThread.cpp'; else $(CYGPATH_W) '$(srcdir)/xmlrpcpp/XmlRpcThread.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -MT kcat-XmlRpcThread.obj -MD -MP -MF $(DEPDIR)/kcat-XmlRpcThread.Tpo -c -o kcat-XmlRpcThread.obj `if test -f 'xmlrpcpp/XmlRpcThread.cpp'; then $(CYGPATH_W) 'xmlrpcpp/XmlRpcThread.cpp'; else $(CYGPATH_W) '$(srcdir)/xmlrpcpp/XmlRpcThread.cpp'; fi`
 @am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/kcat-XmlRpcThread.Tpo $(DEPDIR)/kcat-XmlRpcThread.Po
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='xmlrpcpp/XmlRpcThread.cpp' object='kcat-XmlRpcThread.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -c -o kcat-XmlRpcThread.obj `if test -f 'xmlrpcpp/XmlRpcThread.cpp'; then $(CYGPATH_W) 'xmlrpcpp/XmlRpcThread.cpp'; else $(CYGPATH_W) '$(srcdir)/xmlrpcpp/XmlRpcThread.cpp'; fi`
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -c -o kcat-XmlRpcThread.obj `if test -f 'xmlrpcpp/XmlRpcThread.cpp'; then $(CYGPATH_W) 'xmlrpcpp/XmlRpcThread.cpp'; else $(CYGPATH_W) '$(srcdir)/xmlrpcpp/XmlRpcThread.cpp'; fi`
 
 kcat-XmlRpcThreadedServer.o: xmlrpcpp/XmlRpcThreadedServer.cpp
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -MT kcat-XmlRpcThreadedServer.o -MD -MP -MF $(DEPDIR)/kcat-XmlRpcThreadedServer.Tpo -c -o kcat-XmlRpcThreadedServer.o `test -f 'xmlrpcpp/XmlRpcThreadedServer.cpp' || echo '$(srcdir)/'`xmlrpcpp/XmlRpcThreadedServer.cpp
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -MT kcat-XmlRpcThreadedServer.o -MD -MP -MF $(DEPDIR)/kcat-XmlRpcThreadedServer.Tpo -c -o kcat-XmlRpcThreadedServer.o `test -f 'xmlrpcpp/XmlRpcThreadedServer.cpp' || echo '$(srcdir)/'`xmlrpcpp/XmlRpcThreadedServer.cpp
 @am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/kcat-XmlRpcThreadedServer.Tpo $(DEPDIR)/kcat-XmlRpcThreadedServer.Po
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='xmlrpcpp/XmlRpcThreadedServer.cpp' object='kcat-XmlRpcThreadedServer.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -c -o kcat-XmlRpcThreadedServer.o `test -f 'xmlrpcpp/XmlRpcThreadedServer.cpp' || echo '$(srcdir)/'`xmlrpcpp/XmlRpcThreadedServer.cpp
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -c -o kcat-XmlRpcThreadedServer.o `test -f 'xmlrpcpp/XmlRpcThreadedServer.cpp' || echo '$(srcdir)/'`xmlrpcpp/XmlRpcThreadedServer.cpp
 
 kcat-XmlRpcThreadedServer.obj: xmlrpcpp/XmlRpcThreadedServer.cpp
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -MT kcat-XmlRpcThreadedServer.obj -MD -MP -MF $(DEPDIR)/kcat-XmlRpcThreadedServer.Tpo -c -o kcat-XmlRpcThreadedServer.obj `if test -f 'xmlrpcpp/XmlRpcThreadedServer.cpp'; then $(CYGPATH_W) 'xmlrpcpp/XmlRpcThreadedServer.cpp'; else $(CYGPATH_W) '$(srcdir)/xmlrpcpp/XmlRpcThreadedServer.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -MT kcat-XmlRpcThreadedServer.obj -MD -MP -MF $(DEPDIR)/kcat-XmlRpcThreadedServer.Tpo -c -o kcat-XmlRpcThreadedServer.obj `if test -f 'xmlrpcpp/XmlRpcThreadedServer.cpp'; then $(CYGPATH_W) 'xmlrpcpp/XmlRpcThreadedServer.cpp'; else $(CYGPATH_W) '$(srcdir)/xmlrpcpp/XmlRpcThreadedServer.cpp'; fi`
 @am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/kcat-XmlRpcThreadedServer.Tpo $(DEPDIR)/kcat-XmlRpcThreadedServer.Po
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='xmlrpcpp/XmlRpcThreadedServer.cpp' object='kcat-XmlRpcThreadedServer.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -c -o kcat-XmlRpcThreadedServer.obj `if test -f 'xmlrpcpp/XmlRpcThreadedServer.cpp'; then $(CYGPATH_W) 'xmlrpcpp/XmlRpcThreadedServer.cpp'; else $(CYGPATH_W) '$(srcdir)/xmlrpcpp/XmlRpcThreadedServer.cpp'; fi`
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -c -o kcat-XmlRpcThreadedServer.obj `if test -f 'xmlrpcpp/XmlRpcThreadedServer.cpp'; then $(CYGPATH_W) 'xmlrpcpp/XmlRpcThreadedServer.cpp'; else $(CYGPATH_W) '$(srcdir)/xmlrpcpp/XmlRpcThreadedServer.cpp'; fi`
 
 kcat-XmlRpcUtil.o: xmlrpcpp/XmlRpcUtil.cpp
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -MT kcat-XmlRpcUtil.o -MD -MP -MF $(DEPDIR)/kcat-XmlRpcUtil.Tpo -c -o kcat-XmlRpcUtil.o `test -f 'xmlrpcpp/XmlRpcUtil.cpp' || echo '$(srcdir)/'`xmlrpcpp/XmlRpcUtil.cpp
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -MT kcat-XmlRpcUtil.o -MD -MP -MF $(DEPDIR)/kcat-XmlRpcUtil.Tpo -c -o kcat-XmlRpcUtil.o `test -f 'xmlrpcpp/XmlRpcUtil.cpp' || echo '$(srcdir)/'`xmlrpcpp/XmlRpcUtil.cpp
 @am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/kcat-XmlRpcUtil.Tpo $(DEPDIR)/kcat-XmlRpcUtil.Po
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='xmlrpcpp/XmlRpcUtil.cpp' object='kcat-XmlRpcUtil.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -c -o kcat-XmlRpcUtil.o `test -f 'xmlrpcpp/XmlRpcUtil.cpp' || echo '$(srcdir)/'`xmlrpcpp/XmlRpcUtil.cpp
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -c -o kcat-XmlRpcUtil.o `test -f 'xmlrpcpp/XmlRpcUtil.cpp' || echo '$(srcdir)/'`xmlrpcpp/XmlRpcUtil.cpp
 
 kcat-XmlRpcUtil.obj: xmlrpcpp/XmlRpcUtil.cpp
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -MT kcat-XmlRpcUtil.obj -MD -MP -MF $(DEPDIR)/kcat-XmlRpcUtil.Tpo -c -o kcat-XmlRpcUtil.obj `if test -f 'xmlrpcpp/XmlRpcUtil.cpp'; then $(CYGPATH_W) 'xmlrpcpp/XmlRpcUtil.cpp'; else $(CYGPATH_W) '$(srcdir)/xmlrpcpp/XmlRpcUtil.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -MT kcat-XmlRpcUtil.obj -MD -MP -MF $(DEPDIR)/kcat-XmlRpcUtil.Tpo -c -o kcat-XmlRpcUtil.obj `if test -f 'xmlrpcpp/XmlRpcUtil.cpp'; then $(CYGPATH_W) 'xmlrpcpp/XmlRpcUtil.cpp'; else $(CYGPATH_W) '$(srcdir)/xmlrpcpp/XmlRpcUtil.cpp'; fi`
 @am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/kcat-XmlRpcUtil.Tpo $(DEPDIR)/kcat-XmlRpcUtil.Po
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='xmlrpcpp/XmlRpcUtil.cpp' object='kcat-XmlRpcUtil.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -c -o kcat-XmlRpcUtil.obj `if test -f 'xmlrpcpp/XmlRpcUtil.cpp'; then $(CYGPATH_W) 'xmlrpcpp/XmlRpcUtil.cpp'; else $(CYGPATH_W) '$(srcdir)/xmlrpcpp/XmlRpcUtil.cpp'; fi`
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -c -o kcat-XmlRpcUtil.obj `if test -f 'xmlrpcpp/XmlRpcUtil.cpp'; then $(CYGPATH_W) 'xmlrpcpp/XmlRpcUtil.cpp'; else $(CYGPATH_W) '$(srcdir)/xmlrpcpp/XmlRpcUtil.cpp'; fi`
 
 kcat-XmlRpcValue.o: xmlrpcpp/XmlRpcValue.cpp
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -MT kcat-XmlRpcValue.o -MD -MP -MF $(DEPDIR)/kcat-XmlRpcValue.Tpo -c -o kcat-XmlRpcValue.o `test -f 'xmlrpcpp/XmlRpcValue.cpp' || echo '$(srcdir)/'`xmlrpcpp/XmlRpcValue.cpp
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -MT kcat-XmlRpcValue.o -MD -MP -MF $(DEPDIR)/kcat-XmlRpcValue.Tpo -c -o kcat-XmlRpcValue.o `test -f 'xmlrpcpp/XmlRpcValue.cpp' || echo '$(srcdir)/'`xmlrpcpp/XmlRpcValue.cpp
 @am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/kcat-XmlRpcValue.Tpo $(DEPDIR)/kcat-XmlRpcValue.Po
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='xmlrpcpp/XmlRpcValue.cpp' object='kcat-XmlRpcValue.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -c -o kcat-XmlRpcValue.o `test -f 'xmlrpcpp/XmlRpcValue.cpp' || echo '$(srcdir)/'`xmlrpcpp/XmlRpcValue.cpp
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -c -o kcat-XmlRpcValue.o `test -f 'xmlrpcpp/XmlRpcValue.cpp' || echo '$(srcdir)/'`xmlrpcpp/XmlRpcValue.cpp
 
 kcat-XmlRpcValue.obj: xmlrpcpp/XmlRpcValue.cpp
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -MT kcat-XmlRpcValue.obj -MD -MP -MF $(DEPDIR)/kcat-XmlRpcValue.Tpo -c -o kcat-XmlRpcValue.obj `if test -f 'xmlrpcpp/XmlRpcValue.cpp'; then $(CYGPATH_W) 'xmlrpcpp/XmlRpcValue.cpp'; else $(CYGPATH_W) '$(srcdir)/xmlrpcpp/XmlRpcValue.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -MT kcat-XmlRpcValue.obj -MD -MP -MF $(DEPDIR)/kcat-XmlRpcValue.Tpo -c -o kcat-XmlRpcValue.obj `if test -f 'xmlrpcpp/XmlRpcValue.cpp'; then $(CYGPATH_W) 'xmlrpcpp/XmlRpcValue.cpp'; else $(CYGPATH_W) '$(srcdir)/xmlrpcpp/XmlRpcValue.cpp'; fi`
 @am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/kcat-XmlRpcValue.Tpo $(DEPDIR)/kcat-XmlRpcValue.Po
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='xmlrpcpp/XmlRpcValue.cpp' object='kcat-XmlRpcValue.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kcat_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -c -o kcat-XmlRpcValue.obj `if test -f 'xmlrpcpp/XmlRpcValue.cpp'; then $(CYGPATH_W) 'xmlrpcpp/XmlRpcValue.cpp'; else $(CYGPATH_W) '$(srcdir)/xmlrpcpp/XmlRpcValue.cpp'; fi`
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -c -o kcat-XmlRpcValue.obj `if test -f 'xmlrpcpp/XmlRpcValue.cpp'; then $(CYGPATH_W) 'xmlrpcpp/XmlRpcValue.cpp'; else $(CYGPATH_W) '$(srcdir)/xmlrpcpp/XmlRpcValue.cpp'; fi`
 
 .cxx.o:
 @am__fastdepCXX_TRUE@	$(CXXCOMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ $<

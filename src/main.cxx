@@ -11,7 +11,7 @@
 #include <pthread.h>
 
 #ifdef WIN32
-#	include "kachinarc.h"
+#	include "kcatrc.h"
 #	include "compat.h"
 #	define dirent fl_dirent_no_thanks
 #else
@@ -29,7 +29,7 @@
 
 #include "config.h"
 #include "support.h"
-#include "Kachina.h"
+#include "kcat.h"
 #include "debug.h"
 #include "gettext.h"
 #include "font_browser.h"
@@ -59,11 +59,11 @@ extern Font_Browser     *fntbrowser;
 string homedir = "";
 char defFileName[200];
 
-// set to true for test file output by executing at Kachina TEST
+// set to true for test file output by executing at kcat TEST
 bool test = false;
 
 #ifndef WIN32
-Pixmap	kachina_icon_pixmap;
+Pixmap	kcat_icon_pixmap;
 
 #if defined(__WIN32__) && defined(PTW32_STATIC_LIB)
 static void ptw32_cleanup(void)
@@ -142,7 +142,7 @@ int main (int argc, char *argv[])
 
 	Fl::args(argc, argv, arg_idx, parse_args);
 
-	window = Kachina_window();
+	window = kcat_window();
 	window->label(PACKAGE_NAME);
 	window->callback(exit_main);
 
@@ -162,8 +162,8 @@ int main (int argc, char *argv[])
 	checkdirectories();
 
 #ifndef WIN32	
-	make_pixmap( &kachina_icon_pixmap, kcat_xpm);
-	window->icon((char*)kachina_icon_pixmap);
+	make_pixmap( &kcat_icon_pixmap, kcat_xpm);
+	window->icon((char*)kcat_icon_pixmap);
 	window->xclass(PACKAGE_NAME);
 #endif
 

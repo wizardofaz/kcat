@@ -9,8 +9,8 @@
 #include <pthread.h>
 
 #include "support.h"
-#include "Kachina.h"
-#include "Kachina_io.h"
+#include "kcat.h"
+#include "kcat_io.h"
 #include "util.h"
 #include "config.h"
 #include "xml_io.h"
@@ -55,7 +55,7 @@ stANTPORT antports[LISTSIZE] = {
 	{28000, 0, 0} };
 int numantports = 9;
 
-CSerialComm KachinaSerial;
+CSerialComm kcatSerial;
 #ifdef WIN32
 	int baudttyport = CBR_9600;
 #else
@@ -76,7 +76,7 @@ char *print(FREQMODE data)
 	return str;
 }
 
-void initKachina()
+void initkcat()
 {
 	dlgAntPorts  = FreqRangesDialog();
 
@@ -914,7 +914,7 @@ RigHard[0], RigHard[1]);
 
 // TEST results logger
 FILE *fTestLog = 0;
-const char *fTestLogName = "KachinaTest.log";
+const char *fTestLogName = "kcatTest.log";
 
 void OpenTestLog()
 {
@@ -983,7 +983,7 @@ void * telemetry_thread_loop(void *d)
 		while (commstack.pop(buff))
 			Fl::awake(parseTelemetry, (void *) buff);
 		if (!serial_busy)
-			if (KachinaSerial.ReadBuffer (&buff, 1) == 1)
+			if (kcatSerial.ReadBuffer (&buff, 1) == 1)
 				commstack.push(buff);
 	}
 	return NULL;
@@ -1038,7 +1038,7 @@ void startProcessing(void *d)
 		exit(EXIT_FAILURE);
 	}
 
-	initKachina();
+	initkcat();
 	setInhibits();
 }
 
@@ -1065,7 +1065,7 @@ void cbExit()
 	send_no_rig();
 	close_rig_xmlrpc();
 
-	KachinaSerial.ClosePort();
+	kcatSerial.ClosePort();
 	saveState();
 	if (test)
 		CloseTestLog();

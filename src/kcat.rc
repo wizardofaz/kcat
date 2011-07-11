@@ -1,6 +1,6 @@
 #include <windows.h> // include for version info constants
 
-#include "kachinarc.h"
+#include "kcatrc.h"
 
 IDI_ICON ICON DISCARDABLE "kcat.ico"
 
