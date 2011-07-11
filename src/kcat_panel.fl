@@ -11,7 +11,7 @@ decl {\#include "kcat.h"} {}
 
 decl {\#include "support.h"} {} 
 
-Function {kcat_window()} {open selected
+Function {kcat_window()} {open
 } {
   Fl_Window {} {
     label kcat open
@@ -95,6 +95,11 @@ Function {kcat_window()} {open selected
         label {&Help} open
         xywh {10 10 100 20}
       } {
+        MenuItem mnuOnLineHelp {
+          label {On-line help}
+          callback {visit_URL((void *)("http://www.w1hkj.com/kcat-help/index.html"));} selected
+          xywh {0 0 36 21} divider
+        }
         MenuItem mnuAbout {
           label {&About}
           callback {about();}

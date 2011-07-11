@@ -109,7 +109,8 @@ extern Fl_Menu_Item menu_[];
 #define mnuNRAMdata (menu_+14)
 #define mnuEvents (menu_+15)
 #define mnuHelp (menu_+17)
-#define mnuAbout (menu_+18)
+#define mnuOnLineHelp (menu_+18)
+#define mnuAbout (menu_+19)
 #include <FL/Fl_Return_Button.H>
 extern Fl_Return_Button *btnOkCommsDialog;
 extern Fl_Choice *selectCommPort;

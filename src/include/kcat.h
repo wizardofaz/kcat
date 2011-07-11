@@ -64,6 +64,7 @@ extern void configColor();
 extern void openFreqList();
 extern void saveFreqList();
 extern void about();
+extern void visit_URL(void* arg);
 
 extern void initOptionMenus();
 
