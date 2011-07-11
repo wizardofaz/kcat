@@ -1,3 +1,5 @@
+#include "config.h"
+
 #include <stdlib.h>
 #include <iostream>
 #include <fstream>
@@ -8,24 +10,35 @@
 #include <stdio.h>
 #include <fcntl.h>
 #include <errno.h>
-#include <pthread.h>
+
+#include <FL/Fl.H>
+#include <FL/Enumerations.H>
+#include <FL/Fl_Window.H>
+#include <FL/Fl_Button.H>
+#include <FL/Fl_Group.H>
+#include <FL/Fl_Sys_Menu_Bar.H>
+#include <FL/x.H>
+#include <FL/Fl_Help_Dialog.H>
+#include <FL/Fl_Menu_Item.H>
 
 #ifdef WIN32
-#	include "kcatrc.h"
-#	include "compat.h"
-#	define dirent fl_dirent_no_thanks
-#else
-#	include <stdio.h>
-#	include <stdlib.h>
-#	include <unistd.h>
-#	include <fcntl.h>
-#	include <sys/types.h>
-#	include <FL/Fl_Pixmap.H>
-#	include <FL/Fl_Image.H>
-#	include "kcat.xpm"
+#  include "kcatrc.h"
+#  include "compat.h"
+#  define dirent fl_dirent_no_thanks
 #endif
 
+#include <FL/filename.H>
+#ifdef __MINGW32__
+#  undef dirent
+#endif
+
+#include <dirent.h>
+
 #include <FL/x.H>
+#include <FL/Fl_Pixmap.H>
+#include <FL/Fl_Image.H>
+
+#include "kcat_icon.cxx"
 
 #include "config.h"
 #include "support.h"
@@ -64,9 +77,6 @@ char defFileName[200];
 // set to true for test file output by executing at kcat TEST
 bool test = false;
 
-#ifndef WIN32
-Pixmap	kcat_icon_pixmap;
-
 #if defined(__WIN32__) && defined(PTW32_STATIC_LIB)
 static void ptw32_cleanup(void)
 {
@@ -79,6 +89,10 @@ void ptw32_init(void)
 	atexit(ptw32_cleanup);
 }
 #endif // __WIN32__
+
+#define KNAME "kcat"
+#if !defined(__WIN32__) && !defined(__APPLE__)
+Pixmap	kcat_icon_pixmap;
 
 void make_pixmap(Pixmap *xpm, const char **data)
 {
@@ -209,12 +223,6 @@ int main (int argc, char *argv[])
 	if (homedir.empty()) homedir = dirbuf;
 	checkdirectories();
 
-#ifndef WIN32	
-	make_pixmap( &kcat_icon_pixmap, kcat_xpm);
-	window->icon((char*)kcat_icon_pixmap);
-	window->xclass(PACKAGE_NAME);
-#endif
-
 	try {
 		debug::start(string(homedir).append("debug_log.txt").c_str());
 		time_t t = time(NULL);
@@ -237,11 +245,20 @@ int main (int argc, char *argv[])
 
 	loadState();
 
-#ifdef WIN32
-	window->icon((char *)LoadIcon(fl_display, MAKEINTRESOURCE(IDI_ICON)));
+	window->xclass(KNAME);
+
+#if defined(__WOE32__)
+#  ifndef IDI_ICON
+#    define IDI_ICON 101
+#  endif
+	window->icon((char*)LoadIcon(fl_display, MAKEINTRESOURCE(IDI_ICON)));
 	window->show (argc, argv);
+#elif !defined(__APPLE__)
+	make_pixmap(&kcat_icon_pixmap, kcat_icon);
+	window->icon((char *)kcat_icon_pixmap);
+	window->show(argc, argv);
 #else
-	window->show();
+	window->show(argc, argv);
 #endif
 
 	if (xcvrState.ttyport.empty() || xcvrState.ttyport == "TEST") setCommsPort();

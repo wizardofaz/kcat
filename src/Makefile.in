@@ -330,10 +330,11 @@ APPBUNDLE_NOLIBS = $(APPBUNDLE)-nolibs
 
 # Additional non-source files that are distributed
 # Additional source files that support non-Linux cross compilation
-EXTRA_DIST = kcat.rc images/kcat.xpm images/mvolts.xbm images/p120.xbm \
-	images/p150.xbm images/p15.xbm images/p30.xbm images/p45.xbm \
-	images/p60.xbm images/p75.xbm images/p90.xbm images/rev.xbm \
-	images/smeter.xbm images/swr.xbm images/dbm.xbm images/alc.xbm \
+EXTRA_DIST = kcat.rc kcat_icon.cxx kcat_panel.fl images/kcat.xpm \
+	images/mvolts.xbm images/p120.xbm images/p150.xbm \
+	images/p15.xbm images/p30.xbm images/p45.xbm images/p60.xbm \
+	images/p75.xbm images/p90.xbm images/rev.xbm images/smeter.xbm \
+	images/swr.xbm images/dbm.xbm images/alc.xbm \
 	$(srcdir)/../data/kcat.desktop $(srcdir)/../data/kcat.xpm \
 	$(srcdir)/../data/win32/fl_app.nsi \
 	$(srcdir)/../data/win32/kcat.ico \

@@ -195,6 +195,8 @@ kcat_SOURCES += \
 # Additional source files that are distributed
 EXTRA_DIST = \
 	kcat.rc \
+	kcat_icon.cxx \
+	kcat_panel.fl \
 	images/kcat.xpm \
 	images/mvolts.xbm \
 	images/p120.xbm \
