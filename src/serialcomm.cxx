@@ -12,7 +12,7 @@
 ///////////////////////////////////////////////////////
 // Function name	: CSerialComm::OpenPort
 // Description	    : Opens the port specified by strPortName
-// Return type		: BOOL 
+// Return type		: BOOL
 // Argument         : CString strPortName
 ///////////////////////////////////////////////////////
 BOOL CSerialComm::OpenPort(char * szPort, int baud)  {
@@ -38,7 +38,7 @@ BOOL CSerialComm::OpenPort(char * szPort, int baud)  {
 ///////////////////////////////////////////////////////
 // Function name	: CSerialComm::ClosePort
 // Description	    : Closes the Port
-// Return type		: void 
+// Return type		: void
 ///////////////////////////////////////////////////////
 void CSerialComm::ClosePort()
 {
@@ -52,8 +52,8 @@ void CSerialComm::ClosePort()
 
 ///////////////////////////////////////////////////////
 // Function name	: CSerialComm::GetBytesRead
-// Description	    : 
-// Return type		: DWORD 
+// Description	    :
+// Return type		: DWORD
 ///////////////////////////////////////////////////////
 DWORD CSerialComm::GetBytesRead()
 {
@@ -63,7 +63,7 @@ DWORD CSerialComm::GetBytesRead()
 ///////////////////////////////////////////////////////
 // Function name	: CSerialComm::GetBytesWritten
 // Description	    : returns total number of bytes written to port
-// Return type		: DWORD 
+// Return type		: DWORD
 ///////////////////////////////////////////////////////
 DWORD CSerialComm::GetBytesWritten()
 {
@@ -74,7 +74,7 @@ DWORD CSerialComm::GetBytesWritten()
 ///////////////////////////////////////////////////////
 // Function name	: CSerialComm::ReadByte
 // Description	    : Reads a byte from the selected port
-// Return type		: BOOL 
+// Return type		: BOOL
 // Argument         : BYTE& by
 ///////////////////////////////////////////////////////
 BOOL CSerialComm::ReadByte(UCHAR& by)
@@ -100,7 +100,7 @@ int  CSerialComm::ReadData (unsigned char *buf, int nchars)
 	busyflag = true;
 	retval = ReadFile(hComm, buf, nchars, &dwRead, NULL);
 	busyflag = false;
-	if (!retval) 
+	if (!retval)
 		return 0;
 	return (int) dwRead;
 }
@@ -110,11 +110,11 @@ int CSerialComm::ReadChars (unsigned char *buf, int nchars, int msec)
 	if (msec) Sleep(msec);
 	return ReadData (buf, nchars);
 }
-	
+
 ///////////////////////////////////////////////////////
 // Function name	: CSerialComm::WriteByte
 // Description	    : Writes a Byte to teh selected port
-// Return type		: BOOL 
+// Return type		: BOOL
 // Argument         : BYTE by
 ///////////////////////////////////////////////////////
 BOOL CSerialComm::WriteByte(UCHAR by)
@@ -129,12 +129,12 @@ BOOL CSerialComm::WriteByte(UCHAR by)
 ///////////////////////////////////////////////////////
 // Function name	: CSerialComm::WriteBuffer
 // Description	    : Writes a string to the selected port
-// Return type		: BOOL 
+// Return type		: BOOL
 // Argument         : BYTE by
 ///////////////////////////////////////////////////////
 int CSerialComm::WriteBuffer(unsigned char *buff, int n)
 {
-	if (!hComm) 
+	if (!hComm)
 		return 0;
 	busyflag = true;
 	WriteFile (hComm, buff, n, &nBytesWritten, NULL);
@@ -146,7 +146,7 @@ int CSerialComm::WriteBuffer(unsigned char *buff, int n)
 ///////////////////////////////////////////////////////
 // Function name	: CSerialComm::SetCommunicationTimeouts
 // Description	    : Sets the timeout for the selected port
-// Return type		: BOOL 
+// Return type		: BOOL
 // Argument         : DWORD ReadIntervalTimeout
 // Argument         : DWORD ReadTotalTimeoutMultiplier
 // Argument         : DWORD ReadTotalTimeoutConstant
@@ -170,14 +170,14 @@ BOOL CSerialComm::SetCommunicationTimeouts(
 	CommTimeouts.ReadTotalTimeoutConstant = ReadTotalTimeoutConstant;
 	CommTimeouts.WriteTotalTimeoutConstant = WriteTotalTimeoutConstant;
 	CommTimeouts.WriteTotalTimeoutMultiplier = WriteTotalTimeoutMultiplier;
-	
+
 	bPortReady = SetCommTimeouts (hComm, &CommTimeouts);
-	
-	if(bPortReady ==0) { 
+
+	if(bPortReady ==0) {
 		CloseHandle(hComm);
 		return FALSE;
 	}
-		
+
 	return TRUE;
 }
 
@@ -189,17 +189,17 @@ BOOL CSerialComm::SetCommTimeout() {
 ///////////////////////////////////////////////////////
 // Function name	: ConfigurePort
 // Description	    : Configures the Port
-// Return type		: BOOL 
+// Return type		: BOOL
 // Argument         : DWORD BaudRate
 // Argument         : BYTE ByteSize
 // Argument         : DWORD fParity
 // Argument         : BYTE  Parity
 // Argument         : BYTE StopBits
 ///////////////////////////////////////////////////////
-BOOL CSerialComm::ConfigurePort(DWORD	BaudRate, 
-								BYTE	ByteSize, 
-								DWORD	dwParity, 
-								BYTE	Parity, 
+BOOL CSerialComm::ConfigurePort(DWORD	BaudRate,
+								BYTE	ByteSize,
+								DWORD	dwParity,
+								BYTE	Parity,
 								BYTE	StopBits)
 {
 	if((bPortReady = GetCommState(hComm, &dcb))==0) {
@@ -249,13 +249,13 @@ CSerialComm::CSerialComm() {
 }
 
 CSerialComm::~CSerialComm() {
-	ClosePort(); 
+	ClosePort();
 }
 
 ///////////////////////////////////////////////////////
 // Function name	: CSerialComm::OpenPort
 // Description	    : Opens the port specified by strPortName
-// Return type		: BOOL 
+// Return type		: BOOL
 // Argument         : CString strPortName
 ///////////////////////////////////////////////////////
 bool CSerialComm::OpenPort(char * szPort, int baud)  {
@@ -265,10 +265,10 @@ bool CSerialComm::OpenPort(char * szPort, int baud)  {
 		return false;
 // save current port settings
 	tcgetattr (fd, &oldtio);
-	
+
 	int tioarg = TIOCM_RTS | TIOCM_DTR;
 	ioctl(fd, TIOCMBIC, &tioarg);
-	
+
 	bzero (&newtio, sizeof(newtio));
 	newtio.c_cflag = baud | CS8 | CLOCAL | CREAD;
 	newtio.c_iflag = IGNPAR;
@@ -277,10 +277,10 @@ bool CSerialComm::OpenPort(char * szPort, int baud)  {
 	newtio.c_lflag = 0;
 	newtio.c_cc[VTIME] = 0;
 	newtio.c_cc[VMIN] = 0;
-	
+
 	tcflush (fd, TCIFLUSH);
 	tcsetattr (fd, TCSANOW, &newtio);
-	
+
 	return true;
 }
 
@@ -288,13 +288,13 @@ bool CSerialComm::OpenPort(char * szPort, int baud)  {
 ///////////////////////////////////////////////////////
 // Function name	: CSerialComm::ClosePort
 // Description	    : Closes the Port
-// Return type		: void 
+// Return type		: void
 ///////////////////////////////////////////////////////
 void CSerialComm::ClosePort()
 {
 //	int tioarg = TIOCM_RTS | TIOCM_DTR;
-	if (!fd) return;
-// release the RTS & DTR signal lines just in case it was the rig control port	
+	if (fd < 0) return;
+// release the RTS & DTR signal lines just in case it was the rig control port
 //	ioctl(fd, TIOCMBIC, &tioarg);
 	tcsetattr (fd, TCSANOW, &oldtio);
 	close(fd);
@@ -307,6 +307,7 @@ bool  CSerialComm::IOselect ()
 	struct timeval tv;
 	int retval;
 
+	if (fd < 0) return false;
 	FD_ZERO (&rfds);
 	FD_SET (fd, &rfds);
 	tv.tv_sec = timeout/1000;
@@ -321,12 +322,12 @@ bool  CSerialComm::IOselect ()
 ///////////////////////////////////////////////////////
 // Function name	: CSerialComm::ReadBuffer
 // Description	    : Reads upto nchars from the selected port
-// Return type		: # characters received 
+// Return type		: # characters received
 // Argument         : pointer to buffer; # chars to read
 ///////////////////////////////////////////////////////
 int  CSerialComm::ReadBuffer (unsigned char *buf, int nchars)
 {
-	if (!fd) return 0;
+	if (fd < 0) return 0;
 	int retnum, nread = 0;
 	while (nchars > 0) {
 		if (!IOselect()) {
@@ -339,20 +340,19 @@ int  CSerialComm::ReadBuffer (unsigned char *buf, int nchars)
 		}
 		nread += retnum;
 		nchars -= retnum;
-	}	
+	}
 	return nread;
 }
 
 ///////////////////////////////////////////////////////
 // Function name	: CSerialComm::WriteBuffer
 // Description	    : Writes a string to the selected port
-// Return type		: BOOL 
+// Return type		: BOOL
 // Argument         : BYTE by
 ///////////////////////////////////////////////////////
 int CSerialComm::WriteBuffer(unsigned char *buff, int n)
 {
-	if (!fd) 
-		return 0;
+	if (fd < 0) return 0;
 	busyflag = true;
 	int ret = write (fd, buff, n);
 	busyflag = false;
@@ -366,7 +366,7 @@ int CSerialComm::WriteBuffer(unsigned char *buff, int n)
 ///////////////////////////////////////////////////////
 void CSerialComm::FlushBuffer()
 {
-	if (!fd) return;
+	if (fd < 0) return;
 	tcflush (fd, TCIFLUSH);
 }
 
