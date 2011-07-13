@@ -49,6 +49,7 @@ extern Fl_Button *btnSmeter;
 extern Fl_SigBar *sldrRcvSignal;
 extern Fl_Button *btnPower;
 extern Fl_SigBar *sldrFwdPwr;
+extern Fl_Box *boxSWR;
 extern Fl_SigBar *sldrRefPwr;
 extern Fl_Box *boxSquelch;
 extern Fl_Button *btn_show_controls;

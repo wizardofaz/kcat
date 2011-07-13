@@ -1253,8 +1253,8 @@ void setColors()
 	btnPower->color(bgclr, bgclr);
 	btnPower->labelcolor(fgclr);
 
-//	btnSWR->color(bgclr, bgclr);
-//	btnSWR->labelcolor(fgclr);
+	boxSWR->color(bgclr, bgclr);
+	boxSWR->labelcolor(fgclr);
 
 	sldrFwdPwr->color(fl_rgb_color (pwrRed, pwrGreen, pwrBlue), bgclr);
 	sldrFwdPwr->PeakColor(fl_rgb_color(peakRed, peakGreen, peakBlue));

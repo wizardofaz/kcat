@@ -584,7 +584,7 @@ void setPower()
 	Fl_Image *img = btnPower->image();
 
 	setXcvrPower(pwr);
-	if ((img != &image_alc) && (img != &image_swr))
+	if ((img != &image_alc))
 		setPowerImage(pwr);
 }
 
@@ -665,8 +665,6 @@ void updateALC(int data)
 {
 	Fl_Image *img = btnPower->image();
 	if (img == &image_alc) {
-		sldrFwdPwr->show();
-		sldrRefPwr->hide();
 		sldrFwdPwr->value(data * 1.0);
 		sldrFwdPwr->redraw();
 	}
@@ -681,9 +679,7 @@ void updateFwdPwr(int data)
 	fp_ = 2 * data;
 	double power = xcvrState.MAXPWR * fp_ / 99.0;
 	Fl_Image *img = btnPower->image();
-	if (img != &image_alc && img != &image_swr) {
-		sldrFwdPwr->show();
-		sldrRefPwr->hide();
+	if (img != &image_alc) {
 		sldrFwdPwr->value(power);
 		sldrFwdPwr->redraw();
 	}
@@ -693,13 +689,8 @@ void updateFwdPwr(int data)
 void updateRefPwr(int data)
 {
 	rp_ = 2 * data;
-	Fl_Image *img = btnPower->image();
-	if (img == &image_swr) {
-		sldrRefPwr->show();
-		sldrFwdPwr->hide();
-		sldrRefPwr->value(rp_); // 0 - 50 scale;
-		sldrRefPwr->redraw();
-	}
+	sldrRefPwr->value(rp_); // 0 - 50 scale;
+	sldrRefPwr->redraw();
 	LOG_DEBUG("%d", data);
 }
 
@@ -834,8 +825,6 @@ void cbPWR()
 {
 	Fl_Image *img = btnPower->image();
 	if (img == &image_alc) {
-		btnPower->image(image_swr);
-	} else if (img == &image_swr) {
 		setPowerImage(sldrPOWER->value());
 	} else {
 		btnPower->image(image_alc);
