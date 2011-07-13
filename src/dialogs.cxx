@@ -1,3 +1,28 @@
+#include <FL/Fl.H>
+#include <FL/x.H>
+#include <FL/fl_draw.H>
+
+#include <string>
+
+#include <iostream>
+
+using namespace std;
+
+#include <stdio.h>
+#include <unistd.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#ifndef __WIN32__
+#include <fcntl.h>
+#include <sys/ioctl.h>
+#include <sys/time.h>
+#include <termios.h>
+#endif
+
+#ifdef __APPLE__
+#  include <glob.h>
+#endif
+
 #include "dialogs.h"
 #include "debug.h"
 #include "font_browser.h"
@@ -7,7 +32,6 @@ Fl_Double_Window *dlgFreqCalib = NULL;
 Fl_Double_Window *dlgAntPorts  = NULL;
 Fl_Double_Window *dlgDisplayConfig = NULL;
 Fl_Double_Window *dlgCommsConfig = NULL;
-Fl_Double_Window *dlgViewLog = NULL;
 Fl_Double_Window *dlgNRAM = NULL;
 Font_Browser     *fntbrowser = NULL;
 
@@ -299,83 +323,228 @@ void  cbmnuAntPorts()
 }
 
 
-//==============================================================
+//======================================================================
 // Comm port dialog
-
+//======================================================================
+#define COMMPORT_TABLESIZE 20
 struct CPT {
-  int nbr;
   char *szPort;
-  } commPortTable[12];
+  } commPortTable[COMMPORT_TABLESIZE];
 
 
 int  commportnbr = 0;
 int  iNbrCommPorts  = 0;
 char szCommPorts[512];
 char szttyport[20] = "";
+bool commport_table_empty = true;
 
 bool waitfordialog = false;
 
-void initCommPortTable () {
-#ifdef WIN32
-  char szTestPort[] = "COMxx";
-  for (int i = 0; i < 12; i++) {
-    commPortTable[i].nbr = 0;
-    commPortTable[i].szPort = 0;
-  }
-  commPortTable[0].szPort = new char(6);
-  strcpy(commPortTable[0].szPort,"TEST");
-  strcpy(szCommPorts,"TEST");
-  iNbrCommPorts = 0;
-  for (int i = 1; i < 12; i++) {
-	sprintf(szTestPort, "COM%d", i);
-    if (kcatSerial.OpenPort (szTestPort) == true) {
-      iNbrCommPorts++;
-      commPortTable[iNbrCommPorts].szPort = new char(strlen(szTestPort)+1);
-      commPortTable[iNbrCommPorts].nbr = i;
-      strcpy(commPortTable[iNbrCommPorts].szPort, szTestPort);
-      strcat(szCommPorts,"|");
-      strcat(szCommPorts, szTestPort);
-    }
-	kcatSerial.ClosePort();
-  }
-#else
-  char szTestPort[] = "ttySx";
-  char szTestUSB[] = "ttyUSBx";
-  for (int i = 0; i < 8; i++) {
-    commPortTable[i].nbr = 0;
-    commPortTable[i].szPort = 0;
-  }
-  commPortTable[0].szPort = new char(6);
-  strcpy(commPortTable[0].szPort,"TEST");
-  strcpy(szCommPorts,"TEST");
-  iNbrCommPorts = 0;
-  for (int i = 1; i < 8; i++) {
-    szTestPort[4] = '0' + i - 1;
-    szTestUSB[6] = '0' + i - 1;
-    if (kcatSerial.OpenPort (szTestPort) == true) {
-      iNbrCommPorts++;
-      commPortTable[iNbrCommPorts].szPort = new char(6);
-      commPortTable[iNbrCommPorts].nbr = i;
-      strcpy(commPortTable[iNbrCommPorts].szPort, szTestPort);
-      strcat(szCommPorts,"|");
-      strcat(szCommPorts, szTestPort);
-    }
-  }
-  int j = 0;
-  for (int k = iNbrCommPorts; k < 8; k++, j++) {
-    szTestUSB[6] = '0' + j - 1;
-    if (kcatSerial.OpenPort (szTestUSB) == true) {
-      iNbrCommPorts++;
-      commPortTable[iNbrCommPorts].szPort = new char(6);
-      commPortTable[iNbrCommPorts].nbr = j + 8;
-      strcpy(commPortTable[iNbrCommPorts].szPort, szTestUSB);
-      strcat(szCommPorts,"|");
-      strcat(szCommPorts, szTestUSB);
-    }
-	kcatSerial.ClosePort();
-  }
-#endif
+void clear_combos()
+{
+	for (int i = 0; i < COMMPORT_TABLESIZE; i++) {
+		commPortTable[i].szPort = 0;
+	}
+	commPortTable[0].szPort = new char(6);
+	strcpy(commPortTable[0].szPort,"TEST");
+	strcpy(szCommPorts,"TEST");
+	iNbrCommPorts = 0;
 }
+
+void add_combos(char *port)
+{
+	iNbrCommPorts++;
+	if (iNbrCommPorts >= COMMPORT_TABLESIZE) return;
+
+	commPortTable[iNbrCommPorts].szPort = new char(strlen(port)+1);
+	strcpy(commPortTable[iNbrCommPorts].szPort, port);
+	strcat(szCommPorts,"|");
+	strcat(szCommPorts, port);
+}
+
+//======================================================================
+// WIN32 init_port_combos
+//======================================================================
+
+#ifdef __WIN32__
+static bool open_serial(const char* dev)
+{
+	bool ret = false;
+	HANDLE fd = CreateFile(dev, GENERIC_READ | GENERIC_WRITE, 0, 0, OPEN_EXISTING, 0, 0);
+	if (fd != INVALID_HANDLE_VALUE) {
+		CloseHandle(fd);
+		ret = true;
+	}
+	return ret;
+}
+
+#  define TTY_MAX 255
+void initCommPortTable()
+{
+	clear_combos();
+
+	char ttyname[21];
+	const char tty_fmt[] = "//./COM%u";
+
+	for (unsigned j = 0; j < TTY_MAX; j++) {
+		snprintf(ttyname, sizeof(ttyname), tty_fmt, j);
+		if (!open_serial(ttyname))
+			continue;
+		snprintf(ttyname, sizeof(ttyname), "COM%u", j);
+		LOG_WARN("Found serial port %s", ttyname);
+		add_combos(ttyname);
+	}
+}
+#endif //__WIN32__
+
+//======================================================================
+// Linux init_port_combos
+//======================================================================
+
+#ifdef __linux__
+#ifndef PATH_MAX
+#  define PATH_MAX 1024
+#endif
+#  define TTY_MAX 8
+
+void initCommPortTable()
+{
+	struct stat st;
+	char ttyname[PATH_MAX + 1];
+/*
+	int retval;
+	bool ret = false;
+	DIR* sys = NULL;
+	char cwd[PATH_MAX] = { '.', '\0' };
+
+	clear_combos();
+
+	if (getcwd(cwd, sizeof(cwd)) == NULL) goto out;
+	if (chdir("/sys/class/tty") == -1) goto out;
+	if ((sys = opendir(".")) == NULL) goto out;
+
+	ssize_t len;
+	struct dirent* dp;
+
+	LOG_WARN("%s", "Searching /sys/class/tty/");
+
+	while ((dp = readdir(sys))) {
+#  ifdef _DIRENT_HAVE_D_TYPE
+		if (dp->d_type != DT_LNK)
+			continue;
+#  endif
+		if ((len = readlink(dp->d_name, ttyname, sizeof(ttyname)-1)) == -1)
+			continue;
+		ttyname[len] = '\0';
+		if (!strstr(ttyname, "/devices/virtual/")) {
+			snprintf(ttyname, sizeof(ttyname), "/dev/%s", dp->d_name);
+			if (stat(ttyname, &st) == -1 || !S_ISCHR(st.st_mode))
+				continue;
+			LOG_WARN("Found serial port %s", ttyname);
+			add_combos(ttyname);
+			ret = true;
+		}
+	}
+
+out:
+	if (sys)
+		closedir(sys);
+	retval = chdir(cwd);
+	if (ret) // do we need to fall back to the probe code below?
+		return;
+*/
+// yes the above does not work correctly on Ubuntu 11.10
+
+	clear_combos();
+
+	const char* tty_fmt[] = {
+		"/dev/ttyS%u",
+		"/dev/ttyUSB%u",
+		"/dev/usb/ttyUSB%u"
+	};
+	LOG_WARN("%s", "Serial port discovery via 'stat'");
+	for (size_t i = 0; i < sizeof(tty_fmt)/sizeof(*tty_fmt); i++) {
+		for (unsigned j = 0; j < TTY_MAX; j++) {
+			snprintf(ttyname, sizeof(ttyname), tty_fmt[i], j);
+			if ( !(stat(ttyname, &st) == 0 && S_ISCHR(st.st_mode)) )
+				continue;
+
+			LOG_WARN("Found serial port %s", ttyname);
+			add_combos(ttyname);
+		}
+	}
+
+}
+#endif // __linux__
+
+//======================================================================
+// APPLE init_port_combos
+//======================================================================
+
+#ifdef __APPLE__
+#ifndef PATH_MAX
+#  define PATH_MAX 1024
+#endif
+
+void initCommPortTable()
+{
+	clear_combos();
+
+	struct stat st;
+
+	const char* tty_fmt[] = {
+		"/dev/cu.*",
+		"/dev/tty.*"
+	};
+
+	glob_t gbuf;
+
+	for (size_t i = 0; i < sizeof(tty_fmt)/sizeof(*tty_fmt); i++) {
+		glob(tty_fmt[i], 0, NULL, &gbuf);
+		for (size_t j = 0; j < gbuf.gl_pathc; j++) {
+			if ( !(stat(gbuf.gl_pathv[j], &st) == 0 && S_ISCHR(st.st_mode)) ||
+			     strstr(gbuf.gl_pathv[j], "modem") )
+				continue;
+			LOG_WARN("Found serial port %s", gbuf.gl_pathv[j]);
+			add_combos(gbuf.gl_pathv[j]);
+		}
+		globfree(&gbuf);
+	}
+}
+#endif //__APPLE__
+
+//======================================================================
+// FreeBSD init_port_combos
+//======================================================================
+
+#ifdef __FreeBSD__
+#ifndef PATH_MAX
+#  define PATH_MAX 1024
+#endif
+#  define TTY_MAX 8
+
+void initCommPortTable()
+{
+	int retval;
+	struct stat st;
+	char ttyname[PATH_MAX + 1];
+	const char* tty_fmt[] = {
+		"/dev/ttyd%u"
+	};
+
+	clear_combos();
+
+	for (size_t i = 0; i < sizeof(tty_fmt)/sizeof(*tty_fmt); i++) {
+		for (unsigned j = 0; j < TTY_MAX; j++) {
+			snprintf(ttyname, sizeof(ttyname), tty_fmt[i], j);
+			if ( !(stat(ttyname, &st) == 0 && S_ISCHR(st.st_mode)) )
+				continue;
+			LOG_WARN("Found serial port %s", ttyname);
+			add_combos(ttyname);
+		}
+	}
+}
+#endif //__FreeBSD__
 
 void cbOkCommsDialog()
 {
@@ -383,7 +552,19 @@ void cbOkCommsDialog()
 	waitfordialog = false;
 	commportnbr = selectCommPort->value();
 	xcvrState.ttyport =  commPortTable[commportnbr].szPort;
-	if (xcvrState.ttyport == "TEST") testing = true;
+	if (xcvrState.ttyport == "TEST") {
+		testing = true;
+		kcatSerial.ClosePort();
+	} else {
+		testing = false;
+		if (startComms(xcvrState.ttyport.c_str(), 9600) == 0) {
+			fl_message("%s not available", xcvrState.ttyport.c_str());
+			testing = true;
+		} else
+			initkcat();
+	}
+
+
 }
 
 
@@ -391,40 +572,17 @@ void setCommsPort()
 {
 	if (dlgCommsConfig == NULL)
 		dlgCommsConfig = CommsDialog();
-	initCommPortTable();
-	selectCommPort->clear();
-	selectCommPort->add(szCommPorts);
+	if (commport_table_empty) {
+		initCommPortTable();
+		selectCommPort->clear();
+		selectCommPort->add(szCommPorts);
+		commport_table_empty = false;
+	}
+	commportnbr = 0;
 	selectCommPort->value(commportnbr);
 	waitfordialog = true;
 	dlgCommsConfig->show();
 	while (waitfordialog) Fl::wait();
-}
-
-// Log Viewer
-
-static Fl_Text_Buffer txtBuffer;
-void openLogViewer()
-{
-	if (!dlgViewLog) {
-		dlgViewLog = ViewLogDialog();
-		txtViewLog->buffer(&txtBuffer);
-	}
-}
-
-void closeLogViewer()
-{
-	if (dlgViewLog)
-		dlgViewLog->hide();
-}
-
-void cbViewLog()
-{
-	int dlgshow = mnuViewLog->value();
-	if (!dlgViewLog) openLogViewer();
-	if (dlgshow)
-		dlgViewLog->show();
-	else
-		dlgViewLog->hide();
 }
 
 // NRAM Dialog

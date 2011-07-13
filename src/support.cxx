@@ -56,11 +56,6 @@ stANTPORT antports[LISTSIZE] = {
 int numantports = 9;
 
 CSerialComm kcatSerial;
-#ifdef WIN32
-	int baudttyport = CBR_9600;
-#else
-	int baudttyport = B9600;
-#endif
 
 bool rx_on_a = true;
 bool tx_on_a = true;
@@ -78,14 +73,9 @@ char *print(FREQMODE data)
 
 void initkcat()
 {
-	dlgAntPorts  = FreqRangesDialog();
+	if (!dlgAntPorts)
+		dlgAntPorts  = FreqRangesDialog();
 
-	if (test) {
-		mnuViewLog->show();
-		openLogViewer();
-		OpenTestLog();
-	} else
-		mnuViewLog->hide();
 	GetKachinaVersion();
 	initXcvrState();
 }
@@ -887,10 +877,10 @@ void GetKachinaVersion()
 		bool dataok = RequestData (cmdK_RSER, buffer, 10);
 		if (!dataok) {
 			const char errmsg[] = "KC505 not responding!";
-			LOG_ERROR("%s", errmsg);
 			fl_message("%s", errmsg);
-			perror(errmsg);
-			exit(EXIT_FAILURE);
+			testing = true;
+			kcatSerial.ClosePort();
+			return;
 		}
 		RigSerNbr = (((buffer[0]*256 + buffer[1])*256) + buffer[2])*256 + buffer[3];
 		RigFirm[0] = buffer[6]; RigFirm[1] = buffer[7];
@@ -930,29 +920,6 @@ RigHard[0], RigHard[1]);
 
 
 // TEST results logger
-FILE *fTestLog = 0;
-const char *fTestLogName = "kcatTest.log";
-
-void OpenTestLog()
-{
-	fTestLog = fopen(fTestLogName,"w");
-}
-
-void CloseTestLog()
-{
-	if (fTestLog) fclose(fTestLog);
-}
-
-void writeTestLog( char *str)
-{
-	if (fTestLog)
-		fprintf(fTestLog,"%s", str);
-	if (dlgViewLog) {
-		txtViewLog->insert(str);
-		txtViewLog->show_insert_position();
-	}
-}
-
 // Utilities
 
 void cbClearAntData()
@@ -967,41 +934,50 @@ void cbClearAntData()
 
 bool exit_telemetry = false;
 
-void parseTelemetry(void *val)
+void parseTelemetry(void *)
 {
-	int data = (int)(reinterpret_cast<long> (val));
+	unsigned char data;
+	static int smeter_count = 7;
 
-	if (data < 130) { // receive telemetry
-		if (data < 128) // smeter
-			updateRcvSignal(data);
-		else if (data == 128 || data == 129) // squelch
-			updateSquelch(data);
-	} else if (data < 215) { // transmit telemetry
-		if (data < 140) // ALC
-			updateALC(data - 130);
-		else if (data < 190) // forward power
-			updateFwdPwr(data - 140);
-		else if (data < 215)
-			updateRefPwr(data - 190);
+	while(commstack.pop(data)) {
+
+		if (data < 130) { // receive telemetry
+			if (data < 128) { // smeter
+				updateRcvSignal(data);
+				smeter_count = 7; // 
+			}
+			else if (data == 128 || data == 129) // squelch
+				updateSquelch(data);
+		} else if (data < 215) { // transmit telemetry
+			if (data < 140) // ALC
+				updateALC(data - 130);
+			else if (data < 190) // forward power
+				updateFwdPwr(data - 140);
+			else if (data < 215)
+				updateRefPwr(data - 190);
+		} else if (data == 215) // temperature alarm
+			setOverTempAlarm();
+		else if (data > 219 && data < 250) // temperature value
+			updateTempDisplay(data);
+		smeter_count--;
+		if (!smeter_count) {
+			smeter_count = 1;
+			zeroSmeter();
+		}
 	}
-	else if (data == 215) // temperature alarm
-		setOverTempAlarm();
-	else if (data > 219 && data < 250) // temperature value
-		updateTempDisplay(data);
-	Fl::flush();
 }
 
 void * telemetry_thread_loop(void *d)
 {
-	unsigned char buff;
+	char buff[20];
+	int num = 0;
 	for (;;) {
-		MilliSleep(50);
+		MilliSleep(10);
 		if (exit_telemetry) break;
-		while (commstack.pop(buff))
-			Fl::awake(parseTelemetry, (void *) buff);
-		if (!serial_busy)
-			if (kcatSerial.ReadBuffer (&buff, 1) == 1)
-				commstack.push(buff);
+		pthread_mutex_lock(&mutex_serial);
+			num = kcatSerial.ReadBuffer (buff, 1);
+		pthread_mutex_unlock(&mutex_serial);
+		if (num) commstack.push((unsigned char)buff[0]);
 	}
 	return NULL;
 }
@@ -1031,11 +1007,6 @@ void * watchdog_thread_loop(void *d)
 
 void startProcessing(void *d)
 {
-	if (startComms(xcvrState.ttyport.c_str(), baudttyport) == 0) {
-		fl_message("%s not available", xcvrState.ttyport.c_str());
-		exit(1);
-	}
-
 	watchdog_thread = new pthread_t;
 	if (pthread_create(watchdog_thread, NULL, watchdog_thread_loop, NULL)) {
 		perror("pthread_create watchdog");
@@ -1047,6 +1018,7 @@ void startProcessing(void *d)
 		perror("pthread_create telemetry");
 		exit(EXIT_FAILURE);
 	}
+	Fl::add_idle(parseTelemetry);
 
 	open_rig_xmlrpc();
 	xmlrpc_thread = new pthread_t;
@@ -1054,6 +1026,16 @@ void startProcessing(void *d)
 		perror("pthread_create telemetry");
 		exit(EXIT_FAILURE);
 	}
+
+	if (!testing) {
+		if (startComms(xcvrState.ttyport.c_str(), 9600) == 0) {
+			fl_message("%s not available", xcvrState.ttyport.c_str());
+			testing = true;
+		}
+	} else
+		fl_message("\
+Executing in test mode\n\
+Select serial port 'Config / Select port'");
 
 	initkcat();
 	setInhibits();
@@ -1082,10 +1064,11 @@ void cbExit()
 	send_no_rig();
 	close_rig_xmlrpc();
 
-	kcatSerial.ClosePort();
+	if (!testing)
+		kcatSerial.ClosePort();
+
 	saveState();
-	if (test)
-		CloseTestLog();
+
 	exit(0);
 }
 

@@ -99,11 +99,11 @@ extern Fl_Menu_Item menu_[];
 #define mnuOpen (menu_+1)
 #define mnuSave (menu_+2)
 #define mnuExit (menu_+3)
-#define mnuViewLog (menu_+4)
-#define mnuConfig (menu_+6)
-#define mnuPreferences (menu_+7)
-#define mnuAntPorts (menu_+8)
-#define mnuTooltips (menu_+9)
+#define mnuConfig (menu_+5)
+#define mnuTooltips (menu_+6)
+#define mnuAntPorts (menu_+7)
+#define mnuPreferences (menu_+8)
+#define mnuSelectPort (menu_+9)
 #define mnuUtils (menu_+11)
 #define mnuAntImp (menu_+12)
 #define mnuFreqCal (menu_+13)
@@ -127,8 +127,6 @@ extern Fl_Button *btnDeleteAntRange;
 extern Fl_Return_Button *btnAntRangeDialogOK;
 Fl_Double_Window* FreqRangesDialog();
 #include <FL/Fl_Text_Display.H>
-extern Fl_Text_Display *txtViewLog;
-Fl_Double_Window* ViewLogDialog();
 extern Fl_Text_Display *txtDataDisp;
 extern Fl_Return_Button *btnNRAMok;
 extern Fl_Button *btnAntImpData;

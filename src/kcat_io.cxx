@@ -26,11 +26,7 @@ extern CSerialComm kcatSerial;
 #define ANTAB 0xC0 // 11000000
 
 #define MAXTRIES 2
-#ifdef WIN32
-#define LOOPS 20
-#else
-#define LOOPS 4
-#endif
+#define LOOPS 50
 
 static string cmd = "";
 
@@ -41,13 +37,16 @@ unsigned char modes[5] = {'0','1','2','3','4'}; // AM, CW, LSB, USB, FM
 bool startComms(const char *szPort, int baudrate)
 {
 	if (testing) return true;
-	if (kcatSerial.OpenPort((char *)szPort, baudrate) == false)
+	kcatSerial.Device(szPort);
+	kcatSerial.Baud(baudrate);
+	kcatSerial.Stopbits(1);
+	if (kcatSerial.OpenPort() == false)
 		return false;
-	kcatSerial.Timeout(50); // msec timeout for read from rig
+//	kcatSerial.Timeout(50); // msec timeout for read from rig
 	return true;
 }
 
-bool serial_busy = false;
+//bool serial_busy = false;
 
 bool sendCmd(string &str) {
 	return sendCommand( (char*)str.c_str());
@@ -63,10 +62,11 @@ bool sendCommand(char *str)
 	}
 	int len = str[0];
 	int nret, loopcnt;
+	bool ret = false;
 	unsigned char *sendbuff = new unsigned char(len+2);
 	unsigned char retbuff[3];
 
-	serial_busy = true;
+	pthread_mutex_lock(&mutex_serial);
 
 // create command string
 	sendbuff[0] = STX;
@@ -75,30 +75,31 @@ bool sendCommand(char *str)
 	len += 2;
 
 	for (int i = 0; i < MAXTRIES; i++) {
-		nret = kcatSerial.WriteBuffer (sendbuff, len);
+		nret = kcatSerial.WriteBuffer ((const char *)sendbuff, len);
 		if (nret != len)
 			continue; // write error, retry
 		loopcnt = 0;
 		do  {
 			memset(retbuff, 0, 3);
-			nret = kcatSerial.ReadBuffer (retbuff, 1);
-			if (retbuff[0] == 0xFF) { // kcat accepted the command
+			nret = kcatSerial.ReadBuffer ((char *)retbuff, 1);
+			if (retbuff[0] == 0xFF) { // 505 accepted the command
 				retval = "OK";
-				serial_busy = false;
-				delete [] sendbuff;
-				return true;
+				ret = true;
+				goto cmddone;
 			}
-			if (retbuff[0] == 0xFE) { // kcat rejected the command
+			if (retbuff[0] == 0xFE) { // 505 rejected the command
 				retval = "REJ";
+				goto cmddone;
 				break;
 			}
 			commstack.push(retbuff[0]); // telemetry data
 		} while (++loopcnt < LOOPS);
 	}
-	serial_busy = false;
 	retval = "FAIL";
+cmddone:
 	delete [] sendbuff;
-	return false;
+	pthread_mutex_unlock(&mutex_serial);
+	return ret;
 }
 
 bool RequestData (char *cmd, unsigned char *buff, int nbr)
@@ -109,11 +110,12 @@ bool RequestData (char *cmd, unsigned char *buff, int nbr)
 	}
 	int len = cmd[0];
 	int nret, loopcnt;
+	bool ret = false;
 	unsigned char *sendbuff = new unsigned char(len+2);
 	unsigned char retbuff[3];
 	char szTemp[10];
 
-	serial_busy = true;
+	pthread_mutex_lock(&mutex_serial);
 
 // create command string
 	sendbuff[0] = STX;
@@ -123,35 +125,35 @@ bool RequestData (char *cmd, unsigned char *buff, int nbr)
 
 	retval.clear();
 	for (int i = 0; i < MAXTRIES; i++) {
-		nret = kcatSerial.WriteBuffer (sendbuff, len);
+		nret = kcatSerial.WriteBuffer ((const char *)sendbuff, len);
 		if (nret != len)
 			continue; // write error, retry
 		loopcnt = 0;
 		do  {
 			memset(retbuff, 0, 3);
-			nret = kcatSerial.ReadBuffer (retbuff, 1);
+			nret = kcatSerial.ReadBuffer ((char *)retbuff, 1);
 			if (retbuff[0] == 0xFD) { // kcat is sending the data
-				kcatSerial.ReadBuffer (buff, nbr);
+				kcatSerial.ReadBuffer ((char *)buff, nbr);
 				for (int i = 0; i < nbr; i++) {
 					snprintf(szTemp, sizeof(szTemp), " %02X", buff[i]);
 					retval.append(szTemp);
 					if (i != 0 && !(i%16)) retval.append("\n");
 				}
-				serial_busy = false;
-				delete [] sendbuff;
-				return true;
+				ret = true;
+				goto reqdone;
 			}
 			if (retbuff[0] == 0xFE) { // 505 rejected the command
 				retval = "REJ";
-				break;
+				goto reqdone;
 			}
 			commstack.push(retbuff[0]); // telemetry data
 		} while (++loopcnt < LOOPS);
 	}
-	serial_busy = false;
 	retval = "FAIL";
+reqdone:
 	delete [] sendbuff;
-	return false;
+	pthread_mutex_unlock(&mutex_serial);
+	return ret;
 }
 
 #include <FL/Fl_Check_Button.H>

@@ -1,5 +1,15 @@
-2011-07-09  David Freese  <w1hkj@w1hkj.com>
+2011-07-13  David Freese  <w1hkj@w1hkj.com>
 
+	2c55969: Serial i/o
+	3072ca2: Icon xpm
+	0647f32: Serial port
+	90ce63a: Pixmaps
+	cb884c5: Serial Port naming
+	af02764: Tooltips
+	1f6cfe2: KC505 no response
+	73bf6cd: On-line help
+	a2c2440: Name changes
+	054bd24: Monitor
 	75353ee: SndCmd usage
 	2c219a4: Termination Handler
 	cbc2aa3: XMLRPC Debug

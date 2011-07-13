@@ -13,8 +13,7 @@ decl {\#include "support.h"} {}
 
 decl {\#include "status.h"} {} 
 
-Function {kcat_window()} {open
-} {
+Function {kcat_window()} {} {
   Fl_Window {} {
     label kcat open
     xywh {623 170 495 355} type Double color 51
@@ -42,26 +41,11 @@ Function {kcat_window()} {open
           callback {cbExit();}
           xywh {10 10 100 20} divider
         }
-        MenuItem mnuViewLog {
-          label {View Log}
-          callback {cbViewLog();}
-          xywh {5 5 100 20} type Toggle
-        }
       }
       Submenu mnuConfig {
         label {&Config} open
         xywh {10 10 100 20}
       } {
-        MenuItem mnuPreferences {
-          label {&Display Colors}
-          callback {setDisplayColors();}
-          tooltip {Colors - Freq Disp; Smeter; Pout; SWR} xywh {15 15 100 20}
-        }
-        MenuItem mnuAntPorts {
-          label {Antenna Ports}
-          callback {cbmnuAntPorts();}
-          tooltip {Specify frequency / ant. port Pairs} xywh {0 0 100 20} divider
-        }
         MenuItem mnuTooltips {
           label Tooltips
           callback {xcvrState.tooltips=mnuTooltips->value();
@@ -69,6 +53,21 @@ Fl_Tooltip::enable(xcvrState.tooltips);}
           xywh {0 0 36 21} type Toggle divider
           code0 {\#include <FL/Fl_Tooltip.H>}
           code1 {xcvrState.tooltips ? o->set() :o->clear();}
+        }
+        MenuItem mnuAntPorts {
+          label {Antenna Ports}
+          callback {cbmnuAntPorts();}
+          tooltip {Specify frequency / ant. port Pairs} xywh {0 0 100 20}
+        }
+        MenuItem mnuPreferences {
+          label {&Display Colors}
+          callback {setDisplayColors();}
+          tooltip {Colors - Freq Disp; Smeter; Pout; SWR} xywh {15 15 100 20} divider
+        }
+        MenuItem mnuSelectPort {
+          label {Serial Port}
+          callback {setCommsPort();}
+          tooltip {Select serial port} xywh {0 0 36 21} divider
         }
       }
       Submenu mnuUtils {
@@ -278,7 +277,7 @@ selectFreq();}
         class Fl_SigBar
       }
       Fl_Button btnPower {
-        callback {cbPWR();} selected
+        callback {cbPWR();}
         tooltip {Click - FWD / ALC / SWR} xywh {453 73 25 200} box FLAT_BOX down_box FLAT_BOX color 48 selection_color 48 align 16
         code0 {o->image(image_p150);}
       }
@@ -507,23 +506,25 @@ cbSQLtype();}
   }
 } 
 
-Function {CommsDialog()} {} {
+Function {CommsDialog()} {open
+} {
   Fl_Window {} {
     label Select open
-    xywh {580 583 323 104} type Double box UP_BOX hide modal
+    xywh {106 753 323 104} type Double box UP_BOX modal visible
   } {
     Fl_Choice selectCommPort {
       label {Port:} open
-      xywh {30 50 105 21} down_box BORDER_BOX align 5
+      xywh {34 60 175 21} down_box BORDER_BOX align 5
     } {}
     Fl_Return_Button btnOkCommsDialog {
       label OK
       callback {cbOkCommsDialog();}
-      xywh {174 50 105 21}
+      xywh {218 60 68 21}
     }
     Fl_Box {} {
-      label {Select the KC505 serial port}
-      xywh {5 11 312 17}
+      label {Select the KC505 serial port
+Use TEST for a testdrive}
+      xywh {5 3 312 41}
     }
   }
 } 
@@ -578,17 +579,6 @@ else btnXmtAnt->label("A");}
     Fl_Box {} {
       label {Freq kHz}
       xywh {1 5 75 20}
-    }
-  }
-} 
-
-Function {ViewLogDialog()} {} {
-  Fl_Window {} {
-    label {Serial Log} open
-    xywh {483 408 500 130} type Double hide
-  } {
-    Fl_Text_Display txtViewLog {
-      xywh {0 0 500 130} textfont 13 textsize 12
     }
   }
 } 

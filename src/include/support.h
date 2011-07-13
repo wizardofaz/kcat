@@ -97,9 +97,6 @@ extern void cbPWR();
 extern void cbMute();
 extern void cbTemp();
 extern void GetKachinaVersion();
-extern void OpenTestLog();
-extern void CloseTestLog();
-extern void writeTestLog( char *str);
 
 extern void cb_vfo_adj();
 

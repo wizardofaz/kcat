@@ -4,7 +4,7 @@
 #include <string>
 #include "cstack.h"
 
-extern bool serial_busy;
+//extern bool serial_busy;
 
 extern std::string retval;
 

@@ -19,21 +19,21 @@ static void cb_mnuExit(Fl_Menu_*, void*) {
   cbExit();
 }
 
-static void cb_mnuViewLog(Fl_Menu_*, void*) {
-  cbViewLog();
-}
-
-static void cb_mnuPreferences(Fl_Menu_*, void*) {
-  setDisplayColors();
+static void cb_mnuTooltips(Fl_Menu_*, void*) {
+  xcvrState.tooltips=mnuTooltips->value();
+Fl_Tooltip::enable(xcvrState.tooltips);
 }
 
 static void cb_mnuAntPorts(Fl_Menu_*, void*) {
   cbmnuAntPorts();
 }
 
-static void cb_mnuTooltips(Fl_Menu_*, void*) {
-  xcvrState.tooltips=mnuTooltips->value();
-Fl_Tooltip::enable(xcvrState.tooltips);
+static void cb_mnuPreferences(Fl_Menu_*, void*) {
+  setDisplayColors();
+}
+
+static void cb_mnuSelectPort(Fl_Menu_*, void*) {
+  setCommsPort();
 }
 
 static void cb_mnuFreqCal(Fl_Menu_*, void*) {
@@ -65,12 +65,12 @@ Fl_Menu_Item menu_[] = {
  {_("&Open"), 0,  (Fl_Callback*)cb_mnuOpen, 0, 0, FL_NORMAL_LABEL, 0, 14, 0},
  {_("&Save"), 0,  (Fl_Callback*)cb_mnuSave, 0, 128, FL_NORMAL_LABEL, 0, 14, 0},
  {_("E&xit"), 0,  (Fl_Callback*)cb_mnuExit, 0, 128, FL_NORMAL_LABEL, 0, 14, 0},
- {_("View Log"), 0,  (Fl_Callback*)cb_mnuViewLog, 0, 2, FL_NORMAL_LABEL, 0, 14, 0},
  {0,0,0,0,0,0,0,0,0},
  {_("&Config"), 0,  0, 0, 64, FL_NORMAL_LABEL, 0, 14, 0},
- {_("&Display Colors"), 0,  (Fl_Callback*)cb_mnuPreferences, 0, 0, FL_NORMAL_LABEL, 0, 14, 0},
- {_("Antenna Ports"), 0,  (Fl_Callback*)cb_mnuAntPorts, 0, 128, FL_NORMAL_LABEL, 0, 14, 0},
  {_("Tooltips"), 0,  (Fl_Callback*)cb_mnuTooltips, 0, 130, FL_NORMAL_LABEL, 0, 14, 0},
+ {_("Antenna Ports"), 0,  (Fl_Callback*)cb_mnuAntPorts, 0, 0, FL_NORMAL_LABEL, 0, 14, 0},
+ {_("&Display Colors"), 0,  (Fl_Callback*)cb_mnuPreferences, 0, 128, FL_NORMAL_LABEL, 0, 14, 0},
+ {_("Serial Port"), 0,  (Fl_Callback*)cb_mnuSelectPort, 0, 128, FL_NORMAL_LABEL, 0, 14, 0},
  {0,0,0,0,0,0,0,0,0},
  {_("Utils"), 0,  0, 0, 64, FL_NORMAL_LABEL, 0, 14, 0},
  {_("&Ant Imped"), 0,  0, 0, 16, FL_NORMAL_LABEL, 0, 14, 0},
@@ -463,7 +463,7 @@ Fl_Double_Window* kcat_window() {
     { Fl_Menu_Bar* o = new Fl_Menu_Bar(2, 2, 340, 22);
       o->labelsize(12);
       o->textsize(12);
-      { Fl_Menu_Item* o = &menu_[9];
+      { Fl_Menu_Item* o = &menu_[6];
         xcvrState.tooltips ? o->set() :o->clear();
       }
       o->menu(menu_);
@@ -1032,14 +1032,14 @@ Fl_Double_Window* CommsDialog() {
   { Fl_Double_Window* o = new Fl_Double_Window(323, 104, _("Select"));
     w = o;
     o->box(FL_UP_BOX);
-    { selectCommPort = new Fl_Choice(30, 50, 105, 21, _("Port:"));
+    { selectCommPort = new Fl_Choice(34, 60, 175, 21, _("Port:"));
       selectCommPort->down_box(FL_BORDER_BOX);
       selectCommPort->align(FL_ALIGN_TOP_LEFT);
     } // Fl_Choice* selectCommPort
-    { btnOkCommsDialog = new Fl_Return_Button(174, 50, 105, 21, _("OK"));
+    { btnOkCommsDialog = new Fl_Return_Button(218, 60, 68, 21, _("OK"));
       btnOkCommsDialog->callback((Fl_Callback*)cb_btnOkCommsDialog);
     } // Fl_Return_Button* btnOkCommsDialog
-    { new Fl_Box(5, 11, 312, 17, _("Select the KC505 serial port"));
+    { new Fl_Box(5, 3, 312, 41, _("Select the KC505 serial port\nUse TEST for a testdrive"));
     } // Fl_Box* o
     o->set_modal();
     o->end();
@@ -1133,21 +1133,6 @@ Fl_Double_Window* FreqRangesDialog() {
     { new Fl_Box(1, 5, 75, 20, _("Freq kHz"));
     } // Fl_Box* o
     o->set_modal();
-    o->end();
-  } // Fl_Double_Window* o
-  return w;
-}
-
-Fl_Text_Display *txtViewLog=(Fl_Text_Display *)0;
-
-Fl_Double_Window* ViewLogDialog() {
-  Fl_Double_Window* w;
-  { Fl_Double_Window* o = new Fl_Double_Window(500, 130, _("Serial Log"));
-    w = o;
-    { txtViewLog = new Fl_Text_Display(0, 0, 500, 130);
-      txtViewLog->textfont(13);
-      txtViewLog->textsize(12);
-    } // Fl_Text_Display* txtViewLog
     o->end();
   } // Fl_Double_Window* o
   return w;

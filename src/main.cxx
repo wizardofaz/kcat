@@ -67,7 +67,6 @@ extern Fl_Double_Window *dlgFreqCalib;
 extern Fl_Double_Window *dlgAntPorts;
 extern Fl_Double_Window *dlgDisplayConfig;
 extern Fl_Double_Window *dlgCommsConfig;
-extern Fl_Double_Window *dlgViewLog;
 extern Fl_Double_Window *dlgNRAM;
 extern Font_Browser     *fntbrowser;
 
@@ -245,6 +244,11 @@ int main (int argc, char *argv[])
 
 	loadState();
 
+	if (xcvrState.ttyport.empty() || xcvrState.ttyport == "TEST") {
+		testing = true;
+	} else
+		testing = false;
+
 	window->xclass(KNAME);
 
 #if defined(__WOE32__)
@@ -260,8 +264,6 @@ int main (int argc, char *argv[])
 #else
 	window->show(argc, argv);
 #endif
-
-	if (xcvrState.ttyport.empty() || xcvrState.ttyport == "TEST") setCommsPort();
 
 	Fl::add_timeout(0.05, startProcessing);
 
