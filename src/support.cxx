@@ -683,10 +683,10 @@ void updateFwdPwr(int data)
 		sldrFwdPwr->value(power);
 		sldrFwdPwr->redraw();
 	}
-	LOG_DEBUG("%.1f", power);
+//	LOG_DEBUG("%.1f", power);
 }
 
-void updateRefPwr(int data)
+void updateSWR(int data)
 {
 	float rho = 0;
 	float vswr = 1;
@@ -694,11 +694,13 @@ void updateRefPwr(int data)
 	if (fp_ == 0) sldrRefPwr->value(0);
 	else {
 		rho = sqrtf(rp_ / fp_);
-		vswr = (1 + rho) / (1 - rho);
+		if (rho == 1) vswr = 5.0;
+		else vswr = (1 + rho) / (1 - rho);
 		sldrRefPwr->value(50.0 * (vswr - 1.0) / 4.0);
 	}
 	sldrRefPwr->redraw();
-	LOG_DEBUG("VSWR %.1f", vswr);
+	LOG_DEBUG("fwd %3.1f, ref %3.1f, VSWR %3.1f", 
+	xcvrState.MAXPWR * fp_ / 100.0, xcvrState.MAXPWR * rp_ / 100.0, vswr);
 }
 
 void zeroSmeter()
@@ -711,7 +713,7 @@ void zeroXmtMeters()
 {
 	updateFwdPwr(0);
 	updateALC(0);
-	updateRefPwr(0);
+	updateSWR(0);
 }
 
 int	avgrcvsig = 0;
@@ -952,7 +954,7 @@ void parseTelemetry(void *)
 			else if (data < 190) // forward power
 				updateFwdPwr(data - 140);
 			else if (data < 215)
-				updateRefPwr(data - 190);
+				updateSWR(data - 190);
 		} else if (data == 215) // temperature alarm
 			setOverTempAlarm();
 		else if (data > 219 && data < 250) // temperature value
