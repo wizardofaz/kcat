@@ -151,9 +151,9 @@ static void cb_sldrNOTCH(Fl_Wheel_Value_Slider*, void*) {
   setNotch();
 }
 
-Fl_Value_Slider *sldrDepth=(Fl_Value_Slider *)0;
+Fl_Wheel_Value_Slider *sldrDepth=(Fl_Wheel_Value_Slider *)0;
 
-static void cb_sldrDepth(Fl_Value_Slider*, void*) {
+static void cb_sldrDepth(Fl_Wheel_Value_Slider*, void*) {
   cbDepth();
 }
 
@@ -545,7 +545,7 @@ Fl_Double_Window* kcat_window() {
       btnClearList->labelsize(10);
       btnClearList->callback((Fl_Callback*)cb_btnClearList);
     } // Fl_Button* btnClearList
-    { sldrRIT = new Fl_Wheel_Value_Slider(2, 90, 340, 18);
+    { Fl_Wheel_Value_Slider* o = sldrRIT = new Fl_Wheel_Value_Slider(2, 90, 340, 18);
       sldrRIT->tooltip(_("RIT (-790 to 790 Hz)"));
       sldrRIT->type(5);
       sldrRIT->box(FL_DOWN_BOX);
@@ -562,8 +562,9 @@ Fl_Double_Window* kcat_window() {
       sldrRIT->callback((Fl_Callback*)cb_sldrRIT);
       sldrRIT->align(FL_ALIGN_RIGHT);
       sldrRIT->when(FL_WHEN_CHANGED);
+      o->reverse(true);
     } // Fl_Wheel_Value_Slider* sldrRIT
-    { sldrVOLUME = new Fl_Wheel_Value_Slider(2, 111, 340, 18, _("Audio Volume"));
+    { Fl_Wheel_Value_Slider* o = sldrVOLUME = new Fl_Wheel_Value_Slider(2, 111, 340, 18, _("Audio Volume"));
       sldrVOLUME->tooltip(_("Audio output volume"));
       sldrVOLUME->type(5);
       sldrVOLUME->box(FL_DOWN_BOX);
@@ -578,8 +579,9 @@ Fl_Double_Window* kcat_window() {
       sldrVOLUME->callback((Fl_Callback*)cb_sldrVOLUME);
       sldrVOLUME->align(FL_ALIGN_LEFT|FL_ALIGN_INSIDE);
       sldrVOLUME->when(FL_WHEN_CHANGED);
+      o->reverse(true);
     } // Fl_Wheel_Value_Slider* sldrVOLUME
-    { sldrIFSHIFT = new Fl_Wheel_Value_Slider(2, 132, 340, 18);
+    { Fl_Wheel_Value_Slider* o = sldrIFSHIFT = new Fl_Wheel_Value_Slider(2, 132, 340, 18);
       sldrIFSHIFT->tooltip(_("Set IF Shift Frequency"));
       sldrIFSHIFT->type(5);
       sldrIFSHIFT->box(FL_DOWN_BOX);
@@ -596,8 +598,9 @@ Fl_Double_Window* kcat_window() {
       sldrIFSHIFT->callback((Fl_Callback*)cb_sldrIFSHIFT);
       sldrIFSHIFT->align(FL_ALIGN_CENTER|FL_ALIGN_INSIDE);
       sldrIFSHIFT->when(FL_WHEN_CHANGED);
+      o->reverse(true);
     } // Fl_Wheel_Value_Slider* sldrIFSHIFT
-    { sldrNOTCH = new Fl_Wheel_Value_Slider(2, 152, 340, 18);
+    { Fl_Wheel_Value_Slider* o = sldrNOTCH = new Fl_Wheel_Value_Slider(2, 152, 340, 18);
       sldrNOTCH->tooltip(_("Set Notch Frequency"));
       sldrNOTCH->type(5);
       sldrNOTCH->box(FL_DOWN_BOX);
@@ -614,21 +617,29 @@ Fl_Double_Window* kcat_window() {
       sldrNOTCH->callback((Fl_Callback*)cb_sldrNOTCH);
       sldrNOTCH->align(FL_ALIGN_CENTER);
       sldrNOTCH->when(FL_WHEN_CHANGED);
+      o->reverse(true);
     } // Fl_Wheel_Value_Slider* sldrNOTCH
-    { sldrDepth = new Fl_Value_Slider(2, 152, 340, 18);
+    { Fl_Wheel_Value_Slider* o = sldrDepth = new Fl_Wheel_Value_Slider(2, 152, 340, 18);
       sldrDepth->tooltip(_("Set Notch Depth"));
       sldrDepth->type(5);
+      sldrDepth->box(FL_DOWN_BOX);
       sldrDepth->color((Fl_Color)26);
+      sldrDepth->selection_color((Fl_Color)FL_BACKGROUND_COLOR);
       sldrDepth->labeltype(FL_NO_LABEL);
+      sldrDepth->labelfont(0);
+      sldrDepth->labelsize(14);
+      sldrDepth->labelcolor((Fl_Color)FL_FOREGROUND_COLOR);
       sldrDepth->maximum(100);
       sldrDepth->step(1);
       sldrDepth->value(50);
       sldrDepth->textsize(14);
       sldrDepth->callback((Fl_Callback*)cb_sldrDepth);
       sldrDepth->align(FL_ALIGN_CENTER);
+      sldrDepth->when(FL_WHEN_CHANGED);
       sldrDepth->hide();
-    } // Fl_Value_Slider* sldrDepth
-    { sldrNR = new Fl_Wheel_Value_Slider(2, 173, 340, 18);
+      o->reverse(true);
+    } // Fl_Wheel_Value_Slider* sldrDepth
+    { Fl_Wheel_Value_Slider* o = sldrNR = new Fl_Wheel_Value_Slider(2, 173, 340, 18);
       sldrNR->tooltip(_("Noise Reduction (min -> max)"));
       sldrNR->type(5);
       sldrNR->box(FL_DOWN_BOX);
@@ -644,6 +655,7 @@ Fl_Double_Window* kcat_window() {
       sldrNR->callback((Fl_Callback*)cb_sldrNR);
       sldrNR->align(FL_ALIGN_RIGHT);
       sldrNR->when(FL_WHEN_CHANGED);
+      o->reverse(true);
     } // Fl_Wheel_Value_Slider* sldrNR
     { opMODE = new Fl_Choice(2, 194, 85, 20);
       opMODE->tooltip(_("Select Mode"));
@@ -660,7 +672,7 @@ Fl_Double_Window* kcat_window() {
       opNOTCH->down_box(FL_BORDER_BOX);
       opNOTCH->callback((Fl_Callback*)cb_opNOTCH);
     } // Fl_Choice* opNOTCH
-    { sldrMICGAIN = new Fl_Wheel_Value_Slider(2, 216, 340, 18, _("Mic"));
+    { Fl_Wheel_Value_Slider* o = sldrMICGAIN = new Fl_Wheel_Value_Slider(2, 216, 340, 18, _("Mic"));
       sldrMICGAIN->tooltip(_("Mic / Gain control"));
       sldrMICGAIN->type(5);
       sldrMICGAIN->box(FL_DOWN_BOX);
@@ -674,8 +686,9 @@ Fl_Double_Window* kcat_window() {
       sldrMICGAIN->callback((Fl_Callback*)cb_sldrMICGAIN);
       sldrMICGAIN->align(FL_ALIGN_RIGHT);
       sldrMICGAIN->when(FL_WHEN_CHANGED);
+      o->reverse(true);
     } // Fl_Wheel_Value_Slider* sldrMICGAIN
-    { sldrPOWER = new Fl_Wheel_Value_Slider(2, 237, 340, 18, _("Pwr"));
+    { Fl_Wheel_Value_Slider* o = sldrPOWER = new Fl_Wheel_Value_Slider(2, 237, 340, 18, _("Pwr"));
       sldrPOWER->tooltip(_("Set Power Output"));
       sldrPOWER->type(5);
       sldrPOWER->box(FL_DOWN_BOX);
@@ -692,6 +705,7 @@ Fl_Double_Window* kcat_window() {
       sldrPOWER->callback((Fl_Callback*)cb_sldrPOWER);
       sldrPOWER->align(FL_ALIGN_RIGHT);
       sldrPOWER->when(FL_WHEN_CHANGED);
+      o->reverse(true);
     } // Fl_Wheel_Value_Slider* sldrPOWER
     { btnRIT = new Fl_Light_Button(344, 90, 60, 18, _("RIT"));
       btnRIT->tooltip(_("RIT on/off"));

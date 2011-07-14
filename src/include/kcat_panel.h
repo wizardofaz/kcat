@@ -26,8 +26,7 @@ extern Fl_Wheel_Value_Slider *sldrRIT;
 extern Fl_Wheel_Value_Slider *sldrVOLUME;
 extern Fl_Wheel_Value_Slider *sldrIFSHIFT;
 extern Fl_Wheel_Value_Slider *sldrNOTCH;
-#include <FL/Fl_Value_Slider.H>
-extern Fl_Value_Slider *sldrDepth;
+extern Fl_Wheel_Value_Slider *sldrDepth;
 extern Fl_Wheel_Value_Slider *sldrNR;
 extern Fl_Choice *opMODE;
 extern Fl_Choice *opBW;
