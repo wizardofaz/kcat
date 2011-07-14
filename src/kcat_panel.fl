@@ -192,7 +192,7 @@ selectFreq();}
       class Fl_Wheel_Value_Slider
     }
     Fl_Value_Slider sldrNOTCH {
-      callback {setNotch();} selected
+      callback {setNotch();}
       tooltip {Set Notch Frequency} xywh {2 152 340 18} type {Horz Knob} color 26 labeltype NO_LABEL align 0 minimum 200 maximum 2750 step 10 textsize 14
       code0 {o->reverse(true);}
       class Fl_Wheel_Value_Slider
@@ -273,7 +273,7 @@ selectFreq();}
     Fl_Group {} {open
       xywh {407 67 122 212} box THIN_DOWN_BOX
     } {
-      Fl_Group grpMeters {open
+      Fl_Group grpMeters {open selected
         xywh {408 68 120 210} box FLAT_BOX color 32 selection_color 52 align 20
       } {
         Fl_Button btnSmeter {

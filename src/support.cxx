@@ -818,6 +818,7 @@ void cbSmeter()
 		btnSmeter->image(image_smeter);
 	else
 		btnSmeter->image(image_dbm);
+	setFocus();
 	btnSmeter->redraw();
 }
 
@@ -829,6 +830,7 @@ void cbPWR()
 	} else {
 		btnPower->image(image_alc);
 	}
+	setFocus();
 	btnPower->redraw();
 }
 
