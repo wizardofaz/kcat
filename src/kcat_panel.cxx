@@ -721,86 +721,90 @@ Fl_Double_Window* kcat_window() {
       btnPreamp->tooltip(_("Preamp On/Off"));
       btnPreamp->callback((Fl_Callback*)cb_btnPreamp);
     } // Fl_Light_Button* btnPreamp
-    { grpMeters = new Fl_Group(408, 68, 120, 210);
-      grpMeters->box(FL_THIN_DOWN_BOX);
-      grpMeters->color((Fl_Color)FL_GRAY0);
-      grpMeters->selection_color((Fl_Color)FL_LIGHT2);
-      grpMeters->align(FL_ALIGN_LEFT|FL_ALIGN_INSIDE);
-      { Fl_Button* o = btnSmeter = new Fl_Button(409, 73, 30, 200);
-        btnSmeter->tooltip(_("Click - change scale"));
-        btnSmeter->box(FL_FLAT_BOX);
-        btnSmeter->down_box(FL_FLAT_BOX);
-        btnSmeter->color((Fl_Color)48);
-        btnSmeter->selection_color((Fl_Color)48);
-        btnSmeter->callback((Fl_Callback*)cb_btnSmeter);
-        btnSmeter->align(FL_ALIGN_CENTER|FL_ALIGN_INSIDE);
-        o->image(image_smeter);
-      } // Fl_Button* btnSmeter
-      { Fl_SigBar* o = sldrRcvSignal = new Fl_SigBar(441, 82, 8, 182);
-        sldrRcvSignal->box(FL_FLAT_BOX);
-        sldrRcvSignal->color((Fl_Color)10);
-        sldrRcvSignal->selection_color((Fl_Color)2);
-        sldrRcvSignal->labeltype(FL_NORMAL_LABEL);
-        sldrRcvSignal->labelfont(0);
-        sldrRcvSignal->labelsize(14);
-        sldrRcvSignal->labelcolor((Fl_Color)FL_FOREGROUND_COLOR);
-        sldrRcvSignal->align(FL_ALIGN_CENTER);
-        sldrRcvSignal->when(FL_WHEN_RELEASE);
-        o->minimum(0.0f);
-        o->maximum(-128.0f);
-        o->horizontal(false);
-      } // Fl_SigBar* sldrRcvSignal
-      { Fl_Button* o = btnPower = new Fl_Button(452, 73, 25, 200);
-        btnPower->tooltip(_("Click - FWD / ALC"));
-        btnPower->box(FL_FLAT_BOX);
-        btnPower->down_box(FL_FLAT_BOX);
-        btnPower->color((Fl_Color)48);
-        btnPower->selection_color((Fl_Color)48);
-        btnPower->callback((Fl_Callback*)cb_btnPower);
-        btnPower->align(FL_ALIGN_CENTER|FL_ALIGN_INSIDE);
-        o->image(image_p150);
-      } // Fl_Button* btnPower
-      { Fl_SigBar* o = sldrFwdPwr = new Fl_SigBar(479, 82, 8, 182);
-        sldrFwdPwr->box(FL_FLAT_BOX);
-        sldrFwdPwr->color((Fl_Color)14);
-        sldrFwdPwr->selection_color((Fl_Color)6);
-        sldrFwdPwr->labeltype(FL_NORMAL_LABEL);
-        sldrFwdPwr->labelfont(0);
-        sldrFwdPwr->labelsize(14);
-        sldrFwdPwr->labelcolor((Fl_Color)FL_FOREGROUND_COLOR);
-        sldrFwdPwr->align(FL_ALIGN_CENTER);
-        sldrFwdPwr->when(FL_WHEN_RELEASE);
-        o->minimum(120.0f);
-        o->maximum(0.0f);
-        o->horizontal(false);
-      } // Fl_SigBar* sldrFwdPwr
-      { Fl_Box* o = boxSWR = new Fl_Box(490, 73, 25, 200);
-        boxSWR->box(FL_FLAT_BOX);
-        boxSWR->color((Fl_Color)FL_LIGHT1);
-        boxSWR->align(FL_ALIGN_CENTER|FL_ALIGN_INSIDE);
-        o->image(image_swr);
-      } // Fl_Box* boxSWR
-      { Fl_SigBar* o = sldrRefPwr = new Fl_SigBar(516, 82, 8, 182);
-        sldrRefPwr->box(FL_FLAT_BOX);
-        sldrRefPwr->color((Fl_Color)9);
-        sldrRefPwr->selection_color((Fl_Color)1);
-        sldrRefPwr->labeltype(FL_NORMAL_LABEL);
-        sldrRefPwr->labelfont(0);
-        sldrRefPwr->labelsize(14);
-        sldrRefPwr->labelcolor((Fl_Color)FL_FOREGROUND_COLOR);
-        sldrRefPwr->align(FL_ALIGN_CENTER);
-        sldrRefPwr->when(FL_WHEN_RELEASE);
-        o->minimum(50.0f);
-        o->maximum(0.0f);
-        o->horizontal(false);
-      } // Fl_SigBar* sldrRefPwr
-      { boxSquelch = new Fl_Box(441, 71, 9, 9);
-        boxSquelch->box(FL_FLAT_BOX);
-        boxSquelch->color((Fl_Color)175);
-        boxSquelch->align(FL_ALIGN_CENTER|FL_ALIGN_INSIDE);
-      } // Fl_Box* boxSquelch
-      grpMeters->end();
-    } // Fl_Group* grpMeters
+    { Fl_Group* o = new Fl_Group(407, 67, 122, 212);
+      o->box(FL_THIN_DOWN_BOX);
+      { grpMeters = new Fl_Group(408, 68, 120, 210);
+        grpMeters->box(FL_FLAT_BOX);
+        grpMeters->color((Fl_Color)FL_GRAY0);
+        grpMeters->selection_color((Fl_Color)FL_LIGHT2);
+        grpMeters->align(FL_ALIGN_LEFT|FL_ALIGN_INSIDE);
+        { Fl_Button* o = btnSmeter = new Fl_Button(409, 73, 30, 200);
+          btnSmeter->tooltip(_("Click - change scale"));
+          btnSmeter->box(FL_FLAT_BOX);
+          btnSmeter->down_box(FL_FLAT_BOX);
+          btnSmeter->color((Fl_Color)48);
+          btnSmeter->selection_color((Fl_Color)48);
+          btnSmeter->callback((Fl_Callback*)cb_btnSmeter);
+          btnSmeter->align(FL_ALIGN_CENTER|FL_ALIGN_INSIDE);
+          o->image(image_smeter);
+        } // Fl_Button* btnSmeter
+        { Fl_SigBar* o = sldrRcvSignal = new Fl_SigBar(441, 82, 8, 182);
+          sldrRcvSignal->box(FL_FLAT_BOX);
+          sldrRcvSignal->color((Fl_Color)10);
+          sldrRcvSignal->selection_color((Fl_Color)2);
+          sldrRcvSignal->labeltype(FL_NORMAL_LABEL);
+          sldrRcvSignal->labelfont(0);
+          sldrRcvSignal->labelsize(14);
+          sldrRcvSignal->labelcolor((Fl_Color)FL_FOREGROUND_COLOR);
+          sldrRcvSignal->align(FL_ALIGN_CENTER);
+          sldrRcvSignal->when(FL_WHEN_RELEASE);
+          o->minimum(0.0f);
+          o->maximum(-128.0f);
+          o->horizontal(false);
+        } // Fl_SigBar* sldrRcvSignal
+        { Fl_Button* o = btnPower = new Fl_Button(452, 73, 25, 200);
+          btnPower->tooltip(_("Click - FWD / ALC"));
+          btnPower->box(FL_FLAT_BOX);
+          btnPower->down_box(FL_FLAT_BOX);
+          btnPower->color((Fl_Color)48);
+          btnPower->selection_color((Fl_Color)48);
+          btnPower->callback((Fl_Callback*)cb_btnPower);
+          btnPower->align(FL_ALIGN_CENTER|FL_ALIGN_INSIDE);
+          o->image(image_p150);
+        } // Fl_Button* btnPower
+        { Fl_SigBar* o = sldrFwdPwr = new Fl_SigBar(479, 82, 8, 182);
+          sldrFwdPwr->box(FL_FLAT_BOX);
+          sldrFwdPwr->color((Fl_Color)14);
+          sldrFwdPwr->selection_color((Fl_Color)6);
+          sldrFwdPwr->labeltype(FL_NORMAL_LABEL);
+          sldrFwdPwr->labelfont(0);
+          sldrFwdPwr->labelsize(14);
+          sldrFwdPwr->labelcolor((Fl_Color)FL_FOREGROUND_COLOR);
+          sldrFwdPwr->align(FL_ALIGN_CENTER);
+          sldrFwdPwr->when(FL_WHEN_RELEASE);
+          o->minimum(120.0f);
+          o->maximum(0.0f);
+          o->horizontal(false);
+        } // Fl_SigBar* sldrFwdPwr
+        { Fl_Box* o = boxSWR = new Fl_Box(490, 73, 25, 200);
+          boxSWR->box(FL_FLAT_BOX);
+          boxSWR->color((Fl_Color)FL_LIGHT1);
+          boxSWR->align(FL_ALIGN_CENTER|FL_ALIGN_INSIDE);
+          o->image(image_swr);
+        } // Fl_Box* boxSWR
+        { Fl_SigBar* o = sldrRefPwr = new Fl_SigBar(516, 82, 8, 182);
+          sldrRefPwr->box(FL_FLAT_BOX);
+          sldrRefPwr->color((Fl_Color)9);
+          sldrRefPwr->selection_color((Fl_Color)1);
+          sldrRefPwr->labeltype(FL_NORMAL_LABEL);
+          sldrRefPwr->labelfont(0);
+          sldrRefPwr->labelsize(14);
+          sldrRefPwr->labelcolor((Fl_Color)FL_FOREGROUND_COLOR);
+          sldrRefPwr->align(FL_ALIGN_CENTER);
+          sldrRefPwr->when(FL_WHEN_RELEASE);
+          o->minimum(50.0f);
+          o->maximum(0.0f);
+          o->horizontal(false);
+        } // Fl_SigBar* sldrRefPwr
+        { boxSquelch = new Fl_Box(441, 71, 9, 9);
+          boxSquelch->box(FL_FLAT_BOX);
+          boxSquelch->color((Fl_Color)175);
+          boxSquelch->align(FL_ALIGN_CENTER|FL_ALIGN_INSIDE);
+        } // Fl_Box* boxSquelch
+        grpMeters->end();
+      } // Fl_Group* grpMeters
+      o->end();
+    } // Fl_Group* o
     { btn_show_controls = new Fl_Button(2, 258, 18, 20, _("@-22->"));
       btn_show_controls->tooltip(_("Show/Hide controls"));
       btn_show_controls->callback((Fl_Callback*)cb_btn_show_controls);
@@ -1468,94 +1472,98 @@ Fl_Double_Window* DisplayDialog() {
       { btnPeakColor = new Fl_Button(154, 256, 60, 22, _("Peak"));
         btnPeakColor->callback((Fl_Callback*)cb_btnPeakColor);
       } // Fl_Button* btnPeakColor
-      { grpMeter1disp = new Fl_Group(4, 78, 65, 210);
-        grpMeter1disp->box(FL_DOWN_BOX);
-        grpMeter1disp->color((Fl_Color)FL_FOREGROUND_COLOR);
-        grpMeter1disp->selection_color((Fl_Color)FL_LIGHT2);
-        grpMeter1disp->align(FL_ALIGN_LEFT|FL_ALIGN_INSIDE);
-        { Fl_Button* o = btnSmeterdisp = new Fl_Button(9, 83, 40, 200);
-          btnSmeterdisp->tooltip(_("Click - change scale"));
-          btnSmeterdisp->box(FL_FLAT_BOX);
-          btnSmeterdisp->down_box(FL_FLAT_BOX);
-          btnSmeterdisp->color((Fl_Color)2);
-          btnSmeterdisp->selection_color((Fl_Color)2);
-          btnSmeterdisp->align(FL_ALIGN_CENTER|FL_ALIGN_INSIDE);
-          o->image(image_smeter);
-        } // Fl_Button* btnSmeterdisp
-        { Fl_SigBar* o = sldrRcvSignaldisp = new Fl_SigBar(51, 92, 10, 182);
-          sldrRcvSignaldisp->box(FL_FLAT_BOX);
-          sldrRcvSignaldisp->color((Fl_Color)10);
-          sldrRcvSignaldisp->selection_color((Fl_Color)2);
-          sldrRcvSignaldisp->labeltype(FL_NORMAL_LABEL);
-          sldrRcvSignaldisp->labelfont(0);
-          sldrRcvSignaldisp->labelsize(14);
-          sldrRcvSignaldisp->labelcolor((Fl_Color)FL_FOREGROUND_COLOR);
-          sldrRcvSignaldisp->align(FL_ALIGN_CENTER);
-          sldrRcvSignaldisp->when(FL_WHEN_RELEASE);
-          o->minimum(0.0f);
-          o->maximum(-128.0f);
-          o->horizontal(false);
-        } // Fl_SigBar* sldrRcvSignaldisp
-        { boxSquelchdisp = new Fl_Box(51, 81, 9, 9);
-          boxSquelchdisp->box(FL_OVAL_BOX);
-          boxSquelchdisp->color((Fl_Color)6);
-          boxSquelchdisp->selection_color((Fl_Color)FL_FOREGROUND_COLOR);
-        } // Fl_Box* boxSquelchdisp
-        grpMeter1disp->end();
-      } // Fl_Group* grpMeter1disp
-      { grpMeter2disp = new Fl_Group(69, 78, 80, 210);
-        grpMeter2disp->box(FL_DOWN_BOX);
-        grpMeter2disp->color((Fl_Color)FL_FOREGROUND_COLOR);
-        grpMeter2disp->selection_color((Fl_Color)FL_LIGHT2);
-        grpMeter2disp->align(FL_ALIGN_LEFT|FL_ALIGN_INSIDE);
-        { Fl_Button* o = btnPowerdisp = new Fl_Button(71, 83, 25, 200);
-          btnPowerdisp->tooltip(_("Click - FWD / ALC"));
-          btnPowerdisp->box(FL_FLAT_BOX);
-          btnPowerdisp->down_box(FL_FLAT_BOX);
-          btnPowerdisp->color((Fl_Color)175);
-          btnPowerdisp->selection_color((Fl_Color)175);
-          btnPowerdisp->align(FL_ALIGN_CENTER|FL_ALIGN_INSIDE);
-          o->image(image_p150);
-        } // Fl_Button* btnPowerdisp
-        { Fl_SigBar* o = sldrFwdPwrdisp = new Fl_SigBar(98, 92, 10, 182);
-          sldrFwdPwrdisp->box(FL_FLAT_BOX);
-          sldrFwdPwrdisp->color((Fl_Color)14);
-          sldrFwdPwrdisp->selection_color((Fl_Color)6);
-          sldrFwdPwrdisp->labeltype(FL_NORMAL_LABEL);
-          sldrFwdPwrdisp->labelfont(0);
-          sldrFwdPwrdisp->labelsize(14);
-          sldrFwdPwrdisp->labelcolor((Fl_Color)FL_FOREGROUND_COLOR);
-          sldrFwdPwrdisp->align(FL_ALIGN_CENTER);
-          sldrFwdPwrdisp->when(FL_WHEN_RELEASE);
-          o->minimum(120.0f);
-          o->maximum(0.0f);
-          o->horizontal(false);
-        } // Fl_SigBar* sldrFwdPwrdisp
-        { Fl_Button* o = btnSWRdisp = new Fl_Button(122, 83, 25, 200);
-          btnSWRdisp->tooltip(_("Click REF / SWR"));
-          btnSWRdisp->box(FL_FLAT_BOX);
-          btnSWRdisp->down_box(FL_FLAT_BOX);
-          btnSWRdisp->color((Fl_Color)1);
-          btnSWRdisp->selection_color((Fl_Color)1);
-          btnSWRdisp->align(FL_ALIGN_CENTER|FL_ALIGN_INSIDE);
-          o->image(image_swr);
-        } // Fl_Button* btnSWRdisp
-        { Fl_SigBar* o = sldrRefPwrdisp = new Fl_SigBar(110, 92, 10, 182);
-          sldrRefPwrdisp->box(FL_FLAT_BOX);
-          sldrRefPwrdisp->color((Fl_Color)9);
-          sldrRefPwrdisp->selection_color((Fl_Color)1);
-          sldrRefPwrdisp->labeltype(FL_NORMAL_LABEL);
-          sldrRefPwrdisp->labelfont(0);
-          sldrRefPwrdisp->labelsize(14);
-          sldrRefPwrdisp->labelcolor((Fl_Color)FL_FOREGROUND_COLOR);
-          sldrRefPwrdisp->align(FL_ALIGN_CENTER);
-          sldrRefPwrdisp->when(FL_WHEN_RELEASE);
-          o->minimum(50.0f);
-          o->maximum(0.0f);
-          o->horizontal(false);
-        } // Fl_SigBar* sldrRefPwrdisp
-        grpMeter2disp->end();
-      } // Fl_Group* grpMeter2disp
+      { Fl_Group* o = new Fl_Group(3, 77, 149, 212);
+        o->box(FL_DOWN_BOX);
+        { grpMeter1disp = new Fl_Group(4, 78, 65, 210);
+          grpMeter1disp->box(FL_FLAT_BOX);
+          grpMeter1disp->color((Fl_Color)FL_FOREGROUND_COLOR);
+          grpMeter1disp->selection_color((Fl_Color)FL_LIGHT2);
+          grpMeter1disp->align(FL_ALIGN_LEFT|FL_ALIGN_INSIDE);
+          { Fl_Button* o = btnSmeterdisp = new Fl_Button(9, 83, 40, 200);
+            btnSmeterdisp->tooltip(_("Click - change scale"));
+            btnSmeterdisp->box(FL_FLAT_BOX);
+            btnSmeterdisp->down_box(FL_FLAT_BOX);
+            btnSmeterdisp->color((Fl_Color)2);
+            btnSmeterdisp->selection_color((Fl_Color)2);
+            btnSmeterdisp->align(FL_ALIGN_CENTER|FL_ALIGN_INSIDE);
+            o->image(image_smeter);
+          } // Fl_Button* btnSmeterdisp
+          { Fl_SigBar* o = sldrRcvSignaldisp = new Fl_SigBar(51, 92, 10, 182);
+            sldrRcvSignaldisp->box(FL_FLAT_BOX);
+            sldrRcvSignaldisp->color((Fl_Color)10);
+            sldrRcvSignaldisp->selection_color((Fl_Color)2);
+            sldrRcvSignaldisp->labeltype(FL_NORMAL_LABEL);
+            sldrRcvSignaldisp->labelfont(0);
+            sldrRcvSignaldisp->labelsize(14);
+            sldrRcvSignaldisp->labelcolor((Fl_Color)FL_FOREGROUND_COLOR);
+            sldrRcvSignaldisp->align(FL_ALIGN_CENTER);
+            sldrRcvSignaldisp->when(FL_WHEN_RELEASE);
+            o->minimum(0.0f);
+            o->maximum(-128.0f);
+            o->horizontal(false);
+          } // Fl_SigBar* sldrRcvSignaldisp
+          { boxSquelchdisp = new Fl_Box(51, 81, 9, 9);
+            boxSquelchdisp->box(FL_OVAL_BOX);
+            boxSquelchdisp->color((Fl_Color)6);
+            boxSquelchdisp->selection_color((Fl_Color)FL_FOREGROUND_COLOR);
+          } // Fl_Box* boxSquelchdisp
+          grpMeter1disp->end();
+        } // Fl_Group* grpMeter1disp
+        { grpMeter2disp = new Fl_Group(69, 78, 80, 210);
+          grpMeter2disp->box(FL_FLAT_BOX);
+          grpMeter2disp->color((Fl_Color)FL_FOREGROUND_COLOR);
+          grpMeter2disp->selection_color((Fl_Color)FL_LIGHT2);
+          grpMeter2disp->align(FL_ALIGN_LEFT|FL_ALIGN_INSIDE);
+          { Fl_Button* o = btnPowerdisp = new Fl_Button(71, 83, 25, 200);
+            btnPowerdisp->tooltip(_("Click - FWD / ALC"));
+            btnPowerdisp->box(FL_FLAT_BOX);
+            btnPowerdisp->down_box(FL_FLAT_BOX);
+            btnPowerdisp->color((Fl_Color)175);
+            btnPowerdisp->selection_color((Fl_Color)175);
+            btnPowerdisp->align(FL_ALIGN_CENTER|FL_ALIGN_INSIDE);
+            o->image(image_p150);
+          } // Fl_Button* btnPowerdisp
+          { Fl_SigBar* o = sldrFwdPwrdisp = new Fl_SigBar(98, 92, 10, 182);
+            sldrFwdPwrdisp->box(FL_FLAT_BOX);
+            sldrFwdPwrdisp->color((Fl_Color)14);
+            sldrFwdPwrdisp->selection_color((Fl_Color)6);
+            sldrFwdPwrdisp->labeltype(FL_NORMAL_LABEL);
+            sldrFwdPwrdisp->labelfont(0);
+            sldrFwdPwrdisp->labelsize(14);
+            sldrFwdPwrdisp->labelcolor((Fl_Color)FL_FOREGROUND_COLOR);
+            sldrFwdPwrdisp->align(FL_ALIGN_CENTER);
+            sldrFwdPwrdisp->when(FL_WHEN_RELEASE);
+            o->minimum(120.0f);
+            o->maximum(0.0f);
+            o->horizontal(false);
+          } // Fl_SigBar* sldrFwdPwrdisp
+          { Fl_Button* o = btnSWRdisp = new Fl_Button(122, 83, 25, 200);
+            btnSWRdisp->tooltip(_("Click REF / SWR"));
+            btnSWRdisp->box(FL_FLAT_BOX);
+            btnSWRdisp->down_box(FL_FLAT_BOX);
+            btnSWRdisp->color((Fl_Color)1);
+            btnSWRdisp->selection_color((Fl_Color)1);
+            btnSWRdisp->align(FL_ALIGN_CENTER|FL_ALIGN_INSIDE);
+            o->image(image_swr);
+          } // Fl_Button* btnSWRdisp
+          { Fl_SigBar* o = sldrRefPwrdisp = new Fl_SigBar(110, 92, 10, 182);
+            sldrRefPwrdisp->box(FL_FLAT_BOX);
+            sldrRefPwrdisp->color((Fl_Color)9);
+            sldrRefPwrdisp->selection_color((Fl_Color)1);
+            sldrRefPwrdisp->labeltype(FL_NORMAL_LABEL);
+            sldrRefPwrdisp->labelfont(0);
+            sldrRefPwrdisp->labelsize(14);
+            sldrRefPwrdisp->labelcolor((Fl_Color)FL_FOREGROUND_COLOR);
+            sldrRefPwrdisp->align(FL_ALIGN_CENTER);
+            sldrRefPwrdisp->when(FL_WHEN_RELEASE);
+            o->minimum(50.0f);
+            o->maximum(0.0f);
+            o->horizontal(false);
+          } // Fl_SigBar* sldrRefPwrdisp
+          grpMeter2disp->end();
+        } // Fl_Group* grpMeter2disp
+        o->end();
+      } // Fl_Group* o
       o->end();
     } // Fl_Group* o
     { Fl_Group* o = new Fl_Group(220, 2, 202, 70, _("System"));

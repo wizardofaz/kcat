@@ -1068,6 +1068,7 @@ void cbBacklightColor()
 		sldrRefPwrdisp->color(fl_rgb_color (pwrRed, pwrGreen, pwrBlue), bgclr);
 		btnSmeterdisp->color(bgclr);
 		btnPowerdisp->color(bgclr);
+		btnSWRdisp->color(bgclr);
 		grpMeter1disp->color(bgclr);
 		grpMeter2disp->color(bgclr);
 		dlgDisplayConfig->redraw();
@@ -1086,6 +1087,7 @@ void cbPrefForeground()
 		sldrRefPwrdisp->labelcolor(fgclr);
 		btnSmeterdisp->labelcolor(fgclr);
 		btnPowerdisp->labelcolor(fgclr);
+		btnSWRdisp->labelcolor(fgclr);
 		grpMeter1disp->labelcolor(fgclr);
 		grpMeter2disp->labelcolor(fgclr);
 		dlgDisplayConfig->redraw();
@@ -1103,6 +1105,7 @@ void default_meters()
 		sldrRefPwrdisp->color(fl_rgb_color (swrRed, swrGreen, swrBlue), bgclr);
 		btnSmeterdisp->color(bgclr, bgclr);
 		btnPowerdisp->color(bgclr, bgclr);
+		btnSWRdisp->color(bgclr, bgclr);
 		grpMeter1disp->color(bgclr);
 		grpMeter2disp->color(bgclr);
 	fg_red = 0; fg_green = 0; fg_blue = 0;
@@ -1110,6 +1113,7 @@ void default_meters()
 		lblTest->labelcolor(fgclr);
 		btnSmeterdisp->labelcolor(fgclr);
 		btnPowerdisp->labelcolor(fgclr);
+		btnSWRdisp->labelcolor(fgclr);
 		grpMeter1disp->labelcolor(fgclr);
 		grpMeter2disp->labelcolor(fgclr);
 	smeterRed = 0; smeterGreen = 180; smeterBlue = 0;
@@ -1246,6 +1250,7 @@ void setColors()
 	}
 
 	grpMeters->color(bgclr);
+	grpMeters->labelcolor(fgclr);
 
 	btnSmeter->color(bgclr, bgclr);
 	btnSmeter->labelcolor(fgclr);
