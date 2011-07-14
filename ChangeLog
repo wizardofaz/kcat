@@ -1,5 +1,6 @@
 2011-07-14  David Freese  <w1hkj@w1hkj.com>
 
+	c6f08ac: VSWR computation
 	600fb6b: Meter focus
 	f7a493c: Slider wheel movement
 	b2a6b6e: SWR meter colors
