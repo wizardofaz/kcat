@@ -665,7 +665,7 @@ void updateALC(int data)
 {
 	Fl_Image *img = btnPower->image();
 	if (img == &image_alc) {
-		sldrFwdPwr->value(data * 1.0);
+		sldrFwdPwr->value(data * 2.0);//1.0);
 		sldrFwdPwr->redraw();
 	}
 	sldrFwdPwr->redraw();
@@ -677,21 +677,28 @@ float fp_ = 0.0, rp_ = 0.0;
 void updateFwdPwr(int data)
 {
 	fp_ = 2 * data;
-	double power = xcvrState.MAXPWR * fp_ / 99.0;
+	float power = xcvrState.MAXPWR * fp_ / 100.0;
 	Fl_Image *img = btnPower->image();
 	if (img != &image_alc) {
 		sldrFwdPwr->value(power);
 		sldrFwdPwr->redraw();
 	}
-	LOG_DEBUG("%d", data);
+	LOG_DEBUG("%.1f", power);
 }
 
 void updateRefPwr(int data)
 {
+	float rho = 0;
+	float vswr = 1;
 	rp_ = 2 * data;
-	sldrRefPwr->value(rp_); // 0 - 50 scale;
+	if (fp_ == 0) sldrRefPwr->value(0);
+	else {
+		rho = sqrtf(rp_ / fp_);
+		vswr = (1 + rho) / (1 - rho);
+		sldrRefPwr->value(50.0 * (vswr - 1.0) / 4.0);
+	}
 	sldrRefPwr->redraw();
-	LOG_DEBUG("%d", data);
+	LOG_DEBUG("VSWR %.1f", vswr);
 }
 
 void zeroSmeter()
