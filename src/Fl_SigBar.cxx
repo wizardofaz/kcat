@@ -59,16 +59,15 @@ void Fl_SigBar::draw()
 	int SigBar; 
 	int PeakPos;
 
-
 // Draw the SigBar bar...
 // Draw the box and label...
 	if (horiz == true) {
 		int tx, tw;	 // Temporary X + width
 		tx = x() + bx;
 		tw = w() - bw;
-		SigBar = (int)(tw * (value_ - minimum_) / (maximum_ - minimum_) + 0.5f);
-		PeakPos = (int)(tw * (peakv_ - minimum_) / (maximum_ - minimum_) + 0.5f);
-		if (SigBar > 0 ) { //|| PeakPos > 0) {
+		SigBar = (int)(tw * (value_ - minimum_) / (maximum_ - minimum_));
+		PeakPos = (int)(tw * (peakv_ - minimum_) / (maximum_ - minimum_));
+		if (SigBar >= 0 ) { //|| PeakPos > 0) {
 
 			fl_clip(x(), y(), SigBar + bx, h());
 			draw_box(box(), x(), y(), w(), h(), active_r() ? color() : fl_inactive(color()));
@@ -88,9 +87,9 @@ void Fl_SigBar::draw()
 		int ty, th;	 // Temporary Y + height
 		ty = y() + by;
 		th = h() - bh;
-		SigBar = (int)(th * (value_ - minimum_) / (maximum_ - minimum_) + 0.5f);
-		PeakPos = (int)(th * (peakv_ - minimum_) / (maximum_ - minimum_) + 0.5f);
-		if (SigBar > 0 ) { //|| PeakPos > 0) {
+		SigBar = (int)(th * (value_ - minimum_) / (maximum_ - minimum_));
+		PeakPos = (int)(th * (peakv_ - minimum_) / (maximum_ - minimum_));
+		if (SigBar >= 0 ) { //|| PeakPos > 0) {
 
 			fl_clip(x(), y(), w(), SigBar + by);
 			draw_box(box(), x(), y(), w(), h(), active_r() ? color2() : fl_inactive(color2()));

@@ -56,7 +56,11 @@ public:
 	void	minimum(float v) { minimum_ = v; redraw(); }
 	float	minimum() const { return (minimum_); }
 
-	void	value(float v) { value_ = v; peak(v); redraw(); Fl::flush(); };
+	void	value(float v) { 
+		value_ = v;
+		peak(value_); 
+		redraw(); 
+		Fl::flush(); };
 	float	value() const { return (value_); }
   
 	void aging (int n) { 

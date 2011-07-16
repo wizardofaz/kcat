@@ -683,24 +683,28 @@ void updateFwdPwr(int data)
 		sldrFwdPwr->value(power);
 		sldrFwdPwr->redraw();
 	}
-//	LOG_DEBUG("%.1f", power);
 }
 
 void updateSWR(int data)
 {
 	float rho = 0;
-	float vswr = 1;
+	float vswr = 1.0;
 	rp_ = 2 * data;
-	if (fp_ == 0) sldrRefPwr->value(0);
-	else {
+	rho = 1.0;
+
+	if (rp_ == fp_ && fp_ > 0) vswr = 5.0;
+	else if (fp_ > 0) {
 		rho = sqrtf(rp_ / fp_);
-		if (rho == 1) vswr = 5.0;
-		else vswr = (1 + rho) / (1 - rho);
-		sldrRefPwr->value(50.0 * (vswr - 1.0) / 4.0);
+		vswr = (1 + rho) / (1 - rho);
+		if (vswr > 5) vswr = 5;
 	}
+	sldrRefPwr->value(50.0 * (vswr - 1.0) / 4.0);
 	sldrRefPwr->redraw();
-	LOG_DEBUG("fwd %3.1f, ref %3.1f, VSWR %3.1f", 
-	xcvrState.MAXPWR * fp_ / 100.0, xcvrState.MAXPWR * rp_ / 100.0, vswr);
+	if (fp_ > 0)
+		LOG_INFO("fwd %3.1f, ref %3.1f, VSWR %3.1f", 
+				 xcvrState.MAXPWR * fp_ / 100.0, 
+				 xcvrState.MAXPWR * rp_ / 100.0, 
+				 vswr);
 }
 
 void zeroSmeter()
@@ -727,7 +731,6 @@ void updateRcvSignal( int data)
 		avgcnt++;
 	}
 	sldrRcvSignal->value(-data);
-	zeroXmtMeters();
 	LOG_DEBUG("%d", data);
 }
 
@@ -938,6 +941,7 @@ void parseTelemetry(void *)
 {
 	unsigned char data;
 	static int smeter_count = 7;
+	static int xmt_count = 7;
 
 	while(commstack.pop(data)) {
 
@@ -951,14 +955,22 @@ void parseTelemetry(void *)
 		} else if (data < 215) { // transmit telemetry
 			if (data < 140) // ALC
 				updateALC(data - 130);
-			else if (data < 190) // forward power
+			else if (data < 190) { // forward power
 				updateFwdPwr(data - 140);
-			else if (data < 215)
+			} else if (data < 215)
 				updateSWR(data - 190);
 		} else if (data == 215) // temperature alarm
 			setOverTempAlarm();
 		else if (data > 219 && data < 250) // temperature value
 			updateTempDisplay(data);
+
+		if (data > 129 && data < 215) xmt_count = 7;
+		else xmt_count--;
+		if (!xmt_count) {
+			xmt_count = 1;
+			zeroXmtMeters();
+		}
+
 		smeter_count--;
 		if (!smeter_count) {
 			smeter_count = 1;
