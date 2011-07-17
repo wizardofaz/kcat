@@ -59,8 +59,14 @@ extern void delFreq();
 extern void clearList();
 extern int  movFreq();
 extern int  movFreqB();
-extern void cbVFOsel();
+//extern void cbVFOsel();
 extern void cbA2B();
+extern void cbB2A();
+extern void cbRxA_TxA();
+extern void cbRxA_TxB();
+extern void cbRxB_TxA();
+extern void cbRxB_TxB();
+
 extern void setFocus();
 extern void show_controls();
 

@@ -11,13 +11,15 @@ extern void openFreqCalibDialog();
 #include "FreqControl.h"
 extern cFreqControl *FreqDisp;
 extern cFreqControl *FreqDispB;
-#include <FL/Fl_Box.H>
+#include <FL/Fl_Button.H>
+extern Fl_Button *btnRxA_TxA;
+extern Fl_Button *btnRxA_TxB;
+extern Fl_Button *btnA2B;
+extern Fl_Button *btnB2A;
+extern Fl_Button *btnRxB_TxA;
+extern Fl_Button *btnRxB_TxB;
 #include <FL/Fl_Browser.H>
 extern Fl_Browser *FreqSelect;
-#include <FL/Fl_Choice.H>
-extern Fl_Choice *vfoSelect;
-#include <FL/Fl_Button.H>
-extern Fl_Button *btnA2B;
 extern Fl_Button *btnAddFreq;
 extern Fl_Button *btnDelFreq;
 extern Fl_Button *btnClearList;
@@ -28,6 +30,7 @@ extern Fl_Wheel_Value_Slider *sldrIFSHIFT;
 extern Fl_Wheel_Value_Slider *sldrNOTCH;
 extern Fl_Wheel_Value_Slider *sldrDepth;
 extern Fl_Wheel_Value_Slider *sldrNR;
+#include <FL/Fl_Choice.H>
 extern Fl_Choice *opMODE;
 extern Fl_Choice *opBW;
 extern Fl_Choice *opNOTCH;
@@ -48,6 +51,7 @@ extern Fl_Button *btnSmeter;
 extern Fl_SigBar *sldrRcvSignal;
 extern Fl_Button *btnPower;
 extern Fl_SigBar *sldrFwdPwr;
+#include <FL/Fl_Box.H>
 extern Fl_Box *boxSWR;
 extern Fl_SigBar *sldrRefPwr;
 extern Fl_Box *boxSquelch;

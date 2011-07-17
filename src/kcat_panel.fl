@@ -132,29 +132,42 @@ Fl_Tooltip::enable(xcvrState.tooltips);}
       code3 {o->setCallBack(movFreqB);}
       class cFreqControl
     }
-    Fl_Box {} {
-      label {vfo A}
-      xywh {2 68 50 20} box FLAT_BOX color 51 align 20
+    Fl_Button btnRxA_TxA {
+      label {A/A}
+      callback {cbRxA_TxA();}
+      tooltip {T/R on A} xywh {2 67 40 20} color 215
     }
-    Fl_Box {} {
-      label {vfo B}
-      xywh {306 68 50 20} box FLAT_BOX color 51 align 20
+    Fl_Button btnRxA_TxB {
+      label {A/B}
+      callback {cbRxA_TxB();}
+      tooltip {Rx on A
+Tx on B} xywh {45 67 40 20} color 215
+    }
+    Fl_Button btnA2B {
+      label {@->}
+      callback {cbA2B();}
+      tooltip {Vfo A --> Vfo B} xywh {132 67 40 20}
+    }
+    Fl_Button btnB2A {
+      label {@<-}
+      callback {cbB2A();}
+      tooltip {Vfo B --> Vfo A} xywh {180 67 40 20}
+    }
+    Fl_Button btnRxB_TxA {
+      label {B/A}
+      callback {cbRxB_TxA();}
+      tooltip {Rx on B
+Tx on A} xywh {266 67 40 20} color 215
+    }
+    Fl_Button btnRxB_TxB {
+      label {B/B}
+      callback {cbRxB_TxB();} selected
+      tooltip {T/R on B} xywh {310 67 40 20} color 215
     }
     Fl_Browser FreqSelect {
       callback {if (FreqSelect->value())
 selectFreq();}
       tooltip {Select operating frequency/mode} xywh {377 2 150 63} type Hold labelfont 4 labelsize 12 textfont 13 textsize 12
-    }
-    Fl_Choice vfoSelect {
-      callback {cbVFOsel();} open
-      xywh {72 68 100 20} box DOWN_BOX down_box BORDER_BOX color 50
-      code0 {o->add("Rx-A Tx-A|Rx-B Tx-B|Rx-A Tx-B|Rx-B Tx-A");}
-      code1 {o->value(0);}
-    } {}
-    Fl_Button btnA2B {
-      label {A -> B}
-      callback {cbA2B();}
-      tooltip {Active -> Inactive} xywh {180 68 55 20}
     }
     Fl_Button btnAddFreq {
       label {@|>}
@@ -273,7 +286,7 @@ selectFreq();}
     Fl_Group {} {open
       xywh {407 67 122 212} box THIN_DOWN_BOX
     } {
-      Fl_Group grpMeters {open selected
+      Fl_Group grpMeters {open
         xywh {408 68 120 210} box FLAT_BOX color 32 selection_color 52 align 20
       } {
         Fl_Button btnSmeter {
@@ -688,7 +701,7 @@ Function {FreqCalibDialog()} {} {
 Function {DisplayDialog()} {} {
   Fl_Window {} {
     label {kcat colors / scheme} open
-    xywh {771 521 424 295} type Double visible
+    xywh {771 521 424 295} type Double hide
   } {
     Fl_Group {} {open
       xywh {2 2 218 70} box ENGRAVED_FRAME

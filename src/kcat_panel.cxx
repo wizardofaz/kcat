@@ -90,23 +90,47 @@ cFreqControl *FreqDisp=(cFreqControl *)0;
 
 cFreqControl *FreqDispB=(cFreqControl *)0;
 
-Fl_Browser *FreqSelect=(Fl_Browser *)0;
+Fl_Button *btnRxA_TxA=(Fl_Button *)0;
 
-static void cb_FreqSelect(Fl_Browser*, void*) {
-  if (FreqSelect->value())
-selectFreq();
+static void cb_btnRxA_TxA(Fl_Button*, void*) {
+  cbRxA_TxA();
 }
 
-Fl_Choice *vfoSelect=(Fl_Choice *)0;
+Fl_Button *btnRxA_TxB=(Fl_Button *)0;
 
-static void cb_vfoSelect(Fl_Choice*, void*) {
-  cbVFOsel();
+static void cb_btnRxA_TxB(Fl_Button*, void*) {
+  cbRxA_TxB();
 }
 
 Fl_Button *btnA2B=(Fl_Button *)0;
 
 static void cb_btnA2B(Fl_Button*, void*) {
   cbA2B();
+}
+
+Fl_Button *btnB2A=(Fl_Button *)0;
+
+static void cb_btnB2A(Fl_Button*, void*) {
+  cbB2A();
+}
+
+Fl_Button *btnRxB_TxA=(Fl_Button *)0;
+
+static void cb_btnRxB_TxA(Fl_Button*, void*) {
+  cbRxB_TxA();
+}
+
+Fl_Button *btnRxB_TxB=(Fl_Button *)0;
+
+static void cb_btnRxB_TxB(Fl_Button*, void*) {
+  cbRxB_TxB();
+}
+
+Fl_Browser *FreqSelect=(Fl_Browser *)0;
+
+static void cb_FreqSelect(Fl_Browser*, void*) {
+  if (FreqSelect->value())
+selectFreq();
 }
 
 Fl_Button *btnAddFreq=(Fl_Button *)0;
@@ -496,16 +520,34 @@ Fl_Double_Window* kcat_window() {
       o->SetONOFFCOLOR (FL_YELLOW, FL_BLACK);
       o->setCallBack(movFreqB);
     } // cFreqControl* FreqDispB
-    { Fl_Box* o = new Fl_Box(2, 68, 50, 20, _("vfo A"));
-      o->box(FL_FLAT_BOX);
-      o->color((Fl_Color)51);
-      o->align(FL_ALIGN_LEFT|FL_ALIGN_INSIDE);
-    } // Fl_Box* o
-    { Fl_Box* o = new Fl_Box(306, 68, 50, 20, _("vfo B"));
-      o->box(FL_FLAT_BOX);
-      o->color((Fl_Color)51);
-      o->align(FL_ALIGN_LEFT|FL_ALIGN_INSIDE);
-    } // Fl_Box* o
+    { btnRxA_TxA = new Fl_Button(2, 67, 40, 20, _("A/A"));
+      btnRxA_TxA->tooltip(_("T/R on A"));
+      btnRxA_TxA->color((Fl_Color)215);
+      btnRxA_TxA->callback((Fl_Callback*)cb_btnRxA_TxA);
+    } // Fl_Button* btnRxA_TxA
+    { btnRxA_TxB = new Fl_Button(45, 67, 40, 20, _("A/B"));
+      btnRxA_TxB->tooltip(_("Rx on A\nTx on B"));
+      btnRxA_TxB->color((Fl_Color)215);
+      btnRxA_TxB->callback((Fl_Callback*)cb_btnRxA_TxB);
+    } // Fl_Button* btnRxA_TxB
+    { btnA2B = new Fl_Button(132, 67, 40, 20, _("@->"));
+      btnA2B->tooltip(_("Vfo A --> Vfo B"));
+      btnA2B->callback((Fl_Callback*)cb_btnA2B);
+    } // Fl_Button* btnA2B
+    { btnB2A = new Fl_Button(180, 67, 40, 20, _("@<-"));
+      btnB2A->tooltip(_("Vfo B --> Vfo A"));
+      btnB2A->callback((Fl_Callback*)cb_btnB2A);
+    } // Fl_Button* btnB2A
+    { btnRxB_TxA = new Fl_Button(266, 67, 40, 20, _("B/A"));
+      btnRxB_TxA->tooltip(_("Rx on B\nTx on A"));
+      btnRxB_TxA->color((Fl_Color)215);
+      btnRxB_TxA->callback((Fl_Callback*)cb_btnRxB_TxA);
+    } // Fl_Button* btnRxB_TxA
+    { btnRxB_TxB = new Fl_Button(310, 67, 40, 20, _("B/B"));
+      btnRxB_TxB->tooltip(_("T/R on B"));
+      btnRxB_TxB->color((Fl_Color)215);
+      btnRxB_TxB->callback((Fl_Callback*)cb_btnRxB_TxB);
+    } // Fl_Button* btnRxB_TxB
     { FreqSelect = new Fl_Browser(377, 2, 150, 63);
       FreqSelect->tooltip(_("Select operating frequency/mode"));
       FreqSelect->type(2);
@@ -515,18 +557,6 @@ Fl_Double_Window* kcat_window() {
       FreqSelect->textsize(12);
       FreqSelect->callback((Fl_Callback*)cb_FreqSelect);
     } // Fl_Browser* FreqSelect
-    { Fl_Choice* o = vfoSelect = new Fl_Choice(72, 68, 100, 20);
-      vfoSelect->box(FL_DOWN_BOX);
-      vfoSelect->down_box(FL_BORDER_BOX);
-      vfoSelect->color((Fl_Color)FL_LIGHT1);
-      vfoSelect->callback((Fl_Callback*)cb_vfoSelect);
-      o->add("Rx-A Tx-A|Rx-B Tx-B|Rx-A Tx-B|Rx-B Tx-A");
-      o->value(0);
-    } // Fl_Choice* vfoSelect
-    { btnA2B = new Fl_Button(180, 68, 55, 20, _("A -> B"));
-      btnA2B->tooltip(_("Active -> Inactive"));
-      btnA2B->callback((Fl_Callback*)cb_btnA2B);
-    } // Fl_Button* btnA2B
     { btnAddFreq = new Fl_Button(355, 2, 20, 20, _("@|>"));
       btnAddFreq->tooltip(_("Add to list"));
       btnAddFreq->box(FL_PLASTIC_UP_BOX);

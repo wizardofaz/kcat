@@ -78,6 +78,7 @@ void initkcat()
 
 	GetKachinaVersion();
 	initXcvrState();
+	cbRxA_TxA();
 }
 
 void initOptionMenus()
@@ -150,21 +151,24 @@ void setInhibits() {
 
 }
 
-static bool nofocus = false;
-
 void setFocus()
 {
 	if (dlgAntPorts != NULL && dlgAntPorts->visible())
 		return;
-	if (nofocus) return;
 	if (rx_on_a) Fl::focus(FreqDisp);
 	else Fl::focus(FreqDispB);
 }
 
 void setBW() {
-	vfoA.iBW = opBW->value();
-	setXcvrBW (vfoA.iBW);
-	send_new_bandwidth(vfoA.iBW);
+	if (tx_on_a) {
+		vfoA.iBW = opBW->value();
+		setXcvrBW (vfoA.iBW);
+		send_new_bandwidth(vfoA.iBW);
+	} else {
+		vfoB.iBW = opBW->value();
+		setXcvrBW (vfoB.iBW);
+		send_new_bandwidth(vfoB.iBW);
+	}
 	setIFshift();
 }
 
@@ -182,8 +186,13 @@ void setMode()
 			default: opBW->value(7); setBW(); break;
 		}
 		setInhibits();
-		vfoA.imode = new_mode;
-		send_new_mode(vfoA.imode);
+		if (tx_on_a) {
+			vfoA.imode = new_mode;
+			send_new_mode(vfoA.imode);
+		} else {
+			vfoB.imode = new_mode;
+			send_new_mode(vfoB.imode);
+		}
 	} else setBW();
 }
 
@@ -297,7 +306,9 @@ int movFreq()
 		FreqDisp->SetONOFFCOLOR( fgclr, bgclr);
 		FreqDispB->SetONOFFCOLOR( fgclr, fl_color_average(bgclr, FL_BLACK, 0.87));
 	}
-	if (tx_on_a) setXcvrXmtFreq(vfoA.freq, 0);
+	if (tx_on_a) {
+		setXcvrXmtFreq(vfoA.freq, 0);
+	}
 	setXcvrSplit();
 	return 0;
 }
@@ -313,55 +324,137 @@ int movFreqB()
 		FreqDispB->SetONOFFCOLOR( fgclr, bgclr);
 		FreqDisp->SetONOFFCOLOR( fgclr, fl_color_average(bgclr, FL_BLACK, 0.87));
 	}
-	if (!tx_on_a) setXcvrXmtFreq(vfoB.freq, 0);
+	if (!tx_on_a) {
+		setXcvrXmtFreq(vfoB.freq, 0);
+	}
 	setXcvrSplit();
 	return 0;
 }
 
-void cbVFOsel()
+void cbRxA()
 {
-	switch (vfoSelect->value()) {
-		case 0 : // t/r on A
-			rx_on_a = tx_on_a = true;
-			opMODE->value(vfoA.imode);
-			opBW->value(vfoA.iBW);
-			setXcvrMode(vfoA.imode);
-			setXcvrBW(vfoA.iBW);
-			send_new_mode(vfoA.imode);
-			send_new_bandwidth(vfoA.iBW);
-			break;
-		case 1 : // t/r on B
-			rx_on_a = tx_on_a = false; 
-			opMODE->value(vfoB.imode);
-			opBW->value(vfoB.iBW);
-			setXcvrMode(vfoB.imode);
-			setXcvrBW(vfoB.iBW);
-			send_new_mode(vfoB.imode);
-			send_new_bandwidth(vfoB.iBW);
-			break;
-		case 2 : 
-			rx_on_a = true; 
-			tx_on_a = false; 
-			opMODE->value(vfoB.imode);
-			opBW->value(vfoB.iBW);
-			setXcvrMode(vfoB.imode);
-			setXcvrBW(vfoB.iBW);
-			send_new_mode(vfoB.imode);
-			send_new_bandwidth(vfoB.iBW);
-			break;
-		case 3 : 
-			rx_on_a = false; 
-			tx_on_a = true; 
-			opMODE->value(vfoA.imode);
-			opBW->value(vfoA.iBW);
-			setXcvrMode(vfoA.imode);
-			setXcvrBW(vfoA.iBW);
-			send_new_mode(vfoA.imode);
-			send_new_bandwidth(vfoA.iBW);
-			break;
+	rx_on_a = true;
+	if (tx_on_a) {
+		opMODE->value(vfoA.imode);
+		opBW->value(vfoA.iBW);
+		setXcvrMode(vfoA.imode);
+		setXcvrBW(vfoA.iBW);
+		send_new_mode(vfoA.imode);
+		send_new_bandwidth(vfoA.iBW);
+	} else {
+		opMODE->value(vfoB.imode);
+		opBW->value(vfoB.iBW);
+		setXcvrMode(vfoB.imode);
+		setXcvrBW(vfoB.iBW);
+		send_new_mode(vfoB.imode);
+		send_new_bandwidth(vfoB.iBW);
 	}
 	movFreq();
 	movFreqB();
+}
+
+void cbTxA()
+{
+	tx_on_a = true;
+	opMODE->value(vfoA.imode);
+	opBW->value(vfoA.iBW);
+	setXcvrMode(vfoA.imode);
+	setXcvrBW(vfoA.iBW);
+	send_new_mode(vfoA.imode);
+	send_new_bandwidth(vfoA.iBW);
+	movFreq();
+	movFreqB();
+}
+
+void cbRxB()
+{
+	rx_on_a = false;
+	if (!tx_on_a) {
+		opMODE->value(vfoB.imode);
+		opBW->value(vfoB.iBW);
+		setXcvrMode(vfoB.imode);
+		setXcvrBW(vfoB.iBW);
+		send_new_mode(vfoB.imode);
+		send_new_bandwidth(vfoB.iBW);
+	} else {
+		opMODE->value(vfoA.imode);
+		opBW->value(vfoA.iBW);
+		setXcvrMode(vfoA.imode);
+		setXcvrBW(vfoA.iBW);
+		send_new_mode(vfoA.imode);
+		send_new_bandwidth(vfoA.iBW);
+	}
+	movFreq();
+	movFreqB();
+}
+
+void cbTxB()
+{
+	tx_on_a = false;
+	opMODE->value(vfoB.imode);
+	opBW->value(vfoB.iBW);
+	setXcvrMode(vfoB.imode);
+	setXcvrBW(vfoB.iBW);
+	send_new_mode(vfoB.imode);
+	send_new_bandwidth(vfoB.iBW);
+	movFreq();
+	movFreqB();
+}
+
+void cbRxA_TxA()
+{
+	cbRxA();
+	cbTxA();
+	btnRxA_TxA->color((Fl_Color)215);
+	btnRxA_TxB->color((Fl_Color)FL_BACKGROUND_COLOR);
+	btnRxB_TxA->color((Fl_Color)FL_BACKGROUND_COLOR);
+	btnRxB_TxB->color((Fl_Color)FL_BACKGROUND_COLOR);
+	btnRxA_TxA->redraw();
+	btnRxA_TxB->redraw();
+	btnRxB_TxA->redraw();
+	btnRxB_TxB->redraw();
+}
+
+void cbRxA_TxB()
+{
+	cbRxA();
+	cbTxB();
+	btnRxA_TxA->color((Fl_Color)FL_BACKGROUND_COLOR);
+	btnRxA_TxB->color((Fl_Color)215);
+	btnRxB_TxA->color((Fl_Color)FL_BACKGROUND_COLOR);
+	btnRxB_TxB->color((Fl_Color)FL_BACKGROUND_COLOR);
+	btnRxA_TxA->redraw();
+	btnRxA_TxB->redraw();
+	btnRxB_TxA->redraw();
+	btnRxB_TxB->redraw();
+}
+
+void cbRxB_TxA()
+{
+	cbRxB();
+	cbTxA();
+	btnRxA_TxA->color((Fl_Color)FL_BACKGROUND_COLOR);
+	btnRxA_TxB->color((Fl_Color)FL_BACKGROUND_COLOR);
+	btnRxB_TxA->color((Fl_Color)215);
+	btnRxB_TxB->color((Fl_Color)FL_BACKGROUND_COLOR);
+	btnRxA_TxA->redraw();
+	btnRxA_TxB->redraw();
+	btnRxB_TxA->redraw();
+	btnRxB_TxB->redraw();
+}
+
+void cbRxB_TxB()
+{
+	cbRxB();
+	cbTxB();
+	btnRxA_TxA->color((Fl_Color)FL_BACKGROUND_COLOR);
+	btnRxA_TxB->color((Fl_Color)FL_BACKGROUND_COLOR);
+	btnRxB_TxA->color((Fl_Color)FL_BACKGROUND_COLOR);
+	btnRxB_TxB->color((Fl_Color)215);
+	btnRxA_TxA->redraw();
+	btnRxA_TxB->redraw();
+	btnRxB_TxA->redraw();
+	btnRxB_TxB->redraw();
 }
 
 void cbA2B()
@@ -370,9 +463,19 @@ void cbA2B()
 	vfoB.imode = vfoA.imode;
 	vfoB.iBW = vfoA.iBW;
 	FreqDispB->value(vfoB.freq);
-	cbVFOsel();
+	movFreq();
+	movFreqB();
 }
 
+void cbB2A()
+{
+	vfoA.freq = vfoB.freq;
+	vfoA.imode = vfoB.imode;
+	vfoA.iBW = vfoB.iBW;
+	FreqDisp->value(vfoA.freq);
+	movFreq();
+	movFreqB();
+}
 
 void selectFreq() {
 	int n = FreqSelect->value();
@@ -791,9 +894,7 @@ void openFreqList()
 void saveFreqList()
 {
     if (!numinlist) return;
-	nofocus = true;
     char *p = fl_file_chooser("Save freq list", "*.arv", defFileName);
-	nofocus = false;
     if (p) {
 		ofstream oList(p);
 		if (!oList) {
