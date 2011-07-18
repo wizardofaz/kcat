@@ -626,8 +626,8 @@ Write Total Timeout Multiplier...... %ld",
 bool CSerialComm::SetCommTimeout() {
 	return SetCommunicationTimeouts (
 		0, 		// Read Interval Timeout
-		10,		// Read Total Timeout Multiplier
-		0,		// Read Total Timeout Constant
+		20,		// Read Total Timeout Multiplier
+		50,		// Read Total Timeout Constant
 		50,		// Write Total Timeout Constant
 		0		// Write Total Timeout Multiplier
 		);
