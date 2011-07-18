@@ -182,6 +182,7 @@ void cFreqControl::updatevalue()
 	}
 	decbx->label(".");
 	redraw();//damage();
+	Fl::flush();
 }
 
 void cFreqControl::font(Fl_Font fnt)
@@ -257,8 +258,8 @@ void cFreqControl::value(long lv)
 
 int cFreqControl::handle(int event)
 {
-	if (!Fl::event_inside(this))
-		return Fl_Group::handle(event);
+//	if (!Fl::event_inside(this))
+//		return Fl_Group::handle(event);
 
 	int d;
 	switch (event) {

@@ -153,10 +153,10 @@ void setInhibits() {
 
 void setFocus()
 {
-	if (dlgAntPorts != NULL && dlgAntPorts->visible())
-		return;
+//	if (dlgAntPorts != NULL && dlgAntPorts->visible())
+//		return;
 	if (rx_on_a) Fl::focus(FreqDisp);
-	else Fl::focus(FreqDispB);
+	else         Fl::focus(FreqDispB);
 }
 
 void setBW() {
@@ -931,7 +931,6 @@ void cbSmeter()
 		btnSmeter->image(image_smeter);
 	else
 		btnSmeter->image(image_dbm);
-	setFocus();
 	btnSmeter->redraw();
 }
 
@@ -943,7 +942,6 @@ void cbPWR()
 	} else {
 		btnPower->image(image_alc);
 	}
-	setFocus();
 	btnPower->redraw();
 }
 
@@ -1078,6 +1076,7 @@ void parseTelemetry(void *)
 			zeroSmeter();
 		}
 	}
+	setFocus();
 }
 
 void * telemetry_thread_loop(void *d)
