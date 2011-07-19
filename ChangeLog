@@ -1,5 +1,6 @@
-2011-07-15  David Freese  <w1hkj@w1hkj.com>
+2011-07-17  David Freese  <w1hkj@w1hkj.com>
 
+	aee3dfa: A/B vfo usage
 	405e251: SWR meter
 	7d6544e: SWR event logging
 	c6f08ac: VSWR computation
