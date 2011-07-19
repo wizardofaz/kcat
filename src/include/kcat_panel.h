@@ -38,7 +38,7 @@ extern Fl_Wheel_Value_Slider *sldrMICGAIN;
 extern Fl_Wheel_Value_Slider *sldrPOWER;
 #include <FL/Fl_Light_Button.H>
 extern Fl_Light_Button *btnRIT;
-extern Fl_Light_Button *btnMute;
+extern Fl_Light_Button *btnVol;
 extern Fl_Light_Button *btnIFsh;
 extern Fl_Light_Button *btnNotch;
 extern Fl_Light_Button *btnNR;

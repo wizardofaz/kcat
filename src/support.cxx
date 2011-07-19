@@ -631,9 +631,9 @@ void setVolume()
 	setXcvrVolume(sldrVOLUME->value());
 }
 
-void cbMute()
+void cbVol()
 {
-	if (btnMute->value() == 1) {
+	if (btnVol->value() == 0) {
 		sldrVOLUME->deactivate();
 		setXcvrVolume(0.0);
 	} else {

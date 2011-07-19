@@ -477,7 +477,7 @@ void XCVRSTATE::loadLastState()
 	sldrRefPwr->color(fl_rgb_color (swrRed, swrGreen, swrBlue), bgclr);
 	sldrRefPwr->PeakColor(fl_rgb_color(peakRed, peakGreen, peakBlue));
 
-	btnMute->selection_color(btn_lt_color);
+	btnVol->selection_color(btn_lt_color);
 	btnNR->selection_color(btn_lt_color);
 	btnIFsh->selection_color(btn_lt_color);
 	btnNotch->selection_color(btn_lt_color);

@@ -223,10 +223,10 @@ static void cb_btnRIT(Fl_Light_Button*, void*) {
   cbbtnRIT();
 }
 
-Fl_Light_Button *btnMute=(Fl_Light_Button *)0;
+Fl_Light_Button *btnVol=(Fl_Light_Button *)0;
 
-static void cb_btnMute(Fl_Light_Button*, void*) {
-  cbMute();
+static void cb_btnVol(Fl_Light_Button*, void*) {
+  cbVol();
 }
 
 Fl_Light_Button *btnIFsh=(Fl_Light_Button *)0;
@@ -522,12 +522,12 @@ Fl_Double_Window* kcat_window() {
     } // cFreqControl* FreqDispB
     { btnRxA_TxA = new Fl_Button(2, 67, 40, 20, _("A/A"));
       btnRxA_TxA->tooltip(_("T/R on A"));
-      btnRxA_TxA->color((Fl_Color)215);
+      btnRxA_TxA->color((Fl_Color)FL_LIGHT1);
       btnRxA_TxA->callback((Fl_Callback*)cb_btnRxA_TxA);
     } // Fl_Button* btnRxA_TxA
     { btnRxA_TxB = new Fl_Button(45, 67, 40, 20, _("A/B"));
       btnRxA_TxB->tooltip(_("Rx on A\nTx on B"));
-      btnRxA_TxB->color((Fl_Color)215);
+      btnRxA_TxB->color((Fl_Color)FL_LIGHT1);
       btnRxA_TxB->callback((Fl_Callback*)cb_btnRxA_TxB);
     } // Fl_Button* btnRxA_TxB
     { btnA2B = new Fl_Button(132, 67, 40, 20, _("@->"));
@@ -540,12 +540,12 @@ Fl_Double_Window* kcat_window() {
     } // Fl_Button* btnB2A
     { btnRxB_TxA = new Fl_Button(266, 67, 40, 20, _("B/A"));
       btnRxB_TxA->tooltip(_("Rx on B\nTx on A"));
-      btnRxB_TxA->color((Fl_Color)215);
+      btnRxB_TxA->color((Fl_Color)FL_LIGHT1);
       btnRxB_TxA->callback((Fl_Callback*)cb_btnRxB_TxA);
     } // Fl_Button* btnRxB_TxA
     { btnRxB_TxB = new Fl_Button(310, 67, 40, 20, _("B/B"));
       btnRxB_TxB->tooltip(_("T/R on B"));
-      btnRxB_TxB->color((Fl_Color)215);
+      btnRxB_TxB->color((Fl_Color)FL_LIGHT1);
       btnRxB_TxB->callback((Fl_Callback*)cb_btnRxB_TxB);
     } // Fl_Button* btnRxB_TxB
     { FreqSelect = new Fl_Browser(377, 2, 150, 63);
@@ -575,7 +575,7 @@ Fl_Double_Window* kcat_window() {
       btnClearList->labelsize(10);
       btnClearList->callback((Fl_Callback*)cb_btnClearList);
     } // Fl_Button* btnClearList
-    { Fl_Wheel_Value_Slider* o = sldrRIT = new Fl_Wheel_Value_Slider(2, 90, 340, 18);
+    { Fl_Wheel_Value_Slider* o = sldrRIT = new Fl_Wheel_Value_Slider(2, 88, 348, 20);
       sldrRIT->tooltip(_("RIT (-790 to 790 Hz)"));
       sldrRIT->type(5);
       sldrRIT->box(FL_DOWN_BOX);
@@ -594,7 +594,7 @@ Fl_Double_Window* kcat_window() {
       sldrRIT->when(FL_WHEN_CHANGED);
       o->reverse(true);
     } // Fl_Wheel_Value_Slider* sldrRIT
-    { Fl_Wheel_Value_Slider* o = sldrVOLUME = new Fl_Wheel_Value_Slider(2, 111, 340, 18, _("Audio Volume"));
+    { Fl_Wheel_Value_Slider* o = sldrVOLUME = new Fl_Wheel_Value_Slider(2, 109, 348, 20, _("Audio Volume"));
       sldrVOLUME->tooltip(_("Audio output volume"));
       sldrVOLUME->type(5);
       sldrVOLUME->box(FL_DOWN_BOX);
@@ -611,7 +611,7 @@ Fl_Double_Window* kcat_window() {
       sldrVOLUME->when(FL_WHEN_CHANGED);
       o->reverse(true);
     } // Fl_Wheel_Value_Slider* sldrVOLUME
-    { Fl_Wheel_Value_Slider* o = sldrIFSHIFT = new Fl_Wheel_Value_Slider(2, 132, 340, 18);
+    { Fl_Wheel_Value_Slider* o = sldrIFSHIFT = new Fl_Wheel_Value_Slider(2, 130, 348, 20);
       sldrIFSHIFT->tooltip(_("Set IF Shift Frequency"));
       sldrIFSHIFT->type(5);
       sldrIFSHIFT->box(FL_DOWN_BOX);
@@ -630,7 +630,7 @@ Fl_Double_Window* kcat_window() {
       sldrIFSHIFT->when(FL_WHEN_CHANGED);
       o->reverse(true);
     } // Fl_Wheel_Value_Slider* sldrIFSHIFT
-    { Fl_Wheel_Value_Slider* o = sldrNOTCH = new Fl_Wheel_Value_Slider(2, 152, 340, 18);
+    { Fl_Wheel_Value_Slider* o = sldrNOTCH = new Fl_Wheel_Value_Slider(2, 151, 348, 20);
       sldrNOTCH->tooltip(_("Set Notch Frequency"));
       sldrNOTCH->type(5);
       sldrNOTCH->box(FL_DOWN_BOX);
@@ -669,7 +669,7 @@ Fl_Double_Window* kcat_window() {
       sldrDepth->hide();
       o->reverse(true);
     } // Fl_Wheel_Value_Slider* sldrDepth
-    { Fl_Wheel_Value_Slider* o = sldrNR = new Fl_Wheel_Value_Slider(2, 173, 340, 18);
+    { Fl_Wheel_Value_Slider* o = sldrNR = new Fl_Wheel_Value_Slider(2, 173, 348, 20);
       sldrNR->tooltip(_("Noise Reduction (min -> max)"));
       sldrNR->type(5);
       sldrNR->box(FL_DOWN_BOX);
@@ -692,17 +692,17 @@ Fl_Double_Window* kcat_window() {
       opMODE->down_box(FL_BORDER_BOX);
       opMODE->callback((Fl_Callback*)cb_opMODE);
     } // Fl_Choice* opMODE
-    { opBW = new Fl_Choice(95, 194, 85, 20);
+    { opBW = new Fl_Choice(98, 194, 85, 20);
       opBW->tooltip(_("Select Bandwidth"));
       opBW->down_box(FL_BORDER_BOX);
       opBW->callback((Fl_Callback*)cb_opBW);
     } // Fl_Choice* opBW
-    { opNOTCH = new Fl_Choice(188, 194, 85, 20);
+    { opNOTCH = new Fl_Choice(194, 194, 85, 20);
       opNOTCH->tooltip(_("Select Notch Depth"));
       opNOTCH->down_box(FL_BORDER_BOX);
       opNOTCH->callback((Fl_Callback*)cb_opNOTCH);
     } // Fl_Choice* opNOTCH
-    { Fl_Wheel_Value_Slider* o = sldrMICGAIN = new Fl_Wheel_Value_Slider(2, 216, 340, 18, _("Mic"));
+    { Fl_Wheel_Value_Slider* o = sldrMICGAIN = new Fl_Wheel_Value_Slider(2, 215, 348, 20, _("Mic"));
       sldrMICGAIN->tooltip(_("Mic / Gain control"));
       sldrMICGAIN->type(5);
       sldrMICGAIN->box(FL_DOWN_BOX);
@@ -718,7 +718,7 @@ Fl_Double_Window* kcat_window() {
       sldrMICGAIN->when(FL_WHEN_CHANGED);
       o->reverse(true);
     } // Fl_Wheel_Value_Slider* sldrMICGAIN
-    { Fl_Wheel_Value_Slider* o = sldrPOWER = new Fl_Wheel_Value_Slider(2, 237, 340, 18, _("Pwr"));
+    { Fl_Wheel_Value_Slider* o = sldrPOWER = new Fl_Wheel_Value_Slider(2, 236, 348, 20, _("Pwr"));
       sldrPOWER->tooltip(_("Set Power Output"));
       sldrPOWER->type(5);
       sldrPOWER->box(FL_DOWN_BOX);
@@ -737,31 +737,32 @@ Fl_Double_Window* kcat_window() {
       sldrPOWER->when(FL_WHEN_CHANGED);
       o->reverse(true);
     } // Fl_Wheel_Value_Slider* sldrPOWER
-    { btnRIT = new Fl_Light_Button(344, 90, 60, 18, _("RIT"));
+    { btnRIT = new Fl_Light_Button(352, 88, 54, 20, _("RIT"));
       btnRIT->tooltip(_("RIT on/off"));
       btnRIT->callback((Fl_Callback*)cb_btnRIT);
     } // Fl_Light_Button* btnRIT
-    { btnMute = new Fl_Light_Button(344, 111, 60, 18, _("mute"));
-      btnMute->tooltip(_("Speaker Mute on/off"));
-      btnMute->callback((Fl_Callback*)cb_btnMute);
-    } // Fl_Light_Button* btnMute
-    { btnIFsh = new Fl_Light_Button(344, 132, 60, 18, _("IFsh"));
+    { btnVol = new Fl_Light_Button(352, 109, 54, 20, _("Spkr"));
+      btnVol->tooltip(_("Speaker on/off"));
+      btnVol->value(1);
+      btnVol->callback((Fl_Callback*)cb_btnVol);
+    } // Fl_Light_Button* btnVol
+    { btnIFsh = new Fl_Light_Button(352, 130, 54, 20, _("IFsh"));
       btnIFsh->tooltip(_("IF Shift On/Off"));
       btnIFsh->callback((Fl_Callback*)cb_btnIFsh);
     } // Fl_Light_Button* btnIFsh
-    { btnNotch = new Fl_Light_Button(344, 152, 60, 18, _("Ntch"));
+    { btnNotch = new Fl_Light_Button(352, 151, 54, 20, _("Ntch"));
       btnNotch->tooltip(_("Notch - Manual (off) Auto (on)"));
       btnNotch->callback((Fl_Callback*)cb_btnNotch);
     } // Fl_Light_Button* btnNotch
-    { btnNR = new Fl_Light_Button(344, 173, 60, 18, _("NR"));
+    { btnNR = new Fl_Light_Button(352, 173, 54, 20, _("NR"));
       btnNR->tooltip(_("NR on/off"));
       btnNR->callback((Fl_Callback*)cb_btnNR);
     } // Fl_Light_Button* btnNR
-    { btnAttenuator = new Fl_Light_Button(282, 194, 60, 20, _("Att"));
+    { btnAttenuator = new Fl_Light_Button(290, 194, 60, 20, _("Att"));
       btnAttenuator->tooltip(_("Attenuator On/Off"));
       btnAttenuator->callback((Fl_Callback*)cb_btnAttenuator);
     } // Fl_Light_Button* btnAttenuator
-    { btnPreamp = new Fl_Light_Button(344, 194, 60, 20, _("Pre"));
+    { btnPreamp = new Fl_Light_Button(352, 194, 54, 20, _("Pre"));
       btnPreamp->tooltip(_("Preamp On/Off"));
       btnPreamp->callback((Fl_Callback*)cb_btnPreamp);
     } // Fl_Light_Button* btnPreamp
@@ -853,26 +854,26 @@ Fl_Double_Window* kcat_window() {
       btn_show_controls->tooltip(_("Show/Hide controls"));
       btn_show_controls->callback((Fl_Callback*)cb_btn_show_controls);
     } // Fl_Button* btn_show_controls
-    { btnPTT = new Fl_Light_Button(22, 258, 64, 20, _("PTT"));
+    { btnPTT = new Fl_Light_Button(24, 258, 64, 20, _("PTT"));
       btnPTT->tooltip(_("Xmt On/Off"));
       btnPTT->callback((Fl_Callback*)cb_btnPTT);
     } // Fl_Light_Button* btnPTT
-    { btnTune = new Fl_Light_Button(89, 258, 64, 20, _("Tune"));
+    { btnTune = new Fl_Light_Button(93, 258, 64, 20, _("Tune"));
       btnTune->tooltip(_("Auto-tune Antenna"));
       btnTune->type(0);
       btnTune->callback((Fl_Callback*)cb_btnTune);
     } // Fl_Light_Button* btnTune
-    { btnCarrier = new Fl_Light_Button(155, 258, 64, 20, _("Carr"));
+    { btnCarrier = new Fl_Light_Button(161, 258, 64, 20, _("Carr"));
       btnCarrier->tooltip(_("Constant Carrier"));
       btnCarrier->callback((Fl_Callback*)cb_btnCarrier);
     } // Fl_Light_Button* btnCarrier
-    { Fl_Choice* o = antSelect = new Fl_Choice(222, 258, 120, 20);
+    { Fl_Choice* o = antSelect = new Fl_Choice(230, 258, 120, 20);
       antSelect->down_box(FL_BORDER_BOX);
       antSelect->callback((Fl_Callback*)cb_antSelect);
       o->add("Ant: table|Ant: A-A|Ant: A-B|Ant: B-A|Ant: B-B");
       o->value(0);
     } // Fl_Choice* antSelect
-    { txtTEMP = new Fl_Output(344, 258, 40, 20, _("C"));
+    { txtTEMP = new Fl_Output(352, 258, 40, 20, _("C"));
       txtTEMP->tooltip(_("Click C / F"));
       txtTEMP->color((Fl_Color)FL_FOREGROUND_COLOR);
       txtTEMP->selection_color((Fl_Color)FL_BACKGROUND2_COLOR);

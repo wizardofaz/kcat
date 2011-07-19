@@ -100,7 +100,7 @@ extern void cbbtnRIT();
 extern void cbSmeter();
 extern void cbSWR();
 extern void cbPWR();
-extern void cbMute();
+extern void cbVol();
 extern void cbTemp();
 extern void GetKachinaVersion();
 

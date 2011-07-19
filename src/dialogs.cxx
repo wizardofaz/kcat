@@ -1272,7 +1272,7 @@ void setColors()
 
 	grpMeters->redraw();
 
-	btnMute->selection_color(btn_lt_color);
+	btnVol->selection_color(btn_lt_color);
 	btnNR->selection_color(btn_lt_color);
 	btnIFsh->selection_color(btn_lt_color);
 	btnNotch->selection_color(btn_lt_color);

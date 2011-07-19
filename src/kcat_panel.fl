@@ -134,14 +134,14 @@ Fl_Tooltip::enable(xcvrState.tooltips);}
     }
     Fl_Button btnRxA_TxA {
       label {A/A}
-      callback {cbRxA_TxA();}
-      tooltip {T/R on A} xywh {2 67 40 20} color 215
+      callback {cbRxA_TxA();} selected
+      tooltip {T/R on A} xywh {2 67 40 20} color 50
     }
     Fl_Button btnRxA_TxB {
       label {A/B}
-      callback {cbRxA_TxB();}
+      callback {cbRxA_TxB();} selected
       tooltip {Rx on A
-Tx on B} xywh {45 67 40 20} color 215
+Tx on B} xywh {45 67 40 20} color 50
     }
     Fl_Button btnA2B {
       label {@->}
@@ -155,14 +155,14 @@ Tx on B} xywh {45 67 40 20} color 215
     }
     Fl_Button btnRxB_TxA {
       label {B/A}
-      callback {cbRxB_TxA();}
+      callback {cbRxB_TxA();} selected
       tooltip {Rx on B
-Tx on A} xywh {266 67 40 20} color 215
+Tx on A} xywh {266 67 40 20} color 50
     }
     Fl_Button btnRxB_TxB {
       label {B/B}
       callback {cbRxB_TxB();} selected
-      tooltip {T/R on B} xywh {310 67 40 20} color 215
+      tooltip {T/R on B} xywh {310 67 40 20} color 50
     }
     Fl_Browser FreqSelect {
       callback {if (FreqSelect->value())
@@ -186,7 +186,7 @@ selectFreq();}
     }
     Fl_Value_Slider sldrRIT {
       callback {cbRIT();}
-      tooltip {RIT (-790 to 790 Hz)} xywh {2 90 340 18} type {Horz Knob} color 26 labeltype NO_LABEL align 8 minimum -790 maximum 790 step 10 textsize 14
+      tooltip {RIT (-790 to 790 Hz)} xywh {2 88 348 20} type {Horz Knob} color 26 labeltype NO_LABEL align 8 minimum -790 maximum 790 step 10 textsize 14
       code0 {\#include "ValueSlider.h"}
       code1 {o->reverse(true);}
       class Fl_Wheel_Value_Slider
@@ -194,19 +194,19 @@ selectFreq();}
     Fl_Value_Slider sldrVOLUME {
       label {Audio Volume}
       callback {setVolume();}
-      tooltip {Audio output volume} xywh {2 111 340 18} type {Horz Knob} color 26 labeltype NO_LABEL align 20 value 0.2 textsize 14
+      tooltip {Audio output volume} xywh {2 109 348 20} type {Horz Knob} color 26 labeltype NO_LABEL align 20 value 0.2 textsize 14
       code0 {o->reverse(true);}
       class Fl_Wheel_Value_Slider
     }
     Fl_Value_Slider sldrIFSHIFT {
       callback {setIFshift();}
-      tooltip {Set IF Shift Frequency} xywh {2 132 340 18} type {Horz Knob} color 26 labeltype NO_LABEL align 16 minimum -1280 maximum 1270 step 10 textsize 14
+      tooltip {Set IF Shift Frequency} xywh {2 130 348 20} type {Horz Knob} color 26 labeltype NO_LABEL align 16 minimum -1280 maximum 1270 step 10 textsize 14
       code0 {o->reverse(true);}
       class Fl_Wheel_Value_Slider
     }
     Fl_Value_Slider sldrNOTCH {
       callback {setNotch();}
-      tooltip {Set Notch Frequency} xywh {2 152 340 18} type {Horz Knob} color 26 labeltype NO_LABEL align 0 minimum 200 maximum 2750 step 10 textsize 14
+      tooltip {Set Notch Frequency} xywh {2 151 348 20} type {Horz Knob} color 26 labeltype NO_LABEL align 0 minimum 200 maximum 2750 step 10 textsize 14
       code0 {o->reverse(true);}
       class Fl_Wheel_Value_Slider
     }
@@ -218,7 +218,7 @@ selectFreq();}
     }
     Fl_Value_Slider sldrNR {
       callback {cbNR();}
-      tooltip {Noise Reduction (min -> max)} xywh {2 173 340 18} type {Horz Knob} color 26 labeltype NO_LABEL align 8 maximum 255 step 1 textsize 14
+      tooltip {Noise Reduction (min -> max)} xywh {2 173 348 20} type {Horz Knob} color 26 labeltype NO_LABEL align 8 maximum 255 step 1 textsize 14
       code0 {o->reverse(true);}
       class Fl_Wheel_Value_Slider
     }
@@ -228,60 +228,60 @@ selectFreq();}
     } {}
     Fl_Choice opBW {
       callback {setBW();} open
-      tooltip {Select Bandwidth} xywh {95 194 85 20} down_box BORDER_BOX
+      tooltip {Select Bandwidth} xywh {98 194 85 20} down_box BORDER_BOX
     } {}
     Fl_Choice opNOTCH {
       callback {setNotchWidth();} open
-      tooltip {Select Notch Depth} xywh {188 194 85 20} down_box BORDER_BOX
+      tooltip {Select Notch Depth} xywh {194 194 85 20} down_box BORDER_BOX
     } {}
     Fl_Value_Slider sldrMICGAIN {
       label Mic
       callback {setMicGain();}
-      tooltip {Mic / Gain control} xywh {2 216 340 18} type {Horz Knob} color 26 align 8 textsize 14
+      tooltip {Mic / Gain control} xywh {2 215 348 20} type {Horz Knob} color 26 align 8 textsize 14
       code0 {o->reverse(true);}
       class Fl_Wheel_Value_Slider
     }
     Fl_Value_Slider sldrPOWER {
       label Pwr
       callback {setPower();}
-      tooltip {Set Power Output} xywh {2 237 340 18} type {Horz Knob} color 26 align 8 maximum 100 step 1 value 20 textsize 14
+      tooltip {Set Power Output} xywh {2 236 348 20} type {Horz Knob} color 26 align 8 maximum 100 step 1 value 20 textsize 14
       code0 {o->reverse(true);}
       class Fl_Wheel_Value_Slider
     }
     Fl_Light_Button btnRIT {
       label RIT
       callback {cbbtnRIT();}
-      tooltip {RIT on/off} xywh {344 90 60 18}
+      tooltip {RIT on/off} xywh {352 88 54 20}
     }
-    Fl_Light_Button btnMute {
-      label mute
-      callback {cbMute();}
-      tooltip {Speaker Mute on/off} xywh {344 111 60 18}
+    Fl_Light_Button btnVol {
+      label Spkr
+      callback {cbVol();}
+      tooltip {Speaker on/off} xywh {352 109 54 20} value 1
     }
     Fl_Light_Button btnIFsh {
       label IFsh
       callback {cbIFsh();}
-      tooltip {IF Shift On/Off} xywh {344 132 60 18}
+      tooltip {IF Shift On/Off} xywh {352 130 54 20}
     }
     Fl_Light_Button btnNotch {
       label Ntch
       callback {cbbtnNotch();}
-      tooltip {Notch - Manual (off) Auto (on)} xywh {344 152 60 18}
+      tooltip {Notch - Manual (off) Auto (on)} xywh {352 151 54 20}
     }
     Fl_Light_Button btnNR {
       label NR
       callback {cbbtnNR();}
-      tooltip {NR on/off} xywh {344 173 60 18}
+      tooltip {NR on/off} xywh {352 173 54 20}
     }
     Fl_Light_Button btnAttenuator {
       label Att
       callback {cbAttenuator();}
-      tooltip {Attenuator On/Off} xywh {282 194 60 20}
+      tooltip {Attenuator On/Off} xywh {290 194 60 20}
     }
     Fl_Light_Button btnPreamp {
       label Pre
       callback {cbPreamp();}
-      tooltip {Preamp On/Off} xywh {344 194 60 20}
+      tooltip {Preamp On/Off} xywh {352 194 54 20}
     }
     Fl_Group {} {open
       xywh {407 67 122 212} box THIN_DOWN_BOX
@@ -340,28 +340,28 @@ selectFreq();}
     Fl_Light_Button btnPTT {
       label PTT
       callback {cbPTT();}
-      tooltip {Xmt On/Off} xywh {22 258 64 20}
+      tooltip {Xmt On/Off} xywh {24 258 64 20}
     }
     Fl_Light_Button btnTune {
       label Tune
       callback {cbTune();}
-      tooltip {Auto-tune Antenna} xywh {89 258 64 20} type Normal
+      tooltip {Auto-tune Antenna} xywh {93 258 64 20} type Normal
     }
     Fl_Light_Button btnCarrier {
       label Carr
       callback {cbCarrier();}
-      tooltip {Constant Carrier} xywh {155 258 64 20}
+      tooltip {Constant Carrier} xywh {161 258 64 20}
     }
     Fl_Choice antSelect {
       callback {cbAntSel();} open
-      xywh {222 258 120 20} down_box BORDER_BOX
+      xywh {230 258 120 20} down_box BORDER_BOX
       code0 {o->add("Ant: table|Ant: A-A|Ant: A-B|Ant: B-A|Ant: B-B");}
       code1 {o->value(0);}
     } {}
     Fl_Output txtTEMP {
       label C
       callback {cbTemp();}
-      tooltip {Click C / F} xywh {344 258 40 20} color 0 selection_color 7 labelfont 13 align 8 textfont 13 textcolor 62
+      tooltip {Click C / F} xywh {352 258 40 20} color 0 selection_color 7 labelfont 13 align 8 textfont 13 textcolor 62
     }
     Fl_Tabs tabs {open
       xywh {1 282 526 70} selection_color 50
