@@ -178,7 +178,7 @@ void setMode()
 {
 	MODES new_mode = (MODES)opMODE->value();
 	setXcvrMode (new_mode);
-	if (vfoA.imode != new_mode) {
+	if ((tx_on_a && vfoA.imode != new_mode) {
 		switch (opMODE->value()) {
 			case AM: opBW->value(8); setBW(); break;
 			case FM: opBW->value(8); setBW(); break;
@@ -186,14 +186,20 @@ void setMode()
 			default: opBW->value(7); setBW(); break;
 		}
 		setInhibits();
-		if (tx_on_a) {
-			vfoA.imode = new_mode;
-			send_new_mode(vfoA.imode);
-		} else {
-			vfoB.imode = new_mode;
-			send_new_mode(vfoB.imode);
+		vfoA.imode = new_mode;
+		send_new_mode(vfoA.imode);
+	} else if (!tx_on_a && vfoB.imode != new_mode) {
+		switch (opMODE->value()) {
+			case AM: opBW->value(8); setBW(); break;
+			case FM: opBW->value(8); setBW(); break;
+			case CW: opBW->value(2); setBW(); break;
+			default: opBW->value(7); setBW(); break;
 		}
-	} else setBW();
+		setInhibits();
+		vfoB.imode = new_mode;
+		send_new_mode(vfoB.imode);
+	} else
+		setBW();
 }
 
 void sortList() {
