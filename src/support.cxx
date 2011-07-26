@@ -487,17 +487,19 @@ void selectFreq() {
 	int n = FreqSelect->value();
 	if (!n) return;
 	n--;
-	vfoA = oplist[n];
-	FreqDisp->value(vfoA.freq);
-	opMODE->value(vfoA.imode);
-	opBW->value(vfoA.iBW);
-	setXcvrRcvFreq (vfoA.freq, 0);
-	setXcvrXmtFreq (vfoA.freq,  0);
-	setXcvrMode(vfoA.imode);
-	setXcvrBW(vfoA.iBW);
-	send_xml_freq(vfoA.freq);
-	send_new_mode(vfoA.imode);
-	send_new_bandwidth(vfoA.iBW);
+	if (rx_on_a) {
+		vfoA = oplist[n];
+		FreqDisp->value(vfoA.freq);
+		opMODE->value(vfoA.imode);
+		opBW->value(vfoA.iBW);
+		cbRxA_TxA();
+	} else {
+		vfoB = oplist[n];
+		FreqDispB->value(vfoB.freq);
+		opMODE->value(vfoB.imode);
+		opBW->value(vfoB.iBW);
+		cbRxB_TxB();
+	}
 }
 
 void delFreq() {
@@ -513,11 +515,14 @@ void delFreq() {
 }
 
 void addFreq() {
+FREQMODE vfo;
+	if (rx_on_a) vfo = vfoA;
+	else         vfo = vfoB;
 	for (int n = 0; n < numinlist; n++) 
-		if (vfoA.freq == oplist[n].freq && 
-			vfoA.imode == oplist[n].imode &&
-			vfoA.iBW == oplist[n].iBW ) return;
-	addtoList(vfoA.freq, vfoA.imode, vfoA.iBW);
+		if (vfo.freq == oplist[n].freq && 
+			vfo.imode == oplist[n].imode &&
+			vfo.iBW == oplist[n].iBW ) return;
+	addtoList(vfo.freq, vfo.imode, vfo.iBW);
 	updateSelect();
 }
 
