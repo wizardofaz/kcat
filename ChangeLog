@@ -1,45 +1,488 @@
-2011-07-25  David Freese  <w1hkj@w1hkj.com>
+commit 28ff53a62bf62c02d72195efffdb3e722568e297
+Author: David Freese <w1hkj@w1hkj.com>
+Date:   Tue Jul 26 08:26:51 2011 -0500
 
-	1c013dd: OPMODE vfoB
-	201d105: UI adjustments
-	7f13ae7: Focus
-	ef47248: Windows serial port
-	aa48180: A/B vfo usage
-	405e251: SWR meter
-	7d6544e: SWR event logging
-	c6f08ac: VSWR computation
-	600fb6b: Meter focus
-	f7a493c: Slider wheel movement
-	b2a6b6e: SWR meter colors
-	558dd2d: Metering
-	548e6e4: Serial i/o
-	3072ca2: Icon xpm
-	0647f32: Serial port
-	90ce63a: Pixmaps
-	cb884c5: Serial Port naming
-	af02764: Tooltips
-	1f6cfe2: KC505 no response
-	73bf6cd: On-line help
-	a2c2440: Name changes
-	054bd24: Monitor
-	75353ee: SndCmd usage
-	2c219a4: Termination Handler
-	cbc2aa3: XMLRPC Debug
-	7a436ba: Equalizer/Processor
-	1d33f7a: Metering
-	a1d4e79: Telemetry
-	8735194: ARV file
-	13d0263: Config-dir
-	7fd5322: Keyboard focus
-	09810a9: Debugging
-	0621b1e: Signal Bar
-	6d762c5: PTT
-	15d8dcf: State file
-	201a530: GUI redesign
-	0d67dad: XMLRPC
-	a2cb7d9: Threads
-	559c59f: FILEIO
-	c157fb9: Make distribution
-	e20b894: Code cleanup
-	99395ad: Install update
-	88933fa: Initial Kachina repository
+    Version 1.0.01AN
+    
+      Alpha release
+
+commit e3502f2b21cf94f886bc992de0ff0ce5f7656994
+Author: David Freese <w1hkj@w1hkj.com>
+Date:   Tue Jul 26 08:25:56 2011 -0500
+
+    Freq-Mode-BW list
+    
+      * Implemented save/restore from/to active RX VFO
+      * If in split mode the restore reverts to simplex
+        on the previous Rx VFO.
+
+commit c5e687a1f9ab00bde0186baff70b4f26522f4c21
+Author: David Freese <w1hkj@w1hkj.com>
+Date:   Mon Jul 25 15:47:25 2011 -0500
+
+    Version 1.0.01AM
+    
+      Alpha release
+
+commit 1c013dd0b4d1899bb250ca7960e891871759a05e
+Author: David Freese <w1hkj@w1hkj.com>
+Date:   Mon Jul 25 15:46:24 2011 -0500
+
+    OPMODE vfoB
+    
+      Save changes to mode on vfo B
+
+commit e739cc32d3ae6e0039eb60a6d458133444050629
+Author: David Freese <w1hkj@w1hkj.com>
+Date:   Mon Jul 18 20:48:12 2011 -0500
+
+    Version 1.0.01AL
+    
+      Alpha release
+
+commit 201d105232000976cc54ff19c849356c0dc3da3c
+Author: David Freese <w1hkj@w1hkj.com>
+Date:   Mon Jul 18 19:58:33 2011 -0500
+
+    UI adjustments
+    
+      * Changed mute to Vol
+      * Changed size of slider buttons
+      * Changed size and alignment of slide controls
+
+commit 7f13ae7163cf63fe807d60804d3110d97c764ab8
+Author: David Freese <w1hkj@w1hkj.com>
+Date:   Mon Jul 18 18:59:00 2011 -0500
+
+    Focus
+    
+      * Changed method of setting keyboard focus to frequency
+        display controls.
+      * Modified FreqDisp control class to respond to all directed
+        keyboard entries.
+      * Modified FreqDisp control to provide rapid display of changes
+        in value introduced by keyboard arrow keys etal.
+
+commit ef47248eecf7e741640a0fe6ab5173d14d38875a
+Author: David Freese <w1hkj@w1hkj.com>
+Date:   Mon Jul 18 18:52:18 2011 -0500
+
+    Windows serial port
+    
+      * Changed timeout constants for windows serial driver
+
+commit aa48180ea2cb8e7e3f848d9105d32306dec3a6be
+Author: David Freese <w1hkj@w1hkj.com>
+Date:   Sun Jul 17 15:57:43 2011 -0500
+
+    A/B vfo usage
+    
+      * Added vfo B to vfo A transfer
+      * Mods to setfocus
+      * Removed vfo usage selector
+      * Added RxA, TxA, RxB, TxB buttons
+        - active Rx/Tx button is high lighted
+
+commit 7943a02e0225e812080e4172bc660d57f9f3b6f5
+Author: David Freese <w1hkj@w1hkj.com>
+Date:   Sat Jul 16 06:12:51 2011 -0500
+
+    Version 1.0.0AK
+    
+      alpha release
+
+commit 405e2515f897c7a591e9b781e084cdbc1edf1e53
+Author: David Freese <w1hkj@w1hkj.com>
+Date:   Fri Jul 15 21:56:54 2011 -0500
+
+    SWR meter
+    
+      * Added aging to Fwd/ALC/SWR metering
+      * Corrected display for max values in SigBar class
+
+commit 644a6923036b890b3f7a89798162179fb004045c
+Author: David Freese <w1hkj@w1hkj.com>
+Date:   Thu Jul 14 18:14:03 2011 -0500
+
+    Version 1.0.01AJ
+    
+      alpha release
+
+commit 7d6544ed7685bdf49a9fefd66c2691a3d5a427d0
+Author: David Freese <w1hkj@w1hkj.com>
+Date:   Thu Jul 14 18:13:14 2011 -0500
+
+    SWR event logging
+    
+      * Changed event log (DEBUG level) for SWR to show
+        - fwd pwr in watts
+        - ref pwr in watts
+        - VSWR (range 1 to 5)
+
+commit 0375d0ef8f931c716fff16e61b841df96ac0f7dd
+Author: David Freese <w1hkj@w1hkj.com>
+Date:   Thu Jul 14 12:40:29 2011 -0500
+
+    Version 1.0.01AI
+    
+      alpha release
+
+commit c6f08acacf24038b885957df7e9da7582d212cbb
+Author: David Freese <w1hkj@w1hkj.com>
+Date:   Thu Jul 14 12:39:11 2011 -0500
+
+    VSWR computation
+    
+      * Added VSWR computation based on % fwd/ref power
+        - rho = sqrt(ref/fwd)
+        - vswr = (1 + rho)/(1-rho)
+        - 1:1 if fwd == 0
+
+commit b45787078174cbe25056b8810f5385e8d8922637
+Author: David Freese <w1hkj@w1hkj.com>
+Date:   Thu Jul 14 08:08:26 2011 -0500
+
+    Version 1.0.01AH
+    
+      Alpha release
+
+commit 600fb6b3f2404f57cb25e3a7dac0c9316f86d9c3
+Author: David Freese <w1hkj@w1hkj.com>
+Date:   Thu Jul 14 08:07:20 2011 -0500
+
+    Meter focus
+    
+      * Removed focus from meter buttons after press
+        - extinguishes the focus rectangle
+
+commit f7a493c4c4aa29a1988b6443ef5810e7d06e0470
+Author: David Freese <w1hkj@w1hkj.com>
+Date:   Thu Jul 14 06:09:12 2011 -0500
+
+    Slider wheel movement
+    
+      * Reversed send of wheel movement for all value sliders
+
+commit b2a6b6e7a966d305ddb98edf799c772e32f79b31
+Author: David Freese <w1hkj@w1hkj.com>
+Date:   Wed Jul 13 21:11:09 2011 -0500
+
+    SWR meter colors
+    
+      * Added color adjust visibility to SWR on color dialog
+
+commit 37ee50ea619e4ff161e9633432833e5ed6ef99d0
+Author: David Freese <w1hkj@w1hkj.com>
+Date:   Wed Jul 13 19:10:48 2011 -0500
+
+    Version 1.0.01AG
+    
+      Alpha release
+
+commit 558dd2defdd76173efcc031a715719a838d893ff
+Author: David Freese <w1hkj@w1hkj.com>
+Date:   Wed Jul 13 18:58:22 2011 -0500
+
+    Metering
+    
+      * Restored 3 meter view
+        - S-meter, uvolts, dBm
+        - Fwd Pwr, ALC
+        - SWR
+
+commit 90b1addb2447534127358f71290a40404e6c4907
+Author: David Freese <w1hkj@w1hkj.com>
+Date:   Wed Jul 13 18:31:34 2011 -0500
+
+    Version 1.0.01AF
+    
+      Alpha release
+
+commit 548e6e490448b7182cf3e7b556514e2050923ab3
+Author: David Freese <w1hkj@w1hkj.com>
+Date:   Wed Jul 13 18:27:19 2011 -0500
+
+    Serial i/o
+    
+      * Added serial mutex mechanism
+      * Replaced class CSerialComm with source from flrig
+      * Replaced serial port discovery code with source
+        from flrig
+      * Adds serial port naming for APPLE and Free BSD
+
+commit 3072ca2e2fd22242ac9beb1cb90568e3ecf222b8
+Author: David Freese <w1hkj@w1hkj.com>
+Date:   Wed Jul 13 14:14:51 2011 -0500
+
+    Icon xpm
+    
+      Added kcat_icon.cxx, an xpm definition file
+
+commit 0647f32b049f50085686cbbc4150775265868743
+Author: David Freese <w1hkj@w1hkj.com>
+Date:   Tue Jul 12 05:26:22 2011 -0500
+
+    Serial port
+    
+      Corrected method tests for unassigned fd.
+
+commit 90ce63a98de3df0dccf76098cf0b5a48b4fb2a91
+Author: David Freese <w1hkj@w1hkj.com>
+Date:   Mon Jul 11 18:12:29 2011 -0500
+
+    Pixmaps
+    
+      Added compile test for OS X
+
+commit cb884c56844223762788fbb91f16222cbfa893a2
+Author: David Freese <w1hkj@w1hkj.com>
+Date:   Mon Jul 11 18:00:06 2011 -0500
+
+    Serial Port naming
+    
+      * Changed serial port name variable to string to avoid
+        issue with very long device driver names
+
+commit af027647237690759280f02c678683900351d4a3
+Author: David Freese <w1hkj@w1hkj.com>
+Date:   Mon Jul 11 15:07:13 2011 -0500
+
+    Tooltips
+    
+      Added ability to enable or disable tooltips
+
+commit 1f6cfe2da261fc077efdd216feaa7dba6803e9f4
+Author: David Freese <w1hkj@w1hkj.com>
+Date:   Mon Jul 11 08:18:30 2011 -0500
+
+    KC505 no response
+    
+      * Added user message and debug logging when 505 is off line at startup
+      * Added ability to select 'TEST' as the serial port which then allows
+        kcat to be run for purposes of testing the UI.
+
+commit 73bf6cd4bf5da3eeb87ac04a776a9455956a439f
+Author: David Freese <w1hkj@w1hkj.com>
+Date:   Mon Jul 11 07:54:43 2011 -0500
+
+    On-line help
+    
+      * Added support for on-line help
+
+commit a2c2440323866f3f47231bee206977534a6b7860
+Author: David Freese <w1hkj@w1hkj.com>
+Date:   Mon Jul 11 07:02:19 2011 -0500
+
+    Name changes
+    
+      * Changed most references from "Kachina" to "kcat"
+      * Changed most c++ filename extensions to cxx
+
+commit 054bd24ba1e07a01ebe7295f361e3247dd685b25
+Author: David Freese <w1hkj@w1hkj.com>
+Date:   Sat Jul 9 15:43:54 2011 -0500
+
+    Monitor
+    
+      * Removed separate speech monitor control
+      * Relabled ST-level for both CW S-T and speech monitor level
+
+commit e53262b1cb61bea56364a9028dc43b8ae7413dd4
+Author: David Freese <w1hkj@w1hkj.com>
+Date:   Sat Jul 9 14:22:25 2011 -0500
+
+    Version 1.0.01AE
+    
+      Alpha release
+
+commit 75353ee8e7dad2e8c2673b7f93dda4eb872e0e98
+Author: David Freese <w1hkj@w1hkj.com>
+Date:   Sat Jul 9 14:17:14 2011 -0500
+
+    SndCmd usage
+    
+      * Moved all SendCommand / SndCmd calls to Kachina_io src file
+      * Added event logging for all moved functions
+
+commit 2c219a4199ec04b45a6a73cd9765e47aa4a1b1bc
+Author: David Freese <w1hkj@w1hkj.com>
+Date:   Sat Jul 9 13:19:38 2011 -0500
+
+    Termination Handler
+    
+      Changed mapping call for new termination handler
+
+commit cbc2aa32c559e989527173be60db26e0048641e8
+Author: David Freese <w1hkj@w1hkj.com>
+Date:   Sat Jul 9 12:58:56 2011 -0500
+
+    XMLRPC Debug
+    
+      Turned off XMLRPC DEBUG
+
+commit 7a436bac0b22d5a25c37eddb337903f502302e2e
+Author: David Freese <w1hkj@w1hkj.com>
+Date:   Sat Jul 9 12:49:30 2011 -0500
+
+    Equalizer/Processor
+    
+      * Added setXcvrEqualizer and setXcvrSpeechProcessor
+        commands
+
+commit 4bf576a04e5cd9282a6f9ae99497fc64b3ec000e
+Author: David Freese <w1hkj@w1hkj.com>
+Date:   Sat Jul 9 10:42:17 2011 -0500
+
+    Version 1.0.01AD
+    
+      Alpha release
+
+commit 1d33f7a36abc3c7ab9a0b6caea8074a9dddc6e12
+Author: David Freese <w1hkj@w1hkj.com>
+Date:   Sat Jul 9 09:23:01 2011 -0500
+
+    Metering
+    
+      * Changed meter visibility
+      * Added meter nomenclature
+
+commit a1d4e797c156fab55646f7c9a96cf188a1bdc7ec
+Author: David Freese <w1hkj@w1hkj.com>
+Date:   Sat Jul 9 07:39:32 2011 -0500
+
+    Telemetry
+    
+      * Modified telemetry data parsing to include T/R detection
+
+commit fac3285c0fa1a31b4a11ba953faf4c8877288909
+Author: David Freese <w1hkj@w1hkj.com>
+Date:   Fri Jul 8 10:24:45 2011 -0500
+
+    Version 1.0.01AC
+    
+      Alpha release
+
+commit 8735194082f231b35f91e434d3c8788214cb3a91
+Author: David Freese <w1hkj@w1hkj.com>
+Date:   Fri Jul 8 17:27:23 2011 -0500
+
+    ARV file
+    
+      Fixes seg fault reading/writing to arv file
+
+commit 13d026323be67c7e1c12a69e88569b45b573e75b
+Author: David Freese <w1hkj@w1hkj.com>
+Date:   Fri Jul 8 15:44:37 2011 -0500
+
+    Config-dir
+    
+      Added command line switch to allow specifying a startup
+      directory.
+
+commit 7fd53226cbd6662fe812bf39d67c8463cd0cd217
+Author: David Freese <w1hkj@w1hkj.com>
+Date:   Fri Jul 8 13:05:24 2011 -0500
+
+    Keyboard focus
+    
+      Make keyboard focus follow active Rx vfo
+
+commit 09810a96d0e24e2f751d470cd333a71f1d53c431
+Author: David Freese <w1hkj@w1hkj.com>
+Date:   Fri Jul 8 11:32:03 2011 -0500
+
+    Debugging
+    
+      Added WARN, INFO and DEBUG level debugging statements
+
+commit 0621b1e5f23b81bc09671e86441d059b4ed9ce4d
+Author: David Freese <w1hkj@w1hkj.com>
+Date:   Fri Jul 8 10:20:09 2011 -0500
+
+    Signal Bar
+    
+      Fixed vertical signal bar background color
+
+commit 6d762c5e40ba6bb1e20537c91aa6ebf3263f96b0
+Author: David Freese <w1hkj@w1hkj.com>
+Date:   Fri Jul 8 09:48:33 2011 -0500
+
+    PTT
+    
+      Removed feedback PTT to fldigi.  Caused transmit of mode
+      audio even when fldigi was in TUNE.
+
+commit 15d8dcf0649890bd6beb12a285a3c6890214c64f
+Author: David Freese <w1hkj@w1hkj.com>
+Date:   Tue Jul 5 16:37:23 2011 -0500
+
+    State file
+    
+      * Change to use fltk prefs file for saving & restoring
+        program state
+
+commit 201a530a7971e3e2579145fc112b8a5bd1ed308e
+Author: David Freese <w1hkj@w1hkj.com>
+Date:   Tue Jul 5 07:08:14 2011 -0500
+
+    GUI redesign
+    
+      * Changed size and position of several widgets
+
+commit 0d67dadba1f7d07382f3f47274debad97d9afa52
+Author: David Freese <w1hkj@w1hkj.com>
+Date:   Mon Jul 4 12:01:38 2011 -0500
+
+    XMLRPC
+    
+      * Added xmlrpcpp code base to source tree
+      * Removed shared memory transport mechanism
+
+commit a2cb7d9b1bf9b8a9e5de952851a1d6b1ed7d63ca
+Author: David Freese <w1hkj@w1hkj.com>
+Date:   Mon Jul 4 10:21:24 2011 -0500
+
+    Threads
+    
+      * Deleted all timers
+      * Added threads for telemetry, watchdog and shmem
+
+commit 559c59f41045685629e32d156c8dec52c727ecc2
+Author: David Freese <w1hkj@w1hkj.com>
+Date:   Sat Jul 2 16:45:45 2011 -0500
+
+    FILEIO
+    
+      * Removed fileio control stream
+
+commit c157fb9f53ee7867af4c235672cd5f6974623d73
+Author: David Freese <w1hkj@w1hkj.com>
+Date:   Wed Jun 29 20:22:15 2011 -0500
+
+    Make distribution
+    
+      * Changes to autotools scripts
+      * Corrections for make dist
+
+commit e20b894c65dad4f949f3856c00d4f3aa16721c78
+Author: David Freese <w1hkj@w1hkj.com>
+Date:   Wed Jun 29 09:50:23 2011 -0500
+
+    Code cleanup
+    
+      * IOspec tables alignment
+
+commit 99395ad9a99e2c2c7538a317a8228d441636481f
+Author: David Freese <w1hkj@w1hkj.com>
+Date:   Sun Jun 26 18:32:30 2011 -0500
+
+    Install update
+    
+      * renamed kachina.ico ... to KC505.ico ...
+      * modified KC505.desktop
+
+commit 88933faf69e425038fa9d27a7d4a0766c6b39edf
+Author: David Freese <w1hkj@w1hkj.com>
+Date:   Sun Jun 26 18:19:49 2011 -0500
+
+    Initial Kachina repository
