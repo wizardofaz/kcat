@@ -33,6 +33,8 @@ Fl_Double_Window *dlgAntPorts  = NULL;
 Fl_Double_Window *dlgDisplayConfig = NULL;
 Fl_Double_Window *dlgCommsConfig = NULL;
 Fl_Double_Window *dlgNRAM = NULL;
+Fl_Double_Window *dlgScanner = NULL;
+
 Font_Browser     *fntbrowser = NULL;
 
 Fl_Color flrig_def_color(int);
@@ -1655,4 +1657,123 @@ Fl_Color flrig_def_color(int n)
 	if ( n > 255 ) n = 255;
 	if (n < 0) n = 0;
 	return (Fl_Color)flrig_cmap[n];
+}
+
+//======================================================================
+// scanner
+//======================================================================
+
+extern int rxsignal;
+int scanrange = 5000;
+int range[] = {2500, 5000, 10000, 25000, 50000, 100000};
+int startfreq = 14070000;
+double dbmin, dbmax;
+
+void set_freq_range()
+{
+	scanrange = range[scan_range->value()];
+	spectrum_plot->clear();
+}
+
+static bool stop_scanning = false;
+static bool scanning = false;
+static bool continuous_scan = false;
+
+void start_scan()
+{
+	if (scanning) return;
+	startfreq = startFreqDisp->value();
+	scanrange = range[scan_range->value()];
+	int endfreq = startfreq + scanrange;
+	spectrum_plot->clear();
+
+	XYplot::line rxp = {0,0,0,0,FL_YELLOW};
+	XYplot::line axis = {0,0,0,0,FL_GRAY};
+
+	dbmin = -60.0 -10.0 * db_min->value();
+	dbmax = -10.0 * db_max->value();
+	spectrum_plot->xmin_max(startfreq, startfreq + scanrange);
+	spectrum_plot->ymin_max(dbmin, dbmax);
+
+	axis.x1 = axis.x2 = startfreq;
+	axis.y1 = dbmin; axis.y2 = dbmax;
+	for (int i = 1; i < 10; i++) {
+		axis.x1 = (axis.x2 += scanrange/10.0);
+		spectrum_plot->add_axis(axis);
+	}
+	axis.x1 = startfreq; axis.x2 = startfreq + scanrange;
+	axis.y1 = axis.y2 = dbmax;
+	while (axis.y1 > dbmin) {
+		axis.y2 = (axis.y1 -= 10);
+		spectrum_plot->add_axis(axis);
+	}
+
+	Fl::remove_idle(parseTelemetry);
+	setXcvrRcvFreq(startfreq,0);
+	setXcvrMode(CW);
+	setXcvrBW(0);
+	scanning = true;
+	stop_scanning = false;
+	for (int i = 0; i < 4; i++) {
+		MilliSleep(50);
+		parseTelemetry((void*)0);
+	}
+	do {
+		for (int f = startfreq; f <= endfreq; f+=50) {
+			setXcvrRcvFreq(f,0);
+			MilliSleep(50);
+			parseTelemetry((void *)0);
+			rxp.x2 = f; rxp.y2 = rxsignal;
+			if (f == startfreq) { rxp.x1 = rxp.x2; rxp.y1 = rxp.y2;}
+			startFreqDisp->value(f);
+			spectrum_plot->add_line(rxp);
+			rxp.x1 = rxp.x2; rxp.y1 = rxp.y2;
+			spectrum_plot->redraw();
+			if (stop_scanning) goto done;
+		}
+	} while (continuous_scan);
+done:
+	stop_scanning = false;
+	scanning = false;
+	continuous_scan = false;
+	Fl::add_idle(parseTelemetry);
+	startFreqDisp->value(startfreq);
+	cbRxA_TxA();
+}
+
+void start_continuous_scan()
+{
+	if (!scanning) {
+		continuous_scan = true;
+		start_scan();
+	}
+}
+
+void stop_scan()
+{
+	stop_scanning = true;
+}
+
+int startFreq()
+{
+	spectrum_plot->clear();
+	stop_scanning = true;
+	return 0;
+}
+
+void open_scanner()
+{
+	if (!dlgScanner) {
+		dlgScanner = scanner_window();
+		startFreqDisp->value(startfreq);
+		scan_range->value(1);
+		scanrange = range[1];
+		db_min->value(7);
+		db_max->value(0);
+		dbmin = -60.0 -10.0 * db_min->value();
+		dbmax = -10.0 * db_max->value();
+		spectrum_plot->xmin_max(startfreq, startfreq + scanrange);
+		spectrum_plot->ymin_max(dbmin, dbmax);
+	}
+	dlgScanner->show();
 }

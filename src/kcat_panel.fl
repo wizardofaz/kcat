@@ -17,7 +17,7 @@ Function {kcat_window()} {open
 } {
   Fl_Window {} {
     label kcat open
-    xywh {577 117 530 355} type Double color 51
+    xywh {570 59 530 355} type Double color 51
     code0 {\#include <stdlib.h>} visible
   } {
     Fl_Menu_Bar {} {open
@@ -79,10 +79,15 @@ Fl_Tooltip::enable(xcvrState.tooltips);}
           label {&Ant Imped}
           xywh {0 0 100 20} hide
         }
+        MenuItem mnuScanner {
+          label Scanner
+          callback {open_scanner();}
+          xywh {0 0 36 21}
+        }
         MenuItem mnuFreqCal {
           label {&FreqCal}
           callback {openFreqCalibDialog();}
-          tooltip {Calibrate to extern standard} xywh {0 0 100 20} divider
+          tooltip {Calibrate to extern standard} xywh {0 0 100 20}
           code0 {extern void openFreqCalibDialog();}
         }
         MenuItem mnuClearAntData {
@@ -134,12 +139,12 @@ Fl_Tooltip::enable(xcvrState.tooltips);}
     }
     Fl_Button btnRxA_TxA {
       label {A/A}
-      callback {cbRxA_TxA();} selected
+      callback {cbRxA_TxA();}
       tooltip {T/R on A} xywh {2 67 40 20} color 50
     }
     Fl_Button btnRxA_TxB {
       label {A/B}
-      callback {cbRxA_TxB();} selected
+      callback {cbRxA_TxB();}
       tooltip {Rx on A
 Tx on B} xywh {45 67 40 20} color 50
     }
@@ -155,13 +160,13 @@ Tx on B} xywh {45 67 40 20} color 50
     }
     Fl_Button btnRxB_TxA {
       label {B/A}
-      callback {cbRxB_TxA();} selected
+      callback {cbRxB_TxA();}
       tooltip {Rx on B
 Tx on A} xywh {266 67 40 20} color 50
     }
     Fl_Button btnRxB_TxB {
       label {B/B}
-      callback {cbRxB_TxB();} selected
+      callback {cbRxB_TxB();}
       tooltip {T/R on B} xywh {310 67 40 20} color 50
     }
     Fl_Browser FreqSelect {
@@ -674,7 +679,8 @@ Function {NRAMdataDialog()} {} {
   }
 } 
 
-Function {FreqCalibDialog()} {} {
+Function {FreqCalibDialog()} {open
+} {
   Fl_Window {} {
     label {Calibrate to Freq Std} open
     xywh {321 504 285 62} type Double hide
@@ -891,6 +897,69 @@ Fl::scheme(xcvrState.ui_scheme.c_str());} open
         label Default
         callback {cb_lighted_default();}
         tooltip {Background - selected} xywh {324 85 90 22}
+      }
+    }
+  }
+} 
+
+Function {scanner_window()} {open
+} {
+  Fl_Window {} {
+    label {kcat scanner} open
+    xywh {568 443 530 174} type Double resizable visible
+  } {
+    Fl_Box spectrum_plot {
+      label {spectrum plot}
+      xywh {128 2 400 170} box DOWN_BOX color 15 selection_color 7 labelcolor 7 resizable
+      code0 {\#include "XYplot.h"}
+      class XYplot
+    }
+    Fl_Group {} {open
+      xywh {2 2 124 170}
+    } {
+      Fl_Box startFreqDisp {
+        label {6.1}
+        xywh {3 2 120 36} box DOWN_BOX
+        code2 {o->SetONOFFCOLOR (FL_YELLOW, FL_BLACK);}
+        code3 {o->setCallBack(startFreq);}
+        class cFreqControl
+      }
+      Fl_Choice scan_range {
+        label Rng
+        callback {set_freq_range();} open
+        xywh {3 47 90 20} down_box BORDER_BOX align 8
+        code0 {o->add("2500|5000|10000|25000|50000|1000000");}
+        code1 {o->value(0);}
+      } {}
+      Fl_Button btn_start_scan {
+        label Start
+        callback {start_scan();}
+        xywh {3 76 55 20}
+      }
+      Fl_Button btn_stop_scan {
+        label Stop
+        callback {stop_scan();}
+        xywh {68 76 55 20}
+      }
+      Fl_Button btn_start_continuous {
+        label Continuous
+        callback {start_continuous_scan();}
+        xywh {12 101 103 20}
+      }
+      Fl_Choice db_max {
+        label dbMax open selected
+        xywh {3 123 70 20} down_box BORDER_BOX align 8
+        code0 {o->add("0|-10|-20|-30|-40|-50");}
+        code1 {o->value(0);}
+      } {}
+      Fl_Choice db_min {
+        label dbMin open
+        xywh {3 146 70 20} down_box BORDER_BOX align 8
+        code0 {o->add("-60|-70|-80|-90|-100|-110|-120|-130");}
+        code1 {o->value(5);}
+      } {}
+      Fl_Box {} {
+        xywh {2 168 122 0} align 16 resizable
       }
     }
   }

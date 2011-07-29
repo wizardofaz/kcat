@@ -65,7 +65,7 @@ am__kcat_SOURCES_DIST = kcat.rc include/kcatrc.h mingw.c \
 	images.cxx IOspec.cxx kcat_io.cxx kcat_panel.cxx \
 	serialcomm.cxx support.cxx telemetry.cxx cstack.cxx debug.cxx \
 	icons.cxx pixmaps.cxx status.cxx util.cxx ValueSlider.cxx \
-	include/cstack.h include/debug.h include/dialogs.h \
+	XYplot.cxx include/cstack.h include/debug.h include/dialogs.h \
 	include/gettext.h include/icons.h include/pixmaps.h \
 	include/Fl_SigBar.h include/flslider2.h include/font_browser.h \
 	include/FreqControl.h include/images.h include/IOspec.h \
@@ -73,7 +73,7 @@ am__kcat_SOURCES_DIST = kcat.rc include/kcatrc.h mingw.c \
 	include/linserial.h include/serialcomm.h include/support.h \
 	include/status.h include/test.h include/util.h \
 	include/ValueSlider.h include/version.h include/winserial.h \
-	xml_io.cxx include/xml_io.h xmlrpcpp/XmlRpc.h \
+	include/XYplot.h xml_io.cxx include/xml_io.h xmlrpcpp/XmlRpc.h \
 	xmlrpcpp/XmlRpcClient.cpp xmlrpcpp/XmlRpcClient.h \
 	xmlrpcpp/XmlRpcDispatch.cpp xmlrpcpp/XmlRpcDispatch.h \
 	xmlrpcpp/XmlRpcException.h xmlrpcpp/XmlRpcMutex.cpp \
@@ -100,9 +100,10 @@ am_kcat_OBJECTS = $(am__objects_2) kcat-dialogs.$(OBJEXT) \
 	kcat-cstack.$(OBJEXT) kcat-debug.$(OBJEXT) \
 	kcat-icons.$(OBJEXT) kcat-pixmaps.$(OBJEXT) \
 	kcat-status.$(OBJEXT) kcat-util.$(OBJEXT) \
-	kcat-ValueSlider.$(OBJEXT) kcat-xml_io.$(OBJEXT) \
-	kcat-XmlRpcClient.$(OBJEXT) kcat-XmlRpcDispatch.$(OBJEXT) \
-	kcat-XmlRpcMutex.$(OBJEXT) kcat-XmlRpcServer.$(OBJEXT) \
+	kcat-ValueSlider.$(OBJEXT) kcat-XYplot.$(OBJEXT) \
+	kcat-xml_io.$(OBJEXT) kcat-XmlRpcClient.$(OBJEXT) \
+	kcat-XmlRpcDispatch.$(OBJEXT) kcat-XmlRpcMutex.$(OBJEXT) \
+	kcat-XmlRpcServer.$(OBJEXT) \
 	kcat-XmlRpcServerConnection.$(OBJEXT) \
 	kcat-XmlRpcServerMethod.$(OBJEXT) kcat-XmlRpcSocket.$(OBJEXT) \
 	kcat-XmlRpcSource.$(OBJEXT) kcat-XmlRpcThread.$(OBJEXT) \
@@ -288,7 +289,7 @@ kcat_SOURCES = $(am__append_1) dialogs.cxx main.cxx Fl_SigBar.cxx \
 	flslider2.cxx font_browser.cxx FreqControl.cxx images.cxx \
 	IOspec.cxx kcat_io.cxx kcat_panel.cxx serialcomm.cxx \
 	support.cxx telemetry.cxx cstack.cxx debug.cxx icons.cxx \
-	pixmaps.cxx status.cxx util.cxx ValueSlider.cxx \
+	pixmaps.cxx status.cxx util.cxx ValueSlider.cxx XYplot.cxx \
 	include/cstack.h include/debug.h include/dialogs.h \
 	include/gettext.h include/icons.h include/pixmaps.h \
 	include/Fl_SigBar.h include/flslider2.h include/font_browser.h \
@@ -297,8 +298,8 @@ kcat_SOURCES = $(am__append_1) dialogs.cxx main.cxx Fl_SigBar.cxx \
 	include/kcatrc.h include/linserial.h include/serialcomm.h \
 	include/support.h include/status.h include/test.h \
 	include/util.h include/ValueSlider.h include/version.h \
-	include/winserial.h xml_io.cxx include/xml_io.h \
-	xmlrpcpp/XmlRpc.h xmlrpcpp/XmlRpcClient.cpp \
+	include/winserial.h include/XYplot.h xml_io.cxx \
+	include/xml_io.h xmlrpcpp/XmlRpc.h xmlrpcpp/XmlRpcClient.cpp \
 	xmlrpcpp/XmlRpcClient.h xmlrpcpp/XmlRpcDispatch.cpp \
 	xmlrpcpp/XmlRpcDispatch.h xmlrpcpp/XmlRpcException.h \
 	xmlrpcpp/XmlRpcMutex.cpp xmlrpcpp/XmlRpcMutex.h \
@@ -463,6 +464,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/kcat-FreqControl.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/kcat-IOspec.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/kcat-ValueSlider.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/kcat-XYplot.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/kcat-XmlRpcClient.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/kcat-XmlRpcDispatch.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/kcat-XmlRpcMutex.Po@am__quote@
@@ -815,6 +817,20 @@ kcat-ValueSlider.obj: ValueSlider.cxx
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='ValueSlider.cxx' object='kcat-ValueSlider.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -c -o kcat-ValueSlider.obj `if test -f 'ValueSlider.cxx'; then $(CYGPATH_W) 'ValueSlider.cxx'; else $(CYGPATH_W) '$(srcdir)/ValueSlider.cxx'; fi`
+
+kcat-XYplot.o: XYplot.cxx
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -MT kcat-XYplot.o -MD -MP -MF $(DEPDIR)/kcat-XYplot.Tpo -c -o kcat-XYplot.o `test -f 'XYplot.cxx' || echo '$(srcdir)/'`XYplot.cxx
+@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/kcat-XYplot.Tpo $(DEPDIR)/kcat-XYplot.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='XYplot.cxx' object='kcat-XYplot.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -c -o kcat-XYplot.o `test -f 'XYplot.cxx' || echo '$(srcdir)/'`XYplot.cxx
+
+kcat-XYplot.obj: XYplot.cxx
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -MT kcat-XYplot.obj -MD -MP -MF $(DEPDIR)/kcat-XYplot.Tpo -c -o kcat-XYplot.obj `if test -f 'XYplot.cxx'; then $(CYGPATH_W) 'XYplot.cxx'; else $(CYGPATH_W) '$(srcdir)/XYplot.cxx'; fi`
+@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/kcat-XYplot.Tpo $(DEPDIR)/kcat-XYplot.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='XYplot.cxx' object='kcat-XYplot.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -c -o kcat-XYplot.obj `if test -f 'XYplot.cxx'; then $(CYGPATH_W) 'XYplot.cxx'; else $(CYGPATH_W) '$(srcdir)/XYplot.cxx'; fi`
 
 kcat-xml_io.o: xml_io.cxx
 @am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -MT kcat-xml_io.o -MD -MP -MF $(DEPDIR)/kcat-xml_io.Tpo -c -o kcat-xml_io.o `test -f 'xml_io.cxx' || echo '$(srcdir)/'`xml_io.cxx

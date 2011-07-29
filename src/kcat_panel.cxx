@@ -36,6 +36,10 @@ static void cb_mnuSelectPort(Fl_Menu_*, void*) {
   setCommsPort();
 }
 
+static void cb_mnuScanner(Fl_Menu_*, void*) {
+  open_scanner();
+}
+
 static void cb_mnuFreqCal(Fl_Menu_*, void*) {
   openFreqCalibDialog();
 }
@@ -74,7 +78,8 @@ Fl_Menu_Item menu_[] = {
  {0,0,0,0,0,0,0,0,0},
  {_("Utils"), 0,  0, 0, 64, FL_NORMAL_LABEL, 0, 14, 0},
  {_("&Ant Imped"), 0,  0, 0, 16, FL_NORMAL_LABEL, 0, 14, 0},
- {_("&FreqCal"), 0,  (Fl_Callback*)cb_mnuFreqCal, 0, 128, FL_NORMAL_LABEL, 0, 14, 0},
+ {_("Scanner"), 0,  (Fl_Callback*)cb_mnuScanner, 0, 0, FL_NORMAL_LABEL, 0, 14, 0},
+ {_("&FreqCal"), 0,  (Fl_Callback*)cb_mnuFreqCal, 0, 0, FL_NORMAL_LABEL, 0, 14, 0},
  {_("Clear Ant\' Data"), 0,  (Fl_Callback*)cb_mnuClearAntData, 0, 128, FL_NORMAL_LABEL, 0, 14, 0},
  {_("&NRAM data"), 0,  (Fl_Callback*)cb_mnuNRAMdata, 0, 128, FL_NORMAL_LABEL, 0, 14, 0},
  {_("Event log"), 0,  (Fl_Callback*)cb_mnuEvents, 0, 0, FL_NORMAL_LABEL, 0, 14, 0},
@@ -1697,6 +1702,107 @@ Fl_Double_Window* DisplayDialog() {
         btn_lighted_default->tooltip(_("Background - selected"));
         btn_lighted_default->callback((Fl_Callback*)cb_btn_lighted_default);
       } // Fl_Button* btn_lighted_default
+      o->end();
+    } // Fl_Group* o
+    o->end();
+  } // Fl_Double_Window* o
+  return w;
+}
+
+XYplot *spectrum_plot=(XYplot *)0;
+
+cFreqControl *startFreqDisp=(cFreqControl *)0;
+
+Fl_Choice *scan_range=(Fl_Choice *)0;
+
+static void cb_scan_range(Fl_Choice*, void*) {
+  set_freq_range();
+}
+
+Fl_Button *btn_start_scan=(Fl_Button *)0;
+
+static void cb_btn_start_scan(Fl_Button*, void*) {
+  start_scan();
+}
+
+Fl_Button *btn_stop_scan=(Fl_Button *)0;
+
+static void cb_btn_stop_scan(Fl_Button*, void*) {
+  stop_scan();
+}
+
+Fl_Button *btn_start_continuous=(Fl_Button *)0;
+
+static void cb_btn_start_continuous(Fl_Button*, void*) {
+  start_continuous_scan();
+}
+
+Fl_Choice *db_max=(Fl_Choice *)0;
+
+Fl_Choice *db_min=(Fl_Choice *)0;
+
+Fl_Double_Window* scanner_window() {
+  Fl_Double_Window* w;
+  { Fl_Double_Window* o = new Fl_Double_Window(530, 174, _("kcat scanner"));
+    w = o;
+    { spectrum_plot = new XYplot(128, 2, 400, 170, _("spectrum plot"));
+      spectrum_plot->box(FL_DOWN_BOX);
+      spectrum_plot->color((Fl_Color)FL_SELECTION_COLOR);
+      spectrum_plot->selection_color((Fl_Color)FL_BACKGROUND2_COLOR);
+      spectrum_plot->labeltype(FL_NORMAL_LABEL);
+      spectrum_plot->labelfont(0);
+      spectrum_plot->labelsize(14);
+      spectrum_plot->labelcolor((Fl_Color)FL_BACKGROUND2_COLOR);
+      spectrum_plot->align(FL_ALIGN_CENTER);
+      spectrum_plot->when(FL_WHEN_RELEASE);
+      Fl_Group::current()->resizable(spectrum_plot);
+    } // XYplot* spectrum_plot
+    { Fl_Group* o = new Fl_Group(2, 2, 124, 170);
+      { cFreqControl* o = startFreqDisp = new cFreqControl(3, 2, 120, 36, _("6.1"));
+        startFreqDisp->box(FL_DOWN_BOX);
+        startFreqDisp->color((Fl_Color)FL_BACKGROUND_COLOR);
+        startFreqDisp->selection_color((Fl_Color)FL_BACKGROUND_COLOR);
+        startFreqDisp->labeltype(FL_NORMAL_LABEL);
+        startFreqDisp->labelfont(0);
+        startFreqDisp->labelsize(14);
+        startFreqDisp->labelcolor((Fl_Color)FL_FOREGROUND_COLOR);
+        startFreqDisp->align(FL_ALIGN_CENTER);
+        startFreqDisp->when(FL_WHEN_RELEASE);
+        o->SetONOFFCOLOR (FL_YELLOW, FL_BLACK);
+        o->setCallBack(startFreq);
+      } // cFreqControl* startFreqDisp
+      { Fl_Choice* o = scan_range = new Fl_Choice(3, 47, 90, 20, _("Rng"));
+        scan_range->down_box(FL_BORDER_BOX);
+        scan_range->callback((Fl_Callback*)cb_scan_range);
+        scan_range->align(FL_ALIGN_RIGHT);
+        o->add("2500|5000|10000|25000|50000|1000000");
+        o->value(0);
+      } // Fl_Choice* scan_range
+      { btn_start_scan = new Fl_Button(3, 76, 55, 20, _("Start"));
+        btn_start_scan->callback((Fl_Callback*)cb_btn_start_scan);
+      } // Fl_Button* btn_start_scan
+      { btn_stop_scan = new Fl_Button(68, 76, 55, 20, _("Stop"));
+        btn_stop_scan->callback((Fl_Callback*)cb_btn_stop_scan);
+      } // Fl_Button* btn_stop_scan
+      { btn_start_continuous = new Fl_Button(12, 101, 103, 20, _("Continuous"));
+        btn_start_continuous->callback((Fl_Callback*)cb_btn_start_continuous);
+      } // Fl_Button* btn_start_continuous
+      { Fl_Choice* o = db_max = new Fl_Choice(3, 123, 70, 20, _("dbMax"));
+        db_max->down_box(FL_BORDER_BOX);
+        db_max->align(FL_ALIGN_RIGHT);
+        o->add("0|-10|-20|-30|-40|-50");
+        o->value(0);
+      } // Fl_Choice* db_max
+      { Fl_Choice* o = db_min = new Fl_Choice(3, 146, 70, 20, _("dbMin"));
+        db_min->down_box(FL_BORDER_BOX);
+        db_min->align(FL_ALIGN_RIGHT);
+        o->add("-60|-70|-80|-90|-100|-110|-120|-130");
+        o->value(5);
+      } // Fl_Choice* db_min
+      { Fl_Box* o = new Fl_Box(2, 168, 122, 0);
+        o->align(FL_ALIGN_CENTER|FL_ALIGN_INSIDE);
+        Fl_Group::current()->resizable(o);
+      } // Fl_Box* o
       o->end();
     } // Fl_Group* o
     o->end();

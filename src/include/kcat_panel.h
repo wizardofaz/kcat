@@ -110,13 +110,14 @@ extern Fl_Menu_Item menu_[];
 #define mnuSelectPort (menu_+9)
 #define mnuUtils (menu_+11)
 #define mnuAntImp (menu_+12)
-#define mnuFreqCal (menu_+13)
-#define mnuClearAntData (menu_+14)
-#define mnuNRAMdata (menu_+15)
-#define mnuEvents (menu_+16)
-#define mnuHelp (menu_+18)
-#define mnuOnLineHelp (menu_+19)
-#define mnuAbout (menu_+20)
+#define mnuScanner (menu_+13)
+#define mnuFreqCal (menu_+14)
+#define mnuClearAntData (menu_+15)
+#define mnuNRAMdata (menu_+16)
+#define mnuEvents (menu_+17)
+#define mnuHelp (menu_+19)
+#define mnuOnLineHelp (menu_+20)
+#define mnuAbout (menu_+21)
 extern Fl_Choice *selectCommPort;
 #include <FL/Fl_Return_Button.H>
 extern Fl_Return_Button *btnOkCommsDialog;
@@ -181,4 +182,14 @@ extern Fl_Return_Button *btnOkDisplayDialog;
 extern Fl_Light_Button *btn_lighted;
 extern Fl_Button *btn_lighted_default;
 Fl_Double_Window* DisplayDialog();
+#include "XYplot.h"
+extern XYplot *spectrum_plot;
+extern cFreqControl *startFreqDisp;
+extern Fl_Choice *scan_range;
+extern Fl_Button *btn_start_scan;
+extern Fl_Button *btn_stop_scan;
+extern Fl_Button *btn_start_continuous;
+extern Fl_Choice *db_max;
+extern Fl_Choice *db_min;
+Fl_Double_Window* scanner_window();
 #endif

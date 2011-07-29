@@ -136,6 +136,7 @@ kcat_SOURCES += \
 	status.cxx \
 	util.cxx \
 	ValueSlider.cxx \
+	XYplot.cxx \
 	include/cstack.h \
 	include/debug.h \
 	include/dialogs.h \
@@ -161,6 +162,7 @@ kcat_SOURCES += \
 	include/ValueSlider.h \
 	include/version.h \
 	include/winserial.h \
+	include/XYplot.h \
 	xml_io.cxx \
 	include/xml_io.h \
 	xmlrpcpp/XmlRpc.h \

@@ -239,4 +239,12 @@ extern Fl_Color flrig_def_color(int);
 
 extern void parseTelemetry(void *);
 
+// scanner
+extern void set_freq_range();
+extern void start_scan();
+extern void start_continuous_scan();
+extern void stop_scan();
+extern int  startFreq();
+extern void open_scanner();
+
 #endif

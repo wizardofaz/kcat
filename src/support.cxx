@@ -837,6 +837,7 @@ void zeroXmtMeters()
 int	avgrcvsig = 0;
 int avgcnt = 0;
 bool computeavg = 0;
+int rxsignal = 0;
 
 void updateRcvSignal( int data)
 {
@@ -844,6 +845,7 @@ void updateRcvSignal( int data)
 		avgrcvsig += data;
 		avgcnt++;
 	}
+	rxsignal = -data;
 	sldrRcvSignal->value(-data);
 	LOG_DEBUG("%d", data);
 }
