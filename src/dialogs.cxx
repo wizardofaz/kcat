@@ -854,6 +854,7 @@ void cb_vfo_adj()
 {
 	xcvrState.VFOADJ = ctr_vfo_adj->value();
 	movFreq();
+	movFreqB();
 }
 
 void show_controls()
