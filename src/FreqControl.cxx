@@ -29,10 +29,13 @@
 #include <cstdlib>
 #include <cmath>
 #include <stdio.h>
+#include <string>
 
 #include "FreqControl.h"
 #include "util.h"
 #include "gettext.h"
+
+using namespace std;
 
 const char *cFreqControl::Label[10] = {
 	"0", "1", "2", "3", "4", "5", "6", "7", "8", "9" };
@@ -83,7 +86,17 @@ cFreqControl::cFreqControl(int x, int y, int w, int h, const char *lbl):
 	oldval = val = 0;
 
 // nD <= MAXDIGITS
-	nD = atoi(lbl);
+	string digits = lbl;
+	size_t p = digits.find('.');
+
+	dec_digits = 3;
+	if (p != string::npos) {
+		nD = atoi((digits.substr(0,p)).c_str());
+		dec_digits = atoi((digits.substr(p+1)).c_str());
+	} else {
+		nD = atoi(lbl);
+		dec_digits = 3;
+	}
 	if (nD > MAX_DIGITS) nD = MAX_DIGITS;
 	if (nD < MIN_DIGITS) nD = MIN_DIGITS;
 
@@ -98,11 +111,11 @@ cFreqControl::cFreqControl(int x, int y, int w, int h, const char *lbl):
 	box(FL_DOWN_BOX);
 
 	minVal = 0;
-	double fmaxval = floor(pow(2, 8 * sizeof(maxVal) - 1) / 1000.0);
+	double fmaxval = floor(pow(2.0, 8.0 * sizeof(maxVal) - 1) / 1000.0);
 	if (nD == MAX_DIGITS) {
 		maxVal = (long int)(fmaxval * 1000);
 	} else {
-		maxVal = (long int)(pow(10, nD) - 1);
+		maxVal = (long int)(pow(10.0, 1.0*nD) - 1);
 		fmaxval = maxVal / 1000.0;
 	}
 	static char tt[100];
@@ -116,7 +129,8 @@ Left/Right/Up/Down/Pg_Up/Pg_Down", fmaxval);
 
 	for (int n = 0; n < nD; n++) {
 		xpos = fcFirst + (nD - 1 - n) * fcWidth + 2;
-		if (n < 3) xpos += pw;
+//		if (n < 3) xpos += pw;
+		if (n < dec_digits) xpos += pw;
 		Digit[n] = new Fl_Repeat_Button (
 			xpos,
 			fcTop + 2,
@@ -133,7 +147,8 @@ Left/Right/Up/Down/Pg_Up/Pg_Down", fmaxval);
 		else mult[n] = 10 * mult[n-1];
 	}
 
-	decbx = new Fl_Box(fcFirst + (nD - 3) * fcWidth + 2, fcTop + 2, pw, fcHeight-4,".");
+//	decbx = new Fl_Box(fcFirst + (nD - 3) * fcWidth + 2, fcTop + 2, pw, fcHeight-4,".");
+	decbx = new Fl_Box(fcFirst + (nD - dec_digits) * fcWidth + 2, fcTop + 2, pw, fcHeight-4,".");
 	decbx->box(FL_FLAT_BOX);
 	decbx->labelfont(font_number);
 	decbx->labelcolor(ONCOLOR);
@@ -251,9 +266,17 @@ static void blink_point(Fl_Widget* w)
 
 void cFreqControl::value(long lv)
 {
+	for (int i = 0; i < 3 - dec_digits; i++) lv /= 10;
 	oldval = val = lv;
 	Fl::remove_timeout((Fl_Timeout_Handler)blink_point, decbx);
 	updatevalue();
+}
+
+long cFreqControl::value()
+{
+	int v = val;
+	for (int i = 0; i < 3 - dec_digits; i++) v *= 10;
+	return v;
 }
 
 int cFreqControl::handle(int event)

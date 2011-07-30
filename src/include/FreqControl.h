@@ -61,7 +61,7 @@ public:
 	~cFreqControl();
 	void updatevalue();
 	void value(long lv);
-	long value(){return val;};
+	long value();
 	void font(Fl_Font fnt);
 	void SetONCOLOR (uchar r, uchar g, uchar b);
 	void SetOFFCOLOR (uchar r, uchar g, uchar b);
@@ -104,6 +104,7 @@ private:
 protected:
 	long val, oldval;
 	int  precision;
+	int  dec_digits;
 };
 
 #endif 
