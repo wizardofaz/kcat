@@ -237,4 +237,6 @@ extern void cb_lighted_default();
 
 extern Fl_Color flrig_def_color(int);
 
+extern void parseTelemetry(void *);
+
 #endif

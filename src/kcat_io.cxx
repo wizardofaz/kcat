@@ -750,13 +750,17 @@ int checkCalibrate(long int refstd)
 	cmdK_AGC[2] = 0;				// set AGC to fast
 	sendCommand (cmdK_AGC);
 	sendCommand (cmdK_BW5);			// set to 1 kHz CW BW
-	cmdK_VOLU[2] = 0x80;			// set volume to mid scale
-	sendCommand (cmdK_VOLU);
+//	cmdK_VOLU[2] = 0x80;			// set volume to mid scale
+//	sendCommand (cmdK_VOLU);
 	avgrcvsig = 0;
 	avgcnt = 0;
 	computeavg = true;
-	while (avgcnt < 32)
-		Fl::wait();
+	Fl::remove_idle(parseTelemetry);
+	while (avgcnt < 32) {
+		parseTelemetry((void*)0);
+		MilliSleep(50);
+	}
+	Fl::add_idle(parseTelemetry);
 	computeavg = false;
 	avgrcvsig /= avgcnt;
 	if (avgrcvsig < 101) return 2;
