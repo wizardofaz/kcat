@@ -327,14 +327,13 @@ void  cbmnuAntPorts()
 // Comm port dialog
 //======================================================================
 #define COMMPORT_TABLESIZE 20
-struct CPT {
-  char *szPort;
-  } commPortTable[COMMPORT_TABLESIZE];
 
+string ttyport;
+string commPortTable[COMMPORT_TABLESIZE];
+string sCommPorts;
 
 int  commportnbr = 0;
 int  iNbrCommPorts  = 0;
-char szCommPorts[512];
 char szttyport[20] = "";
 bool commport_table_empty = true;
 
@@ -342,12 +341,10 @@ bool waitfordialog = false;
 
 void clear_combos()
 {
-	for (int i = 0; i < COMMPORT_TABLESIZE; i++) {
-		commPortTable[i].szPort = 0;
-	}
-	commPortTable[0].szPort = new char(6);
-	strcpy(commPortTable[0].szPort,"TEST");
-	strcpy(szCommPorts,"TEST");
+	for (int i = 0; i < COMMPORT_TABLESIZE; i++)
+		commPortTable[i].clear();
+	commPortTable[0] = "TEST";
+	sCommPorts = "TEST";
 	iNbrCommPorts = 0;
 }
 
@@ -356,10 +353,8 @@ void add_combos(char *port)
 	iNbrCommPorts++;
 	if (iNbrCommPorts >= COMMPORT_TABLESIZE) return;
 
-	commPortTable[iNbrCommPorts].szPort = new char(strlen(port)+1);
-	strcpy(commPortTable[iNbrCommPorts].szPort, port);
-	strcat(szCommPorts,"|");
-	strcat(szCommPorts, port);
+	commPortTable[iNbrCommPorts] = port;
+	sCommPorts.append("|").append(port);
 }
 
 //======================================================================
@@ -411,49 +406,6 @@ void initCommPortTable()
 {
 	struct stat st;
 	char ttyname[PATH_MAX + 1];
-/*
-	int retval;
-	bool ret = false;
-	DIR* sys = NULL;
-	char cwd[PATH_MAX] = { '.', '\0' };
-
-	clear_combos();
-
-	if (getcwd(cwd, sizeof(cwd)) == NULL) goto out;
-	if (chdir("/sys/class/tty") == -1) goto out;
-	if ((sys = opendir(".")) == NULL) goto out;
-
-	ssize_t len;
-	struct dirent* dp;
-
-	LOG_WARN("%s", "Searching /sys/class/tty/");
-
-	while ((dp = readdir(sys))) {
-#  ifdef _DIRENT_HAVE_D_TYPE
-		if (dp->d_type != DT_LNK)
-			continue;
-#  endif
-		if ((len = readlink(dp->d_name, ttyname, sizeof(ttyname)-1)) == -1)
-			continue;
-		ttyname[len] = '\0';
-		if (!strstr(ttyname, "/devices/virtual/")) {
-			snprintf(ttyname, sizeof(ttyname), "/dev/%s", dp->d_name);
-			if (stat(ttyname, &st) == -1 || !S_ISCHR(st.st_mode))
-				continue;
-			LOG_WARN("Found serial port %s", ttyname);
-			add_combos(ttyname);
-			ret = true;
-		}
-	}
-
-out:
-	if (sys)
-		closedir(sys);
-	retval = chdir(cwd);
-	if (ret) // do we need to fall back to the probe code below?
-		return;
-*/
-// yes the above does not work correctly on Ubuntu 11.10
 
 	clear_combos();
 
@@ -485,6 +437,8 @@ out:
 #ifndef PATH_MAX
 #  define PATH_MAX 1024
 #endif
+
+#  include <glob.h>
 
 void initCommPortTable()
 {
@@ -551,7 +505,7 @@ void cbOkCommsDialog()
 	dlgCommsConfig->hide();
 	waitfordialog = false;
 	commportnbr = selectCommPort->value();
-	xcvrState.ttyport =  commPortTable[commportnbr].szPort;
+	xcvrState.ttyport =  commPortTable[commportnbr];
 	if (xcvrState.ttyport == "TEST") {
 		testing = true;
 		kcatSerial.ClosePort();
@@ -563,10 +517,7 @@ void cbOkCommsDialog()
 		} else
 			initkcat();
 	}
-
-
 }
-
 
 void setCommsPort()
 {
@@ -574,8 +525,7 @@ void setCommsPort()
 		dlgCommsConfig = CommsDialog();
 	if (commport_table_empty) {
 		initCommPortTable();
-		selectCommPort->clear();
-		selectCommPort->add(szCommPorts);
+		selectCommPort->add(sCommPorts.c_str());
 		commport_table_empty = false;
 	}
 	commportnbr = 0;
