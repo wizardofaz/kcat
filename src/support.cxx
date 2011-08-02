@@ -1086,6 +1086,7 @@ void parseTelemetry(void *)
 			smeter_count = 1;
 			zeroSmeter();
 		}
+		Fl::wait(); // process keyboard events
 	}
 	setFocus();
 }
