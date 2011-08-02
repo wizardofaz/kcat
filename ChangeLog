@@ -2,8 +2,12 @@
 
 =Version 1.0.02=
 
-2011-07-26  David Freese  <w1hkj@w1hkj.com>
+2011-08-01  David Freese  <w1hkj@w1hkj.com>
 
+	a26ef9a: Comm port discovery
+	69f6f07: WWV calibrate
+	4b0356b: Freq Control Widget
+	5777873: Vfo Adj on vfoB
 	e3502f2: Freq-Mode-BW list
 	1c013dd: OPMODE vfoB
 	201d105: UI adjustments
