@@ -98,6 +98,7 @@ bool sendCommand(char *str)
 	retval = "FAIL";
 cmddone:
 	delete [] sendbuff;
+	watchdog_count = 1500;
 	pthread_mutex_unlock(&mutex_serial);
 	return ret;
 }

@@ -837,7 +837,6 @@ void zeroXmtMeters()
 int	avgrcvsig = 0;
 int avgcnt = 0;
 bool computeavg = 0;
-int rxsignal = 0;
 
 void updateRcvSignal( int data)
 {
@@ -845,8 +844,8 @@ void updateRcvSignal( int data)
 		avgrcvsig += data;
 		avgcnt++;
 	}
-	rxsignal = -data;
 	sldrRcvSignal->value(-data);
+	update_scanner(-data);
 	LOG_DEBUG("%d", data);
 }
 
@@ -1112,18 +1111,18 @@ void * telemetry_thread_loop(void *d)
 // watchdog timer sends a NOOP to xcvr every 15 seconds
 //======================================================================
 bool exit_watchdog = false;
+int watchdog_count = 1500;
 
 void * watchdog_thread_loop(void *d)
 {
-	static int count = 1500;
 	for (;;) {
 		if (exit_watchdog) break;
 		MilliSleep(10);
-		if (--count == 0) {
+		if (--watchdog_count == 0) {
 			pthread_mutex_lock(&mutex_watchdog);
 			setXcvrNOOP();
 			pthread_mutex_unlock(&mutex_watchdog);
-			count = 1500;
+			watchdog_count = 1500;
 		}
 	}
 	return NULL;

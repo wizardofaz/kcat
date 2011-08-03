@@ -50,6 +50,8 @@ extern FREQMODE vfoA;
 extern FREQMODE vfoB;
 extern FREQMODE xmlvfo;
 
+extern int watchdog_count;
+
 extern void cbExit();
 
 extern void setMode();
@@ -245,6 +247,7 @@ extern void start_scan();
 extern void start_continuous_scan();
 extern void stop_scan();
 extern int  startFreq();
+extern void update_scanner(int);
 extern void open_scanner();
 
 #endif

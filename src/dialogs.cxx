@@ -1667,7 +1667,14 @@ extern int rxsignal;
 int scanrange = 5000;
 int range[] = {2500, 5000, 10000, 25000, 50000, 100000};
 int startfreq = 14070000;
+int endfreq = 14070000;
+int scanfreq = 14070000;
+XYplot::line rxp = {0,0,0,0,FL_YELLOW};
+
 double dbmin, dbmax;
+static bool stop_scanning = false;
+static bool scanning = false;
+static bool continuous_scan = false;
 
 void set_freq_range()
 {
@@ -1675,19 +1682,43 @@ void set_freq_range()
 	spectrum_plot->clear();
 }
 
-static bool stop_scanning = false;
-static bool scanning = false;
-static bool continuous_scan = false;
+void update_scanner(int d)
+{
+	if (!scanning) return;
+
+	rxp.x2 = scanfreq; rxp.y2 = d;
+	if (scanfreq == startfreq) { rxp.x1 = rxp.x2; rxp.y1 = rxp.y2;}
+	startFreqDisp->value(scanfreq);
+	spectrum_plot->add_line(rxp);
+	rxp.x1 = rxp.x2; rxp.y1 = rxp.y2;
+	spectrum_plot->redraw();
+	if (!scanning) goto done;
+
+	scanfreq += 50;
+	if (scanfreq > endfreq) {
+		if (!continuous_scan) goto done;
+		scanfreq = startfreq;
+	}
+	setXcvrRcvFreq(scanfreq,0);
+	return;
+
+done:
+	scanning = false;
+	continuous_scan = false;
+	startFreqDisp->value(startfreq);
+	cbRxA_TxA();
+}
 
 void start_scan()
 {
 	if (scanning) return;
+
 	startfreq = startFreqDisp->value();
 	scanrange = range[scan_range->value()];
-	int endfreq = startfreq + scanrange;
+	endfreq = startfreq + scanrange;
+
 	spectrum_plot->clear();
 
-	XYplot::line rxp = {0,0,0,0,FL_YELLOW};
 	XYplot::line axis = {0,0,0,0,FL_GRAY};
 
 	dbmin = -60.0 -10.0 * db_min->value();
@@ -1707,38 +1738,13 @@ void start_scan()
 		axis.y2 = (axis.y1 -= 10);
 		spectrum_plot->add_axis(axis);
 	}
+	spectrum_plot->redraw();
 
-	Fl::remove_idle(parseTelemetry);
-	setXcvrRcvFreq(startfreq,0);
+	scanfreq = startfreq;
+	setXcvrRcvFreq(scanfreq,0);
 	setXcvrMode(CW);
 	setXcvrBW(0);
 	scanning = true;
-	stop_scanning = false;
-	for (int i = 0; i < 4; i++) {
-		MilliSleep(50);
-		parseTelemetry((void*)0);
-	}
-	do {
-		for (int f = startfreq; f <= endfreq; f+=50) {
-			setXcvrRcvFreq(f,0);
-			MilliSleep(50);
-			parseTelemetry((void *)0);
-			rxp.x2 = f; rxp.y2 = rxsignal;
-			if (f == startfreq) { rxp.x1 = rxp.x2; rxp.y1 = rxp.y2;}
-			startFreqDisp->value(f);
-			spectrum_plot->add_line(rxp);
-			rxp.x1 = rxp.x2; rxp.y1 = rxp.y2;
-			spectrum_plot->redraw();
-			if (stop_scanning) goto done;
-		}
-	} while (continuous_scan);
-done:
-	stop_scanning = false;
-	scanning = false;
-	continuous_scan = false;
-	Fl::add_idle(parseTelemetry);
-	startFreqDisp->value(startfreq);
-	cbRxA_TxA();
 }
 
 void start_continuous_scan()
@@ -1751,13 +1757,16 @@ void start_continuous_scan()
 
 void stop_scan()
 {
-	stop_scanning = true;
+	scanning = false;
+	continuous_scan = false;
+	startFreqDisp->value(startfreq);
+	cbRxA_TxA();
 }
 
 int startFreq()
 {
+	scanning = false;
 	spectrum_plot->clear();
-	stop_scanning = true;
 	return 0;
 }
 
