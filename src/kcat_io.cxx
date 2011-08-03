@@ -330,10 +330,11 @@ void setXcvrNotch(double val)
 // This uses the same command structure as NR
 // there only Auto Notch AND Noise Reduction are mutually exclusive
 // The software toggles between them (see support.cpp)
+// 0 <= val <= 100
 void setXcvrNotchDepth(double val)
 {
 	xcvrState.NOTCHDEPTH = val;
-	cmdK_NDLV[2] = (int)val & 0xFF;
+	cmdK_NDLV[2] = ((int)val * 255 / 100) & 0xFF;
 	cmd = cmdK_NDLV;
 	sendCmd(cmd);
 	LOG_INFO("%s : %s", str2hex(cmd.c_str(), cmd[0]+1), retval.c_str());

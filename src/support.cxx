@@ -593,7 +593,7 @@ void cbbtnNotch()
 		sldrNR->deactivate(); // NR controls deactivated
 		btnNR->deactivate();
 		setXcvrNotchWidth(3); // Put into AUTO notch mode
-		setXcvrNotchDepth(sldrDepth->value()); // With last postion of slider control
+		setXcvrNotchDepth(sldrDepth->value()); // With last position of slider control
 	} else { // Manual notch
 		sldrDepth->hide(); // Depth control hidden
 		sldrNOTCH->show(); // NOTCH freq adjust shown
@@ -607,7 +607,7 @@ void cbbtnNotch()
 
 void cbDepth()
 {
-	setXcvrNotchDepth(sldrDepth->value()*2.55);
+	setXcvrNotchDepth(sldrDepth->value());
 }
 
 void setNotch()
