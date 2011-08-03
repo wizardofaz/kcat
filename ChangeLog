@@ -4,9 +4,15 @@
 
 
 
-=Version 1.0.03=
+=Version 1.0.04=
 
-2011-08-02  David Freese  <w1hkj@w1hkj.com>
+2011-08-03  David Freese  <w1hkj@w1hkj.com>
+
+	66a9c2c: Range controls
+	a693cc0: Scanner updates
+
+
+=Version 1.0.03=
 
 	a1f558d: Keyboard events
 	cc14358: Comm port discovery
