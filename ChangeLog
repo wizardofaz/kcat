@@ -4,10 +4,16 @@
 
 
 
-=Version 1.0.04=
+=Version 1.0.05=
 
 2011-08-03  David Freese  <w1hkj@w1hkj.com>
 
+	9687d78: Auto notch depth
+
+
+=Version 1.0.04=
+
+	f37f8e3: XML open
 	66a9c2c: Range controls
 	a693cc0: Scanner updates
 
