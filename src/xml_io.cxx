@@ -113,6 +113,7 @@ void close_rig_xmlrpc()
 
 static inline void execute(const char* name, const XmlRpcValue& param, XmlRpcValue& result)
 {
+	if (!client) open_rig_xmlrpc();
 	if (!client->execute(name, param, result, TIMEOUT))
 		throw XmlRpc::XmlRpcException(name);
 }

@@ -1145,7 +1145,6 @@ void startProcessing(void *d)
 	}
 	Fl::add_idle(parseTelemetry);
 
-	open_rig_xmlrpc();
 	xmlrpc_thread = new pthread_t;
 	if (pthread_create(xmlrpc_thread, NULL, xmlrpc_thread_loop, NULL)) {
 		perror("pthread_create telemetry");
