@@ -372,8 +372,8 @@ selectFreq();}
       xywh {1 282 526 70} selection_color 50
     } {
       Fl_Group CWtab {
-        label CW open
-        xywh {2 302 525 50} color 50 selection_color 50 hide
+        label CW open selected
+        xywh {2 302 525 50} color 50 selection_color 50
       } {
         Fl_Light_Button btnSPOT {
           label Spot
@@ -383,29 +383,29 @@ selectFreq();}
         Fl_Counter cntrWPM {
           label Wpm
           callback {cbWPM();}
-          xywh {92 310 60 22} type Simple minimum 5 maximum 80 step 1 value 18
+          xywh {83 310 90 22} minimum 5 maximum 80 step 1 value 18
         }
         Fl_Counter sldrCWweight {
           label Weight
           callback {cbCWweight();}
-          xywh {174 310 60 22} type Simple minimum 0.75 maximum 1.5 step 0.05 value 1
+          xywh {182 310 90 22} minimum 0.75 maximum 1.5 step 0.05 value 1
         }
         Fl_Counter sldrCWattack {
           label Attack
           callback {cbCWattack();}
-          tooltip {QSK delay (msec)} xywh {256 310 60 22} type Simple minimum 0 maximum 255 step 1 value 127
+          tooltip {QSK delay (msec)} xywh {281 310 90 22} minimum 0 maximum 255 step 1 value 127
         }
         Fl_Choice mnuCWmode {
           label Mode
           callback {cbCWmode();} open
-          xywh {338 310 65 22} down_box BORDER_BOX align 2
+          xywh {380 310 75 22} down_box BORDER_BOX align 2
           code0 {o->add("Left|Right|Str't");}
           code1 {o->value(1);}
         } {}
         Fl_Check_Button btnQSKonoff {
           label QSK
           callback {cbQSKonoff();}
-          tooltip {Enable keyer} xywh {426 310 54 18} down_box DOWN_BOX
+          tooltip {Enable keyer} xywh {464 312 54 18} down_box DOWN_BOX
         }
       }
       Fl_Group CW2tab {
@@ -415,20 +415,20 @@ selectFreq();}
         Fl_Counter sldrSideTone {
           label {S-T/Spch-Mon Level}
           callback {cbSidetone();}
-          tooltip {Side tone volume} xywh {112 310 60 22} type Simple minimum 0 maximum 100 step 1 value 24
+          tooltip {Side tone volume} xywh {40 310 100 22} minimum 0 maximum 100 step 1 value 24
         }
         Fl_Choice mnuCWoffset {
           label Offset
           callback {cbCWoffset();} open
-          xywh {224 310 65 22} down_box BORDER_BOX align 2
+          xywh {217 310 100 22} down_box BORDER_BOX align 2
           code0 {o->add("300|400|500|600|700|800");}
           code1 {o->value(4);}
         } {}
         Fl_Choice mnuCWdefFilter {
           label {Def' Filt'}
           callback {cbCWdefFilter();} open
-          xywh {342 310 65 22} down_box BORDER_BOX align 2
-          code0 {o->add("Wide|Narr");}
+          xywh {395 310 100 22} down_box BORDER_BOX align 2
+          code0 {o->add("Wide|Narrow");}
           code1 {o->value(1);}
         } {}
       }
@@ -439,22 +439,22 @@ selectFreq();}
         Fl_Counter sldrVoxLevel {
           label gain
           callback {cbsldrVoxLevel();}
-          xywh {70 310 70 22} type Simple minimum 0 maximum 255 step 1
+          xywh {25 310 100 22} minimum 0 maximum 255 step 1
         }
         Fl_Counter sldrAntiVox {
           label anti
           callback {cbsldrAntiVox();}
-          xywh {174 310 70 22} type Simple minimum 0 maximum 255 step 1
+          xywh {160 310 100 22} minimum 0 maximum 255 step 1
         }
         Fl_Counter sldrVoxDelay {
           label delay
           callback {cbsldrVoxDelay();}
-          xywh {278 310 70 22} type Simple minimum 0 maximum 100 step 1
+          xywh {295 310 100 22} minimum 0 maximum 100 step 1
         }
         Fl_Light_Button btnVoxOnOff {
           label VOX
           callback {cbVoxOnOff();}
-          xywh {383 310 70 22}
+          xywh {431 310 70 22}
         }
       }
       Fl_Group SPCHtab {
@@ -469,12 +469,12 @@ selectFreq();}
         Fl_Counter sldrCompression {
           label Comp
           callback {cbsldrCompression();}
-          xywh {223 310 70 22} type Simple minimum 0 maximum 255 step 1
+          xywh {214 310 100 22} minimum 0 maximum 255 step 1
         }
         Fl_Light_Button btnSpchProc {
           label {Proc'}
           callback {cbbtnSpchProc();}
-          xywh {340 310 70 22}
+          xywh {353 310 70 22}
         }
       }
       Fl_Group RXtab {
@@ -484,29 +484,29 @@ selectFreq();}
         Fl_Counter sldrSqlLevel {
           label {SQL dbm}
           callback {cbSqlLevel();}
-          xywh {32 309 80 22} type Simple minimum -127 maximum 0 step 1 value -127
+          xywh {18 309 100 22} minimum -127 maximum 0 step 1 value -127
         }
         Fl_Round_Button {btnSQLtype[0]} {
           label Level
           callback {btnSQLtype[1]->value(0);
 cbSQLtype();}
-          xywh {162 308 70 21} down_box ROUND_DOWN_BOX value 1
+          xywh {159 308 70 21} down_box ROUND_DOWN_BOX value 1
         }
         Fl_Counter sldrAgcAction {
           label {AGC action}
           callback {cbsldrAgcAction();}
-          xywh {282 309 80 22} type Simple minimum 0 maximum 255 step 1
+          xywh {270 309 100 22} minimum 0 maximum 255 step 1
         }
         Fl_Counter sldrAgcSpeed {
           label {AGC speed}
           callback {cbsldrAgcSpeed();}
-          xywh {412 309 80 22} type Simple minimum 0 maximum 255 step 1 value 127
+          xywh {412 309 100 22} minimum 0 maximum 255 step 1 value 127
         }
         Fl_Round_Button {btnSQLtype[1]} {
           label Syllabic
           callback {btnSQLtype[0]->value(0);
 cbSQLtype();}
-          xywh {162 329 70 21} down_box ROUND_DOWN_BOX
+          xywh {159 329 70 21} down_box ROUND_DOWN_BOX
         }
       }
       Fl_Group TXtab {
@@ -525,12 +525,12 @@ cbSQLtype();}
         Fl_Counter sldrXmtEqualizer {
           label Equilization
           callback {cbsldrXmtEqualizer();}
-          xywh {273 307 80 22} type Simple minimum -127 maximum 127 step 1
+          xywh {273 307 100 22} minimum -127 maximum 127 step 1
         }
       }
       Fl_Group OSCtab {
         label {Osc'} open
-        xywh {2 302 525 50}
+        xywh {2 302 525 50} hide
       } {
         Fl_Counter ctr_vfo_adj {
           label {Vfo Adj(ppm)}
@@ -947,7 +947,7 @@ Function {scanner_window()} {open
         xywh {12 101 103 20}
       }
       Fl_Choice db_max {
-        label dbMax open selected
+        label dbMax open
         xywh {3 123 70 20} down_box BORDER_BOX align 8
         code0 {o->add("0|-10|-20|-30|-40|-50");}
         code1 {o->value(0);}

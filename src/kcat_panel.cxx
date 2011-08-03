@@ -893,43 +893,39 @@ Fl_Double_Window* kcat_window() {
       { CWtab = new Fl_Group(2, 302, 525, 50, _("CW"));
         CWtab->color((Fl_Color)FL_LIGHT1);
         CWtab->selection_color((Fl_Color)FL_LIGHT1);
-        CWtab->hide();
         { btnSPOT = new Fl_Light_Button(10, 310, 64, 22, _("Spot"));
           btnSPOT->callback((Fl_Callback*)cb_btnSPOT);
         } // Fl_Light_Button* btnSPOT
-        { cntrWPM = new Fl_Counter(92, 310, 60, 22, _("Wpm"));
-          cntrWPM->type(1);
+        { cntrWPM = new Fl_Counter(83, 310, 90, 22, _("Wpm"));
           cntrWPM->minimum(5);
           cntrWPM->maximum(80);
           cntrWPM->step(1);
           cntrWPM->value(18);
           cntrWPM->callback((Fl_Callback*)cb_cntrWPM);
         } // Fl_Counter* cntrWPM
-        { sldrCWweight = new Fl_Counter(174, 310, 60, 22, _("Weight"));
-          sldrCWweight->type(1);
+        { sldrCWweight = new Fl_Counter(182, 310, 90, 22, _("Weight"));
           sldrCWweight->minimum(0.75);
           sldrCWweight->maximum(1.5);
           sldrCWweight->step(0.05);
           sldrCWweight->value(1);
           sldrCWweight->callback((Fl_Callback*)cb_sldrCWweight);
         } // Fl_Counter* sldrCWweight
-        { sldrCWattack = new Fl_Counter(256, 310, 60, 22, _("Attack"));
+        { sldrCWattack = new Fl_Counter(281, 310, 90, 22, _("Attack"));
           sldrCWattack->tooltip(_("QSK delay (msec)"));
-          sldrCWattack->type(1);
           sldrCWattack->minimum(0);
           sldrCWattack->maximum(255);
           sldrCWattack->step(1);
           sldrCWattack->value(127);
           sldrCWattack->callback((Fl_Callback*)cb_sldrCWattack);
         } // Fl_Counter* sldrCWattack
-        { Fl_Choice* o = mnuCWmode = new Fl_Choice(338, 310, 65, 22, _("Mode"));
+        { Fl_Choice* o = mnuCWmode = new Fl_Choice(380, 310, 75, 22, _("Mode"));
           mnuCWmode->down_box(FL_BORDER_BOX);
           mnuCWmode->callback((Fl_Callback*)cb_mnuCWmode);
           mnuCWmode->align(FL_ALIGN_BOTTOM);
           o->add("Left|Right|Str't");
           o->value(1);
         } // Fl_Choice* mnuCWmode
-        { btnQSKonoff = new Fl_Check_Button(426, 310, 54, 18, _("QSK"));
+        { btnQSKonoff = new Fl_Check_Button(464, 312, 54, 18, _("QSK"));
           btnQSKonoff->tooltip(_("Enable keyer"));
           btnQSKonoff->down_box(FL_DOWN_BOX);
           btnQSKonoff->callback((Fl_Callback*)cb_btnQSKonoff);
@@ -940,55 +936,51 @@ Fl_Double_Window* kcat_window() {
         CW2tab->color((Fl_Color)FL_LIGHT1);
         CW2tab->selection_color((Fl_Color)FL_LIGHT1);
         CW2tab->hide();
-        { sldrSideTone = new Fl_Counter(112, 310, 60, 22, _("S-T/Spch-Mon Level"));
+        { sldrSideTone = new Fl_Counter(40, 310, 100, 22, _("S-T/Spch-Mon Level"));
           sldrSideTone->tooltip(_("Side tone volume"));
-          sldrSideTone->type(1);
           sldrSideTone->minimum(0);
           sldrSideTone->maximum(100);
           sldrSideTone->step(1);
           sldrSideTone->value(24);
           sldrSideTone->callback((Fl_Callback*)cb_sldrSideTone);
         } // Fl_Counter* sldrSideTone
-        { Fl_Choice* o = mnuCWoffset = new Fl_Choice(224, 310, 65, 22, _("Offset"));
+        { Fl_Choice* o = mnuCWoffset = new Fl_Choice(217, 310, 100, 22, _("Offset"));
           mnuCWoffset->down_box(FL_BORDER_BOX);
           mnuCWoffset->callback((Fl_Callback*)cb_mnuCWoffset);
           mnuCWoffset->align(FL_ALIGN_BOTTOM);
           o->add("300|400|500|600|700|800");
           o->value(4);
         } // Fl_Choice* mnuCWoffset
-        { Fl_Choice* o = mnuCWdefFilter = new Fl_Choice(342, 310, 65, 22, _("Def\' Filt\'"));
+        { Fl_Choice* o = mnuCWdefFilter = new Fl_Choice(395, 310, 100, 22, _("Def\' Filt\'"));
           mnuCWdefFilter->down_box(FL_BORDER_BOX);
           mnuCWdefFilter->callback((Fl_Callback*)cb_mnuCWdefFilter);
           mnuCWdefFilter->align(FL_ALIGN_BOTTOM);
-          o->add("Wide|Narr");
+          o->add("Wide|Narrow");
           o->value(1);
         } // Fl_Choice* mnuCWdefFilter
         CW2tab->end();
       } // Fl_Group* CW2tab
       { VOXtab = new Fl_Group(2, 302, 525, 50, _("Vox"));
         VOXtab->hide();
-        { sldrVoxLevel = new Fl_Counter(70, 310, 70, 22, _("gain"));
-          sldrVoxLevel->type(1);
+        { sldrVoxLevel = new Fl_Counter(25, 310, 100, 22, _("gain"));
           sldrVoxLevel->minimum(0);
           sldrVoxLevel->maximum(255);
           sldrVoxLevel->step(1);
           sldrVoxLevel->callback((Fl_Callback*)cb_sldrVoxLevel);
         } // Fl_Counter* sldrVoxLevel
-        { sldrAntiVox = new Fl_Counter(174, 310, 70, 22, _("anti"));
-          sldrAntiVox->type(1);
+        { sldrAntiVox = new Fl_Counter(160, 310, 100, 22, _("anti"));
           sldrAntiVox->minimum(0);
           sldrAntiVox->maximum(255);
           sldrAntiVox->step(1);
           sldrAntiVox->callback((Fl_Callback*)cb_sldrAntiVox);
         } // Fl_Counter* sldrAntiVox
-        { sldrVoxDelay = new Fl_Counter(278, 310, 70, 22, _("delay"));
-          sldrVoxDelay->type(1);
+        { sldrVoxDelay = new Fl_Counter(295, 310, 100, 22, _("delay"));
           sldrVoxDelay->minimum(0);
           sldrVoxDelay->maximum(100);
           sldrVoxDelay->step(1);
           sldrVoxDelay->callback((Fl_Callback*)cb_sldrVoxDelay);
         } // Fl_Counter* sldrVoxDelay
-        { btnVoxOnOff = new Fl_Light_Button(383, 310, 70, 22, _("VOX"));
+        { btnVoxOnOff = new Fl_Light_Button(431, 310, 70, 22, _("VOX"));
           btnVoxOnOff->callback((Fl_Callback*)cb_btnVoxOnOff);
         } // Fl_Light_Button* btnVoxOnOff
         VOXtab->end();
@@ -999,49 +991,45 @@ Fl_Double_Window* kcat_window() {
           btnSpchMon->tooltip(_("Monitor both mic and aux input"));
           btnSpchMon->callback((Fl_Callback*)cb_btnSpchMon);
         } // Fl_Light_Button* btnSpchMon
-        { sldrCompression = new Fl_Counter(223, 310, 70, 22, _("Comp"));
-          sldrCompression->type(1);
+        { sldrCompression = new Fl_Counter(214, 310, 100, 22, _("Comp"));
           sldrCompression->minimum(0);
           sldrCompression->maximum(255);
           sldrCompression->step(1);
           sldrCompression->callback((Fl_Callback*)cb_sldrCompression);
         } // Fl_Counter* sldrCompression
-        { btnSpchProc = new Fl_Light_Button(340, 310, 70, 22, _("Proc\'"));
+        { btnSpchProc = new Fl_Light_Button(353, 310, 70, 22, _("Proc\'"));
           btnSpchProc->callback((Fl_Callback*)cb_btnSpchProc);
         } // Fl_Light_Button* btnSpchProc
         SPCHtab->end();
       } // Fl_Group* SPCHtab
       { RXtab = new Fl_Group(2, 302, 525, 50, _("RX"));
         RXtab->hide();
-        { sldrSqlLevel = new Fl_Counter(32, 309, 80, 22, _("SQL dbm"));
-          sldrSqlLevel->type(1);
+        { sldrSqlLevel = new Fl_Counter(18, 309, 100, 22, _("SQL dbm"));
           sldrSqlLevel->minimum(-127);
           sldrSqlLevel->maximum(0);
           sldrSqlLevel->step(1);
           sldrSqlLevel->value(-127);
           sldrSqlLevel->callback((Fl_Callback*)cb_sldrSqlLevel);
         } // Fl_Counter* sldrSqlLevel
-        { btnSQLtype[0] = new Fl_Round_Button(162, 308, 70, 21, _("Level"));
+        { btnSQLtype[0] = new Fl_Round_Button(159, 308, 70, 21, _("Level"));
           btnSQLtype[0]->down_box(FL_ROUND_DOWN_BOX);
           btnSQLtype[0]->value(1);
           btnSQLtype[0]->callback((Fl_Callback*)cb_btnSQLtype);
         } // Fl_Round_Button* btnSQLtype[0]
-        { sldrAgcAction = new Fl_Counter(282, 309, 80, 22, _("AGC action"));
-          sldrAgcAction->type(1);
+        { sldrAgcAction = new Fl_Counter(270, 309, 100, 22, _("AGC action"));
           sldrAgcAction->minimum(0);
           sldrAgcAction->maximum(255);
           sldrAgcAction->step(1);
           sldrAgcAction->callback((Fl_Callback*)cb_sldrAgcAction);
         } // Fl_Counter* sldrAgcAction
-        { sldrAgcSpeed = new Fl_Counter(412, 309, 80, 22, _("AGC speed"));
-          sldrAgcSpeed->type(1);
+        { sldrAgcSpeed = new Fl_Counter(412, 309, 100, 22, _("AGC speed"));
           sldrAgcSpeed->minimum(0);
           sldrAgcSpeed->maximum(255);
           sldrAgcSpeed->step(1);
           sldrAgcSpeed->value(127);
           sldrAgcSpeed->callback((Fl_Callback*)cb_sldrAgcSpeed);
         } // Fl_Counter* sldrAgcSpeed
-        { btnSQLtype[1] = new Fl_Round_Button(162, 329, 70, 21, _("Syllabic"));
+        { btnSQLtype[1] = new Fl_Round_Button(159, 329, 70, 21, _("Syllabic"));
           btnSQLtype[1]->down_box(FL_ROUND_DOWN_BOX);
           btnSQLtype[1]->callback((Fl_Callback*)cb_btnSQLtype1);
         } // Fl_Round_Button* btnSQLtype[1]
@@ -1058,8 +1046,7 @@ Fl_Double_Window* kcat_window() {
           tuner_bypass->down_box(FL_DOWN_BOX);
           tuner_bypass->hide();
         } // Fl_Check_Button* tuner_bypass
-        { sldrXmtEqualizer = new Fl_Counter(273, 307, 80, 22, _("Equilization"));
-          sldrXmtEqualizer->type(1);
+        { sldrXmtEqualizer = new Fl_Counter(273, 307, 100, 22, _("Equilization"));
           sldrXmtEqualizer->minimum(-127);
           sldrXmtEqualizer->maximum(127);
           sldrXmtEqualizer->step(1);
@@ -1068,6 +1055,7 @@ Fl_Double_Window* kcat_window() {
         TXtab->end();
       } // Fl_Group* TXtab
       { OSCtab = new Fl_Group(2, 302, 525, 50, _("Osc\'"));
+        OSCtab->hide();
         { ctr_vfo_adj = new Fl_Counter(206, 310, 120, 22, _("Vfo Adj(ppm)"));
           ctr_vfo_adj->callback((Fl_Callback*)cb_ctr_vfo_adj);
           ctr_vfo_adj->align(34);
