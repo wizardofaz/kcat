@@ -68,8 +68,8 @@ extern Fl_Group *CWtab;
 extern Fl_Light_Button *btnSPOT;
 #include <FL/Fl_Counter.H>
 extern Fl_Counter *cntrWPM;
-extern Fl_Counter *sldrCWweight;
-extern Fl_Counter *sldrCWattack;
+extern Fl_Wheel_Value_Slider *sldrCWweight;
+extern Fl_Wheel_Value_Slider *sldrCWattack;
 extern Fl_Choice *mnuCWmode;
 #include <FL/Fl_Check_Button.H>
 extern Fl_Check_Button *btnQSKonoff;

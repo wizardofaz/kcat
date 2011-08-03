@@ -373,39 +373,42 @@ selectFreq();}
     } {
       Fl_Group CWtab {
         label CW open selected
-        xywh {2 302 525 50} color 50 selection_color 50
+        xywh {1 302 526 50} color 50 selection_color 50
       } {
         Fl_Light_Button btnSPOT {
           label Spot
           callback {cbSPOT();}
-          xywh {10 310 64 22}
+          xywh {2 310 55 22}
         }
         Fl_Counter cntrWPM {
           label Wpm
           callback {cbWPM();}
-          xywh {83 310 90 22} minimum 5 maximum 80 step 1 value 18
+          xywh {59 310 90 22} minimum 5 maximum 80 step 1 value 18
+          code0 {o->lstep(5);}
         }
-        Fl_Counter sldrCWweight {
-          label Weight
+        Fl_Value_Slider sldrCWweight {
+          label {         Lite        Hvy}
           callback {cbCWweight();}
-          xywh {182 310 90 22} minimum 0.75 maximum 1.5 step 0.05 value 1
+          xywh {152 310 120 22} type {Horz Knob} color 26 align 6 maximum 255 step 1 value 128 textsize 14
+          class Fl_Wheel_Value_Slider
         }
-        Fl_Counter sldrCWattack {
-          label Attack
+        Fl_Value_Slider sldrCWattack {
+          label {         Soft     Hard}
           callback {cbCWattack();}
-          tooltip {QSK delay (msec)} xywh {281 310 90 22} minimum 0 maximum 255 step 1 value 127
+          xywh {274 310 120 22} type {Horz Knob} color 26 align 6 maximum 255 step 1 value 128 textsize 14
+          class Fl_Wheel_Value_Slider
         }
         Fl_Choice mnuCWmode {
           label Mode
           callback {cbCWmode();} open
-          xywh {380 310 75 22} down_box BORDER_BOX align 2
+          xywh {397 310 75 22} down_box BORDER_BOX align 2
           code0 {o->add("Left|Right|Str't");}
           code1 {o->value(1);}
         } {}
         Fl_Check_Button btnQSKonoff {
           label QSK
           callback {cbQSKonoff();}
-          tooltip {Enable keyer} xywh {464 312 54 18} down_box DOWN_BOX
+          tooltip {Enable keyer} xywh {475 312 50 18} down_box DOWN_BOX
         }
       }
       Fl_Group CW2tab {
@@ -416,6 +419,7 @@ selectFreq();}
           label {S-T/Spch-Mon Level}
           callback {cbSidetone();}
           tooltip {Side tone volume} xywh {40 310 100 22} minimum 0 maximum 100 step 1 value 24
+          code0 {o->lstep(10);}
         }
         Fl_Choice mnuCWoffset {
           label Offset
@@ -440,16 +444,19 @@ selectFreq();}
           label gain
           callback {cbsldrVoxLevel();}
           xywh {25 310 100 22} minimum 0 maximum 255 step 1
+          code0 {o->lstep(10);}
         }
         Fl_Counter sldrAntiVox {
           label anti
           callback {cbsldrAntiVox();}
           xywh {160 310 100 22} minimum 0 maximum 255 step 1
+          code0 {o->lstep(10);}
         }
         Fl_Counter sldrVoxDelay {
           label delay
           callback {cbsldrVoxDelay();}
           xywh {295 310 100 22} minimum 0 maximum 100 step 1
+          code0 {o->lstep(10);}
         }
         Fl_Light_Button btnVoxOnOff {
           label VOX
@@ -470,6 +477,7 @@ selectFreq();}
           label Comp
           callback {cbsldrCompression();}
           xywh {214 310 100 22} minimum 0 maximum 255 step 1
+          code0 {o->lstep(10);}
         }
         Fl_Light_Button btnSpchProc {
           label {Proc'}
@@ -485,6 +493,7 @@ selectFreq();}
           label {SQL dbm}
           callback {cbSqlLevel();}
           xywh {18 309 100 22} minimum -127 maximum 0 step 1 value -127
+          code0 {o->lstep(10);}
         }
         Fl_Round_Button {btnSQLtype[0]} {
           label Level
@@ -496,11 +505,13 @@ cbSQLtype();}
           label {AGC action}
           callback {cbsldrAgcAction();}
           xywh {270 309 100 22} minimum 0 maximum 255 step 1
+          code0 {o->lstep(10);}
         }
         Fl_Counter sldrAgcSpeed {
           label {AGC speed}
           callback {cbsldrAgcSpeed();}
           xywh {412 309 100 22} minimum 0 maximum 255 step 1 value 127
+          code0 {o->lstep(10);}
         }
         Fl_Round_Button {btnSQLtype[1]} {
           label Syllabic
@@ -526,6 +537,7 @@ cbSQLtype();}
           label Equilization
           callback {cbsldrXmtEqualizer();}
           xywh {273 307 100 22} minimum -127 maximum 127 step 1
+          code0 {o->lstep(10);}
         }
       }
       Fl_Group OSCtab {
@@ -536,6 +548,7 @@ cbSQLtype();}
           label {Vfo Adj(ppm)}
           callback {cb_vfo_adj();}
           xywh {206 310 120 22} align 34
+          code0 {o->lstep(1);}
         }
       }
     }
@@ -906,7 +919,7 @@ Function {scanner_window()} {open
 } {
   Fl_Window {} {
     label {kcat scanner} open
-    xywh {568 443 530 174} type Double resizable visible
+    xywh {568 443 530 174} type Double hide resizable
   } {
     Fl_Box spectrum_plot {
       label {spectrum plot}
