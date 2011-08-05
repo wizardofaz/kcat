@@ -1666,13 +1666,13 @@ Fl_Color flrig_def_color(int n)
 extern int rxsignal;
 int scanrange = 5000;
 int range[] = {2500, 5000, 10000, 25000, 50000, 100000};
+char szrange[] = "2500|5000|10000|25000|50000|10000";
 int startfreq = 14070000;
 int endfreq = 14070000;
 int scanfreq = 14070000;
 XYplot::line rxp = {0,0,0,0,FL_YELLOW};
 
 double dbmin, dbmax;
-static bool stop_scanning = false;
 static bool scanning = false;
 static bool continuous_scan = false;
 
@@ -1767,6 +1767,22 @@ int startFreq()
 {
 	scanning = false;
 	spectrum_plot->clear();
+	startfreq = startFreqDisp->value();
+	return 0;
+}
+
+int scanner_cb()
+{
+	int xpos = Fl::event_x();
+	int xleft = spectrum_plot->x();
+	int freq = startfreq + (xpos - xleft) * scanrange / spectrum_plot->w();
+	if (rx_on_a) {
+		FreqDisp->value(freq);
+		movFreq();
+	} else {
+		FreqDispB->value(freq);
+		movFreqB();
+	}
 	return 0;
 }
 
@@ -1775,6 +1791,8 @@ void open_scanner()
 	if (!dlgScanner) {
 		dlgScanner = scanner_window();
 		startFreqDisp->value(startfreq);
+		scan_range->clear();
+		scan_range->add(szrange);
 		scan_range->value(1);
 		scanrange = range[1];
 		db_min->value(7);
@@ -1783,6 +1801,8 @@ void open_scanner()
 		dbmax = -10.0 * db_max->value();
 		spectrum_plot->xmin_max(startfreq, startfreq + scanrange);
 		spectrum_plot->ymin_max(dbmin, dbmax);
+		spectrum_plot->setCallback(scanner_cb);
+		spectrum_plot->enable_tooltip(true);
 	}
 	dlgScanner->show();
 }

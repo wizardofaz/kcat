@@ -13,8 +13,7 @@ decl {\#include "support.h"} {}
 
 decl {\#include "status.h"} {} 
 
-Function {kcat_window()} {open
-} {
+Function {kcat_window()} {} {
   Fl_Window {} {
     label kcat open
     xywh {570 59 530 355} type Double color 51
@@ -372,7 +371,7 @@ selectFreq();}
       xywh {1 282 526 70} selection_color 50
     } {
       Fl_Group CWtab {
-        label CW open selected
+        label CW open
         xywh {1 302 526 50} color 50 selection_color 50
       } {
         Fl_Light_Button btnSPOT {
@@ -919,7 +918,7 @@ Function {scanner_window()} {open
 } {
   Fl_Window {} {
     label {kcat scanner} open
-    xywh {568 443 530 174} type Double hide resizable
+    xywh {568 443 530 174} type Double resizable visible
   } {
     Fl_Box spectrum_plot {
       label {spectrum plot}
@@ -939,9 +938,9 @@ Function {scanner_window()} {open
       }
       Fl_Choice scan_range {
         label Rng
-        callback {set_freq_range();} open
+        callback {set_freq_range();} open selected
         xywh {3 47 90 20} down_box BORDER_BOX align 8
-        code0 {o->add("2500|5000|10000|25000|50000|1000000");}
+        code0 {o->add("2500|5000|10000|25000|50000|100000");}
         code1 {o->value(0);}
       } {}
       Fl_Button btn_start_scan {

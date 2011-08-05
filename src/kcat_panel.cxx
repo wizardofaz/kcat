@@ -1793,7 +1793,7 @@ Fl_Double_Window* scanner_window() {
         scan_range->down_box(FL_BORDER_BOX);
         scan_range->callback((Fl_Callback*)cb_scan_range);
         scan_range->align(FL_ALIGN_RIGHT);
-        o->add("2500|5000|10000|25000|50000|1000000");
+        o->add("2500|5000|10000|25000|50000|100000");
         o->value(0);
       } // Fl_Choice* scan_range
       { btn_start_scan = new Fl_Button(3, 76, 55, 20, _("Start"));
