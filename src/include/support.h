@@ -247,6 +247,8 @@ extern void start_scan();
 extern void start_continuous_scan();
 extern void stop_scan();
 extern int  startFreq();
+extern int  db_min_cb();
+extern int  db_max_cb();
 extern void update_scanner(int);
 extern void open_scanner();
 

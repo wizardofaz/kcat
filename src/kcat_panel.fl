@@ -959,13 +959,15 @@ Function {scanner_window()} {open
         xywh {12 101 103 20}
       }
       Fl_Choice db_max {
-        label dbMax open
+        label dbMax
+        callback {db_max_cb();} open
         xywh {3 123 70 20} down_box BORDER_BOX align 8
         code0 {o->add("0|-10|-20|-30|-40|-50");}
         code1 {o->value(0);}
       } {}
       Fl_Choice db_min {
-        label dbMin open
+        label dbMin
+        callback {db_min_cb();} open
         xywh {3 146 70 20} down_box BORDER_BOX align 8
         code0 {o->add("-60|-70|-80|-90|-100|-110|-120|-130");}
         code1 {o->value(5);}

@@ -1757,7 +1757,15 @@ static void cb_btn_start_continuous(Fl_Button*, void*) {
 
 Fl_Choice *db_max=(Fl_Choice *)0;
 
+static void cb_db_max(Fl_Choice*, void*) {
+  db_max_cb();
+}
+
 Fl_Choice *db_min=(Fl_Choice *)0;
+
+static void cb_db_min(Fl_Choice*, void*) {
+  db_min_cb();
+}
 
 Fl_Double_Window* scanner_window() {
   Fl_Double_Window* w;
@@ -1807,12 +1815,14 @@ Fl_Double_Window* scanner_window() {
       } // Fl_Button* btn_start_continuous
       { Fl_Choice* o = db_max = new Fl_Choice(3, 123, 70, 20, _("dbMax"));
         db_max->down_box(FL_BORDER_BOX);
+        db_max->callback((Fl_Callback*)cb_db_max);
         db_max->align(FL_ALIGN_RIGHT);
         o->add("0|-10|-20|-30|-40|-50");
         o->value(0);
       } // Fl_Choice* db_max
       { Fl_Choice* o = db_min = new Fl_Choice(3, 146, 70, 20, _("dbMin"));
         db_min->down_box(FL_BORDER_BOX);
+        db_min->callback((Fl_Callback*)cb_db_min);
         db_min->align(FL_ALIGN_RIGHT);
         o->add("-60|-70|-80|-90|-100|-110|-120|-130");
         o->value(5);

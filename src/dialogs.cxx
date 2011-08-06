@@ -1706,7 +1706,43 @@ done:
 	scanning = false;
 	continuous_scan = false;
 	startFreqDisp->value(startfreq);
-	cbRxA_TxA();
+	if (rx_on_a) {
+		if (tx_on_a)
+			cbRxA_TxA();
+		else
+			cbRxA_TxB();
+	} else {
+		if (tx_on_a)
+			cbRxB_TxA();
+		else
+			cbRxB_TxB();
+	}
+}
+
+void draw_axis()
+{
+	spectrum_plot->clear_axis();
+
+	XYplot::line axis = {0,0,0,0,FL_GRAY};
+
+	dbmin = -60.0 -10.0 * db_min->value();
+	dbmax = -10.0 * db_max->value();
+	spectrum_plot->xmin_max(startfreq, startfreq + scanrange);
+	spectrum_plot->ymin_max(dbmin, dbmax);
+
+	axis.x1 = axis.x2 = startfreq;
+	axis.y1 = dbmin; axis.y2 = dbmax;
+	for (int i = 1; i < 10; i++) {
+		axis.x1 = (axis.x2 += scanrange/10.0);
+		spectrum_plot->add_axis(axis);
+	}
+	axis.x1 = startfreq; axis.x2 = startfreq + scanrange;
+	axis.y1 = axis.y2 = dbmax;
+	while (axis.y1 > dbmin) {
+		axis.y2 = (axis.y1 -= 10);
+		spectrum_plot->add_axis(axis);
+	}
+	spectrum_plot->redraw();
 }
 
 void start_scan()
@@ -1760,7 +1796,17 @@ void stop_scan()
 	scanning = false;
 	continuous_scan = false;
 	startFreqDisp->value(startfreq);
-	cbRxA_TxA();
+	if (rx_on_a) {
+		if (tx_on_a)
+			cbRxA_TxA();
+		else
+			cbRxA_TxB();
+	} else {
+		if (tx_on_a)
+			cbRxB_TxA();
+		else
+			cbRxB_TxB();
+	}
 }
 
 int startFreq()
@@ -1771,19 +1817,38 @@ int startFreq()
 	return 0;
 }
 
+int db_min_cb()
+{
+	draw_axis();
+	return 0;
+}
+
+int db_max_cb()
+{
+	draw_axis();
+	return 0;
+}
+
 int scanner_cb()
 {
 	int xpos = Fl::event_x();
 	int xleft = spectrum_plot->x();
-	int freq = startfreq + (xpos - xleft) * scanrange / spectrum_plot->w();
+	int freq = ceil(((xpos - xleft) * scanrange / spectrum_plot->w())/100.0);
 	if (rx_on_a) {
-		FreqDisp->value(freq);
+		FreqDisp->value(startfreq + freq * 100);
 		movFreq();
 	} else {
-		FreqDispB->value(freq);
+		FreqDispB->value(startfreq + freq * 100);
 		movFreqB();
 	}
 	return 0;
+}
+
+char *format_tooltip(double x, double y)
+{
+	static char tip[80];
+	snprintf(tip, sizeof(tip), "%.1f KHz\n%.0f dB", ceil(x/100.0)/10.0, y);
+	return tip;
 }
 
 void open_scanner()
@@ -1803,6 +1868,8 @@ void open_scanner()
 		spectrum_plot->ymin_max(dbmin, dbmax);
 		spectrum_plot->setCallback(scanner_cb);
 		spectrum_plot->enable_tooltip(true);
+		spectrum_plot->set_tooltip(format_tooltip);
+		draw_axis();
 	}
 	dlgScanner->show();
 }

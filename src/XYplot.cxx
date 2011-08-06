@@ -71,8 +71,8 @@ void XYplot::draw()
 	fl_pop_clip();
 }
 
-//void XYplot::xy_tooltip(void* obj)
-void xy_tooltip(void* obj)
+void XYplot::xy_tooltip(void* obj)
+//void xy_tooltip(void* obj)
 {
 	struct point {
 		int x, y;
@@ -87,12 +87,18 @@ void xy_tooltip(void* obj)
 	p[2].x = Fl::event_x(); p[2].y = Fl::event_y();
 
 	if (p[2] == p[1] && p[2] != p[0]) {
-		snprintf(v->tip, sizeof(v->tip), "%.3f", (v->xmin + (p[2].x - v->x())*(v->xmax - v->xmin)/v->w())/1000.0);
-		Fl_Tooltip::enter_area(v, p[2].x, p[2].y, 100, 100, v->tip);
+		if (v->disp_tooltip) {
+			Fl_Tooltip::enter_area(v, p[2].x, p[2].y, 100, 100, 
+				v->disp_tooltip(v->xmin + (p[2].x - v->x())*(v->xmax - v->xmin)/v->w(), 
+								v->ymin + (v->h() + v->y() - p[2].y)*(v->ymax - v->ymin)/v->h() ));
+		} else {
+			snprintf(v->tip, sizeof(v->tip), "x %d, y %d", p[2].x - v->x(), p[2].y - v->y());
+			Fl_Tooltip::enter_area(v, p[2].x, p[2].y, 100, 100, v->tip);
+		}
 	} else if (p[2] != p[1])
 		Fl_Tooltip::exit(v);
 
-	Fl::repeat_timeout((double)Fl_Tooltip::hoverdelay(), xy_tooltip, v);//obj);
+	Fl::repeat_timeout((double)Fl_Tooltip::hoverdelay(), xy_tooltip, obj);
 }
 
 

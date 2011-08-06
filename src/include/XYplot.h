@@ -47,6 +47,7 @@ public:
 		ymin = 0.0; ymax = 1.0;
 		clear();
 		cbfunc = NULL;
+		disp_tooltip = NULL;
 		show_xval = false;
 	}
 	virtual void draw();
@@ -65,6 +66,8 @@ public:
 	void ymin_max(double min, double max) {ymin = min; ymax = max;}
 
 	void enable_tooltip(bool b) {show_xval = b;}
+	static void xy_tooltip(void* obj);
+	void set_tooltip(char *(*func)(double, double)) {disp_tooltip = func;}
 
 	void setCallback (int (*cbf)() ){ cbfunc = cbf;};
 	void do_callback() { if (cbfunc) cbfunc(); }
@@ -74,6 +77,7 @@ public:
 
 private:
 	int (*cbfunc)();
+	char *(*disp_tooltip)(double x, double y);
 
 protected:
 	vector<point> points;
