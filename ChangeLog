@@ -4,11 +4,16 @@
 
 
 
+=Version 1.0.07=
+
+2011-08-06  David Freese  <w1hkj@w1hkj.com>
+
+	54f885e: Scanner update
+
+
 =Version 1.0.06=
 
-2011-08-05  David Freese  <w1hkj@w1hkj.com>
-
-	e2a25bc: Scanner update
+	f945e11: Scanner update
 	56b7fd4: Counter increments
 
 
