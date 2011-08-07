@@ -15,9 +15,9 @@ extern bool sendCmd(std::string &str);
 extern bool RequestData (char *cmd, unsigned char *buff, int nbr);
 
 extern void setXcvrMode(int mode);
-extern void setXcvrRcvFreq(long freq, int offset);
-extern void setXcvrXmtFreq(long freq, int offset);
-extern void setXcvrSplitFreq(long freq, int offset);
+extern void setXcvrRcvFreq(long freq);
+extern void setXcvrXmtFreq(long freq);
+extern void setXcvrSplitFreq(long freq);
 extern void setXcvrBW(int sel);
 extern void setXcvrIFshift(double val);
 extern void setXcvrVolume(double val);

@@ -79,7 +79,7 @@ Fl_Menu_Item menu_[] = {
  {_("Utils"), 0,  0, 0, 64, FL_NORMAL_LABEL, 0, 14, 0},
  {_("&Ant Imped"), 0,  0, 0, 16, FL_NORMAL_LABEL, 0, 14, 0},
  {_("Scanner"), 0,  (Fl_Callback*)cb_mnuScanner, 0, 0, FL_NORMAL_LABEL, 0, 14, 0},
- {_("&FreqCal"), 0,  (Fl_Callback*)cb_mnuFreqCal, 0, 0, FL_NORMAL_LABEL, 0, 14, 0},
+ {_("&FreqCal"), 0,  (Fl_Callback*)cb_mnuFreqCal, 0, 16, FL_NORMAL_LABEL, 0, 14, 0},
  {_("Clear Ant\' Data"), 0,  (Fl_Callback*)cb_mnuClearAntData, 0, 128, FL_NORMAL_LABEL, 0, 14, 0},
  {_("&NRAM data"), 0,  (Fl_Callback*)cb_mnuNRAMdata, 0, 128, FL_NORMAL_LABEL, 0, 14, 0},
  {_("Event log"), 0,  (Fl_Callback*)cb_mnuEvents, 0, 0, FL_NORMAL_LABEL, 0, 14, 0},
@@ -482,8 +482,18 @@ Fl_Group *OSCtab=(Fl_Group *)0;
 
 Fl_Counter *ctr_vfo_adj=(Fl_Counter *)0;
 
-static void cb_ctr_vfo_adj(Fl_Counter*, void*) {
-  cb_vfo_adj();
+static void cb_ctr_vfo_adj(Fl_Counter* o, void*) {
+  xcvrState.VFOADJ=o->value();
+movFreq();
+movFreqB();
+}
+
+Fl_Counter *ctr_vfo_offset=(Fl_Counter *)0;
+
+static void cb_ctr_vfo_offset(Fl_Counter* o, void*) {
+  xcvrState.VFO_OFFSET = o->value();
+movFreq();
+movFreqB();
 }
 
 Fl_Double_Window* kcat_window() {
@@ -1085,11 +1095,19 @@ Fl_Double_Window* kcat_window() {
       } // Fl_Group* TXtab
       { OSCtab = new Fl_Group(2, 302, 525, 50, _("Osc\'"));
         OSCtab->hide();
-        { Fl_Counter* o = ctr_vfo_adj = new Fl_Counter(206, 310, 120, 22, _("Vfo Adj(ppm)"));
+        { Fl_Counter* o = ctr_vfo_adj = new Fl_Counter(80, 312, 120, 22, _("DDS adjust (ppm)"));
           ctr_vfo_adj->callback((Fl_Callback*)cb_ctr_vfo_adj);
           ctr_vfo_adj->align(34);
           o->lstep(1);
+          o->value(xcvrState.VFOADJ);
         } // Fl_Counter* ctr_vfo_adj
+        { Fl_Counter* o = ctr_vfo_offset = new Fl_Counter(325, 311, 120, 22, _("DDS offset"));
+          ctr_vfo_offset->step(1);
+          ctr_vfo_offset->callback((Fl_Callback*)cb_ctr_vfo_offset);
+          ctr_vfo_offset->align(34);
+          o->lstep(10);
+          o->value(xcvrState.VFO_OFFSET);
+        } // Fl_Counter* ctr_vfo_offset
         OSCtab->end();
       } // Fl_Group* OSCtab
       tabs->end();

@@ -98,6 +98,7 @@ extern Fl_Check_Button *tuner_bypass;
 extern Fl_Counter *sldrXmtEqualizer;
 extern Fl_Group *OSCtab;
 extern Fl_Counter *ctr_vfo_adj;
+extern Fl_Counter *ctr_vfo_offset;
 Fl_Double_Window* kcat_window();
 extern Fl_Menu_Item menu_[];
 #define mnuOpen (menu_+1)

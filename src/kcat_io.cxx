@@ -176,11 +176,11 @@ int antPort( long freq)
 	return aport;
 }
 
-void setvfo (char *cmd, long freq, long offset)
+void setvfo (char *cmd, long freq)
 {
 	long val = 0;
-	freq *= (1 + xcvrState.VFOADJ * 1e-6);
-	val = (long)ceil(2.2369621333 * (75000000 + freq - offset));
+	val = (long)ceil(2.2369621333 * (75000000.0 + freq));
+	val += (long)((freq * xcvrState.VFOADJ)*1e-6 + xcvrState.VFO_OFFSET);
 	cmd[5] = val & 0xFF; val = val >> 8;
 	cmd[4] = val & 0xFF; val = val >> 8;
 	cmd[3] = val & 0xFF; val = val >> 8;
@@ -188,25 +188,25 @@ void setvfo (char *cmd, long freq, long offset)
 }
 
 // freq in Hz
-void setXcvrRcvFreq (long freq, int offset)
+void setXcvrRcvFreq (long freq)
 {
-	setvfo (cmdK_RCVF, freq, offset);
+	setvfo (cmdK_RCVF, freq);
 	cmd = cmdK_RCVF;
 	sendCmd(cmd);
 	LOG_INFO("%ld %s : %s", freq, str2hex(cmd.c_str(), cmd[0]+1), retval.c_str());
 }
 
-void setXcvrSplitFreq (long freq, int offset)
+void setXcvrSplitFreq (long freq)
 {
-	setvfo (cmdK_XMTS, freq, offset);
+	setvfo (cmdK_XMTS, freq);
 	cmd = cmdK_XMTS;
 	sendCmd(cmd);
 	LOG_INFO("%ld %s : %s", freq, str2hex(cmd.c_str(), cmd[0]+1), retval.c_str());
 }
 
-void setXcvrXmtFreq (long freq, int offset)
+void setXcvrXmtFreq (long freq)
 {
-	setvfo (cmdK_XMTF, freq, offset);
+	setvfo (cmdK_XMTF, freq);
 	cmd = cmdK_XMTF;
 	sendCmd(cmd);
 	LOG_INFO("%ld %s : %s", freq, str2hex(cmd.c_str(), cmd[0]+1), retval.c_str());
@@ -734,39 +734,53 @@ void initXcvrState()
 
 void Calibrate()
 {
-	sendCommand(cmdK_PFCAL);		// request freq. ref. cal.
+	cmd = cmdK_PFCAL;
+	sendCmd(cmd);		// request freq. ref. cal.
+	LOG_INFO("%s : %s", str2hex(cmd.c_str(), cmd[0]+1), retval.c_str());
 }
 
-int checkCalibrate(long int refstd)
+
+int checkCalibrate(long refstd)
 {
-	setvfo (cmdK_REFF, refstd, 0);	// set the ref freq
-	sendCommand (cmdK_REFF);
-	setvfo (cmdK_RCVF, refstd, 0);	// set rcvr to that freq
-	sendCommand (cmdK_RCVF);
-	cmdK_MODE[2] = 2;				// set to CW mode
-	sendCommand (cmdK_MODE);
-	cmdK_NTCF[2] = 0;				// set notch to OFF
-	sendCommand (cmdK_NTCF);
-	cmdK_SQL[2] = 0x7F;				// set squelch to max
-	sendCommand (cmdK_SQL);
-	cmdK_AGC[2] = 0;				// set AGC to fast
-	sendCommand (cmdK_AGC);
-	sendCommand (cmdK_BW5);			// set to 1 kHz CW BW
-//	cmdK_VOLU[2] = 0x80;			// set volume to mid scale
-//	sendCommand (cmdK_VOLU);
+	if (testing) return -1;
+
+	cmd = cmdK_NTCF;
+	cmd[2] = 0;						// set notch to OFF
+	sendCmd(cmd);
+	LOG_INFO("%s : %s", str2hex(cmd.c_str(), cmd[0]+1), retval.c_str());
+
+	cmd = cmdK_SQL;
+	cmd[2] = 0x7F;					// set squelch to OFF
+	sendCmd(cmd);
+	LOG_INFO("%s : %s", str2hex(cmd.c_str(), cmd[0]+1), retval.c_str());
+
+	cmd = cmdK_AGC;
+	cmd[2] = 0;						// set AGC to fast
+	sendCmd(cmd);
+	LOG_INFO("%s : %s", str2hex(cmd.c_str(), cmd[0]+1), retval.c_str());
+
+	setvfo (cmdK_REFF, refstd);		// set the ref freq
+	cmd = cmdK_REFF;
+	sendCmd(cmd);
+	LOG_INFO("%ld %s : %s", refstd, str2hex(cmd.c_str(), cmd[0]+1), retval.c_str());
+
+	setvfo (cmdK_RCVF, refstd);		// set rcvr to that freq
+	cmd = cmdK_RCVF;
+	sendCmd(cmd);
+	LOG_INFO("%ld %s : %s", refstd, str2hex(cmd.c_str(), cmd[0]+1), retval.c_str());
+
+	cmd = cmdK_MODE;
+	cmd[2] = 2;						// set to CW mode
+	sendCmd(cmd);
+	LOG_INFO("%s : %s", str2hex(cmd.c_str(), cmd[0]+1), retval.c_str());
+
+	cmd = cmdK_BW5;					// set to 1 kHz CW BW
+	sendCmd(cmd);
+	LOG_INFO("%s : %s", str2hex(cmd.c_str(), cmd[0]+1), retval.c_str());
+
 	avgrcvsig = 0;
 	avgcnt = 0;
 	computeavg = true;
-	Fl::remove_idle(parseTelemetry);
-	while (avgcnt < 32) {
-		parseTelemetry((void*)0);
-		MilliSleep(50);
-	}
-	Fl::add_idle(parseTelemetry);
-	computeavg = false;
-	avgrcvsig /= avgcnt;
-	if (avgrcvsig < 101) return 2;
-	if (avgrcvsig < 110) return 1;
 	return 0;
 }
 

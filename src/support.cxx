@@ -307,13 +307,13 @@ int movFreq()
 	Fl_Color fgclr = fl_rgb_color(xcvrState.fg_red, xcvrState.fg_green, xcvrState.fg_blue);
 	vfoA.freq = FreqDisp->value();
 	if (rx_on_a) {
-		setXcvrRcvFreq(vfoA.freq, 0);
+		setXcvrRcvFreq(vfoA.freq);
 		send_xml_freq(vfoA.freq);
 		FreqDisp->SetONOFFCOLOR( fgclr, bgclr);
 		FreqDispB->SetONOFFCOLOR( fgclr, fl_color_average(bgclr, FL_BLACK, 0.87));
 	}
 	if (tx_on_a) {
-		setXcvrXmtFreq(vfoA.freq, 0);
+		setXcvrXmtFreq(vfoA.freq);
 	}
 	setXcvrSplit();
 	return 0;
@@ -325,13 +325,13 @@ int movFreqB()
 	Fl_Color fgclr = fl_rgb_color(xcvrState.fg_red, xcvrState.fg_green, xcvrState.fg_blue);
 	vfoB.freq = FreqDispB->value();
 	if (!rx_on_a) {
-		setXcvrRcvFreq(vfoB.freq, 0);
+		setXcvrRcvFreq(vfoB.freq);
 		send_xml_freq(vfoB.freq);
 		FreqDispB->SetONOFFCOLOR( fgclr, bgclr);
 		FreqDisp->SetONOFFCOLOR( fgclr, fl_color_average(bgclr, FL_BLACK, 0.87));
 	}
 	if (!tx_on_a) {
-		setXcvrXmtFreq(vfoB.freq, 0);
+		setXcvrXmtFreq(vfoB.freq);
 	}
 	setXcvrSplit();
 	return 0;
@@ -844,6 +844,23 @@ void updateRcvSignal( int data)
 		avgrcvsig += data;
 		avgcnt++;
 	}
+	if (computeavg && (avgcnt == 32)) {
+		avgrcvsig /= -avgcnt;
+		if (avgrcvsig < -110) {
+			fl_message("Signal strength %d dB too low!", avgrcvsig);
+		} else if (avgrcvsig < -101) {
+			if (fl_choice("Weak signal, proceed", "No", "Yes", NULL) == 1) {
+				Calibrate();
+				fl_message("Calibration completed.");
+			}
+		} else {
+			Calibrate();
+			fl_message("Calibration completed.");
+		}
+		avgcnt = 0;
+		computeavg = false;
+		avgrcvsig = 0;
+	}
 	sldrRcvSignal->value(-data);
 	update_scanner(-data);
 	LOG_DEBUG("%d", data);
@@ -970,8 +987,8 @@ void set_xml_values( void * d)
 	FreqDisp->value(vfoA.freq);
 	opMODE->value(vfoA.imode);
 	opBW->value(vfoA.iBW);
-	setXcvrRcvFreq (vfoA.freq, 0);
-	setXcvrXmtFreq (vfoA.freq,  0);
+	setXcvrRcvFreq (vfoA.freq);
+	setXcvrXmtFreq (vfoA.freq);
 	setXcvrMode (vfoA.imode);
 	setXcvrBW (vfoA.iBW);
 }

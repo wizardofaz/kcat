@@ -13,7 +13,8 @@ decl {\#include "support.h"} {}
 
 decl {\#include "status.h"} {} 
 
-Function {kcat_window()} {} {
+Function {kcat_window()} {open
+} {
   Fl_Window {} {
     label kcat open
     xywh {570 59 530 355} type Double color 51
@@ -71,7 +72,7 @@ Fl_Tooltip::enable(xcvrState.tooltips);}
         }
       }
       Submenu mnuUtils {
-        label Utils open
+        label Utils open selected
         xywh {10 10 100 20}
       } {
         MenuItem mnuAntImp {
@@ -86,7 +87,7 @@ Fl_Tooltip::enable(xcvrState.tooltips);}
         MenuItem mnuFreqCal {
           label {&FreqCal}
           callback {openFreqCalibDialog();}
-          tooltip {Calibrate to extern standard} xywh {0 0 100 20}
+          tooltip {Calibrate to extern standard} xywh {0 0 100 20} hide
           code0 {extern void openFreqCalibDialog();}
         }
         MenuItem mnuClearAntData {
@@ -544,10 +545,22 @@ cbSQLtype();}
         xywh {2 302 525 50} hide
       } {
         Fl_Counter ctr_vfo_adj {
-          label {Vfo Adj(ppm)}
-          callback {cb_vfo_adj();}
-          xywh {206 310 120 22} align 34
+          label {DDS adjust (ppm)}
+          callback {xcvrState.VFOADJ=o->value();
+movFreq();
+movFreqB();}
+          xywh {80 312 120 22} align 34
           code0 {o->lstep(1);}
+          code1 {o->value(xcvrState.VFOADJ);}
+        }
+        Fl_Counter ctr_vfo_offset {
+          label {DDS offset}
+          callback {xcvrState.VFO_OFFSET = o->value();
+movFreq();
+movFreqB();}
+          xywh {325 311 120 22} align 34 step 1
+          code0 {o->lstep(10);}
+          code1 {o->value(xcvrState.VFO_OFFSET);}
         }
       }
     }
@@ -938,7 +951,7 @@ Function {scanner_window()} {open
       }
       Fl_Choice scan_range {
         label Rng
-        callback {set_freq_range();} open selected
+        callback {set_freq_range();} open
         xywh {3 47 90 20} down_box BORDER_BOX align 8
         code0 {o->add("2500|5000|10000|25000|50000|100000");}
         code1 {o->value(0);}

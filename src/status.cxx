@@ -78,7 +78,8 @@ struct XCVRSTATE xcvrState = {
 	1,			// int	vfoB_imode;
 	7,			// int	vfoB_iBW;
 
-	0.0,	// double VFOADJ
+	0.0,		// double VFOADJ
+	0.0,		// double VFO_OFFSET
 
 	148,		// int	swrRed;
 	0,			// int	swrGreen;
@@ -264,6 +265,7 @@ void XCVRSTATE::saveLastState()
 	spref.set("vfoB_iBW", vfoB_iBW);
 
 	spref.set("vfoadj", VFOADJ);
+	spref.set("vfo_offset", VFO_OFFSET);
 
 	spref.set("ttyport", ttyport.c_str());
 	spref.set("server_port", server_port.c_str());
@@ -405,6 +407,7 @@ void XCVRSTATE::loadLastState()
 		spref.get("vfoB_iBW", vfoB_iBW, vfoB_iBW);
 
 		spref.get("vfoadj", VFOADJ, VFOADJ);
+		spref.get("vfo_offset", VFO_OFFSET, VFO_OFFSET);
 
 		spref.get("ttyport", defbuffer, "", 199);
 		ttyport = defbuffer;

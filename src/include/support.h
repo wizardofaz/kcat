@@ -205,8 +205,10 @@ extern int	avgrcvsig ;
 extern int avgcnt;
 extern bool computeavg;
 
-extern int checkCalibrate(long int);
+extern int checkCalibrate(long);
 extern void Calibrate();
+extern int movFreq();
+extern int movFreqB();
 
 void cbEventLog();
 

@@ -64,6 +64,7 @@ struct XCVRSTATE {
 	int		vfoB_iBW;
 
 	double	VFOADJ;
+	double	VFO_OFFSET;
 
 	int		swrRed;
 	int		swrGreen;

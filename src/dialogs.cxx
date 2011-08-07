@@ -54,24 +54,8 @@ void closeFreqCalibDialog()
 
 void cbCalibrate()
 {
-	long int refstd = (long int)(cntrFreqStd->value() * 1000000.0);
-	int success;
-	success = checkCalibrate(refstd);
-	switch (success) {
-	case 0:
-		fl_message("Signal strength too low!");
-		break;
-	case 1:
-		if (fl_choice("Weak signal, use anyway?", "No", "Yes", NULL) == 1) {
-			Calibrate();
-			fl_message("Calibration completed.");
-		}
-		break;
-	case 2:
-		Calibrate();
-		fl_message("Calibration completed.");
-		break;
-	}
+	long refstd = (long)(cntrFreqStd->value() * 1000000.0);
+	checkCalibrate(refstd);
 }
 
 void cbCalFinished()
@@ -1699,7 +1683,7 @@ void update_scanner(int d)
 		if (!continuous_scan) goto done;
 		scanfreq = startfreq;
 	}
-	setXcvrRcvFreq(scanfreq,0);
+	setXcvrRcvFreq(scanfreq);
 	return;
 
 done:
@@ -1777,7 +1761,7 @@ void start_scan()
 	spectrum_plot->redraw();
 
 	scanfreq = startfreq;
-	setXcvrRcvFreq(scanfreq,0);
+	setXcvrRcvFreq(scanfreq);
 	setXcvrMode(CW);
 	setXcvrBW(0);
 	scanning = true;
