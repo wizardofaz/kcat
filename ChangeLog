@@ -1,42 +1,47 @@
 
 
-=Version 1.0.02=
+=Version 1.0.08=
 
+2011-08-07  David Freese  <w1hkj@w1hkj.com>
+
+	29c4ae5: Calibrate mode
 
 
 =Version 1.0.07=
 
-2011-08-06  David Freese  <w1hkj@w1hkj.com>
-
-	54f885e: Scanner update
+	9599c5a: Scanner update
 
 
 =Version 1.0.06=
 
-	f945e11: Scanner update
-	56b7fd4: Counter increments
+	8c62d5a: Scanner update
+	c9ce40f: Counter increments
 
 
 =Version 1.0.05=
 
-	9687d78: Auto notch depth
+	0b892dd: Auto notch depth
 
 
 =Version 1.0.04=
 
-	f37f8e3: XML open
-	66a9c2c: Range controls
-	a693cc0: Scanner updates
+	a581333: XML open
+	27e4b1f: Range controls
+	236db05: Scanner updates
 
 
 =Version 1.0.03=
 
-	a1f558d: Keyboard events
-	cc14358: Comm port discovery
-	9a40013: WWV calibrate
-	c6a24cf: Freq Control Widget
-	a95ae94: Scanner
-	5777873: Vfo Adj on vfoB
+	ad16a5d: Keyboard events
+	ce085ab: Comm port discovery
+	b781e5d: WWV calibrate
+	0372767: Freq Control Widget
+	431e9fc: Scanner
+	f2ecea0: Vfo Adj on vfoB
+
+
+=Version 1.0.02=
+
 	e3502f2: Freq-Mode-BW list
 	1c013dd: OPMODE vfoB
 	201d105: UI adjustments
