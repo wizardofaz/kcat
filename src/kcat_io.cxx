@@ -672,6 +672,7 @@ void initXcvrState()
 	btnNR->value (xcvrState.NR);
 	btnRIT->value(0);
 	ctr_vfo_adj->value(xcvrState.VFOADJ);
+	ctr_vfo_offset->value(xcvrState.VFO_OFFSET);
 
 	vfoA.freq = xcvrState.vfoA_freq;
 	vfoA.imode = xcvrState.vfoA_imode;
