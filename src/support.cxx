@@ -1104,9 +1104,7 @@ void parseTelemetry(void *)
 			smeter_count = 1;
 			zeroSmeter();
 		}
-		Fl::wait(); // process keyboard events
 	}
-	setFocus();
 }
 
 void * telemetry_thread_loop(void *d)
@@ -1120,6 +1118,7 @@ void * telemetry_thread_loop(void *d)
 			num = kcatSerial.ReadBuffer (buff, 1);
 		pthread_mutex_unlock(&mutex_serial);
 		if (num) commstack.push((unsigned char)buff[0]);
+		if (!commstack.isEmpty()) Fl::awake(parseTelemetry);
 	}
 	return NULL;
 }
@@ -1128,18 +1127,18 @@ void * telemetry_thread_loop(void *d)
 // watchdog timer sends a NOOP to xcvr every 15 seconds
 //======================================================================
 bool exit_watchdog = false;
-int watchdog_count = 1500;
+int watchdog_count = 150;
 
 void * watchdog_thread_loop(void *d)
 {
 	for (;;) {
 		if (exit_watchdog) break;
-		MilliSleep(10);
+		MilliSleep(100);
 		if (--watchdog_count == 0) {
 			pthread_mutex_lock(&mutex_watchdog);
 			setXcvrNOOP();
 			pthread_mutex_unlock(&mutex_watchdog);
-			watchdog_count = 1500;
+			watchdog_count = 150;
 		}
 	}
 	return NULL;
@@ -1160,7 +1159,6 @@ void startProcessing(void *d)
 		perror("pthread_create telemetry");
 		exit(EXIT_FAILURE);
 	}
-	Fl::add_idle(parseTelemetry);
 
 	xmlrpc_thread = new pthread_t;
 	if (pthread_create(xmlrpc_thread, NULL, xmlrpc_thread_loop, NULL)) {
