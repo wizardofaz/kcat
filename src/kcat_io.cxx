@@ -560,7 +560,7 @@ void setXcvrCWweight(int val)
 void setXcvrCWmode(int val)
 {
 	cmd = cmdK_CWLH;
-	cmd[2] = val;
+	cmd[2] = val + 1;
 	sendCmd(cmd);
 	LOG_INFO("%s : %s", str2hex(cmd.c_str(), cmd[0]+1), retval.c_str());
 }
