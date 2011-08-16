@@ -788,7 +788,7 @@ Fl_Double_Window* kcat_window() {
         grpMeters->color((Fl_Color)FL_GRAY0);
         grpMeters->selection_color((Fl_Color)FL_LIGHT2);
         grpMeters->align(FL_ALIGN_LEFT|FL_ALIGN_INSIDE);
-        { Fl_Button* o = btnSmeter = new Fl_Button(409, 73, 30, 200);
+        { Fl_Button* o = btnSmeter = new Fl_Button(408, 73, 32, 200);
           btnSmeter->tooltip(_("Click - change scale"));
           btnSmeter->box(FL_FLAT_BOX);
           btnSmeter->down_box(FL_FLAT_BOX);
@@ -812,7 +812,7 @@ Fl_Double_Window* kcat_window() {
           o->maximum(-128.0f);
           o->horizontal(false);
         } // Fl_SigBar* sldrRcvSignal
-        { Fl_Button* o = btnPower = new Fl_Button(452, 73, 25, 200);
+        { Fl_Button* o = btnPower = new Fl_Button(451, 73, 27, 200);
           btnPower->tooltip(_("Click - FWD / ALC"));
           btnPower->box(FL_FLAT_BOX);
           btnPower->down_box(FL_FLAT_BOX);

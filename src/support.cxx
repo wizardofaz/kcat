@@ -962,6 +962,7 @@ void cbSmeter()
 	else
 		btnSmeter->image(image_dbm);
 	btnSmeter->redraw();
+	setFocus();
 }
 
 void cbPWR()
@@ -973,6 +974,7 @@ void cbPWR()
 		btnPower->image(image_alc);
 	}
 	btnPower->redraw();
+	setFocus();
 }
 
 void setPTT(void *data)

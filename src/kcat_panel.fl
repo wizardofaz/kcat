@@ -72,7 +72,7 @@ Fl_Tooltip::enable(xcvrState.tooltips);}
         }
       }
       Submenu mnuUtils {
-        label Utils open selected
+        label Utils open
         xywh {10 10 100 20}
       } {
         MenuItem mnuAntImp {
@@ -295,8 +295,8 @@ selectFreq();}
         xywh {408 68 120 210} box FLAT_BOX color 32 selection_color 52 align 20
       } {
         Fl_Button btnSmeter {
-          callback {cbSmeter();}
-          tooltip {Click - change scale} xywh {409 73 30 200} box FLAT_BOX down_box FLAT_BOX color 48 selection_color 48 align 16
+          callback {cbSmeter();} selected
+          tooltip {Click - change scale} xywh {408 73 32 200} box FLAT_BOX down_box FLAT_BOX color 48 selection_color 48 align 16
           code0 {o->image(image_smeter);}
         }
         Fl_Box sldrRcvSignal {
@@ -309,7 +309,7 @@ selectFreq();}
         }
         Fl_Button btnPower {
           callback {cbPWR();}
-          tooltip {Click - FWD / ALC} xywh {452 73 25 200} box FLAT_BOX down_box FLAT_BOX color 48 selection_color 48 align 16
+          tooltip {Click - FWD / ALC} xywh {451 73 27 200} box FLAT_BOX down_box FLAT_BOX color 48 selection_color 48 align 16
           code0 {o->image(image_p150);}
         }
         Fl_Box sldrFwdPwr {
