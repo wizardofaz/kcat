@@ -639,7 +639,8 @@ void cbIFsh()
 
 void setVolume()
 {
-	setXcvrVolume(sldrVOLUME->value());
+	if (btnVol->value() == 1)
+		setXcvrVolume(sldrVOLUME->value());
 }
 
 void cbVol()
