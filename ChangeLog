@@ -1,8 +1,13 @@
 
 
-=Version 1.0.11=
+=Version 1.0.12=
 
-2011-08-15  David Freese  <w1hkj@w1hkj.com>
+2011-08-16  David Freese  <w1hkj@w1hkj.com>
+
+	a61fea5: Meter tweaks
+
+
+=Version 1.0.11=
 
 	bb1cb20: Reset volume
 
