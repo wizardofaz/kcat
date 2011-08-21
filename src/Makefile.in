@@ -61,13 +61,14 @@ am__installdirs = "$(DESTDIR)$(bindir)"
 PROGRAMS = $(bin_PROGRAMS)
 am__kcat_SOURCES_DIST = kcat.rc include/kcatrc.h mingw.c \
 	include/compat.h include/compat-mingw.h dialogs.cxx main.cxx \
-	Fl_SigBar.cxx flslider2.cxx font_browser.cxx FreqControl.cxx \
-	images.cxx IOspec.cxx kcat_io.cxx kcat_panel.cxx \
-	serialcomm.cxx support.cxx telemetry.cxx cstack.cxx debug.cxx \
-	icons.cxx pixmaps.cxx status.cxx util.cxx ValueSlider.cxx \
-	XYplot.cxx include/cstack.h include/debug.h include/dialogs.h \
-	include/gettext.h include/icons.h include/pixmaps.h \
-	include/Fl_SigBar.h include/flslider2.h include/font_browser.h \
+	Fl_SigBar.cxx flinput2.cxx flslider2.cxx font_browser.cxx \
+	FreqControl.cxx images.cxx IOspec.cxx kcat_io.cxx \
+	kcat_panel.cxx serialcomm.cxx support.cxx telemetry.cxx \
+	cstack.cxx debug.cxx icons.cxx pixmaps.cxx status.cxx util.cxx \
+	ValueSlider.cxx XYplot.cxx include/cstack.h include/debug.h \
+	include/dialogs.h include/gettext.h include/icons.h \
+	include/pixmaps.h include/Fl_SigBar.h include/flinput2.h \
+	include/flslider2.h include/font_browser.h \
 	include/FreqControl.h include/images.h include/IOspec.h \
 	include/kcat.h include/kcat_io.h include/kcat_panel.h \
 	include/linserial.h include/serialcomm.h include/support.h \
@@ -92,18 +93,18 @@ am__objects_1 = kcat.$(OBJEXT) kcat-mingw.$(OBJEXT)
 @HAVE_WINDRES_TRUE@@MINGW32_TRUE@am__objects_2 = $(am__objects_1)
 am_kcat_OBJECTS = $(am__objects_2) kcat-dialogs.$(OBJEXT) \
 	kcat-main.$(OBJEXT) kcat-Fl_SigBar.$(OBJEXT) \
-	kcat-flslider2.$(OBJEXT) kcat-font_browser.$(OBJEXT) \
-	kcat-FreqControl.$(OBJEXT) kcat-images.$(OBJEXT) \
-	kcat-IOspec.$(OBJEXT) kcat-kcat_io.$(OBJEXT) \
-	kcat-kcat_panel.$(OBJEXT) kcat-serialcomm.$(OBJEXT) \
-	kcat-support.$(OBJEXT) kcat-telemetry.$(OBJEXT) \
-	kcat-cstack.$(OBJEXT) kcat-debug.$(OBJEXT) \
-	kcat-icons.$(OBJEXT) kcat-pixmaps.$(OBJEXT) \
-	kcat-status.$(OBJEXT) kcat-util.$(OBJEXT) \
-	kcat-ValueSlider.$(OBJEXT) kcat-XYplot.$(OBJEXT) \
-	kcat-xml_io.$(OBJEXT) kcat-XmlRpcClient.$(OBJEXT) \
-	kcat-XmlRpcDispatch.$(OBJEXT) kcat-XmlRpcMutex.$(OBJEXT) \
-	kcat-XmlRpcServer.$(OBJEXT) \
+	kcat-flinput2.$(OBJEXT) kcat-flslider2.$(OBJEXT) \
+	kcat-font_browser.$(OBJEXT) kcat-FreqControl.$(OBJEXT) \
+	kcat-images.$(OBJEXT) kcat-IOspec.$(OBJEXT) \
+	kcat-kcat_io.$(OBJEXT) kcat-kcat_panel.$(OBJEXT) \
+	kcat-serialcomm.$(OBJEXT) kcat-support.$(OBJEXT) \
+	kcat-telemetry.$(OBJEXT) kcat-cstack.$(OBJEXT) \
+	kcat-debug.$(OBJEXT) kcat-icons.$(OBJEXT) \
+	kcat-pixmaps.$(OBJEXT) kcat-status.$(OBJEXT) \
+	kcat-util.$(OBJEXT) kcat-ValueSlider.$(OBJEXT) \
+	kcat-XYplot.$(OBJEXT) kcat-xml_io.$(OBJEXT) \
+	kcat-XmlRpcClient.$(OBJEXT) kcat-XmlRpcDispatch.$(OBJEXT) \
+	kcat-XmlRpcMutex.$(OBJEXT) kcat-XmlRpcServer.$(OBJEXT) \
 	kcat-XmlRpcServerConnection.$(OBJEXT) \
 	kcat-XmlRpcServerMethod.$(OBJEXT) kcat-XmlRpcSocket.$(OBJEXT) \
 	kcat-XmlRpcSource.$(OBJEXT) kcat-XmlRpcThread.$(OBJEXT) \
@@ -286,25 +287,25 @@ EXTRA_kcat_SOURCES = $(kcat_WIN32_RES_SRC) $(MINGW32_SRC)
 
 # Sources that we build. It is OK to have headers here.
 kcat_SOURCES = $(am__append_1) dialogs.cxx main.cxx Fl_SigBar.cxx \
-	flslider2.cxx font_browser.cxx FreqControl.cxx images.cxx \
-	IOspec.cxx kcat_io.cxx kcat_panel.cxx serialcomm.cxx \
-	support.cxx telemetry.cxx cstack.cxx debug.cxx icons.cxx \
-	pixmaps.cxx status.cxx util.cxx ValueSlider.cxx XYplot.cxx \
-	include/cstack.h include/debug.h include/dialogs.h \
+	flinput2.cxx flslider2.cxx font_browser.cxx FreqControl.cxx \
+	images.cxx IOspec.cxx kcat_io.cxx kcat_panel.cxx \
+	serialcomm.cxx support.cxx telemetry.cxx cstack.cxx debug.cxx \
+	icons.cxx pixmaps.cxx status.cxx util.cxx ValueSlider.cxx \
+	XYplot.cxx include/cstack.h include/debug.h include/dialogs.h \
 	include/gettext.h include/icons.h include/pixmaps.h \
-	include/Fl_SigBar.h include/flslider2.h include/font_browser.h \
-	include/FreqControl.h include/images.h include/IOspec.h \
-	include/kcat.h include/kcat_io.h include/kcat_panel.h \
-	include/kcatrc.h include/linserial.h include/serialcomm.h \
-	include/support.h include/status.h include/test.h \
-	include/util.h include/ValueSlider.h include/version.h \
-	include/winserial.h include/XYplot.h xml_io.cxx \
-	include/xml_io.h xmlrpcpp/XmlRpc.h xmlrpcpp/XmlRpcClient.cpp \
-	xmlrpcpp/XmlRpcClient.h xmlrpcpp/XmlRpcDispatch.cpp \
-	xmlrpcpp/XmlRpcDispatch.h xmlrpcpp/XmlRpcException.h \
-	xmlrpcpp/XmlRpcMutex.cpp xmlrpcpp/XmlRpcMutex.h \
-	xmlrpcpp/XmlRpcServer.cpp xmlrpcpp/XmlRpcServer.h \
-	xmlrpcpp/XmlRpcServerConnection.cpp \
+	include/Fl_SigBar.h include/flinput2.h include/flslider2.h \
+	include/font_browser.h include/FreqControl.h include/images.h \
+	include/IOspec.h include/kcat.h include/kcat_io.h \
+	include/kcat_panel.h include/kcatrc.h include/linserial.h \
+	include/serialcomm.h include/support.h include/status.h \
+	include/test.h include/util.h include/ValueSlider.h \
+	include/version.h include/winserial.h include/XYplot.h \
+	xml_io.cxx include/xml_io.h xmlrpcpp/XmlRpc.h \
+	xmlrpcpp/XmlRpcClient.cpp xmlrpcpp/XmlRpcClient.h \
+	xmlrpcpp/XmlRpcDispatch.cpp xmlrpcpp/XmlRpcDispatch.h \
+	xmlrpcpp/XmlRpcException.h xmlrpcpp/XmlRpcMutex.cpp \
+	xmlrpcpp/XmlRpcMutex.h xmlrpcpp/XmlRpcServer.cpp \
+	xmlrpcpp/XmlRpcServer.h xmlrpcpp/XmlRpcServerConnection.cpp \
 	xmlrpcpp/XmlRpcServerConnection.h \
 	xmlrpcpp/XmlRpcServerMethod.cpp xmlrpcpp/XmlRpcServerMethod.h \
 	xmlrpcpp/XmlRpcSocket.cpp xmlrpcpp/XmlRpcSocket.h \
@@ -480,6 +481,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/kcat-cstack.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/kcat-debug.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/kcat-dialogs.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/kcat-flinput2.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/kcat-flslider2.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/kcat-font_browser.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/kcat-icons.Po@am__quote@
@@ -579,6 +581,20 @@ kcat-Fl_SigBar.obj: Fl_SigBar.cxx
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='Fl_SigBar.cxx' object='kcat-Fl_SigBar.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -c -o kcat-Fl_SigBar.obj `if test -f 'Fl_SigBar.cxx'; then $(CYGPATH_W) 'Fl_SigBar.cxx'; else $(CYGPATH_W) '$(srcdir)/Fl_SigBar.cxx'; fi`
+
+kcat-flinput2.o: flinput2.cxx
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -MT kcat-flinput2.o -MD -MP -MF $(DEPDIR)/kcat-flinput2.Tpo -c -o kcat-flinput2.o `test -f 'flinput2.cxx' || echo '$(srcdir)/'`flinput2.cxx
+@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/kcat-flinput2.Tpo $(DEPDIR)/kcat-flinput2.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='flinput2.cxx' object='kcat-flinput2.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -c -o kcat-flinput2.o `test -f 'flinput2.cxx' || echo '$(srcdir)/'`flinput2.cxx
+
+kcat-flinput2.obj: flinput2.cxx
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -MT kcat-flinput2.obj -MD -MP -MF $(DEPDIR)/kcat-flinput2.Tpo -c -o kcat-flinput2.obj `if test -f 'flinput2.cxx'; then $(CYGPATH_W) 'flinput2.cxx'; else $(CYGPATH_W) '$(srcdir)/flinput2.cxx'; fi`
+@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/kcat-flinput2.Tpo $(DEPDIR)/kcat-flinput2.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='flinput2.cxx' object='kcat-flinput2.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -c -o kcat-flinput2.obj `if test -f 'flinput2.cxx'; then $(CYGPATH_W) 'flinput2.cxx'; else $(CYGPATH_W) '$(srcdir)/flinput2.cxx'; fi`
 
 kcat-flslider2.o: flslider2.cxx
 @am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -MT kcat-flslider2.o -MD -MP -MF $(DEPDIR)/kcat-flslider2.Tpo -c -o kcat-flslider2.o `test -f 'flslider2.cxx' || echo '$(srcdir)/'`flslider2.cxx

@@ -53,11 +53,13 @@ pthread_t *watchdog_thread = 0;
 pthread_t *serial_thread = 0;
 pthread_t *telemetry_thread = 0;
 pthread_t *xmlrpc_thread = 0;
+pthread_t *cw_thread = 0;
 
 pthread_mutex_t mutex_watchdog = PTHREAD_MUTEX_INITIALIZER;
 pthread_mutex_t mutex_serial = PTHREAD_MUTEX_INITIALIZER;
 pthread_mutex_t mutex_telemetry = PTHREAD_MUTEX_INITIALIZER;
 pthread_mutex_t mutex_xmlrpc = PTHREAD_MUTEX_INITIALIZER;
+pthread_mutex_t mutex_cw = PTHREAD_MUTEX_INITIALIZER;
 
 bool testing = false;
 

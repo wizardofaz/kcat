@@ -1148,6 +1148,37 @@ void * watchdog_thread_loop(void *d)
 }
 
 //======================================================================
+// cw thread monitors for cw keyboard activity
+// loop timing is dependent on cw WPM setting
+//======================================================================
+bool exit_cw = false;
+extern double char_duration;
+
+void delete_char(void *)
+{
+	if (strlen(txt_to_send->value())) {
+		string txt = txt_to_send->value();
+		txt.erase(0,1);
+		txt_to_send->value(txt.c_str());
+	}
+}
+
+void * cw_thread_loop(void *d)
+{
+	for (;;) {
+		if (exit_cw) break;
+		MilliSleep((int)char_duration);
+		pthread_mutex_lock(&mutex_cw);
+		if (dlgCWkeyboard)
+			if (btn_send->value() && strlen(txt_to_send->value())) {
+				sendChar(txt_to_send->value()[0]);
+				Fl::awake(delete_char);
+			}
+		pthread_mutex_unlock(&mutex_cw);
+	}
+	return NULL;
+}
+//======================================================================
 
 void startProcessing(void *d)
 {
@@ -1166,6 +1197,12 @@ void startProcessing(void *d)
 	xmlrpc_thread = new pthread_t;
 	if (pthread_create(xmlrpc_thread, NULL, xmlrpc_thread_loop, NULL)) {
 		perror("pthread_create telemetry");
+		exit(EXIT_FAILURE);
+	}
+
+	cw_thread = new pthread_t;
+	if (pthread_create(cw_thread, NULL, cw_thread_loop, NULL)) {
+		perror("pthread create cw thread");
 		exit(EXIT_FAILURE);
 	}
 
@@ -1196,6 +1233,12 @@ void cbExit()
 	exit_telemetry = true;
 	pthread_mutex_unlock(&mutex_telemetry);
 	pthread_join(*telemetry_thread, NULL);
+
+// close cw
+	pthread_mutex_lock(&mutex_cw);
+	exit_cw = true;
+	pthread_mutex_unlock(&mutex_cw);
+	pthread_join(*cw_thread, NULL);
 
 // close xmlrpc
 	pthread_mutex_lock(&mutex_xmlrpc);

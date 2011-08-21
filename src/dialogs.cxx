@@ -34,10 +34,22 @@ Fl_Double_Window *dlgDisplayConfig = NULL;
 Fl_Double_Window *dlgCommsConfig = NULL;
 Fl_Double_Window *dlgNRAM = NULL;
 Fl_Double_Window *dlgScanner = NULL;
+Fl_Double_Window *dlgCWkeyboard = NULL;
 
 Font_Browser     *fntbrowser = NULL;
 
 Fl_Color flrig_def_color(int);
+
+void upcase(string &s)
+{
+	for (size_t n = 0; n < s.length(); n++) s[n] = toupper(s[n]);
+}
+
+void noctrl(string &s)
+{
+	for (size_t n = 0; n < s.length(); n++)
+		if (s[n] < ' ' || s[n] > 'Z') s[n] = ' ';
+}
 
 //-----------Frequency Calibration dialog
 void openFreqCalibDialog()
@@ -204,7 +216,7 @@ void sortAntPortList()
 					temp = antports[i];
 					antports[i] = antports[j];
 					antports[j] = temp;
-			}
+		}
 }
 
 void clearAntPortList()
@@ -214,7 +226,7 @@ void clearAntPortList()
 		antports[i].freq = 0;
 		antports[i].rcv = 0;
 		antports[i].xmt = 0;
-	}
+}
 	brwsAntRanges->clear();
 	numantports = 0;
 }
@@ -230,19 +242,19 @@ void  cbbrwsAntRanges()
 	if (antports[n].rcv == 0) {
 		btnRcvAnt->label("A");
 		btnRcvAnt->value(0);
-	}
+}
 	else {
 		btnRcvAnt->label("B");
 		btnRcvAnt->value(1);
-	}
+}
 	if (antports[n].xmt == 0) {
 		btnXmtAnt->label("A");
 		btnXmtAnt->value(0);
-	}
+}
 	else {
 		btnXmtAnt->label("B");
 		btnXmtAnt->value(1);
-	}
+}
 }
 
 void updateAntRanges()
@@ -255,7 +267,7 @@ void updateAntRanges()
 			antports[n].rcv == 0 ? 'A' : 'B',
 			antports[n].xmt == 0 ? 'A' : 'B');
 		brwsAntRanges->add(szListEntry);
-	}
+}
 }
 
 void  cbAddAntRange()
@@ -271,7 +283,7 @@ void  cbAddAntRange()
 		if (antports[n].freq == 0)
 			break;
 		n++;
-	}
+}
     antports[n].freq = freq;
 	antports[n].rcv = btnRcvAnt->value();
 	antports[n].xmt = btnXmtAnt->value();
@@ -292,7 +304,7 @@ void  cbDeleteAntRange()
 		antports[numantports - 1].xmt = 0;
 		numantports--;
 		updateAntRanges();
-	}
+}
 }
 
 void  cbAntRangeDialogOK()
@@ -355,7 +367,7 @@ static bool open_serial(const char* dev)
 	if (fd != INVALID_HANDLE_VALUE) {
 		CloseHandle(fd);
 		ret = true;
-	}
+}
 	return ret;
 }
 
@@ -374,7 +386,7 @@ void initCommPortTable()
 		snprintf(ttyname, sizeof(ttyname), "COM%u", j);
 		LOG_WARN("Found serial port %s", ttyname);
 		add_combos(ttyname);
-	}
+}
 }
 #endif //__WIN32__
 
@@ -399,7 +411,7 @@ void initCommPortTable()
 		"/dev/ttyS%u",
 		"/dev/ttyUSB%u",
 		"/dev/usb/ttyUSB%u"
-	};
+};
 	LOG_WARN("%s", "Serial port discovery via 'stat'");
 	for (size_t i = 0; i < sizeof(tty_fmt)/sizeof(*tty_fmt); i++) {
 		for (unsigned j = 0; j < TTY_MAX; j++) {
@@ -409,8 +421,8 @@ void initCommPortTable()
 
 			LOG_WARN("Found serial port %s", ttyname);
 			add_combos(ttyname);
-		}
 	}
+}
 
 }
 #endif // __linux__
@@ -435,7 +447,7 @@ void initCommPortTable()
 	const char* tty_fmt[] = {
 		"/dev/cu.*",
 		"/dev/tty.*"
-	};
+};
 
 	glob_t gbuf;
 
@@ -447,9 +459,9 @@ void initCommPortTable()
 				continue;
 			LOG_WARN("Found serial port %s", gbuf.gl_pathv[j]);
 			add_combos(gbuf.gl_pathv[j]);
-		}
-		globfree(&gbuf);
 	}
+		globfree(&gbuf);
+}
 }
 #endif //__APPLE__
 
@@ -470,7 +482,7 @@ void initCommPortTable()
 	char ttyname[PATH_MAX + 1];
 	const char* tty_fmt[] = {
 		"/dev/ttyd%u"
-	};
+};
 
 	clear_combos();
 
@@ -481,8 +493,8 @@ void initCommPortTable()
 				continue;
 			LOG_WARN("Found serial port %s", ttyname);
 			add_combos(ttyname);
-		}
 	}
+}
 }
 #endif //__FreeBSD__
 
@@ -495,14 +507,14 @@ void cbOkCommsDialog()
 	if (xcvrState.ttyport == "TEST") {
 		testing = true;
 		kcatSerial.ClosePort();
-	} else {
+} else {
 		testing = false;
 		if (startComms(xcvrState.ttyport.c_str(), 9600) == 0) {
 			fl_message("%s not available", xcvrState.ttyport.c_str());
 			testing = true;
-		} else
+	} else
 			initkcat();
-	}
+}
 }
 
 void setCommsPort()
@@ -513,7 +525,7 @@ void setCommsPort()
 		initCommPortTable();
 		selectCommPort->add(sCommPorts.c_str());
 		commport_table_empty = false;
-	}
+}
 	commportnbr = 0;
 	selectCommPort->value(commportnbr);
 	waitfordialog = true;
@@ -530,7 +542,7 @@ void cbNRAM()
 		dlgNRAM = NRAMdataDialog();
 		txtDataDisp->buffer(&txtDataBuffer);
 		txtDataDisp->textfont(FL_SCREEN);
-	}
+}
 	dlgNRAM->show();
 }
 
@@ -570,7 +582,7 @@ char *szBinary(int n)
 		else
 			bin[7-i] = '0';
 		n /= 2;
-	}
+}
 	return bin;
 }
 
@@ -581,7 +593,7 @@ int binCaps(int n)
 	for (int i = 0; i < 7; i++) {
 		if (n & 1) val += caps[i];
 		n /= 2;
-	}
+}
 	return val;
 }
 
@@ -591,7 +603,7 @@ void cbNRAMAntImp()
 	union {
 		unsigned char data[258];
 		struct ANTIMP antimp[64];
-	}antdata;
+}antdata;
 
 	char line[256];
 	int chksum, aport;
@@ -617,9 +629,9 @@ void cbNRAMAntImp()
 						temp = antdata.antimp[i];
 						antdata.antimp[i] = antdata.antimp[j];
 						antdata.antimp[j] = temp;
-					}
-			}
+				}
 		}
+	}
 		txtDataDisp->insert("Antenna Impedance:\n");
 		for (int i = 0; i < 64; i++) {
 			int f = IntFreq(antdata.antimp[i].freq);
@@ -640,13 +652,13 @@ void cbNRAMAntImp()
 							antdata.data[4*i+2] / 256.0,
 							360.0 * antdata.data[4*i+3] / 256.0);
 				txtDataDisp->insert(line);
-			}
 		}
 	}
+}
 	else {
 		sprintf(line,"Ant Impedance: Check sum Error\n");
 		txtDataDisp->insert(line);
-	}
+}
 
 	setVolume();
 
@@ -671,13 +683,13 @@ void cbNRAMsmeter()
 				txtDataDisp->insert("\n");
 			sprintf(line, "%02x ", data[j]);
 			txtDataDisp->insert(line);
-		}
-		txtDataDisp->insert("\n");
 	}
+		txtDataDisp->insert("\n");
+}
 	else {
 		sprintf(line,"S meter cal. table: Check sum Error\n");
 		txtDataDisp->insert(line);
-	}
+}
 
 	setVolume();
 
@@ -702,13 +714,13 @@ void cbNRAMFreqRef()
 				txtDataDisp->insert("\n");
 			sprintf(line, "%02x ", data[j]);
 			txtDataDisp->insert(line);
-		}
-		txtDataDisp->insert("\n");
 	}
+		txtDataDisp->insert("\n");
+}
 	else {
 		sprintf(line,"Freq. Ref. Cal. Check sum Error\n");
 		txtDataDisp->insert(line);
-	}
+}
 
 	setVolume();
 }
@@ -732,13 +744,13 @@ void cbNRAMPhase()
 				txtDataDisp->insert("\n");
 			sprintf(line, "%02x ", data[j]);
 			txtDataDisp->insert(line);
-		}
-		txtDataDisp->insert("\n");
 	}
+		txtDataDisp->insert("\n");
+}
 	else {
 		sprintf(line,"Phase Cal. Check sum Error\n");
 		txtDataDisp->insert(line);
-	}
+}
 
 	setVolume();
 }
@@ -800,12 +812,12 @@ void show_controls()
 		btn_show_controls->label("@-22->");
 		btn_show_controls->redraw_label();
 		window->size( window->w(), window->h() - tabs->h());
-	} else {
+} else {
 		tabs->show();
 		btn_show_controls->label("@-28->");
 		btn_show_controls->redraw_label();
 		window->size( window->w(), window->h() + tabs->h());
-	}
+}
 	window->redraw();
 	setFocus();
 }
@@ -876,7 +888,7 @@ void cb_lighted_button()
 		btn_lighted->selection_color(btn_lt_color);
 		btn_lighted->value(1);
 		btn_lighted->redraw();
-	}
+}
 }
 
 void cb_lighted_default()
@@ -917,7 +929,7 @@ void cb_slider_background()
 		sldrColors->color(bg_slider);
 		sldrColors->selection_color(btn_slider);
 		sldrColors->redraw();
-	}
+}
 }
 
 void cb_slider_select()
@@ -929,7 +941,7 @@ void cb_slider_select()
 		sldrColors->color(bg_slider);
 		sldrColors->selection_color(btn_slider);
 		sldrColors->redraw();
-	}
+}
 }
 
 void cb_sys_defaults()
@@ -966,7 +978,7 @@ void cb_sys_foreground()
 		Fl::foreground(r, g, b);
 		dlgDisplayConfig->redraw();
 		window->redraw();
-	}
+}
 }
 
 void cb_sys_background()
@@ -978,7 +990,7 @@ void cb_sys_background()
 		Fl::background(r, g, b);
 		dlgDisplayConfig->redraw();
 		window->redraw();
-	}
+}
 }
 
 void cb_sys_background2()
@@ -990,7 +1002,7 @@ void cb_sys_background2()
 		Fl::background2(r, g, b);
 		dlgDisplayConfig->redraw();
 		window->redraw();
-	}
+}
 }
 
 void cbBacklightColor()
@@ -1009,7 +1021,7 @@ void cbBacklightColor()
 		grpMeter1disp->color(bgclr);
 		grpMeter2disp->color(bgclr);
 		dlgDisplayConfig->redraw();
-	}
+}
 }
 
 void cbPrefForeground()
@@ -1028,7 +1040,7 @@ void cbPrefForeground()
 		grpMeter1disp->labelcolor(fgclr);
 		grpMeter2disp->labelcolor(fgclr);
 		dlgDisplayConfig->redraw();
-	}
+}
 }
 
 void default_meters()
@@ -1079,7 +1091,7 @@ void cbSMeterColor()
 			fl_rgb_color (r, g, b),
 			bgclr );
 		dlgDisplayConfig->redraw();
-	}
+}
 }
 
 void cbPeakMeterColor()
@@ -1091,7 +1103,7 @@ void cbPeakMeterColor()
 		sldrFwdPwrdisp->PeakColor(fl_rgb_color (r, g, b));
 		sldrRefPwrdisp->PeakColor(fl_rgb_color (r, g, b));
 		dlgDisplayConfig->redraw();
-	}
+}
 }
 
 void cbPwrMeterColor()
@@ -1103,7 +1115,7 @@ void cbPwrMeterColor()
 			fl_rgb_color (r, g, b),
 			bgclr );
 		dlgDisplayConfig->redraw();
-	}
+}
 }
 
 void cbSWRMeterColor()
@@ -1115,7 +1127,7 @@ void cbSWRMeterColor()
 			fl_rgb_color (swrRed, swrGreen, swrBlue),
 			bgclr );
 		dlgDisplayConfig->redraw();
-	}
+}
 }
 
 void setColors()
@@ -1179,12 +1191,12 @@ void setColors()
 		FreqDispB->SetONOFFCOLOR(
 			fl_rgb_color(fg_red, fg_green, fg_blue),
 			fl_color_average(bgclr, FL_BLACK, 0.87));
-	} else {
+} else {
 		FreqDispB->SetONOFFCOLOR( fl_rgb_color(fg_red, fg_green, fg_blue), bgclr);
 		FreqDisp->SetONOFFCOLOR(
 			fl_rgb_color(fg_red, fg_green, fg_blue),
 			fl_color_average(bgclr, FL_BLACK, 0.87));
-	}
+}
 
 	grpMeters->color(bgclr);
 	grpMeters->labelcolor(fgclr);
@@ -1679,7 +1691,7 @@ void update_scanner(int d)
 	if (!scanning) goto done;
 
 	scanfreq += 50;
-	if (scanfreq > endfreq) {
+	if (scanfreq >= endfreq) {
 		if (!continuous_scan) goto done;
 		scanfreq = startfreq;
 	}
@@ -1719,13 +1731,13 @@ void draw_axis()
 	for (int i = 1; i < 10; i++) {
 		axis.x1 = (axis.x2 += scanrange/10.0);
 		spectrum_plot->add_axis(axis);
-	}
+}
 	axis.x1 = startfreq; axis.x2 = startfreq + scanrange;
 	axis.y1 = axis.y2 = dbmax;
 	while (axis.y1 > dbmin) {
 		axis.y2 = (axis.y1 -= 10);
 		spectrum_plot->add_axis(axis);
-	}
+}
 	spectrum_plot->redraw();
 }
 
@@ -1772,7 +1784,7 @@ void start_continuous_scan()
 	if (!scanning) {
 		continuous_scan = true;
 		start_scan();
-	}
+}
 }
 
 void stop_scan()
@@ -1854,6 +1866,491 @@ void open_scanner()
 		spectrum_plot->enable_tooltip(true);
 		spectrum_plot->set_tooltip(format_tooltip);
 		draw_axis();
-	}
+}
 	dlgScanner->show();
+}
+
+//======================================================================
+// message configuration dialog
+//======================================================================
+Fl_Double_Window *dialog_messages = (Fl_Double_Window *)0;
+
+void config_messages()
+{
+	if (!dialog_messages) dialog_messages = message_editor();
+
+	label_1->value(xcvrState.label_1.c_str());
+	edit_msg1->value(xcvrState.edit_msg1.c_str());
+	label_2->value(xcvrState.label_2.c_str());
+	edit_msg2->value(xcvrState.edit_msg2.c_str());
+	label_3->value(xcvrState.label_3.c_str());
+	edit_msg3->value(xcvrState.edit_msg3.c_str());
+	label_4->value(xcvrState.label_4.c_str());
+	edit_msg4->value(xcvrState.edit_msg4.c_str());
+	label_5->value(xcvrState.label_5.c_str());
+	edit_msg5->value(xcvrState.edit_msg5.c_str());
+	label_6->value(xcvrState.label_6.c_str());
+	edit_msg6->value(xcvrState.edit_msg6.c_str());
+	label_7->value(xcvrState.label_7.c_str());
+	edit_msg7->value(xcvrState.edit_msg7.c_str());
+	label_8->value(xcvrState.label_8.c_str());
+	edit_msg8->value(xcvrState.edit_msg8.c_str());
+	label_9->value(xcvrState.label_9.c_str());
+	edit_msg9->value(xcvrState.edit_msg9.c_str());
+	label_10->value(xcvrState.label_10.c_str());
+	edit_msg10->value(xcvrState.edit_msg10.c_str());
+	label_11->value(xcvrState.label_11.c_str());
+	edit_msg11->value(xcvrState.edit_msg11.c_str());
+	label_12->value(xcvrState.label_12.c_str());
+	edit_msg12->value(xcvrState.edit_msg12.c_str());
+
+	txt_cll->value(xcvrState.tag_cll.c_str());
+	txt_qth->value(xcvrState.tag_qth.c_str());
+	txt_loc->value(xcvrState.tag_loc.c_str());
+	txt_opr->value(xcvrState.tag_opr.c_str());
+
+	dialog_messages->show();
+}
+
+void update_msg_labels()
+{
+	btn_msg1->label(xcvrState.label_1.c_str()); btn_msg1->redraw();
+	btn_msg2->label(xcvrState.label_2.c_str()); btn_msg2->redraw();
+	btn_msg3->label(xcvrState.label_3.c_str()); btn_msg3->redraw();
+	btn_msg4->label(xcvrState.label_4.c_str()); btn_msg4->redraw();
+	btn_msg5->label(xcvrState.label_5.c_str()); btn_msg5->redraw();
+	btn_msg6->label(xcvrState.label_6.c_str()); btn_msg6->redraw();
+	btn_msg7->label(xcvrState.label_7.c_str()); btn_msg7->redraw();
+	btn_msg8->label(xcvrState.label_8.c_str()); btn_msg8->redraw();
+	btn_msg9->label(xcvrState.label_9.c_str()); btn_msg9->redraw();
+	btn_msg10->label(xcvrState.label_10.c_str()); btn_msg10->redraw();
+	btn_msg11->label(xcvrState.label_11.c_str()); btn_msg11->redraw();
+	btn_msg12->label(xcvrState.label_12.c_str()); btn_msg12->redraw();
+}
+
+void apply_edit()
+{
+	xcvrState.label_1 = label_1->value();
+	xcvrState.edit_msg1 = edit_msg1->value();
+
+	xcvrState.label_2 = label_2->value();
+	xcvrState.edit_msg2 = edit_msg2->value();
+
+	xcvrState.label_3 = label_3->value();
+	xcvrState.edit_msg3 = edit_msg3->value();
+
+	xcvrState.label_4 = label_4->value();
+	xcvrState.edit_msg4 = edit_msg4->value();
+
+	xcvrState.label_5 = label_5->value();
+	xcvrState.edit_msg5 = edit_msg5->value();
+
+	xcvrState.label_6 = label_6->value();
+	xcvrState.edit_msg6 = edit_msg6->value();
+
+	xcvrState.label_7 = label_7->value();
+	xcvrState.edit_msg7 = edit_msg7->value();
+
+	xcvrState.label_8 = label_8->value();
+	xcvrState.edit_msg8  = edit_msg8->value();
+
+	xcvrState.label_9 = label_9->value();
+	xcvrState.edit_msg9 = edit_msg9->value();
+
+	xcvrState.label_10 = label_10->value();
+	xcvrState.edit_msg10 = edit_msg10->value();
+
+	xcvrState.label_11 = label_11->value();
+	xcvrState.edit_msg11 = edit_msg11->value();
+
+	xcvrState.label_12 = label_12->value();
+	xcvrState.edit_msg12 = edit_msg12->value();
+
+	update_msg_labels();
+}
+
+//----------------------------------------------------------------------
+// operator setup
+//----------------------------------------------------------------------
+
+void change_txt_cll()
+{
+	xcvrState.tag_cll = txt_cll->value();
+}
+
+void change_txt_qth()
+{
+	xcvrState.tag_qth = txt_qth->value();
+}
+
+void change_txt_loc()
+{
+	xcvrState.tag_loc = txt_loc->value();
+}
+
+void change_txt_opr()
+{
+	xcvrState.tag_opr = txt_opr->value();
+}
+
+void done_edit()
+{
+	apply_edit();
+	dialog_messages->hide();
+}
+
+void cancel_edit()
+{
+	dialog_messages->hide();
+}
+
+//======================================================================
+// CW keyboard
+//======================================================================
+#include "IOspec.h"
+
+static string cmd = "";
+
+static struct {
+char c;
+const char *s;
+} morse[] = {
+//0 .. 31 NULL
+	{' ',	""},
+	{'!',	"-.-.--"},
+	{'"',	""},
+	{'#',	""},
+	{'$',	"...-..-"}, // SX
+	{'%',	".-..."},   // AS
+	{'&',	"..-.-"},
+	{'\'',	".----."},
+	{'(',	"-.--.-"},  // KK
+	{')',	"-.--."	},  // KN
+	{'*',	".-.-"},
+	{'+',	".-.-."},   // AR
+	{',',	"--..--"},
+	{'-',	"-....-"},  // DU
+	{'.',	".-.-.-"},
+	{'/',	"-..-."	},
+	{'0',	"-----"},
+	{'1',	".----"},
+	{'2',	"..---"},
+	{'3',	"...--"},
+	{'4',	"....-"},
+	{'5',	"....."},
+	{'6',	"-...."},
+	{'7',	"--..."},
+	{'8',	"---.."},
+	{'9',	"----."},
+	{':',	"---..."},
+	{';',	"-.-.-."},
+	{'<',	"-.--."},
+	{'=',	"-...-"},
+	{'>',	"...-.-"},
+	{'?',	"..--.."},
+	{'@',	".--.-."},
+	{'A',	".-"},
+	{'B',	"-..."},
+	{'C',	"-.-."},
+	{'D',	"-.."},
+	{'E',	"."	},
+	{'F',	"..-."},
+	{'G',	"--."},
+	{'H',	"...."},
+	{'I',	".."},
+	{'J',	".---"},
+	{'K',	"-.-"},
+	{'L',	".-.."},
+	{'M',	"--"},
+	{'N',	"-."},
+	{'O',	"---"},
+	{'P',	".--."},
+	{'Q',	"--.-"},
+	{'R',	".-."},
+	{'S',	"..."},
+	{'T',	"-"	},
+	{'U',	"..-"},
+	{'V',	"...-"},
+	{'W',	".--"},
+	{'X',	"-..-"},
+	{'Y',	"-.--"},
+	{'Z',	"--.."},
+	{'[',	"...-."},   // SN  
+	{'\\',	""},
+	{']',	"...-.-"},  // SK
+	{'^',	""},
+	{'_',	"..--.-"}
+};
+
+void abortCW()
+{
+	cmd = cmdK_XABR;
+	sendCmd(cmd);
+}
+
+void sendCharSpace()
+{
+	cmd = cmdK_XLSP;
+	sendCmd(cmd);
+}
+
+void sendWordSpace()
+{
+	cmd = cmdK_XWSP;
+	sendCmd(cmd);
+}
+
+void cb_cancel_transmit()
+{
+	abortCW();
+}
+
+void close_cw_keyboard()
+{
+	dlgCWkeyboard->hide();
+}
+
+double char_duration = 60.0; //1200.0 / 20;
+void sendChar(int c)
+{
+	if (c == ' ' || c == '\n') {
+		sendWordSpace();
+		char_duration = 7 * 1200.0 / xcvrState.CWSPEED;
+printf("%d\n", (int)char_duration);
+		return;
+	}
+	int base = toupper(c) - 32;
+	if (base < 0) base = 0;
+	char_duration = 0;
+	const char *s = morse[base].s;
+	for (size_t i = 0; i < strlen(s); i++) {
+		if (s[i] == '-') {
+			cmd = cmdK_XDAH;
+			char_duration += 4;
+		} else {
+			cmd = cmdK_XDIT;
+			char_duration += 2;
+		}
+		sendCmd(cmd);
+	}
+	sendCharSpace();
+	char_duration += 3;
+	char_duration *= 1200;
+	char_duration /= xcvrState.CWSPEED;
+printf("%d\n", (int)char_duration);
+}
+
+void sendString(string s)
+{
+	for (size_t i = 0; i < s.length(); i++) {
+		if (s[i] == ' ' || s[i] == '\n') sendWordSpace();
+		else sendChar(s[i]);
+	}
+}
+
+void cb_send_button()
+{
+	return;
+//	sendString(txt_to_send->value());
+//	txt_to_send->value("");
+//	txt_to_send->redraw();
+}
+
+void open_keyboard()
+{
+	if (!dlgCWkeyboard) dlgCWkeyboard = cwkeyboard_window();
+	if (!dialog_messages) dialog_messages = message_editor();
+	update_msg_labels();
+	dlgCWkeyboard->show();
+}
+
+void expand_msg(string &msg)
+{
+	size_t ptr;
+	upcase(msg);
+	while ((ptr = msg.find("<STA>")) != string::npos)
+		msg.replace(ptr, 5, txt_sta->value());
+	while ((ptr = msg.find("<NAM>")) != string::npos)
+		msg.replace(ptr, 5, txt_name->value());
+	while ((ptr = msg.find("<CLL>")) != string::npos)
+		msg.replace(ptr, 5, xcvrState.tag_cll);
+	while ((ptr = msg.find("<QTH>")) != string::npos)
+		msg.replace(ptr, 5, xcvrState.tag_qth);
+	while ((ptr = msg.find("<LOC>")) != string::npos)
+		msg.replace(ptr, 5, xcvrState.tag_loc);
+	while ((ptr = msg.find("<OPR>")) != string::npos)
+		msg.replace(ptr, 5, xcvrState.tag_opr);
+	while ((ptr = msg.find("<X>")) != string::npos)
+		msg.replace(ptr, 3, xcvrState.xout);
+
+	char snbr[8] = "";
+	if (xcvrState.zeros && xcvrState.serial_nbr < 100)
+		snprintf(snbr, sizeof(snbr), "0%d", xcvrState.serial_nbr);
+	else
+		snprintf(snbr, sizeof(snbr), "%d", xcvrState.serial_nbr);
+	while ((ptr = msg.find("<#>")) != string::npos)
+		msg.replace(ptr, 3, snbr);
+
+	if ((ptr = msg.find("<LOG>")) != string::npos) {
+		if (btnConnect->value())
+			xml_add_record();
+		msg.replace(ptr, 5, "");
+	}
+
+	while ((ptr = msg.find("<+>")) != string::npos) {
+		xcvrState.serial_nbr++;
+		msg.replace(ptr, 3, "");
+	}
+	while ((ptr = msg.find("<->")) != string::npos) {
+		xcvrState.serial_nbr--;
+		msg.replace(ptr, 3, "");
+	}
+	if (xcvrState.serial_nbr < 1) xcvrState.serial_nbr = 1;
+
+	snprintf(snbr, sizeof(snbr), "%d", xcvrState.serial_nbr);
+	txt_serial_nbr->value(snbr);
+	txt_serial_nbr->redraw();
+
+}
+
+void check_call()
+{
+	string chkcall = txt_sta->value();
+	txt_sta->color(FL_BACKGROUND2_COLOR);
+	txt_sta->redraw();
+
+	if (chkcall.empty()) {
+		txt_name->value("");
+		return;
+	}
+	upcase(chkcall);
+	size_t pos = txt_sta->position();
+
+	txt_sta->value(chkcall.c_str());
+	txt_sta->position(pos);
+
+	if (strlen(txt_sta->value()) < 3) return;
+
+	if (btn_dups->value())
+		xml_dup_check();
+}
+
+void serial_nbr()
+{
+	xcvrState.serial_nbr = atoi(txt_serial_nbr->value());
+}
+
+void time_span()
+{
+	xcvrState.time_span = atoi(txt_time_span->value());
+}
+
+void zeros()
+{
+	xcvrState.zeros = btn_zeros->value();
+	check_call();
+}
+
+void dups()
+{
+	xcvrState.dups = btn_dups->value();
+	check_call();
+}
+
+void ck_band()
+{
+	xcvrState.band = btn_ck_band->value();
+	check_call();
+}
+
+void do_config_messages(void *)
+{
+	config_messages();
+}
+
+void send_message(string msg)
+{
+	if (Fl::event_button() == FL_RIGHT_MOUSE) {
+		Fl::awake(do_config_messages, 0);
+		Fl::focus(txt_to_send);
+		return;
+	} else {
+		if (!msg.empty()) {
+			expand_msg(msg);
+			txt_to_send->add(msg.c_str());
+		}
+	}
+	Fl::focus(txt_to_send);
+}
+
+void exec_msg1()
+{
+	send_message(xcvrState.edit_msg1);
+}
+
+void exec_msg2()
+{
+	send_message(xcvrState.edit_msg2);
+}
+
+void exec_msg3()
+{
+	send_message(xcvrState.edit_msg3);
+}
+
+void exec_msg4()
+{
+	send_message(xcvrState.edit_msg4);
+}
+
+void exec_msg5()
+{
+	send_message(xcvrState.edit_msg5);
+}
+
+void exec_msg6()
+{
+	send_message(xcvrState.edit_msg6);
+}
+
+void exec_msg7()
+{
+	send_message(xcvrState.edit_msg7);
+}
+
+void exec_msg8()
+{
+	send_message(xcvrState.edit_msg8);
+}
+
+void exec_msg9()
+{
+	send_message(xcvrState.edit_msg9);
+}
+
+void exec_msg10()
+{
+	send_message(xcvrState.edit_msg10);
+}
+
+void exec_msg11()
+{
+	send_message(xcvrState.edit_msg11);
+}
+
+void exec_msg12()
+{
+	send_message(xcvrState.edit_msg12);
+}
+
+void xml_add_record()
+{
+}
+
+void xml_dup_check()
+{
+}
+
+void connect_to_server()
+{
 }

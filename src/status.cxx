@@ -138,7 +138,50 @@ struct XCVRSTATE xcvrState = {
 	"7362",		// string server_port
 	"127.0.0.1",// string server_address
 
-	true		// bool tooltips
+	true,		// bool tooltips
+
+	(Fl_Color)0,			// Fl_Color bgclr;
+	(Fl_Color)0,			// Fl_Color fgclr;
+
+// message store
+	"CQ",							// string	label_1;
+	"CQ CQ CQ DE <CLL> <CLL> K ",	// string	edit_msg1;
+	"call",							// string	label_2;
+	"<STA> DE <CLL> <CLL> K",		// string	edit_msg2;
+	"m 3",							// string	label_3;
+	"",								// string	edit_msg3;
+	"m 4",							// string	label_4;
+	"",								// string	edit_msg4;
+	"Xout",							// string	label_5;
+	"R <#> <X>",					// string	edit_msg5;
+	"Xlog",							// string	label_6;
+	"<LOG><+>",						// string	edit_msg6;
+	"X--",							// string	label_7;
+	"<->",							// string	edit_msg7;
+	"X++",							// string	label_8;
+	"<+>",							// string	edit_msg8;
+	"LOG",							// string	label_9;
+	"<LOG>",						// string	edit_msg9;
+	"m 10",							// string	label_10;
+	"",								// string	edit_msg10;
+	"m 11",							// string	label_11;
+	"",								// string	edit_msg11;
+	"m 12",							// string	label_12;
+	"",								// string	edit_msg12;
+
+	"",								//string	tag_call;
+	"",								//string	tag_qth;
+	"",								//string	tag_loc;
+	"",								//string	tag_op;
+
+	false,		// bool		xml_logbook
+
+	1,			// int	serial_nbr;
+	0,			// int	time_span;
+	1,			// bool	band;
+	true,		// bool	zeros;
+	false,		// bool	dups;
+	""			// string xout
 };
 
 void XCVRSTATE::saveLastState()
@@ -272,6 +315,45 @@ void XCVRSTATE::saveLastState()
 	spref.set("server_addr", server_address.c_str());
 
 	spref.set("tooltips", tooltips);
+
+	spref.set("label1", label_1.c_str()); 
+	spref.set("msg1", edit_msg1.c_str());
+	spref.set("label2", label_2.c_str()); 
+	spref.set("msg2", edit_msg2.c_str());
+	spref.set("label3", label_3.c_str()); 
+	spref.set("msg3", edit_msg3.c_str());
+	spref.set("label4", label_4.c_str()); 
+	spref.set("msg4", edit_msg4.c_str());
+	spref.set("label5", label_5.c_str()); 
+	spref.set("msg5", edit_msg5.c_str());
+	spref.set("label6", label_6.c_str()); 
+	spref.set("msg6", edit_msg6.c_str());
+	spref.set("label7", label_7.c_str()); 
+	spref.set("msg7", edit_msg7.c_str());
+	spref.set("label8", label_8.c_str()); 
+	spref.set("msg8", edit_msg8.c_str());
+	spref.set("label9", label_9.c_str()); 
+	spref.set("msg9", edit_msg9.c_str());
+	spref.set("label10", label_10.c_str()); 
+	spref.set("msg10", edit_msg10.c_str());
+	spref.set("label11", label_11.c_str()); 
+	spref.set("msg11", edit_msg11.c_str());
+	spref.set("label12", label_12.c_str()); 
+	spref.set("msg12", edit_msg12.c_str());
+
+	spref.set("tag_cll", tag_cll.c_str());
+	spref.set("tag_qth", tag_qth.c_str());
+	spref.set("tag_loc", tag_loc.c_str());
+	spref.set("tag_opr", tag_opr.c_str());
+
+	spref.set("xml_logbook", xml_logbook);
+
+	spref.set("logbook_ser_nbr", serial_nbr);
+	spref.set("logbook_time_span", time_span);
+	spref.set("logbook_zeros", zeros);
+	spref.set("logbook_dups", dups);
+	spref.set("logbook_band", band);
+	spref.set("logbook_xout", xout.c_str());
 
 	std::string fname = homedir;
 	fname.append("kcat.ant");
@@ -419,6 +501,69 @@ void XCVRSTATE::loadLastState()
 
 		i = 0;
 		if (spref.get("tooltips", i, i)) tooltips = i;
+
+		spref.get("label1", defbuffer, label_1.c_str(), 199);
+			label_1 = defbuffer;
+		spref.get("msg1", defbuffer, edit_msg1.c_str(), 199);
+			edit_msg1 = defbuffer;
+		spref.get("label2", defbuffer, label_2.c_str(), 199);
+			label_2 = defbuffer;
+		spref.get("msg2", defbuffer, edit_msg2.c_str(), 199);
+			edit_msg2 = defbuffer;
+		spref.get("label3", defbuffer, label_3.c_str(), 199);
+			label_3 = defbuffer;
+		spref.get("msg3", defbuffer, edit_msg3.c_str(), 199);
+			edit_msg3 = defbuffer;
+		spref.get("label4", defbuffer, label_4.c_str(), 199);
+			label_4 = defbuffer;
+		spref.get("msg4", defbuffer, edit_msg4.c_str(), 199);
+			edit_msg4 = defbuffer;
+		spref.get("label5", defbuffer, label_5.c_str(), 199);
+			label_5 = defbuffer;
+		spref.get("msg5", defbuffer, edit_msg5.c_str(), 199);
+			edit_msg5 = defbuffer;
+		spref.get("label6", defbuffer, label_6.c_str(), 199);
+			label_6 = defbuffer;
+		spref.get("msg6", defbuffer, edit_msg6.c_str(), 199);
+			edit_msg6 = defbuffer;
+		spref.get("label7", defbuffer, label_7.c_str(), 199);
+			label_7 = defbuffer;
+		spref.get("msg7", defbuffer, edit_msg7.c_str(), 199);
+			edit_msg7 = defbuffer;
+		spref.get("label8", defbuffer, label_8.c_str(), 199);
+			label_8 = defbuffer;
+		spref.get("msg8", defbuffer, edit_msg8.c_str(), 199);
+			edit_msg8 = defbuffer;
+		spref.get("label9", defbuffer, label_9.c_str(), 199);
+			label_9 = defbuffer;
+		spref.get("msg9", defbuffer, edit_msg9.c_str(), 199);
+			edit_msg9 = defbuffer;
+		spref.get("label10", defbuffer, label_10.c_str(), 199);
+			label_10 = defbuffer;
+		spref.get("msg10", defbuffer, edit_msg10.c_str(), 199);
+			edit_msg10 = defbuffer;
+		spref.get("label11", defbuffer, label_11.c_str(), 199);
+			label_11 = defbuffer;
+		spref.get("msg11", defbuffer, edit_msg11.c_str(), 199);
+			edit_msg11 = defbuffer;
+		spref.get("label12", defbuffer, label_12.c_str(), 199);
+			label_12 = defbuffer;
+		spref.get("msg12", defbuffer, edit_msg12.c_str(), 199);
+			edit_msg12 = defbuffer;
+
+		spref.get("tag_cll", defbuffer, "", 199); tag_cll = defbuffer;
+		spref.get("tag_qth", defbuffer, "", 199); tag_qth = defbuffer;
+		spref.get("tag_loc", defbuffer, "", 199); tag_loc = defbuffer;
+		spref.get("tag_opr", defbuffer, "", 199); tag_opr = defbuffer;
+
+		spref.get("xml_logbook", i, i); xml_logbook = (i == 1);
+
+		spref.get("logbook_ser_nbr", serial_nbr, serial_nbr);
+		spref.get("logbook_time_span", time_span, time_span);
+		spref.get("logbook_zeros", i, i); zeros = (i == 1);
+		spref.get("logbook_dups", i, i); dups = (i == 1);
+		spref.get("logbook_band", i, i); band = (i == 1);
+		spref.get("logbook_xout", defbuffer, "", 199); xout = defbuffer;
 
 	}
 

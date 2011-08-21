@@ -32,11 +32,13 @@ extern pthread_t *watchdog_thread;
 extern pthread_t *serial_thread;
 extern pthread_t *telemetry_thread;
 extern pthread_t *xmlrpc_thread;
+extern pthread_t *cw_thread;
 
 extern pthread_mutex_t mutex_watchdog;
 extern pthread_mutex_t mutex_serial;
 extern pthread_mutex_t mutex_telemetry;
 extern pthread_mutex_t mutex_xmlrpc;
+extern pthread_mutex_t mutex_cw;
 
 extern Fl_Double_Window *window;
 extern string homedir;

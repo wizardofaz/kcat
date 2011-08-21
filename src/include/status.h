@@ -128,6 +128,49 @@ struct XCVRSTATE {
 	Fl_Color bgclr;
 	Fl_Color fgclr;
 
+// message store
+	string	label_1;
+	string	edit_msg1;
+	string	label_2;
+	string	edit_msg2;
+	string	label_3;
+	string	edit_msg3;
+	string	label_4;
+	string	edit_msg4;
+	string	label_5;
+	string	edit_msg5;
+	string	label_6;
+	string	edit_msg6;
+	string	label_7;
+	string	edit_msg7;
+	string	label_8;
+	string	edit_msg8;
+	string	label_9;
+	string	edit_msg9;
+	string	label_10;
+	string	edit_msg10;
+	string	label_11;
+	string	edit_msg11;
+	string	label_12;
+	string	edit_msg12;
+
+// message tags
+	string	tag_cll;
+	string	tag_qth;
+	string	tag_loc;
+	string	tag_opr;
+
+// logbook entries
+	bool	xml_logbook;
+
+// contest data
+	int		serial_nbr;
+	int		time_span;
+	bool	band;
+	bool	zeros;
+	bool	dups;
+	string	xout;
+
 	void saveLastState();
 	void loadLastState();
 };

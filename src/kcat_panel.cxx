@@ -36,6 +36,10 @@ static void cb_mnuSelectPort(Fl_Menu_*, void*) {
   setCommsPort();
 }
 
+static void cb_mnu_cw_keyboard(Fl_Menu_*, void*) {
+  open_keyboard();
+}
+
 static void cb_mnuScanner(Fl_Menu_*, void*) {
   open_scanner();
 }
@@ -77,6 +81,7 @@ Fl_Menu_Item menu_[] = {
  {_("Serial Port"), 0,  (Fl_Callback*)cb_mnuSelectPort, 0, 128, FL_NORMAL_LABEL, 0, 14, 0},
  {0,0,0,0,0,0,0,0,0},
  {_("Utils"), 0,  0, 0, 64, FL_NORMAL_LABEL, 0, 14, 0},
+ {_("CW keyboard"), 0,  (Fl_Callback*)cb_mnu_cw_keyboard, 0, 128, FL_NORMAL_LABEL, 0, 14, 0},
  {_("&Ant Imped"), 0,  0, 0, 16, FL_NORMAL_LABEL, 0, 14, 0},
  {_("Scanner"), 0,  (Fl_Callback*)cb_mnuScanner, 0, 0, FL_NORMAL_LABEL, 0, 14, 0},
  {_("&FreqCal"), 0,  (Fl_Callback*)cb_mnuFreqCal, 0, 16, FL_NORMAL_LABEL, 0, 14, 0},
@@ -1851,6 +1856,870 @@ Fl_Double_Window* scanner_window() {
       } // Fl_Box* o
       o->end();
     } // Fl_Group* o
+    o->end();
+  } // Fl_Double_Window* o
+  return w;
+}
+
+Fl_Input2 *txt_to_send=(Fl_Input2 *)0;
+
+Fl_Button *btn_msg1=(Fl_Button *)0;
+
+static void cb_btn_msg1(Fl_Button*, void*) {
+  exec_msg1();
+}
+
+Fl_Button *btn_msg2=(Fl_Button *)0;
+
+static void cb_btn_msg2(Fl_Button*, void*) {
+  exec_msg2();
+}
+
+Fl_Button *btn_msg3=(Fl_Button *)0;
+
+static void cb_btn_msg3(Fl_Button*, void*) {
+  exec_msg3();
+}
+
+Fl_Button *btn_msg4=(Fl_Button *)0;
+
+static void cb_btn_msg4(Fl_Button*, void*) {
+  exec_msg4();
+}
+
+Fl_Button *btn_msg5=(Fl_Button *)0;
+
+static void cb_btn_msg5(Fl_Button*, void*) {
+  exec_msg5();
+}
+
+Fl_Button *btn_msg6=(Fl_Button *)0;
+
+static void cb_btn_msg6(Fl_Button*, void*) {
+  exec_msg6();
+}
+
+Fl_Button *btn_msg7=(Fl_Button *)0;
+
+static void cb_btn_msg7(Fl_Button*, void*) {
+  exec_msg7();
+}
+
+Fl_Button *btn_msg8=(Fl_Button *)0;
+
+static void cb_btn_msg8(Fl_Button*, void*) {
+  exec_msg8();
+}
+
+Fl_Button *btn_msg9=(Fl_Button *)0;
+
+static void cb_btn_msg9(Fl_Button*, void*) {
+  exec_msg9();
+}
+
+Fl_Button *btn_msg10=(Fl_Button *)0;
+
+static void cb_btn_msg10(Fl_Button*, void*) {
+  exec_msg10();
+}
+
+Fl_Button *btn_msg11=(Fl_Button *)0;
+
+static void cb_btn_msg11(Fl_Button*, void*) {
+  exec_msg11();
+}
+
+Fl_Button *btn_msg12=(Fl_Button *)0;
+
+static void cb_btn_msg12(Fl_Button*, void*) {
+  exec_msg12();
+}
+
+Fl_Button *btn_abort=(Fl_Button *)0;
+
+static void cb_btn_abort(Fl_Button*, void*) {
+  cb_cancel_transmit();
+}
+
+Fl_Light_Button *btn_send=(Fl_Light_Button *)0;
+
+static void cb_btn_send(Fl_Light_Button*, void*) {
+  cb_send_button();
+}
+
+Fl_Button *btn_done_op_dialog=(Fl_Button *)0;
+
+static void cb_btn_done_op_dialog(Fl_Button*, void*) {
+  close_cw_keyboard();
+}
+
+Fl_Input2 *txt_sta=(Fl_Input2 *)0;
+
+static void cb_txt_sta(Fl_Input2*, void*) {
+  check_call();
+}
+
+Fl_Input2 *txt_name=(Fl_Input2 *)0;
+
+Fl_Input *txt_freq=(Fl_Input *)0;
+
+static void cb_txt_freq(Fl_Input*, void*) {
+  check_call();
+}
+
+Fl_Input2 *txt_xchg=(Fl_Input2 *)0;
+
+Fl_Button *btn_log_it=(Fl_Button *)0;
+
+static void cb_btn_log_it(Fl_Button*, void*) {
+  xml_add_record();
+}
+
+Fl_Button *btn_clear=(Fl_Button *)0;
+
+static void cb_btn_clear(Fl_Button*, void*) {
+  txt_sta->value("");
+txt_name->value("");
+txt_xchg->value("");
+txt_sta->color(FL_BACKGROUND2_COLOR);
+txt_sta->take_focus();
+}
+
+Fl_Check_Button *btn_dups=(Fl_Check_Button *)0;
+
+static void cb_btn_dups(Fl_Check_Button*, void*) {
+  dups();
+}
+
+Fl_Check_Button *btnConnect=(Fl_Check_Button *)0;
+
+static void cb_btnConnect(Fl_Check_Button*, void*) {
+  connect_to_server();
+}
+
+Fl_Button *btn_messages=(Fl_Button *)0;
+
+static void cb_btn_messages(Fl_Button*, void*) {
+  config_messages();
+}
+
+Fl_Double_Window* cwkeyboard_window() {
+  Fl_Double_Window* w;
+  { Fl_Double_Window* o = new Fl_Double_Window(680, 178, _("kcat CW keyboard"));
+    w = o;
+    { Fl_Input2* o = txt_to_send = new Fl_Input2(2, 2, 676, 70, _("input:"));
+      txt_to_send->type(4);
+      txt_to_send->box(FL_DOWN_BOX);
+      txt_to_send->color((Fl_Color)FL_BACKGROUND2_COLOR);
+      txt_to_send->selection_color((Fl_Color)FL_SELECTION_COLOR);
+      txt_to_send->labeltype(FL_NORMAL_LABEL);
+      txt_to_send->labelfont(0);
+      txt_to_send->labelsize(14);
+      txt_to_send->labelcolor((Fl_Color)FL_FOREGROUND_COLOR);
+      txt_to_send->align(FL_ALIGN_CENTER|FL_ALIGN_INSIDE);
+      txt_to_send->when(FL_WHEN_CHANGED);
+      o->wrap(true);
+    } // Fl_Input2* txt_to_send
+    { btn_msg1 = new Fl_Button(3, 75, 54, 22, _("m 1"));
+      btn_msg1->tooltip(_("Action - Fkey/Left click\nEdit - Right click"));
+      btn_msg1->callback((Fl_Callback*)cb_btn_msg1);
+    } // Fl_Button* btn_msg1
+    { btn_msg2 = new Fl_Button(59, 75, 54, 22, _("m 2"));
+      btn_msg2->tooltip(_("Action - Fkey/Left click\nEdit - Right click"));
+      btn_msg2->callback((Fl_Callback*)cb_btn_msg2);
+    } // Fl_Button* btn_msg2
+    { btn_msg3 = new Fl_Button(115, 75, 54, 22, _("m 3"));
+      btn_msg3->tooltip(_("Action - Fkey/Left click\nEdit - Right click"));
+      btn_msg3->callback((Fl_Callback*)cb_btn_msg3);
+    } // Fl_Button* btn_msg3
+    { btn_msg4 = new Fl_Button(171, 75, 54, 22, _("m 4"));
+      btn_msg4->tooltip(_("Action - Fkey/Left click\nEdit - Right click"));
+      btn_msg4->callback((Fl_Callback*)cb_btn_msg4);
+    } // Fl_Button* btn_msg4
+    { btn_msg5 = new Fl_Button(228, 75, 54, 22, _("m 5"));
+      btn_msg5->tooltip(_("Action - Fkey/Left click\nEdit - Right click"));
+      btn_msg5->callback((Fl_Callback*)cb_btn_msg5);
+    } // Fl_Button* btn_msg5
+    { btn_msg6 = new Fl_Button(284, 75, 54, 22, _("m 6"));
+      btn_msg6->tooltip(_("Action - Fkey/Left click\nEdit - Right click"));
+      btn_msg6->callback((Fl_Callback*)cb_btn_msg6);
+    } // Fl_Button* btn_msg6
+    { btn_msg7 = new Fl_Button(340, 75, 54, 22, _("m 7"));
+      btn_msg7->tooltip(_("Action - Fkey/Left click\nEdit - Right click"));
+      btn_msg7->callback((Fl_Callback*)cb_btn_msg7);
+    } // Fl_Button* btn_msg7
+    { btn_msg8 = new Fl_Button(396, 75, 54, 22, _("m 8"));
+      btn_msg8->tooltip(_("Action - Fkey/Left click\nEdit - Right click"));
+      btn_msg8->callback((Fl_Callback*)cb_btn_msg8);
+    } // Fl_Button* btn_msg8
+    { btn_msg9 = new Fl_Button(453, 75, 54, 22, _("m 9"));
+      btn_msg9->tooltip(_("Action - Fkey/Left click\nEdit - Right click"));
+      btn_msg9->callback((Fl_Callback*)cb_btn_msg9);
+    } // Fl_Button* btn_msg9
+    { btn_msg10 = new Fl_Button(509, 75, 54, 22, _("m 10"));
+      btn_msg10->tooltip(_("Action - Fkey/Left click\nEdit - Right click"));
+      btn_msg10->callback((Fl_Callback*)cb_btn_msg10);
+    } // Fl_Button* btn_msg10
+    { btn_msg11 = new Fl_Button(565, 75, 54, 22, _("m 11"));
+      btn_msg11->tooltip(_("Action - Fkey/Left click\nEdit - Right click"));
+      btn_msg11->callback((Fl_Callback*)cb_btn_msg11);
+    } // Fl_Button* btn_msg11
+    { btn_msg12 = new Fl_Button(622, 75, 54, 22, _("m 12"));
+      btn_msg12->tooltip(_("Action - Fkey/Left click\nEdit - Right click"));
+      btn_msg12->callback((Fl_Callback*)cb_btn_msg12);
+    } // Fl_Button* btn_msg12
+    { btn_abort = new Fl_Button(473, 109, 80, 22, _("Abort"));
+      btn_abort->callback((Fl_Callback*)cb_btn_abort);
+    } // Fl_Button* btn_abort
+    { btn_send = new Fl_Light_Button(586, 109, 80, 22, _("Send"));
+      btn_send->callback((Fl_Callback*)cb_btn_send);
+    } // Fl_Light_Button* btn_send
+    { btn_done_op_dialog = new Fl_Button(586, 136, 80, 22, _("Close"));
+      btn_done_op_dialog->callback((Fl_Callback*)cb_btn_done_op_dialog);
+    } // Fl_Button* btn_done_op_dialog
+    { Fl_Group* o = new Fl_Group(2, 102, 448, 73);
+      o->box(FL_ENGRAVED_FRAME);
+      { txt_sta = new Fl_Input2(5, 121, 100, 22, _("STA"));
+        txt_sta->tooltip(_("Other station"));
+        txt_sta->box(FL_DOWN_BOX);
+        txt_sta->color((Fl_Color)FL_BACKGROUND2_COLOR);
+        txt_sta->selection_color((Fl_Color)FL_SELECTION_COLOR);
+        txt_sta->labeltype(FL_NORMAL_LABEL);
+        txt_sta->labelfont(0);
+        txt_sta->labelsize(14);
+        txt_sta->labelcolor((Fl_Color)FL_FOREGROUND_COLOR);
+        txt_sta->callback((Fl_Callback*)cb_txt_sta);
+        txt_sta->align(FL_ALIGN_TOP_LEFT);
+        txt_sta->when(FL_WHEN_CHANGED);
+      } // Fl_Input2* txt_sta
+      { txt_name = new Fl_Input2(117, 121, 100, 22, _("NAM"));
+        txt_name->tooltip(_("Other operator"));
+        txt_name->box(FL_DOWN_BOX);
+        txt_name->color((Fl_Color)FL_BACKGROUND2_COLOR);
+        txt_name->selection_color((Fl_Color)FL_SELECTION_COLOR);
+        txt_name->labeltype(FL_NORMAL_LABEL);
+        txt_name->labelfont(0);
+        txt_name->labelsize(14);
+        txt_name->labelcolor((Fl_Color)FL_FOREGROUND_COLOR);
+        txt_name->align(FL_ALIGN_TOP_LEFT);
+        txt_name->when(FL_WHEN_RELEASE);
+      } // Fl_Input2* txt_name
+      { txt_freq = new Fl_Input(228, 121, 100, 22, _("Freq:"));
+        txt_freq->tooltip(_("Frequency (MHz preferred)"));
+        txt_freq->callback((Fl_Callback*)cb_txt_freq);
+        txt_freq->align(FL_ALIGN_TOP_LEFT);
+        txt_freq->when(FL_WHEN_CHANGED);
+      } // Fl_Input* txt_freq
+      { txt_xchg = new Fl_Input2(340, 121, 100, 22, _("X_in"));
+        txt_xchg->tooltip(_("Rcvd Contest Exchange"));
+        txt_xchg->box(FL_DOWN_BOX);
+        txt_xchg->color((Fl_Color)FL_BACKGROUND2_COLOR);
+        txt_xchg->selection_color((Fl_Color)FL_SELECTION_COLOR);
+        txt_xchg->labeltype(FL_NORMAL_LABEL);
+        txt_xchg->labelfont(0);
+        txt_xchg->labelsize(14);
+        txt_xchg->labelcolor((Fl_Color)FL_FOREGROUND_COLOR);
+        txt_xchg->align(FL_ALIGN_TOP_LEFT);
+        txt_xchg->when(FL_WHEN_CHANGED);
+      } // Fl_Input2* txt_xchg
+      { btn_log_it = new Fl_Button(229, 146, 54, 22, _("Log"));
+        btn_log_it->callback((Fl_Callback*)cb_btn_log_it);
+        btn_log_it->deactivate();
+      } // Fl_Button* btn_log_it
+      { btn_clear = new Fl_Button(10, 146, 54, 22, _("Clear"));
+        btn_clear->callback((Fl_Callback*)cb_btn_clear);
+      } // Fl_Button* btn_clear
+      { Fl_Check_Button* o = btn_dups = new Fl_Check_Button(341, 149, 20, 15, _("Ck Dups"));
+        btn_dups->tooltip(_("Check for duplicates"));
+        btn_dups->down_box(FL_DOWN_BOX);
+        btn_dups->callback((Fl_Callback*)cb_btn_dups);
+        btn_dups->deactivate();
+        o->value(xcvrState.dups);
+      } // Fl_Check_Button* btn_dups
+      { btnConnect = new Fl_Check_Button(119, 149, 70, 15, _("Connect"));
+        btnConnect->tooltip(_("Connect to fllog server"));
+        btnConnect->down_box(FL_DOWN_BOX);
+        btnConnect->callback((Fl_Callback*)cb_btnConnect);
+      } // Fl_Check_Button* btnConnect
+      o->end();
+    } // Fl_Group* o
+    { btn_messages = new Fl_Button(473, 136, 80, 22, _("Configure"));
+      btn_messages->callback((Fl_Callback*)cb_btn_messages);
+    } // Fl_Button* btn_messages
+    o->end();
+  } // Fl_Double_Window* o
+  return w;
+}
+
+Fl_Input2 *label_1=(Fl_Input2 *)0;
+
+Fl_Input2 *edit_msg1=(Fl_Input2 *)0;
+
+Fl_Input2 *label_2=(Fl_Input2 *)0;
+
+Fl_Input2 *edit_msg2=(Fl_Input2 *)0;
+
+Fl_Input2 *label_3=(Fl_Input2 *)0;
+
+Fl_Input2 *edit_msg3=(Fl_Input2 *)0;
+
+Fl_Input2 *label_4=(Fl_Input2 *)0;
+
+Fl_Input2 *edit_msg4=(Fl_Input2 *)0;
+
+Fl_Input2 *label_5=(Fl_Input2 *)0;
+
+Fl_Input2 *edit_msg5=(Fl_Input2 *)0;
+
+Fl_Input2 *label_6=(Fl_Input2 *)0;
+
+Fl_Input2 *edit_msg6=(Fl_Input2 *)0;
+
+Fl_Input2 *label_7=(Fl_Input2 *)0;
+
+Fl_Input2 *edit_msg7=(Fl_Input2 *)0;
+
+Fl_Input2 *label_8=(Fl_Input2 *)0;
+
+Fl_Input2 *edit_msg8=(Fl_Input2 *)0;
+
+Fl_Input2 *label_9=(Fl_Input2 *)0;
+
+Fl_Input2 *edit_msg9=(Fl_Input2 *)0;
+
+Fl_Input2 *label_10=(Fl_Input2 *)0;
+
+Fl_Input2 *edit_msg10=(Fl_Input2 *)0;
+
+Fl_Input2 *label_11=(Fl_Input2 *)0;
+
+Fl_Input2 *edit_msg11=(Fl_Input2 *)0;
+
+Fl_Input2 *label_12=(Fl_Input2 *)0;
+
+Fl_Input2 *edit_msg12=(Fl_Input2 *)0;
+
+Fl_Button *btn_done_edit=(Fl_Button *)0;
+
+static void cb_btn_done_edit(Fl_Button*, void*) {
+  done_edit();
+}
+
+Fl_Button *btn_cancel_edit=(Fl_Button *)0;
+
+static void cb_btn_cancel_edit(Fl_Button*, void*) {
+  cancel_edit();
+}
+
+Fl_Button *btn_apply_edit=(Fl_Button *)0;
+
+static void cb_btn_apply_edit(Fl_Button*, void*) {
+  apply_edit();
+}
+
+Fl_Input2 *txt_cll=(Fl_Input2 *)0;
+
+static void cb_txt_cll(Fl_Input2*, void*) {
+  change_txt_cll();
+}
+
+Fl_Input2 *txt_opr=(Fl_Input2 *)0;
+
+static void cb_txt_opr(Fl_Input2*, void*) {
+  change_txt_opr();
+}
+
+Fl_Input2 *txt_qth=(Fl_Input2 *)0;
+
+static void cb_txt_qth(Fl_Input2*, void*) {
+  change_txt_qth();
+}
+
+Fl_Input2 *txt_loc=(Fl_Input2 *)0;
+
+static void cb_txt_loc(Fl_Input2*, void*) {
+  change_txt_loc();
+}
+
+Fl_Input *txt_serial_nbr=(Fl_Input *)0;
+
+static void cb_txt_serial_nbr(Fl_Input*, void*) {
+  serial_nbr();
+}
+
+Fl_Input *txt_time_span=(Fl_Input *)0;
+
+static void cb_txt_time_span(Fl_Input*, void*) {
+  time_span();
+}
+
+Fl_Input *txt_xout=(Fl_Input *)0;
+
+static void cb_txt_xout(Fl_Input* o, void*) {
+  xcvrState.xout=o->value();
+}
+
+Fl_Check_Button *btn_zeros=(Fl_Check_Button *)0;
+
+static void cb_btn_zeros(Fl_Check_Button*, void*) {
+  zeros();
+}
+
+Fl_Check_Button *btn_ck_band=(Fl_Check_Button *)0;
+
+static void cb_btn_ck_band(Fl_Check_Button*, void*) {
+  ck_band();
+}
+
+Fl_Check_Button *btn_ck_time_span=(Fl_Check_Button *)0;
+
+static void cb_btn_ck_time_span(Fl_Check_Button*, void*) {
+  time_span();
+}
+
+Fl_Double_Window* message_editor() {
+  Fl_Double_Window* w;
+  { Fl_Double_Window* o = new Fl_Double_Window(600, 382, _("Configure CW Keyboard"));
+    w = o;
+    { new Fl_Box(12, 2, 84, 19, _("Msg Label"));
+    } // Fl_Box* o
+    { new Fl_Box(201, 2, 223, 19, _("Message Text"));
+    } // Fl_Box* o
+    { label_1 = new Fl_Input2(30, 23, 50, 22, _("1:"));
+      label_1->box(FL_DOWN_BOX);
+      label_1->color((Fl_Color)FL_BACKGROUND2_COLOR);
+      label_1->selection_color((Fl_Color)FL_SELECTION_COLOR);
+      label_1->labeltype(FL_NORMAL_LABEL);
+      label_1->labelfont(0);
+      label_1->labelsize(14);
+      label_1->labelcolor((Fl_Color)FL_FOREGROUND_COLOR);
+      label_1->align(FL_ALIGN_LEFT);
+      label_1->when(FL_WHEN_RELEASE);
+    } // Fl_Input2* label_1
+    { edit_msg1 = new Fl_Input2(85, 23, 375, 22);
+      edit_msg1->box(FL_DOWN_BOX);
+      edit_msg1->color((Fl_Color)FL_BACKGROUND2_COLOR);
+      edit_msg1->selection_color((Fl_Color)FL_SELECTION_COLOR);
+      edit_msg1->labeltype(FL_NORMAL_LABEL);
+      edit_msg1->labelfont(0);
+      edit_msg1->labelsize(14);
+      edit_msg1->labelcolor((Fl_Color)FL_FOREGROUND_COLOR);
+      edit_msg1->align(FL_ALIGN_LEFT);
+      edit_msg1->when(FL_WHEN_RELEASE);
+    } // Fl_Input2* edit_msg1
+    { label_2 = new Fl_Input2(30, 47, 50, 22, _("2:"));
+      label_2->box(FL_DOWN_BOX);
+      label_2->color((Fl_Color)FL_BACKGROUND2_COLOR);
+      label_2->selection_color((Fl_Color)FL_SELECTION_COLOR);
+      label_2->labeltype(FL_NORMAL_LABEL);
+      label_2->labelfont(0);
+      label_2->labelsize(14);
+      label_2->labelcolor((Fl_Color)FL_FOREGROUND_COLOR);
+      label_2->align(FL_ALIGN_LEFT);
+      label_2->when(FL_WHEN_RELEASE);
+    } // Fl_Input2* label_2
+    { edit_msg2 = new Fl_Input2(85, 47, 375, 22);
+      edit_msg2->box(FL_DOWN_BOX);
+      edit_msg2->color((Fl_Color)FL_BACKGROUND2_COLOR);
+      edit_msg2->selection_color((Fl_Color)FL_SELECTION_COLOR);
+      edit_msg2->labeltype(FL_NORMAL_LABEL);
+      edit_msg2->labelfont(0);
+      edit_msg2->labelsize(14);
+      edit_msg2->labelcolor((Fl_Color)FL_FOREGROUND_COLOR);
+      edit_msg2->align(FL_ALIGN_LEFT);
+      edit_msg2->when(FL_WHEN_RELEASE);
+    } // Fl_Input2* edit_msg2
+    { label_3 = new Fl_Input2(30, 71, 50, 22, _("3:"));
+      label_3->box(FL_DOWN_BOX);
+      label_3->color((Fl_Color)FL_BACKGROUND2_COLOR);
+      label_3->selection_color((Fl_Color)FL_SELECTION_COLOR);
+      label_3->labeltype(FL_NORMAL_LABEL);
+      label_3->labelfont(0);
+      label_3->labelsize(14);
+      label_3->labelcolor((Fl_Color)FL_FOREGROUND_COLOR);
+      label_3->align(FL_ALIGN_LEFT);
+      label_3->when(FL_WHEN_RELEASE);
+    } // Fl_Input2* label_3
+    { edit_msg3 = new Fl_Input2(85, 71, 375, 22);
+      edit_msg3->box(FL_DOWN_BOX);
+      edit_msg3->color((Fl_Color)FL_BACKGROUND2_COLOR);
+      edit_msg3->selection_color((Fl_Color)FL_SELECTION_COLOR);
+      edit_msg3->labeltype(FL_NORMAL_LABEL);
+      edit_msg3->labelfont(0);
+      edit_msg3->labelsize(14);
+      edit_msg3->labelcolor((Fl_Color)FL_FOREGROUND_COLOR);
+      edit_msg3->align(FL_ALIGN_LEFT);
+      edit_msg3->when(FL_WHEN_RELEASE);
+    } // Fl_Input2* edit_msg3
+    { label_4 = new Fl_Input2(30, 95, 50, 22, _("4:"));
+      label_4->box(FL_DOWN_BOX);
+      label_4->color((Fl_Color)FL_BACKGROUND2_COLOR);
+      label_4->selection_color((Fl_Color)FL_SELECTION_COLOR);
+      label_4->labeltype(FL_NORMAL_LABEL);
+      label_4->labelfont(0);
+      label_4->labelsize(14);
+      label_4->labelcolor((Fl_Color)FL_FOREGROUND_COLOR);
+      label_4->align(FL_ALIGN_LEFT);
+      label_4->when(FL_WHEN_RELEASE);
+    } // Fl_Input2* label_4
+    { edit_msg4 = new Fl_Input2(85, 95, 375, 22);
+      edit_msg4->box(FL_DOWN_BOX);
+      edit_msg4->color((Fl_Color)FL_BACKGROUND2_COLOR);
+      edit_msg4->selection_color((Fl_Color)FL_SELECTION_COLOR);
+      edit_msg4->labeltype(FL_NORMAL_LABEL);
+      edit_msg4->labelfont(0);
+      edit_msg4->labelsize(14);
+      edit_msg4->labelcolor((Fl_Color)FL_FOREGROUND_COLOR);
+      edit_msg4->align(FL_ALIGN_LEFT);
+      edit_msg4->when(FL_WHEN_RELEASE);
+    } // Fl_Input2* edit_msg4
+    { label_5 = new Fl_Input2(30, 119, 50, 22, _("5:"));
+      label_5->box(FL_DOWN_BOX);
+      label_5->color((Fl_Color)FL_BACKGROUND2_COLOR);
+      label_5->selection_color((Fl_Color)FL_SELECTION_COLOR);
+      label_5->labeltype(FL_NORMAL_LABEL);
+      label_5->labelfont(0);
+      label_5->labelsize(14);
+      label_5->labelcolor((Fl_Color)FL_FOREGROUND_COLOR);
+      label_5->align(FL_ALIGN_LEFT);
+      label_5->when(FL_WHEN_RELEASE);
+    } // Fl_Input2* label_5
+    { edit_msg5 = new Fl_Input2(85, 119, 375, 22);
+      edit_msg5->box(FL_DOWN_BOX);
+      edit_msg5->color((Fl_Color)FL_BACKGROUND2_COLOR);
+      edit_msg5->selection_color((Fl_Color)FL_SELECTION_COLOR);
+      edit_msg5->labeltype(FL_NORMAL_LABEL);
+      edit_msg5->labelfont(0);
+      edit_msg5->labelsize(14);
+      edit_msg5->labelcolor((Fl_Color)FL_FOREGROUND_COLOR);
+      edit_msg5->align(FL_ALIGN_LEFT);
+      edit_msg5->when(FL_WHEN_RELEASE);
+    } // Fl_Input2* edit_msg5
+    { label_6 = new Fl_Input2(30, 143, 50, 22, _("6:"));
+      label_6->box(FL_DOWN_BOX);
+      label_6->color((Fl_Color)FL_BACKGROUND2_COLOR);
+      label_6->selection_color((Fl_Color)FL_SELECTION_COLOR);
+      label_6->labeltype(FL_NORMAL_LABEL);
+      label_6->labelfont(0);
+      label_6->labelsize(14);
+      label_6->labelcolor((Fl_Color)FL_FOREGROUND_COLOR);
+      label_6->align(FL_ALIGN_LEFT);
+      label_6->when(FL_WHEN_RELEASE);
+    } // Fl_Input2* label_6
+    { edit_msg6 = new Fl_Input2(85, 143, 375, 22);
+      edit_msg6->box(FL_DOWN_BOX);
+      edit_msg6->color((Fl_Color)FL_BACKGROUND2_COLOR);
+      edit_msg6->selection_color((Fl_Color)FL_SELECTION_COLOR);
+      edit_msg6->labeltype(FL_NORMAL_LABEL);
+      edit_msg6->labelfont(0);
+      edit_msg6->labelsize(14);
+      edit_msg6->labelcolor((Fl_Color)FL_FOREGROUND_COLOR);
+      edit_msg6->align(FL_ALIGN_LEFT);
+      edit_msg6->when(FL_WHEN_RELEASE);
+    } // Fl_Input2* edit_msg6
+    { label_7 = new Fl_Input2(30, 167, 50, 22, _("7:"));
+      label_7->box(FL_DOWN_BOX);
+      label_7->color((Fl_Color)FL_BACKGROUND2_COLOR);
+      label_7->selection_color((Fl_Color)FL_SELECTION_COLOR);
+      label_7->labeltype(FL_NORMAL_LABEL);
+      label_7->labelfont(0);
+      label_7->labelsize(14);
+      label_7->labelcolor((Fl_Color)FL_FOREGROUND_COLOR);
+      label_7->align(FL_ALIGN_LEFT);
+      label_7->when(FL_WHEN_RELEASE);
+    } // Fl_Input2* label_7
+    { edit_msg7 = new Fl_Input2(85, 167, 375, 22);
+      edit_msg7->box(FL_DOWN_BOX);
+      edit_msg7->color((Fl_Color)FL_BACKGROUND2_COLOR);
+      edit_msg7->selection_color((Fl_Color)FL_SELECTION_COLOR);
+      edit_msg7->labeltype(FL_NORMAL_LABEL);
+      edit_msg7->labelfont(0);
+      edit_msg7->labelsize(14);
+      edit_msg7->labelcolor((Fl_Color)FL_FOREGROUND_COLOR);
+      edit_msg7->align(FL_ALIGN_LEFT);
+      edit_msg7->when(FL_WHEN_RELEASE);
+    } // Fl_Input2* edit_msg7
+    { label_8 = new Fl_Input2(30, 192, 50, 22, _("8:"));
+      label_8->box(FL_DOWN_BOX);
+      label_8->color((Fl_Color)FL_BACKGROUND2_COLOR);
+      label_8->selection_color((Fl_Color)FL_SELECTION_COLOR);
+      label_8->labeltype(FL_NORMAL_LABEL);
+      label_8->labelfont(0);
+      label_8->labelsize(14);
+      label_8->labelcolor((Fl_Color)FL_FOREGROUND_COLOR);
+      label_8->align(FL_ALIGN_LEFT);
+      label_8->when(FL_WHEN_RELEASE);
+    } // Fl_Input2* label_8
+    { edit_msg8 = new Fl_Input2(85, 192, 375, 22);
+      edit_msg8->box(FL_DOWN_BOX);
+      edit_msg8->color((Fl_Color)FL_BACKGROUND2_COLOR);
+      edit_msg8->selection_color((Fl_Color)FL_SELECTION_COLOR);
+      edit_msg8->labeltype(FL_NORMAL_LABEL);
+      edit_msg8->labelfont(0);
+      edit_msg8->labelsize(14);
+      edit_msg8->labelcolor((Fl_Color)FL_FOREGROUND_COLOR);
+      edit_msg8->align(FL_ALIGN_LEFT);
+      edit_msg8->when(FL_WHEN_RELEASE);
+    } // Fl_Input2* edit_msg8
+    { label_9 = new Fl_Input2(30, 216, 50, 22, _("9:"));
+      label_9->box(FL_DOWN_BOX);
+      label_9->color((Fl_Color)FL_BACKGROUND2_COLOR);
+      label_9->selection_color((Fl_Color)FL_SELECTION_COLOR);
+      label_9->labeltype(FL_NORMAL_LABEL);
+      label_9->labelfont(0);
+      label_9->labelsize(14);
+      label_9->labelcolor((Fl_Color)FL_FOREGROUND_COLOR);
+      label_9->align(FL_ALIGN_LEFT);
+      label_9->when(FL_WHEN_RELEASE);
+    } // Fl_Input2* label_9
+    { edit_msg9 = new Fl_Input2(85, 216, 375, 22);
+      edit_msg9->box(FL_DOWN_BOX);
+      edit_msg9->color((Fl_Color)FL_BACKGROUND2_COLOR);
+      edit_msg9->selection_color((Fl_Color)FL_SELECTION_COLOR);
+      edit_msg9->labeltype(FL_NORMAL_LABEL);
+      edit_msg9->labelfont(0);
+      edit_msg9->labelsize(14);
+      edit_msg9->labelcolor((Fl_Color)FL_FOREGROUND_COLOR);
+      edit_msg9->align(FL_ALIGN_LEFT);
+      edit_msg9->when(FL_WHEN_RELEASE);
+    } // Fl_Input2* edit_msg9
+    { label_10 = new Fl_Input2(30, 240, 50, 22, _("10:"));
+      label_10->box(FL_DOWN_BOX);
+      label_10->color((Fl_Color)FL_BACKGROUND2_COLOR);
+      label_10->selection_color((Fl_Color)FL_SELECTION_COLOR);
+      label_10->labeltype(FL_NORMAL_LABEL);
+      label_10->labelfont(0);
+      label_10->labelsize(14);
+      label_10->labelcolor((Fl_Color)FL_FOREGROUND_COLOR);
+      label_10->align(FL_ALIGN_LEFT);
+      label_10->when(FL_WHEN_RELEASE);
+    } // Fl_Input2* label_10
+    { edit_msg10 = new Fl_Input2(85, 240, 375, 22);
+      edit_msg10->box(FL_DOWN_BOX);
+      edit_msg10->color((Fl_Color)FL_BACKGROUND2_COLOR);
+      edit_msg10->selection_color((Fl_Color)FL_SELECTION_COLOR);
+      edit_msg10->labeltype(FL_NORMAL_LABEL);
+      edit_msg10->labelfont(0);
+      edit_msg10->labelsize(14);
+      edit_msg10->labelcolor((Fl_Color)FL_FOREGROUND_COLOR);
+      edit_msg10->align(FL_ALIGN_LEFT);
+      edit_msg10->when(FL_WHEN_RELEASE);
+    } // Fl_Input2* edit_msg10
+    { label_11 = new Fl_Input2(29, 264, 50, 22, _("11:"));
+      label_11->box(FL_DOWN_BOX);
+      label_11->color((Fl_Color)FL_BACKGROUND2_COLOR);
+      label_11->selection_color((Fl_Color)FL_SELECTION_COLOR);
+      label_11->labeltype(FL_NORMAL_LABEL);
+      label_11->labelfont(0);
+      label_11->labelsize(14);
+      label_11->labelcolor((Fl_Color)FL_FOREGROUND_COLOR);
+      label_11->align(FL_ALIGN_LEFT);
+      label_11->when(FL_WHEN_RELEASE);
+    } // Fl_Input2* label_11
+    { edit_msg11 = new Fl_Input2(84, 264, 375, 22);
+      edit_msg11->box(FL_DOWN_BOX);
+      edit_msg11->color((Fl_Color)FL_BACKGROUND2_COLOR);
+      edit_msg11->selection_color((Fl_Color)FL_SELECTION_COLOR);
+      edit_msg11->labeltype(FL_NORMAL_LABEL);
+      edit_msg11->labelfont(0);
+      edit_msg11->labelsize(14);
+      edit_msg11->labelcolor((Fl_Color)FL_FOREGROUND_COLOR);
+      edit_msg11->align(FL_ALIGN_LEFT);
+      edit_msg11->when(FL_WHEN_RELEASE);
+    } // Fl_Input2* edit_msg11
+    { label_12 = new Fl_Input2(30, 288, 50, 22, _("12:"));
+      label_12->box(FL_DOWN_BOX);
+      label_12->color((Fl_Color)FL_BACKGROUND2_COLOR);
+      label_12->selection_color((Fl_Color)FL_SELECTION_COLOR);
+      label_12->labeltype(FL_NORMAL_LABEL);
+      label_12->labelfont(0);
+      label_12->labelsize(14);
+      label_12->labelcolor((Fl_Color)FL_FOREGROUND_COLOR);
+      label_12->align(FL_ALIGN_LEFT);
+      label_12->when(FL_WHEN_RELEASE);
+    } // Fl_Input2* label_12
+    { edit_msg12 = new Fl_Input2(85, 288, 375, 22);
+      edit_msg12->box(FL_DOWN_BOX);
+      edit_msg12->color((Fl_Color)FL_BACKGROUND2_COLOR);
+      edit_msg12->selection_color((Fl_Color)FL_SELECTION_COLOR);
+      edit_msg12->labeltype(FL_NORMAL_LABEL);
+      edit_msg12->labelfont(0);
+      edit_msg12->labelsize(14);
+      edit_msg12->labelcolor((Fl_Color)FL_FOREGROUND_COLOR);
+      edit_msg12->align(FL_ALIGN_LEFT);
+      edit_msg12->when(FL_WHEN_RELEASE);
+    } // Fl_Input2* edit_msg12
+    { Fl_Group* o = new Fl_Group(464, 4, 65, 252);
+      o->box(FL_ENGRAVED_FRAME);
+      { new Fl_Box(469, 7, 54, 20, _("Tags"));
+      } // Fl_Box* o
+      { Fl_Box* o = new Fl_Box(469, 36, 55, 20, _("<CLL>"));
+        o->tooltip(_("Your call"));
+      } // Fl_Box* o
+      { Fl_Box* o = new Fl_Box(469, 56, 55, 20, _("<QTH>"));
+        o->tooltip(_("Your qth"));
+      } // Fl_Box* o
+      { Fl_Box* o = new Fl_Box(469, 76, 55, 20, _("<LOC>"));
+        o->tooltip(_("Your location"));
+      } // Fl_Box* o
+      { Fl_Box* o = new Fl_Box(469, 96, 55, 20, _("<OPR>"));
+        o->tooltip(_("Your name"));
+      } // Fl_Box* o
+      { Fl_Box* o = new Fl_Box(469, 115, 55, 20, _("<STA>"));
+        o->tooltip(_("Other stations callsign"));
+      } // Fl_Box* o
+      { Fl_Box* o = new Fl_Box(469, 134, 55, 20, _("<NAM>"));
+        o->tooltip(_("Other stations name"));
+      } // Fl_Box* o
+      { Fl_Box* o = new Fl_Box(469, 151, 55, 20, _("<#>"));
+        o->tooltip(_("Serial OUT"));
+      } // Fl_Box* o
+      { Fl_Box* o = new Fl_Box(469, 170, 55, 20, _("<+>"));
+        o->tooltip(_("Increment serial #"));
+      } // Fl_Box* o
+      { Fl_Box* o = new Fl_Box(469, 189, 55, 20, _("<->"));
+        o->tooltip(_("Decrement serial #"));
+      } // Fl_Box* o
+      { Fl_Box* o = new Fl_Box(469, 208, 55, 20, _("<LOG>"));
+        o->tooltip(_("Append entry to logbook"));
+      } // Fl_Box* o
+      { Fl_Box* o = new Fl_Box(469, 229, 55, 20, _("<X>"));
+        o->tooltip(_("Xout text"));
+      } // Fl_Box* o
+      o->end();
+    } // Fl_Group* o
+    { Fl_Group* o = new Fl_Group(529, 4, 65, 252);
+      o->box(FL_ENGRAVED_FRAME);
+      { new Fl_Box(532, 7, 59, 20, _("ProSign"));
+      } // Fl_Box* o
+      { Fl_Box* o = new Fl_Box(531, 36, 60, 20, _("* AA"));
+        o->tooltip(_(".-..-."));
+      } // Fl_Box* o
+      { Fl_Box* o = new Fl_Box(531, 56, 60, 20, _("@@ AC"));
+        o->tooltip(_(".--.-."));
+      } // Fl_Box* o
+      { Fl_Box* o = new Fl_Box(531, 75, 60, 20, _("+ AR"));
+        o->tooltip(_(".-.-."));
+      } // Fl_Box* o
+      { Fl_Box* o = new Fl_Box(531, 94, 60, 20, _("% AS"));
+        o->tooltip(_(".----."));
+      } // Fl_Box* o
+      { Fl_Box* o = new Fl_Box(531, 114, 60, 20, _("= BT"));
+        o->tooltip(_("-...-"));
+      } // Fl_Box* o
+      { Fl_Box* o = new Fl_Box(531, 133, 60, 20, _("- DU"));
+        o->tooltip(_("-....-"));
+      } // Fl_Box* o
+      { Fl_Box* o = new Fl_Box(531, 152, 60, 20, _("( KK"));
+        o->tooltip(_("-.--.-"));
+      } // Fl_Box* o
+      { Fl_Box* o = new Fl_Box(531, 172, 60, 20, _(") KN"));
+        o->tooltip(_("-.--."));
+      } // Fl_Box* o
+      { Fl_Box* o = new Fl_Box(531, 191, 60, 20, _("] SK"));
+        o->tooltip(_("...-.-"));
+      } // Fl_Box* o
+      { Fl_Box* o = new Fl_Box(531, 210, 60, 20, _("[ SN"));
+        o->tooltip(_(".-.-."));
+      } // Fl_Box* o
+      { Fl_Box* o = new Fl_Box(531, 229, 60, 20, _("$ SX"));
+        o->tooltip(_("...-..-"));
+      } // Fl_Box* o
+      o->end();
+    } // Fl_Group* o
+    { btn_done_edit = new Fl_Button(539, 288, 56, 22, _("Done"));
+      btn_done_edit->callback((Fl_Callback*)cb_btn_done_edit);
+    } // Fl_Button* btn_done_edit
+    { btn_cancel_edit = new Fl_Button(469, 264, 65, 22, _("Cancel"));
+      btn_cancel_edit->callback((Fl_Callback*)cb_btn_cancel_edit);
+    } // Fl_Button* btn_cancel_edit
+    { btn_apply_edit = new Fl_Button(469, 288, 65, 22, _("Apply"));
+      btn_apply_edit->callback((Fl_Callback*)cb_btn_apply_edit);
+    } // Fl_Button* btn_apply_edit
+    { txt_cll = new Fl_Input2(36, 312, 80, 22, _("CLL"));
+      txt_cll->tooltip(_("Your callsign"));
+      txt_cll->box(FL_DOWN_BOX);
+      txt_cll->color((Fl_Color)FL_BACKGROUND2_COLOR);
+      txt_cll->selection_color((Fl_Color)FL_SELECTION_COLOR);
+      txt_cll->labeltype(FL_NORMAL_LABEL);
+      txt_cll->labelfont(0);
+      txt_cll->labelsize(14);
+      txt_cll->labelcolor((Fl_Color)FL_FOREGROUND_COLOR);
+      txt_cll->callback((Fl_Callback*)cb_txt_cll);
+      txt_cll->align(FL_ALIGN_LEFT);
+      txt_cll->when(FL_WHEN_RELEASE);
+    } // Fl_Input2* txt_cll
+    { txt_opr = new Fl_Input2(181, 312, 80, 22, _("OPR"));
+      txt_opr->box(FL_DOWN_BOX);
+      txt_opr->color((Fl_Color)FL_BACKGROUND2_COLOR);
+      txt_opr->selection_color((Fl_Color)FL_SELECTION_COLOR);
+      txt_opr->labeltype(FL_NORMAL_LABEL);
+      txt_opr->labelfont(0);
+      txt_opr->labelsize(14);
+      txt_opr->labelcolor((Fl_Color)FL_FOREGROUND_COLOR);
+      txt_opr->callback((Fl_Callback*)cb_txt_opr);
+      txt_opr->align(FL_ALIGN_LEFT);
+      txt_opr->when(FL_WHEN_RELEASE);
+    } // Fl_Input2* txt_opr
+    { txt_qth = new Fl_Input2(310, 312, 150, 22, _("QTH"));
+      txt_qth->tooltip(_("Your QTH"));
+      txt_qth->box(FL_DOWN_BOX);
+      txt_qth->color((Fl_Color)FL_BACKGROUND2_COLOR);
+      txt_qth->selection_color((Fl_Color)FL_SELECTION_COLOR);
+      txt_qth->labeltype(FL_NORMAL_LABEL);
+      txt_qth->labelfont(0);
+      txt_qth->labelsize(14);
+      txt_qth->labelcolor((Fl_Color)FL_FOREGROUND_COLOR);
+      txt_qth->callback((Fl_Callback*)cb_txt_qth);
+      txt_qth->align(FL_ALIGN_LEFT);
+      txt_qth->when(FL_WHEN_RELEASE);
+    } // Fl_Input2* txt_qth
+    { txt_loc = new Fl_Input2(510, 312, 80, 22, _("LOC"));
+      txt_loc->tooltip(_("Your locator"));
+      txt_loc->box(FL_DOWN_BOX);
+      txt_loc->color((Fl_Color)FL_BACKGROUND2_COLOR);
+      txt_loc->selection_color((Fl_Color)FL_SELECTION_COLOR);
+      txt_loc->labeltype(FL_NORMAL_LABEL);
+      txt_loc->labelfont(0);
+      txt_loc->labelsize(14);
+      txt_loc->labelcolor((Fl_Color)FL_FOREGROUND_COLOR);
+      txt_loc->callback((Fl_Callback*)cb_txt_loc);
+      txt_loc->align(FL_ALIGN_LEFT);
+      txt_loc->when(FL_WHEN_RELEASE);
+    } // Fl_Input2* txt_loc
+    { txt_serial_nbr = new Fl_Input(56, 336, 60, 22, _("Next #"));
+      txt_serial_nbr->tooltip(_("Next serial number to be sent"));
+      txt_serial_nbr->type(2);
+      txt_serial_nbr->callback((Fl_Callback*)cb_txt_serial_nbr);
+    } // Fl_Input* txt_serial_nbr
+    { txt_time_span = new Fl_Input(201, 336, 60, 22, _("Time Span"));
+      txt_time_span->tooltip(_("Min\'s allowed between dups"));
+      txt_time_span->type(2);
+      txt_time_span->callback((Fl_Callback*)cb_txt_time_span);
+    } // Fl_Input* txt_time_span
+    { Fl_Input* o = txt_xout = new Fl_Input(310, 336, 280, 22, _("Xout"));
+      txt_xout->tooltip(_("Exchange out (not serial #)"));
+      txt_xout->callback((Fl_Callback*)cb_txt_xout);
+      o->value(xcvrState.xout.c_str());
+    } // Fl_Input* txt_xout
+    { Fl_Check_Button* o = btn_zeros = new Fl_Check_Button(56, 361, 20, 15, _("Zeros ?"));
+      btn_zeros->tooltip(_("Send nbr as 0nn if < 100"));
+      btn_zeros->down_box(FL_DOWN_BOX);
+      btn_zeros->callback((Fl_Callback*)cb_btn_zeros);
+      o->value(xcvrState.zeros);
+    } // Fl_Check_Button* btn_zeros
+    { Fl_Check_Button* o = btn_ck_band = new Fl_Check_Button(310, 361, 20, 15, _("Ck Band"));
+      btn_ck_band->tooltip(_("Include band for dup check"));
+      btn_ck_band->down_box(FL_DOWN_BOX);
+      btn_ck_band->callback((Fl_Callback*)cb_btn_ck_band);
+      o->value(xcvrState.band);
+    } // Fl_Check_Button* btn_ck_band
+    { Fl_Check_Button* o = btn_ck_time_span = new Fl_Check_Button(201, 361, 20, 15, _("Ck span"));
+      btn_ck_time_span->tooltip(_("Include time span for dup check"));
+      btn_ck_time_span->down_box(FL_DOWN_BOX);
+      btn_ck_time_span->callback((Fl_Callback*)cb_btn_ck_time_span);
+      o->value(xcvrState.time_span);
+    } // Fl_Check_Button* btn_ck_time_span
     o->end();
   } // Fl_Double_Window* o
   return w;

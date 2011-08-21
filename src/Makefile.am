@@ -119,6 +119,7 @@ kcat_SOURCES += \
 	dialogs.cxx \
 	main.cxx \
 	Fl_SigBar.cxx \
+	flinput2.cxx \
 	flslider2.cxx \
 	font_browser.cxx \
 	FreqControl.cxx \
@@ -144,6 +145,7 @@ kcat_SOURCES += \
 	include/icons.h \
 	include/pixmaps.h \
 	include/Fl_SigBar.h \
+	include/flinput2.h \
 	include/flslider2.h \
 	include/font_browser.h \
 	include/FreqControl.h \

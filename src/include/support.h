@@ -195,6 +195,8 @@ extern Fl_Double_Window *dlgDisplayConfig;
 extern Fl_Double_Window *dlgCommsConfig;
 extern Fl_Double_Window *dlgViewLog;
 extern Fl_Double_Window *dlgNRAM;
+extern Fl_Double_Window *dlgScanner;
+extern Fl_Double_Window *dlgCWkeyboard;
 
 extern CSerialComm kcatSerial;
 extern char szttyport[];
@@ -253,5 +255,50 @@ extern int  db_min_cb();
 extern int  db_max_cb();
 extern void update_scanner(int);
 extern void open_scanner();
+
+// CW
+extern void open_keyboard();
+extern void sendCQ();
+
+extern void config_messages();
+
+extern void exec_msg1();
+extern void exec_msg2();
+extern void exec_msg3();
+extern void exec_msg4();
+extern void exec_msg5();
+extern void exec_msg6();
+extern void exec_msg7();
+extern void exec_msg8();
+extern void exec_msg9();
+extern void exec_msg10();
+extern void exec_msg11();
+extern void exec_msg12();
+
+extern void change_txt_cll();
+extern void change_txt_qth();
+extern void change_txt_loc();
+extern void change_txt_opr();
+
+extern void check_call();
+extern void send_message(string msg);
+extern void sendChar(int c);
+extern void do_config_messages(void *);
+extern void ck_band();
+extern void dups();
+extern void zeros();
+extern void time_span();
+extern void serial_nbr();
+extern void apply_edit();
+extern void done_edit();
+extern void cancel_edit();
+
+extern void xml_add_record();
+extern void xml_dup_check();
+extern void connect_to_server();
+
+extern void cb_cancel_transmit();
+extern void cb_send_button();
+extern void close_cw_keyboard();
 
 #endif

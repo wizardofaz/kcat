@@ -430,7 +430,8 @@ static double cwK = 255.0 / (log(2) * 4.0 );
 void setXcvrWPM(double wpm)
 {
 	xcvrState.CWSPEED = wpm;
-	int iWPM = (int)(ceil(cwK * log(wpm/5)));
+	int iWPM = (int)(floor(cwK * log(wpm/5.0)));
+	if (iWPM > 255) iWPM = 255;
 	cmdK_CWSP[2] = iWPM;
 	cmd = cmdK_CWSP;
 	sendCmd(cmd);

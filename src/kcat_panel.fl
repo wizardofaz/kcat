@@ -13,8 +13,7 @@ decl {\#include "support.h"} {}
 
 decl {\#include "status.h"} {} 
 
-Function {kcat_window()} {open
-} {
+Function {kcat_window()} {} {
   Fl_Window {} {
     label kcat open
     xywh {570 59 530 355} type Double color 51
@@ -75,6 +74,11 @@ Fl_Tooltip::enable(xcvrState.tooltips);}
         label Utils open
         xywh {10 10 100 20}
       } {
+        MenuItem mnu_cw_keyboard {
+          label {CW keyboard}
+          callback {open_keyboard();}
+          xywh {0 0 36 21} divider
+        }
         MenuItem mnuAntImp {
           label {&Ant Imped}
           xywh {0 0 100 20} hide
@@ -295,7 +299,7 @@ selectFreq();}
         xywh {408 68 120 210} box FLAT_BOX color 32 selection_color 52 align 20
       } {
         Fl_Button btnSmeter {
-          callback {cbSmeter();} selected
+          callback {cbSmeter();}
           tooltip {Click - change scale} xywh {408 73 32 200} box FLAT_BOX down_box FLAT_BOX color 48 selection_color 48 align 16
           code0 {o->image(image_smeter);}
         }
@@ -704,8 +708,7 @@ Function {NRAMdataDialog()} {} {
   }
 } 
 
-Function {FreqCalibDialog()} {open
-} {
+Function {FreqCalibDialog()} {} {
   Fl_Window {} {
     label {Calibrate to Freq Std} open
     xywh {321 504 285 62} type Double hide
@@ -927,11 +930,10 @@ Fl::scheme(xcvrState.ui_scheme.c_str());} open
   }
 } 
 
-Function {scanner_window()} {open
-} {
+Function {scanner_window()} {} {
   Fl_Window {} {
     label {kcat scanner} open
-    xywh {568 443 530 174} type Double resizable visible
+    xywh {568 443 530 174} type Double hide resizable
   } {
     Fl_Box spectrum_plot {
       label {spectrum plot}
@@ -988,6 +990,467 @@ Function {scanner_window()} {open
       Fl_Box {} {
         xywh {2 168 122 0} align 16 resizable
       }
+    }
+  }
+} 
+
+Function {cwkeyboard_window()} {open
+} {
+  Fl_Window {} {
+    label {kcat CW keyboard} open
+    xywh {571 495 680 178} type Double visible
+  } {
+    Fl_Input txt_to_send {
+      label {input:} selected
+      xywh {2 2 676 70} type Multiline align 16 when 1
+      code0 {\#include "flinput2.h"}
+      code1 {o->wrap(true);}
+      class Fl_Input2
+    }
+    Fl_Button btn_msg1 {
+      label {m 1}
+      callback {exec_msg1();}
+      tooltip {Action - Fkey/Left click
+Edit - Right click} xywh {3 75 54 22}
+    }
+    Fl_Button btn_msg2 {
+      label {m 2}
+      callback {exec_msg2();}
+      tooltip {Action - Fkey/Left click
+Edit - Right click} xywh {59 75 54 22}
+    }
+    Fl_Button btn_msg3 {
+      label {m 3}
+      callback {exec_msg3();}
+      tooltip {Action - Fkey/Left click
+Edit - Right click} xywh {115 75 54 22}
+    }
+    Fl_Button btn_msg4 {
+      label {m 4}
+      callback {exec_msg4();}
+      tooltip {Action - Fkey/Left click
+Edit - Right click} xywh {171 75 54 22}
+    }
+    Fl_Button btn_msg5 {
+      label {m 5}
+      callback {exec_msg5();}
+      tooltip {Action - Fkey/Left click
+Edit - Right click} xywh {228 75 54 22}
+    }
+    Fl_Button btn_msg6 {
+      label {m 6}
+      callback {exec_msg6();}
+      tooltip {Action - Fkey/Left click
+Edit - Right click} xywh {284 75 54 22}
+    }
+    Fl_Button btn_msg7 {
+      label {m 7}
+      callback {exec_msg7();}
+      tooltip {Action - Fkey/Left click
+Edit - Right click} xywh {340 75 54 22}
+    }
+    Fl_Button btn_msg8 {
+      label {m 8}
+      callback {exec_msg8();}
+      tooltip {Action - Fkey/Left click
+Edit - Right click} xywh {396 75 54 22}
+    }
+    Fl_Button btn_msg9 {
+      label {m 9}
+      callback {exec_msg9();}
+      tooltip {Action - Fkey/Left click
+Edit - Right click} xywh {453 75 54 22}
+    }
+    Fl_Button btn_msg10 {
+      label {m 10}
+      callback {exec_msg10();}
+      tooltip {Action - Fkey/Left click
+Edit - Right click} xywh {509 75 54 22}
+    }
+    Fl_Button btn_msg11 {
+      label {m 11}
+      callback {exec_msg11();}
+      tooltip {Action - Fkey/Left click
+Edit - Right click} xywh {565 75 54 22}
+    }
+    Fl_Button btn_msg12 {
+      label {m 12}
+      callback {exec_msg12();}
+      tooltip {Action - Fkey/Left click
+Edit - Right click} xywh {622 75 54 22}
+    }
+    Fl_Button btn_abort {
+      label Abort
+      callback {cb_cancel_transmit();}
+      xywh {473 109 80 22}
+    }
+    Fl_Light_Button btn_send {
+      label Send
+      callback {cb_send_button();}
+      xywh {586 109 80 22}
+    }
+    Fl_Button btn_done_op_dialog {
+      label Close
+      callback {close_cw_keyboard();}
+      xywh {586 136 80 22}
+    }
+    Fl_Group {} {open
+      xywh {2 102 448 73} box ENGRAVED_FRAME
+    } {
+      Fl_Input txt_sta {
+        label STA
+        callback {check_call();}
+        tooltip {Other station} xywh {5 121 100 22} align 5 when 1
+        class Fl_Input2
+      }
+      Fl_Input txt_name {
+        label NAM
+        tooltip {Other operator} xywh {117 121 100 22} align 5
+        class Fl_Input2
+      }
+      Fl_Input txt_freq {
+        label {Freq:}
+        callback {check_call();}
+        tooltip {Frequency (MHz preferred)} xywh {228 121 100 22} align 5 when 1
+      }
+      Fl_Input txt_xchg {
+        label X_in
+        tooltip {Rcvd Contest Exchange} xywh {340 121 100 22} align 5 when 1
+        class Fl_Input2
+      }
+      Fl_Button btn_log_it {
+        label Log
+        callback {xml_add_record();}
+        xywh {229 146 54 22} deactivate
+      }
+      Fl_Button btn_clear {
+        label Clear
+        callback {txt_sta->value("");
+txt_name->value("");
+txt_xchg->value("");
+txt_sta->color(FL_BACKGROUND2_COLOR);
+txt_sta->take_focus();}
+        xywh {10 146 54 22}
+      }
+      Fl_Check_Button btn_dups {
+        label {Ck Dups}
+        callback {dups();}
+        tooltip {Check for duplicates} xywh {341 149 20 15} down_box DOWN_BOX deactivate
+        code0 {o->value(xcvrState.dups);}
+      }
+      Fl_Check_Button btnConnect {
+        label Connect
+        callback {connect_to_server();}
+        tooltip {Connect to fllog server} xywh {119 149 70 15} down_box DOWN_BOX
+      }
+    }
+    Fl_Button btn_messages {
+      label Configure
+      callback {config_messages();}
+      xywh {473 136 80 22}
+    }
+  }
+} 
+
+Function {message_editor()} {open
+} {
+  Fl_Window {} {
+    label {Configure CW Keyboard} open
+    xywh {602 442 600 382} type Double hide
+  } {
+    Fl_Box {} {
+      label {Msg Label}
+      xywh {12 2 84 19}
+    }
+    Fl_Box {} {
+      label {Message Text}
+      xywh {201 2 223 19}
+    }
+    Fl_Input label_1 {
+      label {1:}
+      xywh {30 23 50 22}
+      code0 {\#include "flinput2.h"}
+      class Fl_Input2
+    }
+    Fl_Input edit_msg1 {
+      xywh {85 23 375 22}
+      class Fl_Input2
+    }
+    Fl_Input label_2 {
+      label {2:}
+      xywh {30 47 50 22}
+      class Fl_Input2
+    }
+    Fl_Input edit_msg2 {
+      xywh {85 47 375 22}
+      class Fl_Input2
+    }
+    Fl_Input label_3 {
+      label {3:}
+      xywh {30 71 50 22}
+      class Fl_Input2
+    }
+    Fl_Input edit_msg3 {
+      xywh {85 71 375 22}
+      class Fl_Input2
+    }
+    Fl_Input label_4 {
+      label {4:}
+      xywh {30 95 50 22}
+      class Fl_Input2
+    }
+    Fl_Input edit_msg4 {
+      xywh {85 95 375 22}
+      class Fl_Input2
+    }
+    Fl_Input label_5 {
+      label {5:}
+      xywh {30 119 50 22}
+      class Fl_Input2
+    }
+    Fl_Input edit_msg5 {
+      xywh {85 119 375 22}
+      class Fl_Input2
+    }
+    Fl_Input label_6 {
+      label {6:}
+      xywh {30 143 50 22}
+      class Fl_Input2
+    }
+    Fl_Input edit_msg6 {
+      xywh {85 143 375 22}
+      class Fl_Input2
+    }
+    Fl_Input label_7 {
+      label {7:}
+      xywh {30 167 50 22}
+      class Fl_Input2
+    }
+    Fl_Input edit_msg7 {
+      xywh {85 167 375 22}
+      class Fl_Input2
+    }
+    Fl_Input label_8 {
+      label {8:}
+      xywh {30 192 50 22}
+      class Fl_Input2
+    }
+    Fl_Input edit_msg8 {
+      xywh {85 192 375 22}
+      class Fl_Input2
+    }
+    Fl_Input label_9 {
+      label {9:}
+      xywh {30 216 50 22}
+      class Fl_Input2
+    }
+    Fl_Input edit_msg9 {
+      xywh {85 216 375 22}
+      class Fl_Input2
+    }
+    Fl_Input label_10 {
+      label {10:}
+      xywh {30 240 50 22}
+      class Fl_Input2
+    }
+    Fl_Input edit_msg10 {
+      xywh {85 240 375 22}
+      class Fl_Input2
+    }
+    Fl_Input label_11 {
+      label {11:}
+      xywh {29 264 50 22}
+      class Fl_Input2
+    }
+    Fl_Input edit_msg11 {
+      xywh {84 264 375 22}
+      class Fl_Input2
+    }
+    Fl_Input label_12 {
+      label {12:}
+      xywh {30 288 50 22}
+      class Fl_Input2
+    }
+    Fl_Input edit_msg12 {
+      xywh {85 288 375 22}
+      class Fl_Input2
+    }
+    Fl_Group {} {open
+      xywh {464 4 65 252} box ENGRAVED_FRAME
+    } {
+      Fl_Box {} {
+        label Tags
+        xywh {469 7 54 20}
+      }
+      Fl_Box {} {
+        label {<CLL>}
+        tooltip {Your call} xywh {469 36 55 20}
+      }
+      Fl_Box {} {
+        label {<QTH>}
+        tooltip {Your qth} xywh {469 56 55 20}
+      }
+      Fl_Box {} {
+        label {<LOC>}
+        tooltip {Your location} xywh {469 76 55 20}
+      }
+      Fl_Box {} {
+        label {<OPR>}
+        tooltip {Your name} xywh {469 96 55 20}
+      }
+      Fl_Box {} {
+        label {<STA>}
+        tooltip {Other stations callsign} xywh {469 115 55 20}
+      }
+      Fl_Box {} {
+        label {<NAM>}
+        tooltip {Other stations name} xywh {469 134 55 20}
+      }
+      Fl_Box {} {
+        label {<\#>}
+        tooltip {Serial OUT} xywh {469 151 55 20}
+      }
+      Fl_Box {} {
+        label {<+>}
+        tooltip {Increment serial \#} xywh {469 170 55 20}
+      }
+      Fl_Box {} {
+        label {<->}
+        tooltip {Decrement serial \#} xywh {469 189 55 20}
+      }
+      Fl_Box {} {
+        label {<LOG>}
+        tooltip {Append entry to logbook} xywh {469 208 55 20}
+      }
+      Fl_Box {} {
+        label {<X>}
+        tooltip {Xout text} xywh {469 229 55 20}
+      }
+    }
+    Fl_Group {} {open
+      xywh {529 4 65 252} box ENGRAVED_FRAME
+    } {
+      Fl_Box {} {
+        label ProSign
+        xywh {532 7 59 20}
+      }
+      Fl_Box {} {
+        label {* AA}
+        tooltip {.-..-.} xywh {531 36 60 20}
+      }
+      Fl_Box {} {
+        label {@@ AC}
+        tooltip {.--.-.} xywh {531 56 60 20}
+      }
+      Fl_Box {} {
+        label {+ AR}
+        tooltip {.-.-.} xywh {531 75 60 20}
+      }
+      Fl_Box {} {
+        label {% AS}
+        tooltip {.----.} xywh {531 94 60 20}
+      }
+      Fl_Box {} {
+        label {= BT}
+        tooltip {-...-} xywh {531 114 60 20}
+      }
+      Fl_Box {} {
+        label {- DU}
+        tooltip {-....-} xywh {531 133 60 20}
+      }
+      Fl_Box {} {
+        label {( KK}
+        tooltip {-.--.-} xywh {531 152 60 20}
+      }
+      Fl_Box {} {
+        label {) KN}
+        tooltip {-.--.} xywh {531 172 60 20}
+      }
+      Fl_Box {} {
+        label {] SK}
+        tooltip {...-.-} xywh {531 191 60 20}
+      }
+      Fl_Box {} {
+        label {[ SN}
+        tooltip {.-.-.} xywh {531 210 60 20}
+      }
+      Fl_Box {} {
+        label {$ SX}
+        tooltip {...-..-} xywh {531 229 60 20}
+      }
+    }
+    Fl_Button btn_done_edit {
+      label Done
+      callback {done_edit();}
+      xywh {539 288 56 22}
+    }
+    Fl_Button btn_cancel_edit {
+      label Cancel
+      callback {cancel_edit();}
+      xywh {469 264 65 22}
+    }
+    Fl_Button btn_apply_edit {
+      label Apply
+      callback {apply_edit();}
+      xywh {469 288 65 22}
+    }
+    Fl_Input txt_cll {
+      label CLL
+      callback {change_txt_cll();}
+      tooltip {Your callsign} xywh {36 312 80 22}
+      class Fl_Input2
+    }
+    Fl_Input txt_opr {
+      label OPR
+      callback {change_txt_opr();}
+      xywh {181 312 80 22}
+      class Fl_Input2
+    }
+    Fl_Input txt_qth {
+      label QTH
+      callback {change_txt_qth();}
+      tooltip {Your QTH} xywh {310 312 150 22}
+      class Fl_Input2
+    }
+    Fl_Input txt_loc {
+      label LOC
+      callback {change_txt_loc();}
+      tooltip {Your locator} xywh {510 312 80 22}
+      class Fl_Input2
+    }
+    Fl_Input txt_serial_nbr {
+      label {Next \#}
+      callback {serial_nbr();}
+      tooltip {Next serial number to be sent} xywh {56 336 60 22} type Int
+    }
+    Fl_Input txt_time_span {
+      label {Time Span}
+      callback {time_span();}
+      tooltip {Min's allowed between dups} xywh {201 336 60 22} type Int
+    }
+    Fl_Input txt_xout {
+      label Xout
+      callback {xcvrState.xout=o->value();}
+      tooltip {Exchange out (not serial \#)} xywh {310 336 280 22}
+      code0 {o->value(xcvrState.xout.c_str());}
+    }
+    Fl_Check_Button btn_zeros {
+      label {Zeros ?}
+      callback {zeros();}
+      tooltip {Send nbr as 0nn if < 100} xywh {56 361 20 15} down_box DOWN_BOX
+      code0 {o->value(xcvrState.zeros);}
+    }
+    Fl_Check_Button btn_ck_band {
+      label {Ck Band}
+      callback {ck_band();}
+      tooltip {Include band for dup check} xywh {310 361 20 15} down_box DOWN_BOX
+      code0 {o->value(xcvrState.band);}
+    }
+    Fl_Check_Button btn_ck_time_span {
+      label {Ck span}
+      callback {time_span();}
+      tooltip {Include time span for dup check} xywh {201 361 20 15} down_box DOWN_BOX
+      code0 {o->value(xcvrState.time_span);}
     }
   }
 } 
