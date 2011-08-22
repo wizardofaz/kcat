@@ -998,10 +998,10 @@ Function {cwkeyboard_window()} {open
 } {
   Fl_Window {} {
     label {kcat CW keyboard} open
-    xywh {571 495 680 178} type Double visible
+    xywh {571 495 680 178} type Double hide
   } {
     Fl_Input txt_to_send {
-      label {input:} selected
+      label {input:}
       xywh {2 2 676 70} type Multiline align 16 when 1
       code0 {\#include "flinput2.h"}
       code1 {o->wrap(true);}
@@ -1135,13 +1135,13 @@ txt_sta->take_focus();}
       Fl_Check_Button btn_dups {
         label {Ck Dups}
         callback {dups();}
-        tooltip {Check for duplicates} xywh {341 149 20 15} down_box DOWN_BOX deactivate
+        tooltip {Check for duplicates} xywh {341 149 90 15} down_box DOWN_BOX deactivate
         code0 {o->value(xcvrState.dups);}
       }
       Fl_Check_Button btnConnect {
         label Connect
         callback {connect_to_server();}
-        tooltip {Connect to fllog server} xywh {119 149 70 15} down_box DOWN_BOX
+        tooltip {Connect to fllog server} xywh {119 149 85 15} down_box DOWN_BOX
       }
     }
     Fl_Button btn_messages {
@@ -1437,19 +1437,19 @@ Function {message_editor()} {open
     Fl_Check_Button btn_zeros {
       label {Zeros ?}
       callback {zeros();}
-      tooltip {Send nbr as 0nn if < 100} xywh {56 361 20 15} down_box DOWN_BOX
+      tooltip {Send nbr as 0nn if < 100} xywh {56 361 87 15} down_box DOWN_BOX
       code0 {o->value(xcvrState.zeros);}
     }
     Fl_Check_Button btn_ck_band {
       label {Ck Band}
-      callback {ck_band();}
-      tooltip {Include band for dup check} xywh {310 361 20 15} down_box DOWN_BOX
+      callback {ck_band();} selected
+      tooltip {Include band for dup check} xywh {310 361 88 15} down_box DOWN_BOX
       code0 {o->value(xcvrState.band);}
     }
     Fl_Check_Button btn_ck_time_span {
       label {Ck span}
       callback {time_span();}
-      tooltip {Include time span for dup check} xywh {201 361 20 15} down_box DOWN_BOX
+      tooltip {Include time span for dup check} xywh {201 361 88 15} down_box DOWN_BOX
       code0 {o->value(xcvrState.time_span);}
     }
   }

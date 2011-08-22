@@ -116,6 +116,7 @@ clean-local:
 
 # Sources that we build. It is OK to have headers here.
 kcat_SOURCES += \
+	date.cxx \
 	dialogs.cxx \
 	main.cxx \
 	Fl_SigBar.cxx \
@@ -137,8 +138,10 @@ kcat_SOURCES += \
 	status.cxx \
 	util.cxx \
 	ValueSlider.cxx \
+	xmlrpc_log.cxx \
 	XYplot.cxx \
 	include/cstack.h \
+	include/date.h \
 	include/debug.h \
 	include/dialogs.h \
 	include/gettext.h \

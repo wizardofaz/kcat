@@ -60,12 +60,13 @@ CONFIG_CLEAN_VPATH_FILES =
 am__installdirs = "$(DESTDIR)$(bindir)"
 PROGRAMS = $(bin_PROGRAMS)
 am__kcat_SOURCES_DIST = kcat.rc include/kcatrc.h mingw.c \
-	include/compat.h include/compat-mingw.h dialogs.cxx main.cxx \
-	Fl_SigBar.cxx flinput2.cxx flslider2.cxx font_browser.cxx \
-	FreqControl.cxx images.cxx IOspec.cxx kcat_io.cxx \
-	kcat_panel.cxx serialcomm.cxx support.cxx telemetry.cxx \
-	cstack.cxx debug.cxx icons.cxx pixmaps.cxx status.cxx util.cxx \
-	ValueSlider.cxx XYplot.cxx include/cstack.h include/debug.h \
+	include/compat.h include/compat-mingw.h date.cxx dialogs.cxx \
+	main.cxx Fl_SigBar.cxx flinput2.cxx flslider2.cxx \
+	font_browser.cxx FreqControl.cxx images.cxx IOspec.cxx \
+	kcat_io.cxx kcat_panel.cxx serialcomm.cxx support.cxx \
+	telemetry.cxx cstack.cxx debug.cxx icons.cxx pixmaps.cxx \
+	status.cxx util.cxx ValueSlider.cxx xmlrpc_log.cxx XYplot.cxx \
+	include/cstack.h include/date.h include/debug.h \
 	include/dialogs.h include/gettext.h include/icons.h \
 	include/pixmaps.h include/Fl_SigBar.h include/flinput2.h \
 	include/flslider2.h include/font_browser.h \
@@ -91,17 +92,18 @@ am__kcat_SOURCES_DIST = kcat.rc include/kcatrc.h mingw.c \
 	xmlrpcpp/XmlRpcValue.h xmlrpcpp/base64.h
 am__objects_1 = kcat.$(OBJEXT) kcat-mingw.$(OBJEXT)
 @HAVE_WINDRES_TRUE@@MINGW32_TRUE@am__objects_2 = $(am__objects_1)
-am_kcat_OBJECTS = $(am__objects_2) kcat-dialogs.$(OBJEXT) \
-	kcat-main.$(OBJEXT) kcat-Fl_SigBar.$(OBJEXT) \
-	kcat-flinput2.$(OBJEXT) kcat-flslider2.$(OBJEXT) \
-	kcat-font_browser.$(OBJEXT) kcat-FreqControl.$(OBJEXT) \
-	kcat-images.$(OBJEXT) kcat-IOspec.$(OBJEXT) \
-	kcat-kcat_io.$(OBJEXT) kcat-kcat_panel.$(OBJEXT) \
-	kcat-serialcomm.$(OBJEXT) kcat-support.$(OBJEXT) \
-	kcat-telemetry.$(OBJEXT) kcat-cstack.$(OBJEXT) \
-	kcat-debug.$(OBJEXT) kcat-icons.$(OBJEXT) \
-	kcat-pixmaps.$(OBJEXT) kcat-status.$(OBJEXT) \
-	kcat-util.$(OBJEXT) kcat-ValueSlider.$(OBJEXT) \
+am_kcat_OBJECTS = $(am__objects_2) kcat-date.$(OBJEXT) \
+	kcat-dialogs.$(OBJEXT) kcat-main.$(OBJEXT) \
+	kcat-Fl_SigBar.$(OBJEXT) kcat-flinput2.$(OBJEXT) \
+	kcat-flslider2.$(OBJEXT) kcat-font_browser.$(OBJEXT) \
+	kcat-FreqControl.$(OBJEXT) kcat-images.$(OBJEXT) \
+	kcat-IOspec.$(OBJEXT) kcat-kcat_io.$(OBJEXT) \
+	kcat-kcat_panel.$(OBJEXT) kcat-serialcomm.$(OBJEXT) \
+	kcat-support.$(OBJEXT) kcat-telemetry.$(OBJEXT) \
+	kcat-cstack.$(OBJEXT) kcat-debug.$(OBJEXT) \
+	kcat-icons.$(OBJEXT) kcat-pixmaps.$(OBJEXT) \
+	kcat-status.$(OBJEXT) kcat-util.$(OBJEXT) \
+	kcat-ValueSlider.$(OBJEXT) kcat-xmlrpc_log.$(OBJEXT) \
 	kcat-XYplot.$(OBJEXT) kcat-xml_io.$(OBJEXT) \
 	kcat-XmlRpcClient.$(OBJEXT) kcat-XmlRpcDispatch.$(OBJEXT) \
 	kcat-XmlRpcMutex.$(OBJEXT) kcat-XmlRpcServer.$(OBJEXT) \
@@ -286,12 +288,13 @@ MINGW32_SRC = \
 EXTRA_kcat_SOURCES = $(kcat_WIN32_RES_SRC) $(MINGW32_SRC)
 
 # Sources that we build. It is OK to have headers here.
-kcat_SOURCES = $(am__append_1) dialogs.cxx main.cxx Fl_SigBar.cxx \
-	flinput2.cxx flslider2.cxx font_browser.cxx FreqControl.cxx \
-	images.cxx IOspec.cxx kcat_io.cxx kcat_panel.cxx \
-	serialcomm.cxx support.cxx telemetry.cxx cstack.cxx debug.cxx \
-	icons.cxx pixmaps.cxx status.cxx util.cxx ValueSlider.cxx \
-	XYplot.cxx include/cstack.h include/debug.h include/dialogs.h \
+kcat_SOURCES = $(am__append_1) date.cxx dialogs.cxx main.cxx \
+	Fl_SigBar.cxx flinput2.cxx flslider2.cxx font_browser.cxx \
+	FreqControl.cxx images.cxx IOspec.cxx kcat_io.cxx \
+	kcat_panel.cxx serialcomm.cxx support.cxx telemetry.cxx \
+	cstack.cxx debug.cxx icons.cxx pixmaps.cxx status.cxx util.cxx \
+	ValueSlider.cxx xmlrpc_log.cxx XYplot.cxx include/cstack.h \
+	include/date.h include/debug.h include/dialogs.h \
 	include/gettext.h include/icons.h include/pixmaps.h \
 	include/Fl_SigBar.h include/flinput2.h include/flslider2.h \
 	include/font_browser.h include/FreqControl.h include/images.h \
@@ -479,6 +482,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/kcat-XmlRpcUtil.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/kcat-XmlRpcValue.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/kcat-cstack.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/kcat-date.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/kcat-debug.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/kcat-dialogs.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/kcat-flinput2.Po@am__quote@
@@ -497,6 +501,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/kcat-telemetry.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/kcat-util.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/kcat-xml_io.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/kcat-xmlrpc_log.Po@am__quote@
 
 .c.o:
 @am__fastdepCC_TRUE@	$(COMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ $<
@@ -539,6 +544,20 @@ kcat-mingw.obj: mingw.c
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='$<' object='$@' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(CXXCOMPILE) -c -o $@ `$(CYGPATH_W) '$<'`
+
+kcat-date.o: date.cxx
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -MT kcat-date.o -MD -MP -MF $(DEPDIR)/kcat-date.Tpo -c -o kcat-date.o `test -f 'date.cxx' || echo '$(srcdir)/'`date.cxx
+@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/kcat-date.Tpo $(DEPDIR)/kcat-date.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='date.cxx' object='kcat-date.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -c -o kcat-date.o `test -f 'date.cxx' || echo '$(srcdir)/'`date.cxx
+
+kcat-date.obj: date.cxx
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -MT kcat-date.obj -MD -MP -MF $(DEPDIR)/kcat-date.Tpo -c -o kcat-date.obj `if test -f 'date.cxx'; then $(CYGPATH_W) 'date.cxx'; else $(CYGPATH_W) '$(srcdir)/date.cxx'; fi`
+@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/kcat-date.Tpo $(DEPDIR)/kcat-date.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='date.cxx' object='kcat-date.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -c -o kcat-date.obj `if test -f 'date.cxx'; then $(CYGPATH_W) 'date.cxx'; else $(CYGPATH_W) '$(srcdir)/date.cxx'; fi`
 
 kcat-dialogs.o: dialogs.cxx
 @am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -MT kcat-dialogs.o -MD -MP -MF $(DEPDIR)/kcat-dialogs.Tpo -c -o kcat-dialogs.o `test -f 'dialogs.cxx' || echo '$(srcdir)/'`dialogs.cxx
@@ -833,6 +852,20 @@ kcat-ValueSlider.obj: ValueSlider.cxx
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='ValueSlider.cxx' object='kcat-ValueSlider.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -c -o kcat-ValueSlider.obj `if test -f 'ValueSlider.cxx'; then $(CYGPATH_W) 'ValueSlider.cxx'; else $(CYGPATH_W) '$(srcdir)/ValueSlider.cxx'; fi`
+
+kcat-xmlrpc_log.o: xmlrpc_log.cxx
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -MT kcat-xmlrpc_log.o -MD -MP -MF $(DEPDIR)/kcat-xmlrpc_log.Tpo -c -o kcat-xmlrpc_log.o `test -f 'xmlrpc_log.cxx' || echo '$(srcdir)/'`xmlrpc_log.cxx
+@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/kcat-xmlrpc_log.Tpo $(DEPDIR)/kcat-xmlrpc_log.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='xmlrpc_log.cxx' object='kcat-xmlrpc_log.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -c -o kcat-xmlrpc_log.o `test -f 'xmlrpc_log.cxx' || echo '$(srcdir)/'`xmlrpc_log.cxx
+
+kcat-xmlrpc_log.obj: xmlrpc_log.cxx
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -MT kcat-xmlrpc_log.obj -MD -MP -MF $(DEPDIR)/kcat-xmlrpc_log.Tpo -c -o kcat-xmlrpc_log.obj `if test -f 'xmlrpc_log.cxx'; then $(CYGPATH_W) 'xmlrpc_log.cxx'; else $(CYGPATH_W) '$(srcdir)/xmlrpc_log.cxx'; fi`
+@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/kcat-xmlrpc_log.Tpo $(DEPDIR)/kcat-xmlrpc_log.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='xmlrpc_log.cxx' object='kcat-xmlrpc_log.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -c -o kcat-xmlrpc_log.obj `if test -f 'xmlrpc_log.cxx'; then $(CYGPATH_W) 'xmlrpc_log.cxx'; else $(CYGPATH_W) '$(srcdir)/xmlrpc_log.cxx'; fi`
 
 kcat-XYplot.o: XYplot.cxx
 @am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -MT kcat-XYplot.o -MD -MP -MF $(DEPDIR)/kcat-XYplot.Tpo -c -o kcat-XYplot.o `test -f 'XYplot.cxx' || echo '$(srcdir)/'`XYplot.cxx

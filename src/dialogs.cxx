@@ -2116,7 +2116,6 @@ void sendChar(int c)
 	if (c == ' ' || c == '\n') {
 		sendWordSpace();
 		char_duration = 7 * 1200.0 / xcvrState.CWSPEED;
-printf("%d\n", (int)char_duration);
 		return;
 	}
 	int base = toupper(c) - 32;
@@ -2137,7 +2136,6 @@ printf("%d\n", (int)char_duration);
 	char_duration += 3;
 	char_duration *= 1200;
 	char_duration /= xcvrState.CWSPEED;
-printf("%d\n", (int)char_duration);
 }
 
 void sendString(string s)
@@ -2233,6 +2231,8 @@ void check_call()
 
 	if (btn_dups->value())
 		xml_dup_check();
+	else
+		xml_get_record(chkcall.c_str());
 }
 
 void serial_nbr()
@@ -2341,16 +2341,4 @@ void exec_msg11()
 void exec_msg12()
 {
 	send_message(xcvrState.edit_msg12);
-}
-
-void xml_add_record()
-{
-}
-
-void xml_dup_check()
-{
-}
-
-void connect_to_server()
-{
 }

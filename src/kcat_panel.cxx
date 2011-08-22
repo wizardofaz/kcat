@@ -2129,14 +2129,14 @@ Fl_Double_Window* cwkeyboard_window() {
       { btn_clear = new Fl_Button(10, 146, 54, 22, _("Clear"));
         btn_clear->callback((Fl_Callback*)cb_btn_clear);
       } // Fl_Button* btn_clear
-      { Fl_Check_Button* o = btn_dups = new Fl_Check_Button(341, 149, 20, 15, _("Ck Dups"));
+      { Fl_Check_Button* o = btn_dups = new Fl_Check_Button(341, 149, 90, 15, _("Ck Dups"));
         btn_dups->tooltip(_("Check for duplicates"));
         btn_dups->down_box(FL_DOWN_BOX);
         btn_dups->callback((Fl_Callback*)cb_btn_dups);
         btn_dups->deactivate();
         o->value(xcvrState.dups);
       } // Fl_Check_Button* btn_dups
-      { btnConnect = new Fl_Check_Button(119, 149, 70, 15, _("Connect"));
+      { btnConnect = new Fl_Check_Button(119, 149, 85, 15, _("Connect"));
         btnConnect->tooltip(_("Connect to fllog server"));
         btnConnect->down_box(FL_DOWN_BOX);
         btnConnect->callback((Fl_Callback*)cb_btnConnect);
@@ -2702,19 +2702,19 @@ Fl_Double_Window* message_editor() {
       txt_xout->callback((Fl_Callback*)cb_txt_xout);
       o->value(xcvrState.xout.c_str());
     } // Fl_Input* txt_xout
-    { Fl_Check_Button* o = btn_zeros = new Fl_Check_Button(56, 361, 20, 15, _("Zeros ?"));
+    { Fl_Check_Button* o = btn_zeros = new Fl_Check_Button(56, 361, 87, 15, _("Zeros ?"));
       btn_zeros->tooltip(_("Send nbr as 0nn if < 100"));
       btn_zeros->down_box(FL_DOWN_BOX);
       btn_zeros->callback((Fl_Callback*)cb_btn_zeros);
       o->value(xcvrState.zeros);
     } // Fl_Check_Button* btn_zeros
-    { Fl_Check_Button* o = btn_ck_band = new Fl_Check_Button(310, 361, 20, 15, _("Ck Band"));
+    { Fl_Check_Button* o = btn_ck_band = new Fl_Check_Button(310, 361, 88, 15, _("Ck Band"));
       btn_ck_band->tooltip(_("Include band for dup check"));
       btn_ck_band->down_box(FL_DOWN_BOX);
       btn_ck_band->callback((Fl_Callback*)cb_btn_ck_band);
       o->value(xcvrState.band);
     } // Fl_Check_Button* btn_ck_band
-    { Fl_Check_Button* o = btn_ck_time_span = new Fl_Check_Button(201, 361, 20, 15, _("Ck span"));
+    { Fl_Check_Button* o = btn_ck_time_span = new Fl_Check_Button(201, 361, 88, 15, _("Ck span"));
       btn_ck_time_span->tooltip(_("Include time span for dup check"));
       btn_ck_time_span->down_box(FL_DOWN_BOX);
       btn_ck_time_span->callback((Fl_Callback*)cb_btn_ck_time_span);

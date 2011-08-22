@@ -293,6 +293,7 @@ extern void apply_edit();
 extern void done_edit();
 extern void cancel_edit();
 
+extern void xml_get_record(const char *);
 extern void xml_add_record();
 extern void xml_dup_check();
 extern void connect_to_server();
