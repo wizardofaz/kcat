@@ -1,0 +1,102 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+
+
+
+  
+  <meta content="text/html; charset=ISO-8859-1" http-equiv="content-type"><title>FreqCalDialog</title></head><body style="color: rgb(0, 0, 0); background-color: rgb(255, 255, 204);" alink="#000099" link="#000099" vlink="#990099">
+
+<h2>Frequency Calibration Dialog</h2>
+
+<img style="width: 291px; height: 86px; float: left;" alt="" src="images/FreqCal.png" align="left" hspace="8" vspace="5">Select
+the frequency for the frequency calibration measurement. &nbsp;The MHz
+is selected by the outside arrow buttons and tenths of MHz with the
+inner buttons. &nbsp;The range for frequency measurement is 5.0 to 15.0
+MHz.<br>
+
+<br>
+
+After selecting the frequency press the Calibrate button. &nbsp;The
+transceiver will be set to receive on the selected frequency using CW
+in 1000 Hz bandwidth. &nbsp;You should hear the remote signal at your
+usual CW sidetone frequency. &nbsp;If you have the sidetone set to 700
+Hz then you will hear a 700 Hz tone. &nbsp;The transceiver will now
+make a series of signal level measurements to determine whether there
+is sufficient strength upon which to make the measurement. &nbsp;You
+will be notified of its viability in accordance with:<br>
+
+<br>
+
+<table style="width: 40%; text-align: left; margin-left: auto; margin-right: auto;" border="0" cellpadding="2" cellspacing="2">
+
+  <tbody>
+
+    <tr>
+
+      <td style="text-align: left;">&lt; 0.1 uV</td>
+
+      <td>Too small</td>
+
+      <td>No measurement taken</td>
+
+    </tr>
+
+    <tr>
+
+      <td>0.1 to 1.0 uV</td>
+
+      <td>Marginal</td>
+
+      <td>Option to calibrate given</td>
+
+    </tr>
+
+    <tr>
+
+      <td>&gt; 1.0 uV</td>
+
+      <td>Sufficient</td>
+
+      <td>Measurement made</td>
+
+    </tr>
+
+  
+  </tbody>
+</table>
+
+<br>
+If the signal reports as too low or of marginal quality you may select
+a different frequency and press calibrate again to test that
+frequencies viability.<br>
+<br>
+Upon successful calibration a notification message box is displayed.
+&nbsp;You may then return to the normal receiver operation by pressing
+Finished.<br>
+<br>
+If you are also using fldigi you can fine tune the calibration using it's Frequency Analysis mode.<br>
+<br>
+<table style="text-align: left; width: 100%;" border="0" cellpadding="2" cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top;">
+      <ol>
+        <li>Select the Analysis mode in fldigi</li>
+        <li>Set the waterfall to the x4 scale</li>
+        <li>Set kcat for USB, 2700 Hz bandwidth</li>
+        <li>Set the frequency to the WWV frequency less 1000 Hz, ie: 9999.000 kHz</li>
+        <li>Adjust the Vfo Adj control to zero beat the 1000 Hz detected WWV carrier.<br>
+As you adjust the control the carrier will move with respect to the ideal.<br>
+        </li>
+      </ol>
+      <br>
+      </td>
+      <td style="vertical-align: top;"><img style="width: 303px; height: 228px;" alt="" src="images/wwv-cal.png"><br>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<br>
+
+
+</body></html>

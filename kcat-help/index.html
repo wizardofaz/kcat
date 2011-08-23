@@ -1,0 +1,233 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <meta content="text/html; charset=ISO-8859-1" http-equiv="content-type"><title>kcat_index</title>
+  <meta content="w1hkj, Dave Freese" name="author"></head><body style="color: rgb(0, 0, 0); background-color: rgb(255, 255, 204);" alink="#000099" link="#000099" vlink="#990099"><h1>kcat<br>
+</h1>
+<div style="text-align: right;">
+<h4>11 July 2011, Version 1.0.02</h4>
+</div>
+This is a computer control program for the Kachina 505DSP
+transceiver.&nbsp; The program is supported on the following operating
+systems:<br>
+<ul>
+  <li>Linux</li>
+  <li>Puppy-linux</li>
+  <li>OS X</li>
+  <li>Windows 2000</li>
+  <li>Windows NT</li>
+  <li>Windows XP</li>
+  <li>Windows Vista</li>
+  <li>Windows Win7</li>
+</ul>
+<div style="text-align: center;"><img style="width: 538px; height: 313px;" alt="" src="images/kcat.png"><br>
+<br>
+</div>
+<br><h3>First time setup</h3>
+<table style="text-align: left; width: 100%;" border="0" cellpadding="2" cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top; text-align: right;"><img style="width: 363px; height: 225px;" alt="" src="images/Serial-port-select.png"><br>
+</td>
+      <td style="vertical-align: top;">You will need to select
+the serial port to which your transceiver is connected.&nbsp; This
+screen capture shows the ports on one of my Linux systems.&nbsp;
+Windows would list the COM ports that are installed (and not currently
+in use).<br>
+      <br>
+Select TEST if you want to test drive the program without actually
+connecting to the 505.&nbsp; If you do select TEST this dialog will
+appear every time you start the program.&nbsp; The program will attempt
+to use the last used serial port when starting after a satisfactory
+operating session.<br>
+      <br>
+      <br>
+</td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top; text-align: right;"><img style="width: 432px; height: 323px;" alt="" src="images/kcat-colors.png" hspace="10"></td>
+      <td style="vertical-align: top;">The
+program allows you to control many aspects of the user interface
+including fonts, foreground colors, background colors, lighted button
+colors, and the Scheme (general appearance of controls).&nbsp; Here is
+an example of a possible set of user choices:<br>
+      <br>
+      <img style="width: 538px; height: 313px;" alt="" src="images/ugly-colors.png"><br>
+      </td>
+    </tr>
+    
+    
+    
+    
+<tr>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;">After
+you become familiar with the various controls you will probably want to
+turn off the tooltips.&nbsp; Uncheck the "Enable tooltips" menu item on
+the "Config" menu.<br>
+      </td>
+    </tr>
+    
+
+
+  </tbody>
+</table>
+<br>
+<h3>Operating Controls</h3>
+<br>
+<table style="text-align: left; width: 100%;" border="0" cellpadding="2" cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top;">
+      <div style="margin-left: 40px;"><img style="width: 348px; height: 66px;" alt="" src="images/frequency-controls.png" hspace="10"><br>
+      <br>
+      <img style="width: 352px; height: 117px;" alt="" src="images/frequency-controls-2.png"><br>
+      </div>
+      </td>
+      <td style="vertical-align: top;">The
+frequency display is also a
+control.&nbsp; Each numeric is sensitive to mouse left/right buttons
+for up/down and to the mouse scroll wheel for rapidly changing
+values.&nbsp; Click on any of the numeric segments and you can enter a
+new frequency using the keyboard numeric keypad.&nbsp; If you make an
+error simply enter a non-numeric key (press the Esc key).&nbsp; Use the
+period key to separate the kHz from the Hz value.&nbsp; Set the newly
+entered frequency by
+pressing the Enter key.<br>
+      <br>
+The second image shows the tool tip for the frequency control<br>
+      <br>
+Vfo-A and Vfo-B are separate controls, A on the left, B on the right.<br>
+      <br>
+When the mouse pointer is over the frequency display you can also change frequency values using the arrow and page key buttons:<br>
+      <ul>
+        <li>left / right arrow - increase / decrease 1 Hz</li>
+        <li>up / down arrow - increase / decrease 10 Hz</li>
+        <li>Page Up / Page Down - increase / decrease 100 Hz</li>
+      </ul>These buttons control how each vfo is used<br>
+      <img style="width: 351px; height: 21px;" alt="" src="images/vfo-buttons.png"><br>
+      <ul>
+        <li><img style="width: 43px; height: 19px;" alt="" src="images/AA.png">&nbsp;- Rx on A, Tx on A</li>
+        <li><img style="width: 42px; height: 21px;" alt="" src="images/AB.png">&nbsp;- Rx on A, Tx on B</li>
+        <li><img style="width: 39px; height: 21px;" alt="" src="images/AtoB.png">&nbsp;- transfer vfoA to vfoB</li>
+        <li><img style="width: 42px; height: 21px;" alt="" src="images/BtoA.png">&nbsp;- transfer vfoB to vfoA</li>
+        <li><img style="width: 43px; height: 21px;" alt="" src="images/BA.png">&nbsp;- Rx on B, Tx on A</li>
+        <li><img style="width: 42px; height: 21px;" alt="" src="images/BB.png">&nbsp;- Rx on B, Tx on B</li>
+      </ul>
+Each "vfo" consists of the frequency, mode, bandwidth triad.<br>
+      <br>
+
+
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top; text-align: center;"><img style="width: 180px; height: 65px;" alt="" src="images/vfo-list.png"><br>
+      </td>
+      <td style="vertical-align: top;">The active vfo triad can be saved to the vfo list using the&nbsp;<img style="width: 24px; height: 22px;" alt="" src="images/savevfo.png"> button,<br>
+the selected vfo triad can be deleted from the list using the <img style="width: 24px; height: 22px;" alt="" src="images/deletevfo.png"> button, and<br>
+all of the entries can be deleted using the <img style="width: 22px; height: 21px;" alt="" src="images/deleteall.png"> button<br>
+      </td>
+    </tr>
+<tr>
+      <td style="vertical-align: top; text-align: center;"><img style="width: 406px; height: 65px;" alt="" src="images/sliders.png" hspace="10"><br>
+      </td>
+      <td style="vertical-align: top;">The
+buttons that have a light box are toggles - activated when the lighted
+box is colored.&nbsp;
+Some of these are linked to a slider.&nbsp; If the button state is
+inactive then that associated slider will be greyed out.&nbsp; In the
+example the volume control is active and the RIT and IF shift controls
+are
+inactive.&nbsp; The volume slider will be greyed out when the Spkr
+button is not illuminated.&nbsp; Sliders can also be adjusted using the mouse
+wheel when the mouse cursor is over the intended control.<br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top; text-align: right;"><br>
+      <table style="text-align: left; width: 100%;" border="0" cellpadding="2" cellspacing="2">
+        <tbody>
+          <tr>
+            <td style="vertical-align: top;">
+            <div style="text-align: center;"><img style="width: 150px; height: 73px;" alt="" src="images/fldigi-kcat.png"><br>
+            </div>
+            <div style="text-align: center;">
+Fldigi Xcvr Controls</div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <br>
+
+      </td>
+      <td style="vertical-align: top;"><span style="font-weight: bold;">Connecting kcat to fldigi<br>
+      <br>
+</span>
+Xmlrpc is used via a local socket device for the two
+programs to communicate.&nbsp; fldigi acts as the server and kcat the
+client.&nbsp; There is no requirement for start / stop ordering of the
+programs.&nbsp; Your local firewall should be set up to allow fldigi access to the 127.0.0.1 socket address.<br>
+      <br>kcat sends rig configuration data to fldigi when the two programs
+initially recognize each other.&nbsp; This data is used to populate the
+rig name, the available modes and the available bandwidths.<br>
+      <br>
+After this initial communications the operator can set the paired
+controls from either fldigi or kcat.&nbsp; The two programs will
+remain sychronized.<br>
+      <br>
+PTT can be activated at kcat or using the T/R button on fldigi.&nbsp;
+fldigi also engages the PTT via the macro &lt;TX&gt; &lt;RX&gt;
+tags.&nbsp; When operating digital modes with fldigi you need to use the
+PTT from fldigi.<br>
+      </td>
+    </tr><tr>
+      <td style="vertical-align: top; text-align: center;"><img style="width: 403px; height: 35px;" alt="" src="images/open-extra.png"><br>
+      </td>
+      <td style="vertical-align: top;">Additional Controls<br>
+      <br>
+Access to additional controls is obtained by pressing the <a href="kcat-extras.html" target="_blank">down-arrow button</a>.<br>
+      </td>
+    </tr><tr>
+      <td style="vertical-align: top; text-align: center;"><img style="width: 126px; height: 35px;" alt="" src="images/AntennaControl.png"><br>
+      </td>
+      <td style="vertical-align: top;"><span style="font-weight: bold;">Antenna Ports</span><br>
+      <br>
+You can set the antenna combinations of A/B, Rx/Tx to be used with
+various frequency bands.&nbsp; The menu item Config / Antenna Ports
+provides access to the set up dialog.&nbsp; You can also over ride
+those settings by choosing from the Ant: table pick list.&nbsp; <a href="AntPortsDialog.html" target="_blank">details on antenna port selection and setup</a><br>
+      </td>
+    </tr>
+    
+
+
+
+  </tbody>
+</table>
+<br>
+<br>
+</body></html>
