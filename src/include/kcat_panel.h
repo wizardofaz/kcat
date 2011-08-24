@@ -74,6 +74,7 @@ extern Fl_Choice *mnuCWmode;
 #include <FL/Fl_Check_Button.H>
 extern Fl_Check_Button *btnQSKonoff;
 extern Fl_Group *CW2tab;
+extern Fl_Counter *cntrFARNSWORTH;
 extern Fl_Counter *sldrSideTone;
 extern Fl_Choice *mnuCWoffset;
 extern Fl_Choice *mnuCWdefFilter;

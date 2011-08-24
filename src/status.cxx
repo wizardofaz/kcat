@@ -61,6 +61,8 @@ struct XCVRSTATE xcvrState = {
 	0.5, // MICGAIN
 	0.05, //CWMON 
 	20.0, // CWSPEED
+	false, // bool	FARNSWORTH;
+	15.0, // double	FARNSWORTH_WPM;
 
 	0.0, // NR_LEVEL
 	0.0, // RITFREQ
@@ -293,6 +295,8 @@ void XCVRSTATE::saveLastState()
 	spref.set("micgain", MICGAIN);
 	spref.set("cwmon", CWMON);
 	spref.set("cwspeed", CWSPEED);
+	spref.set("farnsworth", FARNSWORTH);
+	spref.set("farnsworth_wpm", FARNSWORTH_WPM);
 
 	spref.set("nr_level", NR_LEVEL);
 	spref.set("ritfreq", RITFREQ);
@@ -474,6 +478,8 @@ void XCVRSTATE::loadLastState()
 		spref.get("micgain", MICGAIN, MICGAIN);
 		spref.get("cwmon", CWMON, CWMON);
 		spref.get("cwspeed", CWSPEED, CWSPEED);
+		spref.get("farnsworth", i, FARNSWORTH); FARNSWORTH = i;
+		spref.get("farnsworth_wpm", FARNSWORTH_WPM, FARNSWORTH_WPM);
 
 		spref.get("nr_level", NR_LEVEL, NR_LEVEL);
 		spref.get("ritfreq", RITFREQ, RITFREQ);

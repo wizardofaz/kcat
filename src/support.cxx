@@ -752,6 +752,11 @@ void cbCarrier()
 void cbWPM()
 {
 	setXcvrWPM(cntrWPM->value());
+	cntrFARNSWORTH->maximum(cntrWPM->value());
+	if (cntrFARNSWORTH->value() > cntrWPM->value()) {
+		cntrFARNSWORTH->value(cntrWPM->value());
+		xcvrState.FARNSWORTH_WPM = cntrWPM->value();
+	}
 }
 
 void cbSPOT()

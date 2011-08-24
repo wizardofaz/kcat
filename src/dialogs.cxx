@@ -2113,9 +2113,10 @@ void close_cw_keyboard()
 double char_duration = 60.0; //1200.0 / 20;
 void sendChar(int c)
 {
+	int CWSPEED = xcvrState.FARNSWORTH ? xcvrState.FARNSWORTH_WPM : xcvrState.CWSPEED;
 	if (c == ' ' || c == '\n') {
 		sendWordSpace();
-		char_duration = 7 * 1200.0 / xcvrState.CWSPEED;
+		char_duration = 7 * 1200.0 / CWSPEED;
 		return;
 	}
 	int base = toupper(c) - 32;
@@ -2135,7 +2136,7 @@ void sendChar(int c)
 	sendCharSpace();
 	char_duration += 3;
 	char_duration *= 1200;
-	char_duration /= xcvrState.CWSPEED;
+	char_duration /= CWSPEED;
 }
 
 void sendString(string s)

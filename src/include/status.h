@@ -46,6 +46,8 @@ struct XCVRSTATE {
 	double	MICGAIN;
 	double	CWMON;
 	double	CWSPEED;
+	bool	FARNSWORTH;
+	double	FARNSWORTH_WPM;
 
 	double	NR_LEVEL; // min
 	double	RITFREQ;

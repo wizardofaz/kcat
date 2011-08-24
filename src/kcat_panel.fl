@@ -13,7 +13,8 @@ decl {\#include "support.h"} {}
 
 decl {\#include "status.h"} {} 
 
-Function {kcat_window()} {} {
+Function {kcat_window()} {open
+} {
   Fl_Window {} {
     label kcat open
     xywh {570 59 530 355} type Double color 51
@@ -377,7 +378,7 @@ selectFreq();}
     } {
       Fl_Group CWtab {
         label CW open
-        xywh {1 302 526 50} color 50 selection_color 50
+        xywh {1 302 526 50} color 50 selection_color 50 hide
       } {
         Fl_Light_Button btnSPOT {
           label Spot
@@ -387,7 +388,7 @@ selectFreq();}
         Fl_Counter cntrWPM {
           label Wpm
           callback {cbWPM();}
-          xywh {59 310 90 22} minimum 5 maximum 80 step 1 value 18
+          tooltip {Char rate in WPM} xywh {59 310 90 22} minimum 5 maximum 80 step 1 value 18
           code0 {o->lstep(5);}
         }
         Fl_Value_Slider sldrCWweight {
@@ -417,25 +418,38 @@ selectFreq();}
       }
       Fl_Group CW2tab {
         label {CW -xtra} open
-        xywh {2 302 525 50} color 50 selection_color 50 hide
+        xywh {2 302 525 50} color 50 selection_color 50
       } {
+        Fl_Counter cntrFARNSWORTH {
+          callback {xcvrState.FARNSWORTH_WPM = (int)o->value();} selected
+          tooltip {Word rate in WPM} xywh {14 307 90 22} align 0 minimum 5 maximum 80 step 1 value 18
+          code0 {o->lstep(5);}
+          code1 {o->maximum(cntrWPM->value());}
+          code2 {o->value(xcvrState.FARNSWORTH_WPM);}
+        }
+        Fl_Check_Button {} {
+          label Farnsworth
+          callback {xcvrState.FARNSWORTH = o->value();}
+          tooltip {Enable Farnsworth CW} xywh {14 332 103 15} down_box DOWN_BOX
+          code0 {o->value(xcvrState.FARNSWORTH);}
+        }
         Fl_Counter sldrSideTone {
-          label {S-T/Spch-Mon Level}
+          label {S-T/Spch-Mon}
           callback {cbSidetone();}
-          tooltip {Side tone volume} xywh {40 310 100 22} minimum 0 maximum 100 step 1 value 24
+          tooltip {Side tone volume} xywh {142 307 100 22} minimum 0 maximum 100 step 1 value 24
           code0 {o->lstep(10);}
         }
         Fl_Choice mnuCWoffset {
           label Offset
           callback {cbCWoffset();} open
-          xywh {217 310 100 22} down_box BORDER_BOX align 2
+          xywh {280 307 100 22} down_box BORDER_BOX align 2
           code0 {o->add("300|400|500|600|700|800");}
           code1 {o->value(4);}
         } {}
         Fl_Choice mnuCWdefFilter {
           label {Def' Filt'}
           callback {cbCWdefFilter();} open
-          xywh {395 310 100 22} down_box BORDER_BOX align 2
+          xywh {419 307 100 22} down_box BORDER_BOX align 2
           code0 {o->add("Wide|Narrow");}
           code1 {o->value(1);}
         } {}
@@ -1442,7 +1456,7 @@ Function {message_editor()} {open
     }
     Fl_Check_Button btn_ck_band {
       label {Ck Band}
-      callback {ck_band();} selected
+      callback {ck_band();}
       tooltip {Include band for dup check} xywh {310 361 88 15} down_box DOWN_BOX
       code0 {o->value(xcvrState.band);}
     }
