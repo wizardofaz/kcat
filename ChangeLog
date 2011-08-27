@@ -1,6 +1,13 @@
-2011-08-24  David Freese  <w1hkj@w1hkj.com>
 
+
+=Version 1.1.00=
+
+2011-08-27  David Freese  <w1hkj@w1hkj.com>
+
+	7535b52: CW Kbd Fkeys
+	41b9624: Help update
 	b3c5407: Farnsworth CW
+	c177527: Help
 	3125a1c: logbook server
 	4aeb503: CW keyboard
 
