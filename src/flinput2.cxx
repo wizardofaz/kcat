@@ -31,6 +31,7 @@
 #include <FL/Fl_Input.H>
 #include <FL/Fl_Menu_Item.H>
 #include <FL/Fl_Tooltip.H>
+#include <FL/Enumerations.H>
 
 #include "icons.h"
 #include "flinput2.h"
@@ -60,6 +61,7 @@ Fl_Input2::Fl_Input2(int x, int y, int w, int h, const char* l)
 				set_icon_label(&cmenu[i]);
 		cmenu_init = true;
 	}
+	cbFunc = NULL;
 }
 
 void Fl_Input2::add(const char *str)
@@ -74,6 +76,10 @@ int Fl_Input2::handle(int event)
 	case FL_KEYBOARD: {
 		int b = Fl::event_key();
 		int p = position();
+		if (b >= FL_F+1 && b <= FL_F+12) {
+			do_callback(b - FL_F);
+			return 1;
+		}
 		// stop the move-to-next-field madness, we have Tab for that!
 		if (unlikely((b == FL_Left && p == 0) || (b == FL_Right && p == size()) ||
 			     (b == FL_Up && line_start(p) == 0) ||

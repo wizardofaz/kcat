@@ -2155,9 +2155,32 @@ void cb_send_button()
 //	txt_to_send->redraw();
 }
 
+void do_fkey(int b)
+{
+printf("func key %d", b);
+	switch (b) {
+		case 1: exec_msg1(); break; 
+		case 2: exec_msg2(); break; 
+		case 3: exec_msg3(); break; 
+		case 4: exec_msg4(); break; 
+		case 5: exec_msg5(); break; 
+		case 6: exec_msg6(); break; 
+		case 7: exec_msg7(); break; 
+		case 8: exec_msg8(); break; 
+		case 9: exec_msg9(); break; 
+		case 10: exec_msg10(); break; 
+		case 11: exec_msg11(); break; 
+		case 12: exec_msg12(); break; 
+		default: break;
+	}
+}
+
 void open_keyboard()
 {
-	if (!dlgCWkeyboard) dlgCWkeyboard = cwkeyboard_window();
+	if (!dlgCWkeyboard) {
+		dlgCWkeyboard = cwkeyboard_window();
+		txt_to_send->setCallback(do_fkey);
+	}
 	if (!dialog_messages) dialog_messages = message_editor();
 	update_msg_labels();
 	dlgCWkeyboard->show();
