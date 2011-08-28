@@ -71,6 +71,11 @@ extern Fl_Double_Window *dlgDisplayConfig;
 extern Fl_Double_Window *dlgCommsConfig;
 extern Fl_Double_Window *dlgNRAM;
 extern Font_Browser     *fntbrowser;
+extern Fl_Double_Window *dlgScanner;
+extern Fl_Double_Window *dlgCWkeyboard;
+extern Fl_Double_Window *dialog_messages;
+
+extern void do_fkey(int b);
 
 string homedir = "";
 char defFileName[200];
@@ -214,6 +219,9 @@ int main (int argc, char *argv[])
 	dlgAntPorts = FreqRangesDialog();
 	dlgDisplayConfig = DisplayDialog();
 	dlgCommsConfig = CommsDialog();
+	dlgCWkeyboard = cwkeyboard_window();
+	txt_to_send->setCallback(do_fkey);
+	dialog_messages = message_editor();
 
 	char dirbuf[FL_PATH_MAX + 1];
 #ifdef __WIN32__

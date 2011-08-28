@@ -649,6 +649,7 @@ void initXcvrState()
 	sldrVoxDelay->value(xcvrState.VOXDELAY);
 	sldrVoxLevel->value(xcvrState.VOXLEVEL);
 	cntrWPM->value(xcvrState.CWSPEED);
+	cntrWPM2->value(xcvrState.CWSPEED);
 	sldrCWattack->value(xcvrState.CWATTACK);
 	sldrCWweight->value(xcvrState.CWWEIGHT);
 	sldrCompression->value(xcvrState.SPEECHCOMP);

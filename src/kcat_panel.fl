@@ -378,7 +378,7 @@ selectFreq();}
     } {
       Fl_Group CWtab {
         label CW open
-        xywh {1 302 526 50} color 50 selection_color 50 hide
+        xywh {1 302 526 50} color 50 selection_color 50
       } {
         Fl_Light_Button btnSPOT {
           label Spot
@@ -387,9 +387,11 @@ selectFreq();}
         }
         Fl_Counter cntrWPM {
           label Wpm
-          callback {cbWPM();}
+          callback {cntrWPM2->value(o->value());
+cbWPM();}
           tooltip {Char rate in WPM} xywh {59 310 90 22} minimum 5 maximum 80 step 1 value 18
-          code0 {o->lstep(5);}
+          code0 {extern Fl_Counter *cntrWPM2;}
+          code1 {o->lstep(5);}
         }
         Fl_Value_Slider sldrCWweight {
           label {         Lite        Hvy}
@@ -418,38 +420,25 @@ selectFreq();}
       }
       Fl_Group CW2tab {
         label {CW -xtra} open
-        xywh {2 302 525 50} color 50 selection_color 50
+        xywh {2 302 525 50} color 50 selection_color 50 hide
       } {
-        Fl_Counter cntrFARNSWORTH {
-          callback {xcvrState.FARNSWORTH_WPM = (int)o->value();} selected
-          tooltip {Word rate in WPM} xywh {14 307 90 22} align 0 minimum 5 maximum 80 step 1 value 18
-          code0 {o->lstep(5);}
-          code1 {o->maximum(cntrWPM->value());}
-          code2 {o->value(xcvrState.FARNSWORTH_WPM);}
-        }
-        Fl_Check_Button {} {
-          label Farnsworth
-          callback {xcvrState.FARNSWORTH = o->value();}
-          tooltip {Enable Farnsworth CW} xywh {14 332 103 15} down_box DOWN_BOX
-          code0 {o->value(xcvrState.FARNSWORTH);}
-        }
         Fl_Counter sldrSideTone {
           label {S-T/Spch-Mon}
           callback {cbSidetone();}
-          tooltip {Side tone volume} xywh {142 307 100 22} minimum 0 maximum 100 step 1 value 24
+          tooltip {Side tone volume} xywh {49 307 100 22} minimum 0 maximum 100 step 1 value 24
           code0 {o->lstep(10);}
         }
         Fl_Choice mnuCWoffset {
           label Offset
           callback {cbCWoffset();} open
-          xywh {280 307 100 22} down_box BORDER_BOX align 2
+          xywh {220 307 100 22} down_box BORDER_BOX align 2
           code0 {o->add("300|400|500|600|700|800");}
           code1 {o->value(4);}
         } {}
         Fl_Choice mnuCWdefFilter {
           label {Def' Filt'}
           callback {cbCWdefFilter();} open
-          xywh {419 307 100 22} down_box BORDER_BOX align 2
+          xywh {391 307 100 22} down_box BORDER_BOX align 2
           code0 {o->add("Wide|Narrow");}
           code1 {o->value(1);}
         } {}
@@ -1012,7 +1001,7 @@ Function {cwkeyboard_window()} {open
 } {
   Fl_Window {} {
     label {kcat CW keyboard} open
-    xywh {571 495 680 178} type Double hide
+    xywh {579 547 680 178} type Double visible
   } {
     Fl_Input txt_to_send {
       label {input:}
@@ -1093,20 +1082,20 @@ Edit - Right click} xywh {565 75 54 22}
       tooltip {Action - Fkey/Left click
 Edit - Right click} xywh {622 75 54 22}
     }
+    Fl_Button btn_messages {
+      label Configure
+      callback {config_messages();}
+      xywh {456 103 80 22}
+    }
     Fl_Button btn_abort {
       label Abort
       callback {cb_cancel_transmit();}
-      xywh {473 109 80 22}
+      xywh {545 103 60 22}
     }
     Fl_Light_Button btn_send {
       label Send
       callback {cb_send_button();}
-      xywh {586 109 80 22}
-    }
-    Fl_Button btn_done_op_dialog {
-      label Close
-      callback {close_cw_keyboard();}
-      xywh {586 136 80 22}
+      xywh {615 103 60 22}
     }
     Fl_Group {} {open
       xywh {2 102 448 73} box ENGRAVED_FRAME
@@ -1158,10 +1147,26 @@ txt_sta->take_focus();}
         tooltip {Connect to fllog server} xywh {119 149 85 15} down_box DOWN_BOX
       }
     }
-    Fl_Button btn_messages {
-      label Configure
-      callback {config_messages();}
-      xywh {473 136 80 22}
+    Fl_Counter cntrFARNSWORTH {
+      callback {xcvrState.FARNSWORTH_WPM = (int)o->value();}
+      tooltip {Word rate in WPM} xywh {567 132 90 22} align 0 minimum 5 maximum 80 step 1 value 18
+      code0 {o->lstep(5);}
+      code1 {o->maximum(cntrWPM->value());}
+      code2 {o->value(xcvrState.FARNSWORTH_WPM);}
+    }
+    Fl_Check_Button {} {
+      label Farnsworth
+      callback {xcvrState.FARNSWORTH = o->value();}
+      tooltip {Enable Farnsworth CW} xywh {567 157 103 15} down_box DOWN_BOX
+      code0 {o->value(xcvrState.FARNSWORTH);}
+    }
+    Fl_Counter cntrWPM2 {
+      label Wpm
+      callback {cntrWPM->value(o->value());
+cbWPM();} selected
+      tooltip {Char rate in WPM} xywh {464 133 90 22} minimum 5 maximum 80 step 1 value 18
+      code0 {extern Fl_Counter *cntrWPM;}
+      code1 {o->lstep(5);}
     }
   }
 } 

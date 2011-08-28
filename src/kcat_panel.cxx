@@ -341,8 +341,9 @@ static void cb_btnSPOT(Fl_Light_Button*, void*) {
 
 Fl_Counter *cntrWPM=(Fl_Counter *)0;
 
-static void cb_cntrWPM(Fl_Counter*, void*) {
-  cbWPM();
+static void cb_cntrWPM(Fl_Counter* o, void*) {
+  cntrWPM2->value(o->value());
+cbWPM();
 }
 
 Fl_Wheel_Value_Slider *sldrCWweight=(Fl_Wheel_Value_Slider *)0;
@@ -370,16 +371,6 @@ static void cb_btnQSKonoff(Fl_Check_Button*, void*) {
 }
 
 Fl_Group *CW2tab=(Fl_Group *)0;
-
-Fl_Counter *cntrFARNSWORTH=(Fl_Counter *)0;
-
-static void cb_cntrFARNSWORTH(Fl_Counter* o, void*) {
-  xcvrState.FARNSWORTH_WPM = (int)o->value();
-}
-
-static void cb_Farnsworth(Fl_Check_Button* o, void*) {
-  xcvrState.FARNSWORTH = o->value();
-}
 
 Fl_Counter *sldrSideTone=(Fl_Counter *)0;
 
@@ -918,7 +909,6 @@ Fl_Double_Window* kcat_window() {
       { CWtab = new Fl_Group(1, 302, 526, 50, _("CW"));
         CWtab->color((Fl_Color)FL_LIGHT1);
         CWtab->selection_color((Fl_Color)FL_LIGHT1);
-        CWtab->hide();
         { btnSPOT = new Fl_Light_Button(2, 310, 55, 22, _("Spot"));
           btnSPOT->callback((Fl_Callback*)cb_btnSPOT);
         } // Fl_Light_Button* btnSPOT
@@ -982,25 +972,8 @@ Fl_Double_Window* kcat_window() {
       { CW2tab = new Fl_Group(2, 302, 525, 50, _("CW -xtra"));
         CW2tab->color((Fl_Color)FL_LIGHT1);
         CW2tab->selection_color((Fl_Color)FL_LIGHT1);
-        { Fl_Counter* o = cntrFARNSWORTH = new Fl_Counter(14, 307, 90, 22);
-          cntrFARNSWORTH->tooltip(_("Word rate in WPM"));
-          cntrFARNSWORTH->minimum(5);
-          cntrFARNSWORTH->maximum(80);
-          cntrFARNSWORTH->step(1);
-          cntrFARNSWORTH->value(18);
-          cntrFARNSWORTH->callback((Fl_Callback*)cb_cntrFARNSWORTH);
-          cntrFARNSWORTH->align(FL_ALIGN_CENTER);
-          o->lstep(5);
-          o->maximum(cntrWPM->value());
-          o->value(xcvrState.FARNSWORTH_WPM);
-        } // Fl_Counter* cntrFARNSWORTH
-        { Fl_Check_Button* o = new Fl_Check_Button(14, 332, 103, 15, _("Farnsworth"));
-          o->tooltip(_("Enable Farnsworth CW"));
-          o->down_box(FL_DOWN_BOX);
-          o->callback((Fl_Callback*)cb_Farnsworth);
-          o->value(xcvrState.FARNSWORTH);
-        } // Fl_Check_Button* o
-        { Fl_Counter* o = sldrSideTone = new Fl_Counter(142, 307, 100, 22, _("S-T/Spch-Mon"));
+        CW2tab->hide();
+        { Fl_Counter* o = sldrSideTone = new Fl_Counter(49, 307, 100, 22, _("S-T/Spch-Mon"));
           sldrSideTone->tooltip(_("Side tone volume"));
           sldrSideTone->minimum(0);
           sldrSideTone->maximum(100);
@@ -1009,14 +982,14 @@ Fl_Double_Window* kcat_window() {
           sldrSideTone->callback((Fl_Callback*)cb_sldrSideTone);
           o->lstep(10);
         } // Fl_Counter* sldrSideTone
-        { Fl_Choice* o = mnuCWoffset = new Fl_Choice(280, 307, 100, 22, _("Offset"));
+        { Fl_Choice* o = mnuCWoffset = new Fl_Choice(220, 307, 100, 22, _("Offset"));
           mnuCWoffset->down_box(FL_BORDER_BOX);
           mnuCWoffset->callback((Fl_Callback*)cb_mnuCWoffset);
           mnuCWoffset->align(FL_ALIGN_BOTTOM);
           o->add("300|400|500|600|700|800");
           o->value(4);
         } // Fl_Choice* mnuCWoffset
-        { Fl_Choice* o = mnuCWdefFilter = new Fl_Choice(419, 307, 100, 22, _("Def\' Filt\'"));
+        { Fl_Choice* o = mnuCWdefFilter = new Fl_Choice(391, 307, 100, 22, _("Def\' Filt\'"));
           mnuCWdefFilter->down_box(FL_BORDER_BOX);
           mnuCWdefFilter->callback((Fl_Callback*)cb_mnuCWdefFilter);
           mnuCWdefFilter->align(FL_ALIGN_BOTTOM);
@@ -1964,6 +1937,12 @@ static void cb_btn_msg12(Fl_Button*, void*) {
   exec_msg12();
 }
 
+Fl_Button *btn_messages=(Fl_Button *)0;
+
+static void cb_btn_messages(Fl_Button*, void*) {
+  config_messages();
+}
+
 Fl_Button *btn_abort=(Fl_Button *)0;
 
 static void cb_btn_abort(Fl_Button*, void*) {
@@ -1974,12 +1953,6 @@ Fl_Light_Button *btn_send=(Fl_Light_Button *)0;
 
 static void cb_btn_send(Fl_Light_Button*, void*) {
   cb_send_button();
-}
-
-Fl_Button *btn_done_op_dialog=(Fl_Button *)0;
-
-static void cb_btn_done_op_dialog(Fl_Button*, void*) {
-  close_cw_keyboard();
 }
 
 Fl_Input2 *txt_sta=(Fl_Input2 *)0;
@@ -2026,10 +1999,21 @@ static void cb_btnConnect(Fl_Check_Button*, void*) {
   connect_to_server();
 }
 
-Fl_Button *btn_messages=(Fl_Button *)0;
+Fl_Counter *cntrFARNSWORTH=(Fl_Counter *)0;
 
-static void cb_btn_messages(Fl_Button*, void*) {
-  config_messages();
+static void cb_cntrFARNSWORTH(Fl_Counter* o, void*) {
+  xcvrState.FARNSWORTH_WPM = (int)o->value();
+}
+
+static void cb_Farnsworth(Fl_Check_Button* o, void*) {
+  xcvrState.FARNSWORTH = o->value();
+}
+
+Fl_Counter *cntrWPM2=(Fl_Counter *)0;
+
+static void cb_cntrWPM2(Fl_Counter* o, void*) {
+  cntrWPM->value(o->value());
+cbWPM();
 }
 
 Fl_Double_Window* cwkeyboard_window() {
@@ -2097,15 +2081,15 @@ Fl_Double_Window* cwkeyboard_window() {
       btn_msg12->tooltip(_("Action - Fkey/Left click\nEdit - Right click"));
       btn_msg12->callback((Fl_Callback*)cb_btn_msg12);
     } // Fl_Button* btn_msg12
-    { btn_abort = new Fl_Button(473, 109, 80, 22, _("Abort"));
+    { btn_messages = new Fl_Button(456, 103, 80, 22, _("Configure"));
+      btn_messages->callback((Fl_Callback*)cb_btn_messages);
+    } // Fl_Button* btn_messages
+    { btn_abort = new Fl_Button(545, 103, 60, 22, _("Abort"));
       btn_abort->callback((Fl_Callback*)cb_btn_abort);
     } // Fl_Button* btn_abort
-    { btn_send = new Fl_Light_Button(586, 109, 80, 22, _("Send"));
+    { btn_send = new Fl_Light_Button(615, 103, 60, 22, _("Send"));
       btn_send->callback((Fl_Callback*)cb_btn_send);
     } // Fl_Light_Button* btn_send
-    { btn_done_op_dialog = new Fl_Button(586, 136, 80, 22, _("Close"));
-      btn_done_op_dialog->callback((Fl_Callback*)cb_btn_done_op_dialog);
-    } // Fl_Button* btn_done_op_dialog
     { Fl_Group* o = new Fl_Group(2, 102, 448, 73);
       o->box(FL_ENGRAVED_FRAME);
       { txt_sta = new Fl_Input2(5, 121, 100, 22, _("STA"));
@@ -2172,9 +2156,33 @@ Fl_Double_Window* cwkeyboard_window() {
       } // Fl_Check_Button* btnConnect
       o->end();
     } // Fl_Group* o
-    { btn_messages = new Fl_Button(473, 136, 80, 22, _("Configure"));
-      btn_messages->callback((Fl_Callback*)cb_btn_messages);
-    } // Fl_Button* btn_messages
+    { Fl_Counter* o = cntrFARNSWORTH = new Fl_Counter(567, 132, 90, 22);
+      cntrFARNSWORTH->tooltip(_("Word rate in WPM"));
+      cntrFARNSWORTH->minimum(5);
+      cntrFARNSWORTH->maximum(80);
+      cntrFARNSWORTH->step(1);
+      cntrFARNSWORTH->value(18);
+      cntrFARNSWORTH->callback((Fl_Callback*)cb_cntrFARNSWORTH);
+      cntrFARNSWORTH->align(FL_ALIGN_CENTER);
+      o->lstep(5);
+      o->maximum(cntrWPM->value());
+      o->value(xcvrState.FARNSWORTH_WPM);
+    } // Fl_Counter* cntrFARNSWORTH
+    { Fl_Check_Button* o = new Fl_Check_Button(567, 157, 103, 15, _("Farnsworth"));
+      o->tooltip(_("Enable Farnsworth CW"));
+      o->down_box(FL_DOWN_BOX);
+      o->callback((Fl_Callback*)cb_Farnsworth);
+      o->value(xcvrState.FARNSWORTH);
+    } // Fl_Check_Button* o
+    { Fl_Counter* o = cntrWPM2 = new Fl_Counter(464, 133, 90, 22, _("Wpm"));
+      cntrWPM2->tooltip(_("Char rate in WPM"));
+      cntrWPM2->minimum(5);
+      cntrWPM2->maximum(80);
+      cntrWPM2->step(1);
+      cntrWPM2->value(18);
+      cntrWPM2->callback((Fl_Callback*)cb_cntrWPM2);
+      o->lstep(5);
+    } // Fl_Counter* cntrWPM2
     o->end();
   } // Fl_Double_Window* o
   return w;

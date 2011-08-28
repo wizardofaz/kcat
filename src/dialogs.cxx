@@ -35,6 +35,7 @@ Fl_Double_Window *dlgCommsConfig = NULL;
 Fl_Double_Window *dlgNRAM = NULL;
 Fl_Double_Window *dlgScanner = NULL;
 Fl_Double_Window *dlgCWkeyboard = NULL;
+Fl_Double_Window *dialog_messages = NULL;
 
 Font_Browser     *fntbrowser = NULL;
 
@@ -1873,7 +1874,6 @@ void open_scanner()
 //======================================================================
 // message configuration dialog
 //======================================================================
-Fl_Double_Window *dialog_messages = (Fl_Double_Window *)0;
 
 void config_messages()
 {
@@ -2150,14 +2150,10 @@ void sendString(string s)
 void cb_send_button()
 {
 	return;
-//	sendString(txt_to_send->value());
-//	txt_to_send->value("");
-//	txt_to_send->redraw();
 }
 
 void do_fkey(int b)
 {
-printf("func key %d", b);
 	switch (b) {
 		case 1: exec_msg1(); break; 
 		case 2: exec_msg2(); break; 
