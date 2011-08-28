@@ -1,8 +1,13 @@
 
 
-=Version 1.1.00=
+=Version 1.1.01=
 
-2011-08-27  David Freese  <w1hkj@w1hkj.com>
+2011-08-28  David Freese  <w1hkj@w1hkj.com>
+
+	847dbb9: WPM controls
+
+
+=Version 1.1.00=
 
 	7535b52: CW Kbd Fkeys
 	41b9624: Help update
