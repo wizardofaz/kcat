@@ -1,10 +1,16 @@
 
 
+=Version 1.0.02=
+
+2013-02-05  David Freese  <w1hkj@w1hkj.com>
+
+	045c5bc: M4 build
+	92cb2a2: Autotune / IF shift
+
+
 =Version 1.1.01=
 
-2011-08-28  David Freese  <w1hkj@w1hkj.com>
-
-	847dbb9: WPM controls
+	bddfe83: WPM controls
 
 
 =Version 1.1.00=
