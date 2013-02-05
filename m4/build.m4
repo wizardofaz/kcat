@@ -17,7 +17,7 @@ AC_DEFUN([AC_kcat_BUILD_INFO], [
 # LDFLAGS
   kcat_BUILD_LDFLAGS=
 # LDADD
-  kcat_BUILD_LDADD="$FLTK_LIBS $EXTRA_LIBS $PTW32_LIBS"
+  kcat_BUILD_LDADD="$FLTK_LIBS $X_LIBS $EXTRA_LIBS $PTW32_LIBS"
 
   if test "x$ac_cv_debug" = "xyes"; then
       kcat_BUILD_CXXFLAGS="$kcat_BUILD_CXXFLAGS -UNDEBUG"
