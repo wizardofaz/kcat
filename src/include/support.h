@@ -94,6 +94,7 @@ extern void setPower();
 extern void setPTT(void *);
 extern void cbWPM();
 extern void cbAntSel();
+extern void cb_autotune(int);
 extern void cbTune();
 extern void cbPTT();
 extern void cbCarrier();

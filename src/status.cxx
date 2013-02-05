@@ -42,6 +42,7 @@ struct XCVRSTATE xcvrState = {
 	0, // SPEECHPROC
 	0, // SPEECHCOMP
 	1, // ANTTUNE
+	0, // autotune
 
 	0, // EQUALIZER
 	0, // PREAMP
@@ -276,6 +277,7 @@ void XCVRSTATE::saveLastState()
 	spref.set("speecproc", SPEECHPROC);
 	spref.set("speechcomp", SPEECHCOMP);
 	spref.set("anttune", ANTTUNE);
+	spref.set("autotune", autotune);
 
 	spref.set("equalizer", EQUALIZER);
 	spref.set("preamp", PREAMP);
@@ -459,6 +461,7 @@ void XCVRSTATE::loadLastState()
 		spref.get("speecproc", SPEECHPROC, SPEECHPROC);
 		spref.get("speechcomp", SPEECHCOMP, SPEECHCOMP);
 		spref.get("anttune", ANTTUNE, ANTTUNE);
+		spref.get("autotune", autotune, autotune);
 
 		spref.get("equalizer", EQUALIZER, EQUALIZER);
 		spref.get("preamp", PREAMP, PREAMP);
@@ -639,7 +642,7 @@ void XCVRSTATE::loadLastState()
 	btnPreamp->selection_color(btn_lt_color);
 	btnNR->selection_color(btn_lt_color);
 	btnNotch->selection_color(btn_lt_color);
-	btnTune->selection_color(btn_lt_color);
+	btn_autotune->selection_color(btn_lt_color);
 	btnPTT->selection_color(btn_lt_color);
 	btnSPOT->selection_color(btn_lt_color);
 	btnVoxOnOff->selection_color(btn_lt_color);

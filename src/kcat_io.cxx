@@ -393,8 +393,12 @@ void setXcvrNRlevel(double nr)
 // Transceiver TUNE mode
 void setXcvrTune(int val)
 {
-	cmdK_ATU0[2] = val & 0xFF;
-	cmd = cmdK_ATU0;
+	if (val == 0)
+		cmd = cmdK_ATU0;
+	else if (val == 1)
+		cmd = cmdK_ATU1;
+	else
+		cmd = cmdK_ATU2;
 	sendCmd(cmd);
 	LOG_INFO("%s : %s", str2hex(cmd.c_str(), cmd[0]+1), retval.c_str());
 }
@@ -718,8 +722,10 @@ void initXcvrState()
 	cbbtnSpchProc();
 	cbsldrCompression();
 
-	cmdK_ATU0[2] = xcvrState.ANTTUNE;	// ****
-	sendCommand(cmdK_ATU0);
+	if (xcvrState.autotune) {
+		btn_autotune->value(1);
+		sendCommand(cmdK_ATU2);
+	}
 
 	cbCWoffset();
 	cbCWdefFilter();

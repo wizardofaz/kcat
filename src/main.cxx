@@ -235,7 +235,7 @@ int main (int argc, char *argv[])
 	try {
 		debug::start(string(homedir).append("debug_log.txt").c_str());
 		time_t t = time(NULL);
-		LOG(debug::WARN_LEVEL, debug::LOG_OTHER, _("%s log started on %s"), PACKAGE_STRING, ctime(&t));
+		LOG(debug::INFO_LEVEL, debug::LOG_OTHER, _("%s log started on %s"), PACKAGE_STRING, ctime(&t));
 	}
 	catch (const char* error) {
 		cerr << error << '\n';

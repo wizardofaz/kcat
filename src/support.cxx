@@ -627,13 +627,8 @@ void setIFshift()
 
 void cbIFsh()
 {
-	if (btnIFsh->value() == 1) {
-		sldrIFSHIFT->activate();
+	if (btnIFsh->value() == 0)
 		sldrIFSHIFT->value(0);
-	} else {
-		sldrIFSHIFT->value(0);
-		sldrIFSHIFT->deactivate();
-	}
 	setIFshift();
 }
 
@@ -703,6 +698,13 @@ void setPower()
 		setPowerImage(pwr);
 }
 
+void cb_autotune(int v)
+{
+printf("%d\n", v);
+	if (v) setXcvrTune(1);
+	else setXcvrTune(0);
+}
+
 void cbTune()
 {
 	setXcvrTune(2);
@@ -713,14 +715,14 @@ void setTx(bool on)
 	if (on) {
 		FreqDisp->deactivate();
 		FreqDispB->deactivate();
-		btnTune->deactivate();
+		btn_tune->deactivate();
 		btnCarrier->deactivate();
 		setXcvrPTT(1);
 	} else {
 		setXcvrPTT(0);
 		FreqDisp->activate();
 		FreqDispB->activate();
-		btnTune->activate();
+		btn_tune->activate();
 		btnCarrier->activate();
 	}
 }
@@ -738,12 +740,12 @@ void cbCarrier()
 {
 	if (btnCarrier->value() == 1) {
 		btnPTT->deactivate();
-		btnTune->deactivate();
+		btn_tune->deactivate();
 		setXcvrCarrier(1); // carrier on
 		setXcvrPTT(1);
 	} else {
 		btnPTT->activate();
-		btnTune->activate();
+		btn_tune->activate();
 		setXcvrCarrier(0); // carrier OFF
 		setXcvrPTT(0);
 	}

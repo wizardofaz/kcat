@@ -1230,7 +1230,7 @@ void setColors()
 	btnPreamp->selection_color(btn_lt_color);
 	btnNR->selection_color(btn_lt_color);
 	btnNotch->selection_color(btn_lt_color);
-	btnTune->selection_color(btn_lt_color);
+	btn_autotune->selection_color(btn_lt_color);
 	btnPTT->selection_color(btn_lt_color);
 	btnSPOT->selection_color(btn_lt_color);
 	btnVoxOnOff->selection_color(btn_lt_color);

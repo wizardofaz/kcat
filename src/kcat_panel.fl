@@ -1,23 +1,27 @@
 # data file for the Fltk User Interface Designer (fluid)
-version 1.0110 
+version 1.0300 
 i18n_type 1 
 i18n_include "gettext.h" 
 i18n_function _ 
 header_name {.h} 
 code_name {.cpp}
-decl {\#include "images.h"} {} 
+decl {\#include "images.h"} {private local
+} 
 
-decl {\#include "kcat.h"} {} 
+decl {\#include "kcat.h"} {private local
+} 
 
-decl {\#include "support.h"} {} 
+decl {\#include "support.h"} {private local
+} 
 
-decl {\#include "status.h"} {} 
+decl {\#include "status.h"} {private local
+} 
 
 Function {kcat_window()} {open
 } {
   Fl_Window {} {
     label kcat open
-    xywh {570 59 530 355} type Double color 51
+    xywh {557 42 530 355} type Double color 51
     code0 {\#include <stdlib.h>} visible
   } {
     Fl_Menu_Bar {} {open
@@ -209,7 +213,9 @@ selectFreq();}
       class Fl_Wheel_Value_Slider
     }
     Fl_Value_Slider sldrIFSHIFT {
-      callback {setIFshift();}
+      callback {if (btnIFsh->value() == 0)
+btnIFsh->value(1);
+setIFshift();} selected
       tooltip {Set IF Shift Frequency} xywh {2 130 348 20} type {Horz Knob} color 26 labeltype NO_LABEL align 16 minimum -1280 maximum 1270 step 10 textsize 14
       code0 {o->reverse(true);}
       class Fl_Wheel_Value_Slider
@@ -293,7 +299,7 @@ selectFreq();}
       callback {cbPreamp();}
       tooltip {Preamp On/Off} xywh {352 194 54 20}
     }
-    Fl_Group {} {open
+    Fl_Group {} {
       xywh {407 67 122 212} box THIN_DOWN_BOX
     } {
       Fl_Group grpMeters {open
@@ -350,21 +356,28 @@ selectFreq();}
     Fl_Light_Button btnPTT {
       label PTT
       callback {cbPTT();}
-      tooltip {Xmt On/Off} xywh {24 258 64 20}
+      tooltip {Xmt On/Off} xywh {24 258 50 20}
     }
-    Fl_Light_Button btnTune {
+    Fl_Button btn_tune {
       label Tune
-      callback {cbTune();}
-      tooltip {Auto-tune Antenna} xywh {93 258 64 20} type Normal
+      callback {cbTune();
+btn_autotune->value(1);}
+      tooltip {Manual Tune} xywh {78 258 50 20}
+    }
+    Fl_Light_Button btn_autotune {
+      label {A/T}
+      callback {xcvrState.autotune = o->value();
+cb_autotune(xcvrState.autotune);}
+      tooltip {Auto tuner ON/OFF} xywh {132 258 50 20}
     }
     Fl_Light_Button btnCarrier {
       label Carr
       callback {cbCarrier();}
-      tooltip {Constant Carrier} xywh {161 258 64 20}
+      tooltip {Constant Carrier} xywh {187 258 50 20}
     }
     Fl_Choice antSelect {
       callback {cbAntSel();} open
-      xywh {230 258 120 20} down_box BORDER_BOX
+      xywh {240 258 110 20} down_box BORDER_BOX
       code0 {o->add("Ant: table|Ant: A-A|Ant: A-B|Ant: B-A|Ant: B-B");}
       code1 {o->value(0);}
     } {}
@@ -373,12 +386,12 @@ selectFreq();}
       callback {cbTemp();}
       tooltip {Click C / F} xywh {352 258 40 20} color 0 selection_color 7 labelfont 13 align 8 textfont 13 textcolor 62
     }
-    Fl_Tabs tabs {open
+    Fl_Tabs tabs {
       xywh {1 282 526 70} selection_color 50
     } {
       Fl_Group CWtab {
         label CW open
-        xywh {1 302 526 50} color 50 selection_color 50
+        xywh {1 302 526 50} color 50 selection_color 50 hide
       } {
         Fl_Light_Button btnSPOT {
           label Spot
@@ -529,21 +542,17 @@ cbSQLtype();}
       }
       Fl_Group TXtab {
         label TX open
-        xywh {2 302 525 50} hide
+        xywh {2 302 525 50}
       } {
         Fl_Check_Button btnAmpOnOff {
           label {Amp on/off}
           callback {cbbtnAmpOnOff();}
-          xywh {137 313 107 15} down_box DOWN_BOX
-        }
-        Fl_Check_Button tuner_bypass {
-          label Tuner
-          tooltip {Check to bypass tuner} xywh {164 311 70 15} down_box DOWN_BOX hide
+          xywh {179 314 107 15} down_box DOWN_BOX
         }
         Fl_Counter sldrXmtEqualizer {
           label Equilization
           callback {cbsldrXmtEqualizer();}
-          xywh {273 307 100 22} minimum -127 maximum 127 step 1
+          xywh {299 311 100 22} minimum -127 maximum 127 step 1
           code0 {o->lstep(10);}
         }
       }
@@ -1001,7 +1010,7 @@ Function {cwkeyboard_window()} {open
 } {
   Fl_Window {} {
     label {kcat CW keyboard} open
-    xywh {579 547 680 178} type Double visible
+    xywh {552 446 680 178} type Double hide
   } {
     Fl_Input txt_to_send {
       label {input:}
@@ -1163,7 +1172,7 @@ txt_sta->take_focus();}
     Fl_Counter cntrWPM2 {
       label Wpm
       callback {cntrWPM->value(o->value());
-cbWPM();} selected
+cbWPM();}
       tooltip {Char rate in WPM} xywh {464 133 90 22} minimum 5 maximum 80 step 1 value 18
       code0 {extern Fl_Counter *cntrWPM;}
       code1 {o->lstep(5);}

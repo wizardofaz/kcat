@@ -27,6 +27,7 @@ struct XCVRSTATE {
 	int		SPEECHPROC; // off
 	int		SPEECHCOMP; // min
 	int		ANTTUNE; // on 15
+	int		autotune;
 
 	int		EQUALIZER; // flat
 	int		PREAMP; // off
