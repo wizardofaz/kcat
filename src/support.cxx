@@ -1180,7 +1180,8 @@ void * cw_thread_loop(void *d)
 			if (btn_send->value() && strlen(txt_to_send->value())) {
 				sendChar(txt_to_send->value()[0]);
 				Fl::awake(delete_char);
-			}
+			} else
+				cbCWmode(); // reset the Paddle input line usage
 		pthread_mutex_unlock(&mutex_cw);
 	}
 	return NULL;
