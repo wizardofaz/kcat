@@ -1,0 +1,232 @@
+/******************************************************************************
+ * Copyright (C) 2014 Robert Stiles, KK5VD.
+ *
+ * Permission to use, copy, modify, and distribute this software and its
+ * documentation under the terms of the GNU General Public License is hereby
+ * granted. No representations are made about the suitability of this software
+ * for any purpose. It is provided "as is" without express or implied warranty.
+ * See the GNU General Public License for more details.
+ *
+ * Documents produced by Doxygen are derivative works derived from the
+ * input used in their production; they are not affected by this license.
+ *
+ * Requires Doxygen for HTML output
+ * plus LiveTeX (LaTeX) for PDF output
+ *
+ */
+
+
+/*!
+
+\mainpage KCAT Users Manual - Version 1.1
+
+\tableofcontents
+
+<center>
+\image latex kcatlogo.eps "" width=0.5in
+\image html kcatlogo.png ""
+</center>
+
+<!--KCAT User Manual-->
+\section sKcatDesc Kachina Universal Computer Control Program
+
+This is a computer control program for the Kachina 505DSP transceiver.  The
+program is supported on the following operating systems:
+
+<ul>
+  <li>Linux</li>
+  <li>Puppy-linux</li>
+  <li>OS X</li>
+  <li>Windows 2000</li>
+  <li>Windows NT</li>
+  <li>Windows XP</li>
+  <li>Windows Vista</li>
+  <li>Windows Win7</li>
+  <li>Windows Win8<br>
+  </li>
+</ul>
+
+<center>
+\image latex kcat.eps "" width=5.3in
+\image html kcat.png ""
+</center>
+
+\section sSetup First time setup
+
+<center>
+\image latex Serial-port-select.eps "" width=3.6in
+\image html Serial-port-select.png ""
+</center>
+
+You will need to select the serial port to which your transceiver is
+connected.  This screen capture shows the ports on one of my Linux systems.
+Windows would list the COM ports that are installed (and not currently in
+use).
+
+Select TEST if you want to test drive the program without actually
+connecting to the 505.  If you do select TEST this dialog will appear
+every time you start the program.  The program will attempt to use the
+last used serial port when starting after a satisfactory operating
+session.
+
+
+<center>
+\image latex kcat-colors.eps "" width=4.3in
+\image html kcat-colors.png ""
+</center>
+
+The program allows you to control many aspects of the user interface
+including fonts, foreground colors, background colors, lighted button colors,
+and the Scheme (general appearance of controls).  Here is an example of a
+possible set of user choices:
+
+<center>
+\image latex ugly-colors.eps "" width=5.3in
+\image html ugly-colors.png ""
+</center>
+
+After you become familiar with the various controls you will probably want
+to turn off the tooltips.  Uncheck the "Enable tooltips" menu item on the
+"Config" menu.
+
+\ref sKcatDesc "Top of Page"
+
+\section sOpControls Operating Controls
+
+<center>
+\image latex frequency-controls.eps "" width=3.5in
+\image html frequency-controls.png ""
+</center>
+
+The frequency display is also a control.  Each numeric is sensitive to mouse
+left/right buttons for up/down and to the mouse scroll wheel for rapidly
+changing values.  Click on any of the numeric segments and you can enter a
+new frequency using the keyboard numeric keypad.  If you make an error
+simply enter a non-numeric key (press the Esc key).  Use the period key to
+separate the kHz from the Hz value.  Set the newly entered frequency by
+pressing the Enter key.
+
+<center>
+\image latex frequency-controls-2.eps "" width=0.5in
+\image html frequency-controls-2.png ""
+</center>
+
+
+The second image shows the tool tip for the frequency control
+
+Vfo-A and Vfo-B are separate controls, A on the left, B on the right.
+
+When the mouse pointer is over the frequency display you can also change
+frequency values using the arrow and page key buttons:
+
+<ul>
+	<li>left / right arrow - increase / decrease 1 Hz</li>
+    <li>up / down arrow - increase / decrease 10 Hz</li>
+    <li>Page Up / Page Down - increase / decrease 100 Hz</li>
+</ul>
+<br>
+
+<center>
+\image latex vfo-buttons.eps "" width=3.5in
+\image html vfo-buttons.png ""
+</center>
+
+<br>
+
+These buttons control how each vfo is used
+
+<ul>
+  <li> [A/A] - Rx on A, Tx on A </li>
+  <li> [A/B] - Rx on A, Tx on B </li>
+  <li> [-->] - transfer vfoA to vfoB</li>
+  <li> [<--] - transfer vfoB to vfoA</li>
+  <li> [B/A] - Rx on B, Tx on A</li>
+  <li> [B/B] - Rx on B, Tx on B</li>
+</ul>
+
+Each "vfo" consists of the frequency, mode, bandwidth triad.
+
+<center>
+\image latex vfo-list.eps "" width=1.8in
+\image html vfo-list.png ""
+</center>
+
+The active vfo triad can be saved to the vfo list using the [|>] button,
+the selected vfo triad can be deleted from the list using the [X] button, and
+all of the entries can be deleted using the [ ] button
+
+<center>
+\image latex sliders.eps "" width=4.0in
+\image html sliders.png ""
+</center>
+
+The buttons that have a light box are toggles - activated when the lighted
+box is colored.  Some of these are linked to a slider.  If the button state
+is inactive then that associated slider will be greyed out.  In the example
+the volume control is active and the RIT and IF shift controls are inactive.
+The volume slider will be greyed out when the Spkr button is not
+illuminated.  Sliders can also be adjusted using the mouse wheel when the
+mouse cursor is over the intended control.
+
+\subsection ssCWKeybord CW Keyboard
+
+Open the CW Keyboard from the Utils Menu \ref cw_keyboad_page
+
+\subsection ssKcatFldigi Connecting kcat to FLDIGI
+
+<center>
+\image latex fldigi-kcat.eps "" width=1.5in
+\image html fldigi-kcat.png ""
+</center>
+
+Xmlrpc is used via a local socket device for the two programs to
+communicate.  FLDIGI acts as the server and kcat the client.  There is no
+requirement for start / stop ordering of the programs.  Your local firewall
+should be set up to allow FLDIGI access to the 127.0.0.1 socket address.
+
+kcat sends rig configuration data to FLDIGI when the two programs initially
+recognize each other.  This data is used to populate the rig name, the
+available modes and the available bandwidths.
+
+After this initial communications the operator can set the paired controls
+from either FLDIGI or kcat.  The two programs will remain synchronized.
+
+PTT can be activated at kcat or using the T/R button on FLDIGI.  FLDIGI
+also engages the PTT via the macro <TX> <RX> tags.  When operating digital
+modes with FLDIGI you need to use the PTT from FLDIGI.
+
+<center>
+\image latex open-extra.eps "" width=4.0in
+\image html open-extra.png ""
+</center>
+
+Access to additional controls is obtained by pressing the
+\ref kcat_extra_page "down-arrow button".
+
+PTT - can be selected via the h/w PTT line, the PTT dialog button, or from a
+support application such as FLDIGI.
+
+Tune - command the internal antenna tuner to tune to the current frequency
+and antenna port.
+
+A/T - turn the automatic antenna tuner on and off.  Pressing Tune will place
+the A/T in the On condition
+
+Carr - transmit a carrier at the AM carrier level.
+
+\subsection ssAntennaPorts Antenna Ports
+
+<center>
+\image latex AntennaControl.eps "" width=1.25in
+\image html AntennaControl.png ""
+</center>
+
+You can set the antenna combinations of A/B, Rx/Tx to be used with various
+frequency bands.  The menu item Config / Antenna Ports provides access to the
+set up dialog.  You can also over ride those settings by choosing from the
+Ant: table pick list.  details on
+\ref antenna_port_page "antenna port selection and setup"
+<br>
+
+\ref sKcatDesc "Top of Page"
+*/
