@@ -1,11 +1,17 @@
 
 
-=Version 1.0.02=
+=Version 1.2.0=
 
-2013-02-05  David Freese  <w1hkj@w1hkj.com>
+2014-06-11  David Freese  <w1hkj@w1hkj.com>
+
+	5496ba2: doxygen docs
+	159c9d9: CW Keyline
+
+
+=Version 1.1.02=
 
 	045c5bc: M4 build
-	92cb2a2: Autotune / IF shift
+	ef28065: Autotune / IF shift
 
 
 =Version 1.1.01=
