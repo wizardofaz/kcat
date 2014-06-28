@@ -1,8 +1,14 @@
 
 
-=Version 1.2.0=
+=Version 1.2.1=
 
-2014-06-11  David Freese  <w1hkj@w1hkj.com>
+2014-06-27  David Freese  <w1hkj@w1hkj.com>
+
+	308906e: Build fixes
+	0ba703c: INSTALL COPYING README
+
+
+=Version 1.2.0=
 
 	5496ba2: doxygen docs
 	159c9d9: CW Keyline
