@@ -65,22 +65,23 @@ am__kcat_SOURCES_DIST = kcat.rc include/kcatrc.h mingw.c \
 	font_browser.cxx FreqControl.cxx images.cxx IOspec.cxx \
 	kcat_io.cxx kcat_panel.cxx serialcomm.cxx support.cxx \
 	telemetry.cxx cstack.cxx debug.cxx icons.cxx pixmaps.cxx \
-	status.cxx util.cxx ValueSlider.cxx xmlrpc_log.cxx XYplot.cxx \
-	include/cstack.h include/date.h include/debug.h \
+	status.cxx timeops.cxx util.cxx ValueSlider.cxx xmlrpc_log.cxx \
+	XYplot.cxx include/cstack.h include/date.h include/debug.h \
 	include/dialogs.h include/gettext.h include/icons.h \
 	include/pixmaps.h include/Fl_SigBar.h include/flinput2.h \
 	include/flslider2.h include/font_browser.h \
 	include/FreqControl.h include/images.h include/IOspec.h \
 	include/kcat.h include/kcat_io.h include/kcat_panel.h \
 	include/linserial.h include/serialcomm.h include/support.h \
-	include/status.h include/test.h include/util.h \
-	include/ValueSlider.h include/version.h include/winserial.h \
-	include/XYplot.h xml_io.cxx include/xml_io.h xmlrpcpp/XmlRpc.h \
-	xmlrpcpp/XmlRpcClient.cpp xmlrpcpp/XmlRpcClient.h \
-	xmlrpcpp/XmlRpcDispatch.cpp xmlrpcpp/XmlRpcDispatch.h \
-	xmlrpcpp/XmlRpcException.h xmlrpcpp/XmlRpcMutex.cpp \
-	xmlrpcpp/XmlRpcMutex.h xmlrpcpp/XmlRpcServer.cpp \
-	xmlrpcpp/XmlRpcServer.h xmlrpcpp/XmlRpcServerConnection.cpp \
+	include/status.h include/test.h include/timeops.h \
+	include/util.h include/ValueSlider.h include/version.h \
+	include/winserial.h include/XYplot.h xml_io.cxx \
+	include/xml_io.h xmlrpcpp/XmlRpc.h xmlrpcpp/XmlRpcClient.cpp \
+	xmlrpcpp/XmlRpcClient.h xmlrpcpp/XmlRpcDispatch.cpp \
+	xmlrpcpp/XmlRpcDispatch.h xmlrpcpp/XmlRpcException.h \
+	xmlrpcpp/XmlRpcMutex.cpp xmlrpcpp/XmlRpcMutex.h \
+	xmlrpcpp/XmlRpcServer.cpp xmlrpcpp/XmlRpcServer.h \
+	xmlrpcpp/XmlRpcServerConnection.cpp \
 	xmlrpcpp/XmlRpcServerConnection.h \
 	xmlrpcpp/XmlRpcServerMethod.cpp xmlrpcpp/XmlRpcServerMethod.h \
 	xmlrpcpp/XmlRpcSocket.cpp xmlrpcpp/XmlRpcSocket.h \
@@ -102,11 +103,12 @@ am_kcat_OBJECTS = $(am__objects_2) kcat-date.$(OBJEXT) \
 	kcat-support.$(OBJEXT) kcat-telemetry.$(OBJEXT) \
 	kcat-cstack.$(OBJEXT) kcat-debug.$(OBJEXT) \
 	kcat-icons.$(OBJEXT) kcat-pixmaps.$(OBJEXT) \
-	kcat-status.$(OBJEXT) kcat-util.$(OBJEXT) \
-	kcat-ValueSlider.$(OBJEXT) kcat-xmlrpc_log.$(OBJEXT) \
-	kcat-XYplot.$(OBJEXT) kcat-xml_io.$(OBJEXT) \
-	kcat-XmlRpcClient.$(OBJEXT) kcat-XmlRpcDispatch.$(OBJEXT) \
-	kcat-XmlRpcMutex.$(OBJEXT) kcat-XmlRpcServer.$(OBJEXT) \
+	kcat-status.$(OBJEXT) kcat-timeops.$(OBJEXT) \
+	kcat-util.$(OBJEXT) kcat-ValueSlider.$(OBJEXT) \
+	kcat-xmlrpc_log.$(OBJEXT) kcat-XYplot.$(OBJEXT) \
+	kcat-xml_io.$(OBJEXT) kcat-XmlRpcClient.$(OBJEXT) \
+	kcat-XmlRpcDispatch.$(OBJEXT) kcat-XmlRpcMutex.$(OBJEXT) \
+	kcat-XmlRpcServer.$(OBJEXT) \
 	kcat-XmlRpcServerConnection.$(OBJEXT) \
 	kcat-XmlRpcServerMethod.$(OBJEXT) kcat-XmlRpcSocket.$(OBJEXT) \
 	kcat-XmlRpcSource.$(OBJEXT) kcat-XmlRpcThread.$(OBJEXT) \
@@ -292,16 +294,17 @@ kcat_SOURCES = $(am__append_1) date.cxx dialogs.cxx main.cxx \
 	Fl_SigBar.cxx flinput2.cxx flslider2.cxx font_browser.cxx \
 	FreqControl.cxx images.cxx IOspec.cxx kcat_io.cxx \
 	kcat_panel.cxx serialcomm.cxx support.cxx telemetry.cxx \
-	cstack.cxx debug.cxx icons.cxx pixmaps.cxx status.cxx util.cxx \
-	ValueSlider.cxx xmlrpc_log.cxx XYplot.cxx include/cstack.h \
-	include/date.h include/debug.h include/dialogs.h \
-	include/gettext.h include/icons.h include/pixmaps.h \
-	include/Fl_SigBar.h include/flinput2.h include/flslider2.h \
-	include/font_browser.h include/FreqControl.h include/images.h \
-	include/IOspec.h include/kcat.h include/kcat_io.h \
-	include/kcat_panel.h include/kcatrc.h include/linserial.h \
-	include/serialcomm.h include/support.h include/status.h \
-	include/test.h include/util.h include/ValueSlider.h \
+	cstack.cxx debug.cxx icons.cxx pixmaps.cxx status.cxx \
+	timeops.cxx util.cxx ValueSlider.cxx xmlrpc_log.cxx XYplot.cxx \
+	include/cstack.h include/date.h include/debug.h \
+	include/dialogs.h include/gettext.h include/icons.h \
+	include/pixmaps.h include/Fl_SigBar.h include/flinput2.h \
+	include/flslider2.h include/font_browser.h \
+	include/FreqControl.h include/images.h include/IOspec.h \
+	include/kcat.h include/kcat_io.h include/kcat_panel.h \
+	include/kcatrc.h include/linserial.h include/serialcomm.h \
+	include/support.h include/status.h include/test.h \
+	include/timeops.h include/util.h include/ValueSlider.h \
 	include/version.h include/winserial.h include/XYplot.h \
 	xml_io.cxx include/xml_io.h xmlrpcpp/XmlRpc.h \
 	xmlrpcpp/XmlRpcClient.cpp xmlrpcpp/XmlRpcClient.h \
@@ -497,6 +500,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/kcat-status.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/kcat-support.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/kcat-telemetry.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/kcat-timeops.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/kcat-util.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/kcat-xml_io.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/kcat-xmlrpc_log.Po@am__quote@
@@ -822,6 +826,20 @@ kcat-status.obj: status.cxx
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='status.cxx' object='kcat-status.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -c -o kcat-status.obj `if test -f 'status.cxx'; then $(CYGPATH_W) 'status.cxx'; else $(CYGPATH_W) '$(srcdir)/status.cxx'; fi`
+
+kcat-timeops.o: timeops.cxx
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -MT kcat-timeops.o -MD -MP -MF $(DEPDIR)/kcat-timeops.Tpo -c -o kcat-timeops.o `test -f 'timeops.cxx' || echo '$(srcdir)/'`timeops.cxx
+@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/kcat-timeops.Tpo $(DEPDIR)/kcat-timeops.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='timeops.cxx' object='kcat-timeops.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -c -o kcat-timeops.o `test -f 'timeops.cxx' || echo '$(srcdir)/'`timeops.cxx
+
+kcat-timeops.obj: timeops.cxx
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -MT kcat-timeops.obj -MD -MP -MF $(DEPDIR)/kcat-timeops.Tpo -c -o kcat-timeops.obj `if test -f 'timeops.cxx'; then $(CYGPATH_W) 'timeops.cxx'; else $(CYGPATH_W) '$(srcdir)/timeops.cxx'; fi`
+@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/kcat-timeops.Tpo $(DEPDIR)/kcat-timeops.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='timeops.cxx' object='kcat-timeops.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -c -o kcat-timeops.obj `if test -f 'timeops.cxx'; then $(CYGPATH_W) 'timeops.cxx'; else $(CYGPATH_W) '$(srcdir)/timeops.cxx'; fi`
 
 kcat-util.o: util.cxx
 @am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -MT kcat-util.o -MD -MP -MF $(DEPDIR)/kcat-util.Tpo -c -o kcat-util.o `test -f 'util.cxx' || echo '$(srcdir)/'`util.cxx

@@ -21,6 +21,7 @@
 #include "config.h"
 #include "date.h"
 #include "icons.h"
+#include "timeops.h"
 
 using namespace XmlRpc;
 using namespace std;

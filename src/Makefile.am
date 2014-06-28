@@ -136,6 +136,7 @@ kcat_SOURCES += \
 	icons.cxx \
 	pixmaps.cxx \
 	status.cxx \
+	timeops.cxx \
 	util.cxx \
 	ValueSlider.cxx \
 	xmlrpc_log.cxx \
@@ -163,6 +164,7 @@ kcat_SOURCES += \
 	include/support.h \
 	include/status.h \
 	include/test.h \
+	include/timeops.h \
 	include/util.h \
 	include/ValueSlider.h \
 	include/version.h \
