@@ -1,8 +1,16 @@
 
 
-=Version 1.2.1=
+=Version 1.2.2=
 
-2014-06-27  David Freese  <w1hkj@w1hkj.com>
+2014-07-16  David Freese  <w1hkj@w1hkj.com>
+
+	f442ced: Doxygen update
+	3c376a6: guard lock
+	ad09ae6: Documentation
+	30b64f7: Remove configure
+
+
+=Version 1.2.1=
 
 	308906e: Build fixes
 	0ba703c: INSTALL COPYING README
