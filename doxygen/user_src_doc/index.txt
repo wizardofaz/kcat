@@ -18,7 +18,7 @@
 
 /*!
 
-\mainpage KCAT Users Manual - Version 1.1
+\mainpage KCAT Users Manual - Version 1.2
 
 \tableofcontents
 

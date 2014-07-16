@@ -13,7 +13,7 @@
 # input used in their production; they are not affected by this license.
 
 PROJECT_NAME         = "KCAT Users Manual"
-PROJECT_NUMBER       = 1.1
+PROJECT_NUMBER       = 1.2
 PROJECT_BRIEF        =
 ALLEXTERNALS         = NO
 CASE_SENSE_NAMES     = NO
