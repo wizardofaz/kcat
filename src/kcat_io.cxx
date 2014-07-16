@@ -12,6 +12,8 @@
 #include "debug.h"
 #include "util.h"
 
+#include "threads.h"
+
 using namespace std;
 
 extern bool test;
@@ -66,7 +68,7 @@ bool sendCommand(char *str)
 	unsigned char *sendbuff = new unsigned char(len+2);
 	unsigned char retbuff[3];
 
-	pthread_mutex_lock(&mutex_serial);
+	guard_lock serial_lock(&mutex_serial);
 
 // create command string
 	sendbuff[0] = STX;
@@ -99,7 +101,6 @@ bool sendCommand(char *str)
 cmddone:
 	delete [] sendbuff;
 	watchdog_count = 1500;
-	pthread_mutex_unlock(&mutex_serial);
 	return ret;
 }
 
@@ -116,7 +117,7 @@ bool RequestData (char *cmd, unsigned char *buff, int nbr)
 	unsigned char retbuff[3];
 	char szTemp[10];
 
-	pthread_mutex_lock(&mutex_serial);
+	guard_lock serial_lock(&mutex_serial);
 
 // create command string
 	sendbuff[0] = STX;
@@ -153,7 +154,6 @@ bool RequestData (char *cmd, unsigned char *buff, int nbr)
 	retval = "FAIL";
 reqdone:
 	delete [] sendbuff;
-	pthread_mutex_unlock(&mutex_serial);
 	return ret;
 }
 

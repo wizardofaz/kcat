@@ -6,7 +6,6 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <fcntl.h>
-#include <pthread.h>
 
 #include "support.h"
 #include "kcat.h"
@@ -16,6 +15,7 @@
 #include "xml_io.h"
 #include "status.h"
 #include "debug.h"
+#include "threads.h"
 
 using namespace std;
 
@@ -1124,9 +1124,10 @@ void * telemetry_thread_loop(void *d)
 	for (;;) {
 		MilliSleep(10);
 		if (exit_telemetry) break;
-		pthread_mutex_lock(&mutex_serial);
+		{
+			guard_lock serial_lock(&mutex_serial);
 			num = kcatSerial.ReadBuffer (buff, 1);
-		pthread_mutex_unlock(&mutex_serial);
+		}
 		if (num) commstack.push((unsigned char)buff[0]);
 		if (!commstack.isEmpty()) Fl::awake(parseTelemetry);
 	}
@@ -1145,9 +1146,10 @@ void * watchdog_thread_loop(void *d)
 		if (exit_watchdog) break;
 		MilliSleep(100);
 		if (--watchdog_count == 0) {
-			pthread_mutex_lock(&mutex_watchdog);
-			setXcvrNOOP();
-			pthread_mutex_unlock(&mutex_watchdog);
+			{
+				guard_lock dog_log(&mutex_watchdog);
+				setXcvrNOOP();
+			}
 			watchdog_count = 150;
 		}
 	}
@@ -1172,20 +1174,27 @@ void delete_char(void *)
 
 void * cw_thread_loop(void *d)
 {
+	int duration = 20;
 	for (;;) {
 		if (exit_cw) break;
-		MilliSleep((int)char_duration);
-		pthread_mutex_lock(&mutex_cw);
-		if (dlgCWkeyboard)
+		// wait for end of char
+		while (duration > 0) {
+			MilliSleep(1);
+			duration--;
+		}
+		if (dlgCWkeyboard && dlgCWkeyboard->visible()) {
 			if (btn_send->value() && strlen(txt_to_send->value())) {
+				guard_lock cw_lock(&mutex_cw);
 				sendChar(txt_to_send->value()[0]);
 				Fl::awake(delete_char);
+				duration = char_duration;
 			} else
-				cbCWmode(); // reset the Paddle input line usage
-		pthread_mutex_unlock(&mutex_cw);
+				duration = 20;
+		}
 	}
 	return NULL;
 }
+
 //======================================================================
 
 void startProcessing(void *d)

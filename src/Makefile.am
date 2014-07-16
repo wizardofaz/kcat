@@ -164,6 +164,7 @@ kcat_SOURCES += \
 	include/support.h \
 	include/status.h \
 	include/test.h \
+	include/threads.h \
 	include/timeops.h \
 	include/util.h \
 	include/ValueSlider.h \

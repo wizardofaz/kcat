@@ -22,6 +22,8 @@
 
 #include <config.h>
 
+#include "threads.h"
+
 #include "timeops.h"
 #ifdef __MINGW32__
 #  include "compat.h"
@@ -35,6 +37,7 @@
 #    include <sys/time.h>
 #  endif
 #  include <errno.h>
+
 int clock_gettime(clockid_t clock_id, struct timespec* tp)
 {
 	if (clock_id == CLOCK_REALTIME) {
@@ -182,22 +185,20 @@ static pthread_mutex_t gmtime_r_mutex = PTHREAD_MUTEX_INITIALIZER;
 
 struct tm *gmtime_r(const time_t *_Time, struct tm *_Tm)
 {
-  pthread_mutex_lock (&gmtime_r_mutex);
-  struct tm *p = gmtime(_Time);
-  if (p && _Tm) memcpy (_Tm, p, sizeof (struct tm));
-  pthread_mutex_unlock (&gmtime_r_mutex);
-  return p;
+	guard_lock time_lock(&gmtime_r_mutex);
+	struct tm *p = gmtime(_Time);
+	if (p && _Tm) memcpy (_Tm, p, sizeof (struct tm));
+	return p;
 }
 
 static pthread_mutex_t gmtime_local_mutex = PTHREAD_MUTEX_INITIALIZER;
 
 struct tm *localtime_r(const time_t *_Time,struct tm *_Tm)
 {
-  pthread_mutex_lock (&gmtime_local_mutex);
-  struct tm *p = localtime(_Time);
-  if (p && _Tm) memcpy (_Tm, p, sizeof (struct tm));
-  pthread_mutex_unlock (&gmtime_local_mutex);
-  return p;
+	guard_lock time_lock(&gmtime_local_mutex);
+	struct tm *p = localtime(_Time);
+	if (p && _Tm) memcpy (_Tm, p, sizeof (struct tm));
+	return p;
 }
 
 #endif

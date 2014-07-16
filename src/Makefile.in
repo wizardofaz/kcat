@@ -73,15 +73,15 @@ am__kcat_SOURCES_DIST = kcat.rc include/kcatrc.h mingw.c \
 	include/FreqControl.h include/images.h include/IOspec.h \
 	include/kcat.h include/kcat_io.h include/kcat_panel.h \
 	include/linserial.h include/serialcomm.h include/support.h \
-	include/status.h include/test.h include/timeops.h \
-	include/util.h include/ValueSlider.h include/version.h \
-	include/winserial.h include/XYplot.h xml_io.cxx \
-	include/xml_io.h xmlrpcpp/XmlRpc.h xmlrpcpp/XmlRpcClient.cpp \
-	xmlrpcpp/XmlRpcClient.h xmlrpcpp/XmlRpcDispatch.cpp \
-	xmlrpcpp/XmlRpcDispatch.h xmlrpcpp/XmlRpcException.h \
-	xmlrpcpp/XmlRpcMutex.cpp xmlrpcpp/XmlRpcMutex.h \
-	xmlrpcpp/XmlRpcServer.cpp xmlrpcpp/XmlRpcServer.h \
-	xmlrpcpp/XmlRpcServerConnection.cpp \
+	include/status.h include/test.h include/threads.h \
+	include/timeops.h include/util.h include/ValueSlider.h \
+	include/version.h include/winserial.h include/XYplot.h \
+	xml_io.cxx include/xml_io.h xmlrpcpp/XmlRpc.h \
+	xmlrpcpp/XmlRpcClient.cpp xmlrpcpp/XmlRpcClient.h \
+	xmlrpcpp/XmlRpcDispatch.cpp xmlrpcpp/XmlRpcDispatch.h \
+	xmlrpcpp/XmlRpcException.h xmlrpcpp/XmlRpcMutex.cpp \
+	xmlrpcpp/XmlRpcMutex.h xmlrpcpp/XmlRpcServer.cpp \
+	xmlrpcpp/XmlRpcServer.h xmlrpcpp/XmlRpcServerConnection.cpp \
 	xmlrpcpp/XmlRpcServerConnection.h \
 	xmlrpcpp/XmlRpcServerMethod.cpp xmlrpcpp/XmlRpcServerMethod.h \
 	xmlrpcpp/XmlRpcSocket.cpp xmlrpcpp/XmlRpcSocket.h \
@@ -304,9 +304,9 @@ kcat_SOURCES = $(am__append_1) date.cxx dialogs.cxx main.cxx \
 	include/kcat.h include/kcat_io.h include/kcat_panel.h \
 	include/kcatrc.h include/linserial.h include/serialcomm.h \
 	include/support.h include/status.h include/test.h \
-	include/timeops.h include/util.h include/ValueSlider.h \
-	include/version.h include/winserial.h include/XYplot.h \
-	xml_io.cxx include/xml_io.h xmlrpcpp/XmlRpc.h \
+	include/threads.h include/timeops.h include/util.h \
+	include/ValueSlider.h include/version.h include/winserial.h \
+	include/XYplot.h xml_io.cxx include/xml_io.h xmlrpcpp/XmlRpc.h \
 	xmlrpcpp/XmlRpcClient.cpp xmlrpcpp/XmlRpcClient.h \
 	xmlrpcpp/XmlRpcDispatch.cpp xmlrpcpp/XmlRpcDispatch.h \
 	xmlrpcpp/XmlRpcException.h xmlrpcpp/XmlRpcMutex.cpp \
