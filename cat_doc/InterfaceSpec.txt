@@ -1,0 +1,490 @@
+This document describes the command and telemetry communication interface
+between the firmware in the 505DSP radio and the control software in the
+user's personal computer (PC). All command and telemetry data will be
+sent as ASCII character data. Each command "packet" will have a preamble
+ASCII STX character and a postamble ASCII ETX character.
+
+COMMAND STRUCTURE (PC to Radio)
+Upon receipt of each command, the radio will send a single acknowledgement
+byte to the PC. The format of this byte will be:
+		0FFH - good command
+		0FEH - error
+
+On error, the PC will make 2 retries before declaring a problem to the user.
+
+Command                         Definition
+-------                         ----------
+(STX)A(xxH)(ETX)                AGC speed, 00H to FFH
+				(00H = fast, FFH = slow).
+
+(STX)a(00H)(ETX)                Amplifier off.
+(STX)a(01H)(ETX)                Amplifier on.
+
+(STX)B(01H)(ETX)                RX BW filter, SSB 3.5kHz.
+(STX)B(02H)(ETX)                RX BW filter, SSB 2.7kHz
+(STX)B(03H)(ETX)                RX BW filter, SSB 2.4kHz.
+(STX)B(04H)(ETX)                RX BW filter, SSB 2.1kHz
+(STX)B(05H)(ETX)                RX BW filter, SSB 1.7kHz.
+(STX)B(06H)(ETX)                RX BW filter, CW 1kHz.
+(STX)B(07H)(ETX)                RX BW filter, CW 500Hz.
+(STX)B(08H)(ETX)                RX BW filter, CW 200Hz.
+(STX)B(09H)(ETX)                RX BW filter, CW 100Hz.
+(STX)B(0aH)(ETX)                Data High Filter
+(STX)B(0bH)(ETX)                Data Medium Filter
+
+(STX)b(00H)(ETX)                BITE - Serial #, H/W & S/W version request.
+(STX)b(01H)(ETX)                BITE - Request antenna impedance data.
+(STX)b(02H)(ETX)                BITE - Send antenna impedance data.
+(STX)b(03H)(ETX)                BITE - Request S-Meter calibration table.
+(STX)b(04H)(ETX)                BITE - Send S-Meter calibration table.
+(STX)b(05H)(ETX)                BITE - Perform S-Meter calibration.
+(STX)b(06H)(ETX)                BITE - Request freq. ref. calibration table.
+(STX)b(07H)(ETX)                BITE - Send freq. ref. calibration table.
+(STX)b(08H)(ETX)                BITE - Perform freq. ref. cal.
+(STX)b(09H)(ETX)                BITE - Request phase det. calibration table.
+(STX)b(0aH)(ETX)                BITE - Send phase det. calibration table.
+(STX)b(0bH)(ETX)                BITE - Perform phase det. cal.
+(STX)b(0cH)(ETX)                BITE - Request carrier balance value.
+(STX)b(0dH)(ETX)                BITE - Send carrier balance value.
+(STX)b(0eH)(ETX)                BITE - Perform carrier balance.
+(STX)b(0fH)(ETX)                Reserved.
+(STX)b(10H)(ETX)                BITE - S-Meter cal -130 dBm.
+(STX)b(11H)(ETX)                BITE - S-Meter cal -120 dBm.
+(STX)b(12H)(ETX)                BITE - S-Meter cal -110 dBm.
+(STX)b(13H)(ETX)                BITE - S-Meter cal -100 dBm.
+(STX)b(14H)(ETX)                BITE - S-Meter cal  -90 dBm.
+(STX)b(15H)(ETX)                BITE - S-Meter cal  -80 dBm.
+(STX)b(16H)(ETX)                BITE - S-Meter cal  -70 dBm.
+(STX)b(17H)(ETX)                BITE - S-Meter cal  -60 dBm.
+(STX)b(18H)(ETX)                BITE - S-Meter cal  -50 dBm.
+(STX)b(19H)(ETX)                BITE - S-Meter cal  -40 dBm.
+(STX)b(1aH)(ETX)                BITE - S-Meter cal  -30 dBm.
+(STX)b(1bH)(ETX)                BITE - S-Meter cal  -20 dBm.
+(STX)b(1cH)(ETX)                BITE - S-Meter cal  -10 dBm.
+(STX)b(1dH)(ETX)                BITE - S-Meter cal    0 dBm.
+(STX)b(1eH)(ETX)                BITE - S-Meter cal   10 dBm.
+(STX)b(1fH)(ETX)                BITE - S-Meter cal   20 dBm.
+(STX)b(20H)(ETX)                Reserved.
+(STX)b(21H)(ETX)                BITE - Send AGC DVM value.
+(STX)b(22H)(ETX)                BITE - Send lock detector 1 DVM value.
+(STX)b(23H)(ETX)                BITE - Send lock detector 2 DVM value.
+(STX)b(24H)(ETX)                BITE - Send forward power DVM value.
+(STX)b(25H)(ETX)                BITE - Send reflected power DVM value.
+(STX)b(26H)(ETX)                BITE - Send phase detector DVM value.
+(STX)b(27H)(ETX)                BITE - Send Tx audio DVM value.
+(STX)b(28H)(ETX)                BITE - Send temperature A DVM value.
+(STX)b(29H)(ETX)                BITE - Send temperature B DVM value.
+(STX)b(2aH)(ETX)                BITE - Send R->T switching data.
+(STX)b(2bH)(ETX)                BITE - Send T->R switching data.
+(STX)b(2cH)(ETX)                BITE - Send synthesizer lock time 1 data.
+(STX)b(2dH)(ETX)                BITE - Send synthesizer lock time 2 data.
+(STX)b(2eH)(ETX)                BITE - Send ALC over-shoot data.
+(STX)b(2fH)(ETX)                BITE - Request on time value.
+(STX)b(30H)(ETX)                BITE - Reset on time value.
+(STX)b(31H)(ETX)                BITE - Request fault data.
+(STX)b(32H)(ETX)                BITE - Reset fault data.
+(STX)b(33H)(ETX)                BITE - Set firmware serial number.
+(STX)b(34H)(ETX)                BITE - Perform powerup self test.
+(STX)b(35H)(ETX)                BITE - Set password.
+(STX)b(36H)(ETX)                BITE - Request TCXO DVM value.
+(STX)b(37H)(ETX)                BITE - Request DDS value for Rx frequency.
+(STX)b(38H)(ETX)                BITE - Request mode.
+(STX)b(39H)(ETX)                BITE - Request maximum power setting.
+(STX)b(3aH)(ETX)                BITE - Perform freq. ref. tilt
+
+(STX)C(03H)(ETX)                CW Offset freq - 300Hz.
+(STX)C(04H)(ETX)                CW Offset freq - 400Hz.
+(STX)C(05H)(ETX)                CW Offset freq - 500Hz.
+(STX)C(06H)(ETX)                CW Offset freq - 600Hz.
+(STX)C(07H)(ETX)                CW Offset freq - 700Hz.
+(STX)C(08H)(ETX)                CW Offset freq - 800Hz.
+
+(STX)c(00H)(ETX)                CW Filter default - wide.
+(STX)c(01H)(ETX)                CW Filter default - narrow.
+
+(STX)D(xxH)(ETX)                CW keyer dynamics, 00H to FFH
+				(00H = soft, FFH = hard).
+
+
+(STX)d(00H)(ETX)                NO-OP keep alive command. Sent every
+				15 seconds so radio doesn't close
+				modem connection to the PC.
+
+(STX)E(xxH)(ETX)                Transmit equalization shift frequency,
+				Bass - Treble. The values range from
+				-128 to 127.
+
+(STX)e(00H)(ETX)                Speech monitor off.
+(STX)e(01H)(ETX)                Speech monitor on.
+
+(STX)F(01H)(ETX)                Simplex on, Rx and Tx are equal.
+(STX)F(02H)(ETX)                Listen on the receive frequency.
+(STX)F(03H)(ETX)                Listen on the transmit frequency.
+(STX)F(04H)(ETX)                Split on.
+
+(STX)f(xxH)(ETX)                CTCSS tone frequency for FM,
+				00H to 2AH (0 is off and 01-2A
+				correspond to 42 frequency codes).
+
+(STX)G(00H)(ETX)                Receive attenuator off.
+(STX)G(01H)(ETX)                Receive attenuator on.
+
+(STX)g(xxH)(ETX)                AGC action, 00H to FFH
+				(00H = min, FFH = max).
+
+(STX)h(xxH)(ETX)		505TVR (00H = off, 01H = on)
+
+(STX)H(xxH)(ETX)                Speech compression. Hex value is
+				relative compression with 00H being
+				minimum compression and 0FFH being
+				maximum compression.
+
+(STX)I(xxH)(ETX)                IF filter shift frequency. Step size is
+				10Hz. Hex value is determined by the
+				equation (Hz / 10) + 128. The frequency
+				range is -1280Hz to 1270Hz.
+
+(STX)ibyte1-0(ETX)              Impedance matching, used by KCCAL to get
+				50 ohm capacitance/inductance load. Value
+				is determined by the following bits.
+				Bit 0  : 20 PF
+				Bit 1  : 40 PF
+				Bit 2  : 80 PF
+				Bit 3  : 160 PF
+				Bit 4  : 320 PF
+				Bit 5  : 640 PF
+				Bit 6  : 1280 PF
+				Bit 7  : 0 = output cap., 1 = input cap.
+				Bits 8-13 : inductance 0-63
+
+(STX)J(xxH)(ETX)                RIT 100Hz steps, -99 to -8 and 8 to 99.
+				This covers the ranges -9900Hz to -800Hz
+				and 800Hz to 9900Hz.
+
+(STX)j(xxH)(ETX)                RIT 10Hz steps, -79 to 79.
+				This covers the ranges -790Hz to 790Hz.
+
+(STX)K(01H)(ETX)                CW keyer mode, left hand.
+(STX)K(02H)(ETX)                CW keyer mode, right hand.
+(STX)K(03H)(ETX)                CW keyer mode, straight.
+
+(STX)k(00H)(ETX)                CW spotting tone off.
+(STX)k(01H)(ETX)                CW spotting tone on.
+
+(STX)L(xxH)(ETX)                Level sensitive squelch value, 00H to 7FH.
+
+(STX)M(01H)(ETX)                Mode, AM.
+(STX)M(02H)(ETX)                Mode, CW.
+(STX)M(03H)(ETX)                Mode, FM.
+(STX)M(04H)(ETX)                Mode, USB.
+(STX)M(05H)(ETX)                Mode, LSB.
+
+(STX)m(xxH)(ETX)                Mic/CW gain. Hex value is relative gain
+				level with 00H being minimum gain and
+				0FFH being maximum gain.
+
+(STX)N(xxH)(ETX)                Notch width; 0=wide, 1=medium, 2=narrow,
+				3=automatic.
+
+(STX)n(xxH)(ETX)                Notch frequency in 10Hz steps. Hex value is
+				determined by the equation (Hz / 10) - 20.
+				The range is 210Hz to 2750Hz and a value of
+				zero indicates the notch is turned off.
+
+(STX)O(00H)(ETX)                Noise reduction off.
+(STX)O(01H)(ETX)                Noise reduction on.
+
+(STX)o(xxH)(ETX)                Noise reduction level control.
+				Hex value is relative level with 00H
+				being minimum and 0FFH being maximum.
+
+(STX)P(00H)(ETX)                Speech processor off.
+(STX)P(01H)(ETX)                Speech processor on.
+
+(STX)p(00H)(ETX)                Pre amp off.
+(STX)p(01H)(ETX)                Pre amp on.
+
+(STX)Q(00H)(ETX)                Level sensitive squelch (level set to 127).
+(STX)Q(01H)(ETX)                Syllabic squelch (level set to 127).
+
+(STX)q(00H)(ETX)                CW keyer QSK off.
+(STX)q(01H)(ETX)                CW keyer QSK on.
+
+(STX)Rbyte3-0(ETX)              DDS value for receive frequency.
+				The allowable range will be 30kHz to 30MHz.
+				The uppermost 2 bits of the high byte will
+				indicate antenna port as follows:
+					00 - port B/A
+					01 - port A
+					10 - port B
+					11 - port A/B
+
+				The DDS value is computed using:
+
+				DDS = 2.2369621333 * (75000000 + freq)
+				where freq = input frequency in Hz.
+
+(STX)rbyte3-0(ETX)              DDS value for reference calibration frequency.
+				The allowable range will be 30kHz to 30MHz.
+
+				The DDS value is computed using:
+
+				DDS = 2.2369621333 * (75000000 + freq)
+				where freq = input frequency in Hz.
+
+(STX)S(xxH)(ETX)                CW keyer speed, 00H to FFH
+				(00H = 5 wpm, FFH = 80 wpm).
+
+(STX)s(xxH)(ETX)                CW keyer/Speech monitor sidetone, 00H to FFH
+				(00H = min, FFH = max).
+
+(STX)Tbyte3-0(ETX)              DDS value for transmit frequency. The
+				allowable range will be 30kHz to 30MHz (the
+				radio will restrict the range to 1.8-30MHz).
+				The uppermost 2 bits of the high byte will
+				indicate antenna port as follows:
+					00 - port B/A
+					01 - port A
+					10 - port B
+					11 - port A/B
+
+				The DDS value is computed using:
+
+				DDS = 2.2369621333 * (75000000 + freq)
+				where freq = input frequency in Hz.
+
+(STX)tbyte3-0(ETX)              Save DDS value for transmit frequency,
+				but do not tune the radio.
+
+(STX)U(00H)(ETX)                Antenna tuning off.
+(STX)U(01H)(ETX)                Antenna tuning on.
+(STX)U(02H)(ETX)                Antenna tuning start. A radio with with an
+				ATU will make an audible pass/fail tone after
+				the antenna tuning cycle completes.
+(STX)U(03H)(ETX)                Clear port A antenna impedance data.
+(STX)U(04H)(ETX)                Clear port B antenna impedance data.
+
+(STX)V(xxH)(ETX)                Audio volume. Hex value is relative volume
+				level with 00H being minimum volume and 0FFH
+				being maximum volume.
+
+(STX)v(00H)(ETX)                Transmit a CW dit.
+(STX)v(01H)(ETX)                Transmit a CW dah.
+(STX)v(02H)(ETX)                Transmit a CW interletter space.
+(STX)v(03H)(ETX)                Transmit a CW interword space.
+(STX)v(04H)(ETX)                Abort transmit of CW message.
+(STX)v(05H)(ETX)                Constant tune carrier off.
+(STX)v(06H)(ETX)                Constant tune carrier on.
+
+(STX)W(xxH)(ETX)                Max power out 1 - 100 watts.
+
+(STX)w(xxH)(ETX)                CW keyer weight, 00H to FFH
+				(00H = light, FFH = heavy).
+
+(STX)X(xxH)(ETX)                VOX level, 00H to FFH (00H = off).
+
+(STX)x(xxH)(ETX)                Push to talk (01H = Tx, 00H = Rx).
+
+(STX)Y(xxH)(ETX)                AntiVOX level, 00H to FFH.
+
+(STX)y(xxH)(ETX)                VOX Delay, 00H to FFH.
+				(00H = short, FFH = long).
+
+When the mode is commanded to AM, the radio will automatically
+change the Bandpass Filter to 6 kHz. When the mode is commanded
+from AM to USB or LSB, the radio will automatically change the
+Bandpass Filter to 2.4 kHz. When the mode is commanded from AM to
+CW, the radio will automatically change Bandpass Filter to 2.4 kHz
+(CW filter default wide) or 500 Hz (CW filter default narrow).
+If mode is changed to AM, squelch will be set to Level Sensitive.
+If mode is changed from AM to CW, LSB, or USB, then squelch will be
+restored to what it was before going to AM.
+
+During transmit, a VFO transition from split to simplex will
+not be allowed.
+
+The command inhibit table given below shows the conditions
+when commands are inhibited from being sent to the radio.
+
+		TX = radio transmiting
+		AM/FM = AM and FM modes
+		CW = CW mode
+
+Command  Definition           Inhibit Conditions
+-------  ----------           ------------------
+   A     AGC speed            --  AM/FM  ------
+   a     Amplifier            --  -----  ------
+   B     Bandpass Filter      --  AM/FM  ------
+   b     BITE                 TX  -----  ------
+   C     CW Offset freq.      --  -----  ------
+   c     CW Filter default    TX  -----  ------
+   D     CW keyer dynamics    --  -----  ------
+   d     NO-OP Keep Alive     --  -----  ------
+   E     Tx equal. freq.      --  -----  ------
+   e     Speech monitor       --  -----  ------
+   F     VFO                  TX  -----  ------
+   G     Receive attenuator   --  -----  ------
+   g     AGC knee             --  AM/FM  ------
+   H     Speech Compression   --  -----  ------
+   I     IF shift freq.       --  AM/FM  ------
+   i     Impedance matching   --  -----  ------
+   J     RIT (100Hz)          --  -----  ------
+   j     RIT (10Hz)           --  -----  ------
+   K     CW keyer mode        --  -----  ------
+   k     CW spotting tone     --  -----  ------
+   L     Level sens. squelch  --  -----  ------
+   M     Mode                 TX  -----  ------
+   m     Mic gain             --  -----  ------
+   N     Notch width          --  AM/FM  ------
+   n     Notch frequency      --  AM/FM  ------
+   O     Noise reduction      --  AM/FM  ------
+   o     Noise red. level     --  AM/FM  ------
+   P     Speech processor     --  -----  ------
+   p     Pre-amplifier        --  -----  ------
+   Q     Squelch              --  -----  ------
+   q     CW keyer QSK         --  -----  ------
+   R     Rx. frequency tune   --  -----  ------
+   r     Reference Cal freq.  TX  -----  ------
+   S     CW keyer speed       --  -----  ------
+   s     CW keyer sidetone    --  -----  ------
+   T     Tx. frequency tune   TX  -----  ------
+   t     Tx. frequency save   TX  -----  ------
+   U     Antenna tuning       --  -----  ------
+   V     Audio volume         --  -----  ------
+   v     CW Tx buffer         --  AM/FM  ------
+   W     Max power out        --  -----  ------
+   w     CW keyer weight      --  -----  ------
+   X     VOX level            --  -----  ------
+   x     Push to talk         --   CW    ------
+   Y     AntiVOX level        --  -----  ------
+   y     VOX Delay            --  -----  ------
+
+TELEMETRY STRUCTURE (Radio to PC)
+The radio will send telemetry to the PC automatically at a 50 msec rate.
+The telemetry format will be a single byte using the following values.
+
+Value           Definition
+-----           ----------
+0 - 127         Receive signal in dBm.
+
+128             Squelch open (busy).
+129             Squelch closed.
+
+130 - 139       Automatic Level Control 0 - 20 (each increment is 2 ALC).
+
+140 - 189       Forward power in percent, 0 - 100% (each increment is 2%).
+
+190 - 214       Reflected power in percent, 0 - 50% (each increment is 2%).
+
+215             Heat sink over-temperature alarm.
+216             Loss of synthesizer lock.
+217             Self test failure.
+
+220 - 249       Heat sink temperature in degrees C, 17.5 - 90 degrees C,
+		each increment is 2.5 degrees C.
+
+253             Start of data transfer.
+
+		Current radio settings data. If the DDS value for receive
+		frequency is requested, the 4 byte DDS value will be sent,
+		highest byte first, plus a 2 byte checksum. The uppermost
+		2 bits of the high byte will indicate antenna port. See 'R'
+		command section above for converting between DDS value and
+		frequency. If mode is requested, a single byte identifying
+		the mode will be sent without a checksum. See 'M' command
+		section above for value description. If maximum power
+		setting is requested, a single byte containing the power
+		setting in watts, 1 - 100, will be sent without a checksum.
+
+		Antenna impedance data. A total of 256 bytes of data will
+		always be sent (64 points x 4 bytes) plus a 2 byte checksum.
+		The 64 points will contain data for antenna port A and B.
+		In each 4 byte group, bytes 0-1 will always contain the 2
+		most significant bytes of DDS. The 2 uppermost bits of byte
+		0 will indicate the format of bytes 2-3 and the antenna port
+		as follows:
+			bits   bytes 2-3	       port
+			 00	rho/phi			 A
+			 01	cap/ind	(network data)	 A
+			 10	cap/ind	(network data)	 B
+			 11	rho/phi			 B (no tuner)
+		When bytes 2-3 contain rho/phi data, their values will
+		be as follows:
+			byte 2    Rho (increment is 1 / 256).
+			byte 3    Phase angle (increment is 2pi * (1 / 256)).
+
+		S Meter calibration table. 16 one byte values will always
+		be sent plus a 2 byte checksum.
+
+		Frequency reference calibration table. 32 one byte values
+		will always be sent plus a 2 byte checksum.
+
+		Phase detector calibration table. 16 one byte values will
+		always be sent plus a 2 byte checksum.
+
+		Carrier balance value. A 2 byte value will be sent without
+		a checksum.
+
+		Version data. 4 byte integer serial number, 2 byte hardware
+		version number (MSB alpha, LSB digit), 2 byte firmware
+		version number, and a 2 byte checksum.
+
+		Hour meter data. 4 byte integer hours of operation will be
+		sent plus a 2 byte checksum.
+
+		Fault record data. 10 two byte numbers will always be sent
+		plus a 2 byte checksum.
+
+		R->T switching data. 50 1 byte forward power values in
+		percent, 0 - 100% (each increment is 2%), plus a 2 byte
+		checksum.
+
+		T->R switching data. 50 1 byte values (DVM format) plus a
+		2 byte checksum.
+
+		Synthesizer lock time 1 data. 50 1 byte values (DVM format)
+		plus a 2 byte checksum.
+
+		Synthesizer lock time 2 data. 50 1 byte values (DVM format)
+		plus a 2 byte checksum.
+
+		ALC over-shoot data. 50 1 byte forward power values in
+		percent, 0 - 100% (each increment is 2%), plus a 2 byte
+		checksum.
+
+		Digital Volt Meter data can be one of the following types:
+		AGC, lock detector 1, lock detector 2, forward power,
+		reflected power, phase detector, Tx audio, temperature A,
+		temperature B, and TCXO. A 1 byte value (DVM format) will
+		be sent without a checksum.
+
+DVM format:
+Digital Volt Meter (DVM) data will be contained in a single byte
+representing the voltage. Positive values will range from 0 - 127, 128
+will be zero, and negative values will range from 129 to 255. Each
+increment in value will represent 1/16th of a volt or 0.0625 volts.
+
+254             Error.
+255             Good command acknowledge.
+
+The PC will calculate the Voltage Standing Wave Ratio (VSWR) using the
+following formula:
+
+		RP = 100 * RP / FP
+		RHO = SQRT (RP / FP)
+		VSWR = (1 + RHO) / (1 - RHO)
+
+	where   FP = forward power
+		RP = reflected power
+		RHO  = reflection coefficient
+
+A high VSWR level will trigger a warning based on the following criteria:
+		0.0 - 1.999 = normal (no warning)
+		2.0 - 2.999 = caution (yellow warning)
+		3.0 - above = alarm (red warning)
+
+Data Transfer Specifications
+		Baud Rate               9600
+		Data Bits               8
+		Stop Bits               1
+		Parity                  none
