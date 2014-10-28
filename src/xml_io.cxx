@@ -49,6 +49,8 @@ static const char* rig_set_mode         = "rig.set_mode";
 static const char* rig_get_mode         = "rig.get_mode";
 static const char* rig_set_bandwidth    = "rig.set_bandwidth";
 static const char* rig_get_bandwidth    = "rig.get_bandwidth";
+static const char *rig_set_smeter       = "rig.set_smeter";
+static const char *rig_set_pwrmeter     = "rig.set_pwrmeter";
 
 
 static XmlRpc::XmlRpcClient* client;
@@ -246,6 +248,31 @@ void send_sideband()
 		throw;
 	}
 }
+
+void send_smeter_val(int val)
+{
+	try {
+		XmlRpcValue mval((int)val), res;
+		execute(rig_set_smeter, mval, res);
+		ignore = 1;
+	} catch (const XmlRpc::XmlRpcException& e) {
+		if (XML_DEBUG)
+			LOG_ERROR("%s", e.getMessage().c_str());
+	}
+}
+
+void send_pwrmeter_val(int val)
+{
+	try {
+		XmlRpcValue mval((int)val), res;
+		execute(rig_set_pwrmeter, mval, res);
+		ignore = 1;
+	} catch (const XmlRpc::XmlRpcException& e) {
+		if (XML_DEBUG)
+			LOG_ERROR("%s", e.getMessage().c_str());
+	}
+}
+
 
 // --------------------------------------------------------------------
 // receive functions

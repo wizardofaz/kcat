@@ -805,6 +805,7 @@ void updateFwdPwr(int data)
 		sldrFwdPwr->value(power);
 		sldrFwdPwr->redraw();
 	}
+	send_pwrmeter_val((int)(100*power));
 }
 
 void updateSWR(int data)
@@ -871,6 +872,10 @@ void updateRcvSignal( int data)
 	}
 	sldrRcvSignal->value(-data);
 	update_scanner(-data);
+	int ival = round((120 - data) / 0.9);
+	if (ival < 0) ival = 0;
+	if (ival > 100) ival = 100;
+	send_smeter_val(ival);
 	LOG_DEBUG("%d", data);
 }
 

@@ -17,6 +17,8 @@ extern void send_name();
 extern void send_ptt_changed(bool);
 extern void send_new_mode(int);
 extern void send_new_bandwidth(int);
+extern void send_smeter_val(int val);
+extern void send_pwrmeter_val(int val);
 
 extern void send_sideband();
 extern void send_no_rig();
