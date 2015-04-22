@@ -2,11 +2,10 @@
 
 bin_PROGRAMS = kcat
 
-kcat_cxxFLAGS = @kcat_BUILD_cxxFLAGS@
-kcat_CXXFLAGS = @kcat_BUILD_CXXFLAGS@
+kcat_CXXFLAGS = @KCAT_BUILD_CXXFLAGS@
 kcat_CFLAGS = $(kcat_CXXFLAGS)
-kcat_LDFLAGS = @kcat_BUILD_LDFLAGS@
-kcat_LDADD = @kcat_BUILD_LDADD@
+kcat_LDFLAGS = @KCAT_BUILD_LDFLAGS@
+kcat_LDADD = @KCAT_BUILD_LDADD@
 
 MINGW32_SRC = \
 	kcat.rc \
@@ -16,10 +15,44 @@ MINGW32_SRC = \
 	include/compat-mingw.h
 
 
+# Build the xmlrpcpp source if libflxmlrpc is not found
+XMLRPCPP_SRC = \
+	xmlrpcpp/XmlRpcBase64.h \
+	xmlrpcpp/XmlRpcClient.cpp \
+	xmlrpcpp/XmlRpcClient.h \
+	xmlrpcpp/XmlRpcDispatch.cpp \
+	xmlrpcpp/XmlRpcDispatch.h \
+	xmlrpcpp/XmlRpcException.h \
+	xmlrpcpp/XmlRpc.h \
+	xmlrpcpp/XmlRpcMutex.cpp \
+	xmlrpcpp/XmlRpcMutex.h \
+	xmlrpcpp/XmlRpcServerConnection.cpp \
+	xmlrpcpp/XmlRpcServerConnection.h \
+	xmlrpcpp/XmlRpcServer.cpp \
+	xmlrpcpp/XmlRpcServer.h \
+	xmlrpcpp/XmlRpcServerMethod.cpp \
+	xmlrpcpp/XmlRpcServerMethod.h \
+	xmlrpcpp/XmlRpcSocket.cpp \
+	xmlrpcpp/XmlRpcSocket.h \
+	xmlrpcpp/XmlRpcSource.cpp \
+	xmlrpcpp/XmlRpcSource.h \
+	xmlrpcpp/XmlRpcUtil.cpp \
+	xmlrpcpp/XmlRpcUtil.h \
+	xmlrpcpp/XmlRpcValue.cpp \
+	xmlrpcpp/XmlRpcValue.h
+
 # We distribute these but do not always compile them
-EXTRA_kcat_SOURCES = $(kcat_WIN32_RES_SRC) $(MINGW32_SRC)
+EXTRA_kcat_SOURCES = $(FLRIG_WIN32_RES_SRC) $(MINGW32_SRC) $(XMLRPCPP_SRC)
 
 kcat_SOURCES =
+
+if !ENABLE_FLXMLRPC
+  kcat_SOURCES += $(XMLRPCPP_SRC)
+else
+kcat_CXXFLAGS += @FLXMLRPC_CFLAGS@
+kcat_CFLAGS   += @FLXMLRPC_CFLAGS@
+kcat_LDFLAGS  += @FLXMLRPC_LIBS@
+endif
 
 if MINGW32
 if HAVE_WINDRES
@@ -30,10 +63,10 @@ endif
 ########################################################################
 
 
-kcat_VERSION_MAJOR = @kcat_VERSION_MAJOR@
-kcat_VERSION_MINOR = @kcat_VERSION_MINOR@
-kcat_VERSION_PATCH = @kcat_VERSION_PATCH@
-kcat_VERSION = @kcat_VERSION@
+kcat_VERSION_MAJOR = @KCAT_VERSION_MAJOR@
+kcat_VERSION_MINOR = @KCAT_VERSION_MINOR@
+kcat_VERSION_PATCH = @KCAT_VERSION_PATCH@
+kcat_VERSION = @KCAT_VERSION@
 
 .EXPORT_ALL_VARIABLES: nsisinst appbundle
 
@@ -172,34 +205,7 @@ kcat_SOURCES += \
 	include/winserial.h \
 	include/XYplot.h \
 	xml_io.cxx \
-	include/xml_io.h \
-	xmlrpcpp/XmlRpc.h \
-	xmlrpcpp/XmlRpcClient.cpp \
-	xmlrpcpp/XmlRpcClient.h \
-	xmlrpcpp/XmlRpcDispatch.cpp \
-	xmlrpcpp/XmlRpcDispatch.h \
-	xmlrpcpp/XmlRpcException.h \
-	xmlrpcpp/XmlRpcMutex.cpp \
-	xmlrpcpp/XmlRpcMutex.h \
-	xmlrpcpp/XmlRpcServer.cpp \
-	xmlrpcpp/XmlRpcServer.h \
-	xmlrpcpp/XmlRpcServerConnection.cpp \
-	xmlrpcpp/XmlRpcServerConnection.h \
-	xmlrpcpp/XmlRpcServerMethod.cpp \
-	xmlrpcpp/XmlRpcServerMethod.h \
-	xmlrpcpp/XmlRpcSocket.cpp \
-	xmlrpcpp/XmlRpcSocket.h \
-	xmlrpcpp/XmlRpcSource.cpp \
-	xmlrpcpp/XmlRpcSource.h \
-	xmlrpcpp/XmlRpcThread.cpp \
-	xmlrpcpp/XmlRpcThread.h \
-	xmlrpcpp/XmlRpcThreadedServer.cpp \
-	xmlrpcpp/XmlRpcThreadedServer.h \
-	xmlrpcpp/XmlRpcUtil.cpp \
-	xmlrpcpp/XmlRpcUtil.h \
-	xmlrpcpp/XmlRpcValue.cpp \
-	xmlrpcpp/XmlRpcValue.h \
-	xmlrpcpp/base64.h
+	include/xml_io.h 
 
 
 # Additional source files that are distributed
@@ -235,5 +241,5 @@ EXTRA_DIST += \
 	$(srcdir)/../data/mac/Info.plist.in \
 	$(srcdir)/../data/mac/kcat.icns \
 	$(srcdir)/../scripts/mkappbundle.sh \
-	$(kcat_WIN32_SRC) \
-	$(kcat_FL_SRC)
+	$(KCAT_WIN32_SRC) \
+	$(KCAT_FL_SRC)

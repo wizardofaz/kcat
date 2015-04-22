@@ -38,9 +38,13 @@ build_triplet = @build@
 host_triplet = @host@
 target_triplet = @target@
 bin_PROGRAMS = kcat$(EXEEXT)
-@HAVE_WINDRES_TRUE@@MINGW32_TRUE@am__append_1 = $(MINGW32_SRC)
-@HAVE_NSIS_TRUE@am__append_2 = $(INSTALLER_FILE)
-@DARWIN_TRUE@am__append_3 = $(APPBUNDLE_NOLIBS) $(APPBUNDLE) $(APPBUNDLE)*.dmg
+@ENABLE_FLXMLRPC_FALSE@am__append_1 = $(XMLRPCPP_SRC)
+@ENABLE_FLXMLRPC_TRUE@am__append_2 = @FLXMLRPC_CFLAGS@
+@ENABLE_FLXMLRPC_TRUE@am__append_3 = @FLXMLRPC_CFLAGS@
+@ENABLE_FLXMLRPC_TRUE@am__append_4 = @FLXMLRPC_LIBS@
+@HAVE_WINDRES_TRUE@@MINGW32_TRUE@am__append_5 = $(MINGW32_SRC)
+@HAVE_NSIS_TRUE@am__append_6 = $(INSTALLER_FILE)
+@DARWIN_TRUE@am__append_7 = $(APPBUNDLE_NOLIBS) $(APPBUNDLE) $(APPBUNDLE)*.dmg
 subdir = src
 DIST_COMMON = $(srcdir)/Makefile.am $(srcdir)/Makefile.in \
 	$(srcdir)/config.h.in
@@ -59,7 +63,19 @@ CONFIG_CLEAN_FILES =
 CONFIG_CLEAN_VPATH_FILES =
 am__installdirs = "$(DESTDIR)$(bindir)"
 PROGRAMS = $(bin_PROGRAMS)
-am__kcat_SOURCES_DIST = kcat.rc include/kcatrc.h mingw.c \
+am__kcat_SOURCES_DIST = xmlrpcpp/XmlRpcBase64.h \
+	xmlrpcpp/XmlRpcClient.cpp xmlrpcpp/XmlRpcClient.h \
+	xmlrpcpp/XmlRpcDispatch.cpp xmlrpcpp/XmlRpcDispatch.h \
+	xmlrpcpp/XmlRpcException.h xmlrpcpp/XmlRpc.h \
+	xmlrpcpp/XmlRpcMutex.cpp xmlrpcpp/XmlRpcMutex.h \
+	xmlrpcpp/XmlRpcServerConnection.cpp \
+	xmlrpcpp/XmlRpcServerConnection.h xmlrpcpp/XmlRpcServer.cpp \
+	xmlrpcpp/XmlRpcServer.h xmlrpcpp/XmlRpcServerMethod.cpp \
+	xmlrpcpp/XmlRpcServerMethod.h xmlrpcpp/XmlRpcSocket.cpp \
+	xmlrpcpp/XmlRpcSocket.h xmlrpcpp/XmlRpcSource.cpp \
+	xmlrpcpp/XmlRpcSource.h xmlrpcpp/XmlRpcUtil.cpp \
+	xmlrpcpp/XmlRpcUtil.h xmlrpcpp/XmlRpcValue.cpp \
+	xmlrpcpp/XmlRpcValue.h kcat.rc include/kcatrc.h mingw.c \
 	include/compat.h include/compat-mingw.h date.cxx dialogs.cxx \
 	main.cxx Fl_SigBar.cxx flinput2.cxx flslider2.cxx \
 	font_browser.cxx FreqControl.cxx images.cxx IOspec.cxx \
@@ -76,25 +92,23 @@ am__kcat_SOURCES_DIST = kcat.rc include/kcatrc.h mingw.c \
 	include/status.h include/test.h include/threads.h \
 	include/timeops.h include/util.h include/ValueSlider.h \
 	include/version.h include/winserial.h include/XYplot.h \
-	xml_io.cxx include/xml_io.h xmlrpcpp/XmlRpc.h \
-	xmlrpcpp/XmlRpcClient.cpp xmlrpcpp/XmlRpcClient.h \
-	xmlrpcpp/XmlRpcDispatch.cpp xmlrpcpp/XmlRpcDispatch.h \
-	xmlrpcpp/XmlRpcException.h xmlrpcpp/XmlRpcMutex.cpp \
-	xmlrpcpp/XmlRpcMutex.h xmlrpcpp/XmlRpcServer.cpp \
-	xmlrpcpp/XmlRpcServer.h xmlrpcpp/XmlRpcServerConnection.cpp \
-	xmlrpcpp/XmlRpcServerConnection.h \
-	xmlrpcpp/XmlRpcServerMethod.cpp xmlrpcpp/XmlRpcServerMethod.h \
-	xmlrpcpp/XmlRpcSocket.cpp xmlrpcpp/XmlRpcSocket.h \
-	xmlrpcpp/XmlRpcSource.cpp xmlrpcpp/XmlRpcSource.h \
-	xmlrpcpp/XmlRpcThread.cpp xmlrpcpp/XmlRpcThread.h \
-	xmlrpcpp/XmlRpcThreadedServer.cpp \
-	xmlrpcpp/XmlRpcThreadedServer.h xmlrpcpp/XmlRpcUtil.cpp \
-	xmlrpcpp/XmlRpcUtil.h xmlrpcpp/XmlRpcValue.cpp \
-	xmlrpcpp/XmlRpcValue.h xmlrpcpp/base64.h
-am__objects_1 = kcat.$(OBJEXT) kcat-mingw.$(OBJEXT)
-@HAVE_WINDRES_TRUE@@MINGW32_TRUE@am__objects_2 = $(am__objects_1)
-am_kcat_OBJECTS = $(am__objects_2) kcat-date.$(OBJEXT) \
-	kcat-dialogs.$(OBJEXT) kcat-main.$(OBJEXT) \
+	xml_io.cxx include/xml_io.h
+am__dirstamp = $(am__leading_dot)dirstamp
+am__objects_1 = xmlrpcpp/kcat-XmlRpcClient.$(OBJEXT) \
+	xmlrpcpp/kcat-XmlRpcDispatch.$(OBJEXT) \
+	xmlrpcpp/kcat-XmlRpcMutex.$(OBJEXT) \
+	xmlrpcpp/kcat-XmlRpcServerConnection.$(OBJEXT) \
+	xmlrpcpp/kcat-XmlRpcServer.$(OBJEXT) \
+	xmlrpcpp/kcat-XmlRpcServerMethod.$(OBJEXT) \
+	xmlrpcpp/kcat-XmlRpcSocket.$(OBJEXT) \
+	xmlrpcpp/kcat-XmlRpcSource.$(OBJEXT) \
+	xmlrpcpp/kcat-XmlRpcUtil.$(OBJEXT) \
+	xmlrpcpp/kcat-XmlRpcValue.$(OBJEXT)
+@ENABLE_FLXMLRPC_FALSE@am__objects_2 = $(am__objects_1)
+am__objects_3 = kcat.$(OBJEXT) kcat-mingw.$(OBJEXT)
+@HAVE_WINDRES_TRUE@@MINGW32_TRUE@am__objects_4 = $(am__objects_3)
+am_kcat_OBJECTS = $(am__objects_2) $(am__objects_4) \
+	kcat-date.$(OBJEXT) kcat-dialogs.$(OBJEXT) kcat-main.$(OBJEXT) \
 	kcat-Fl_SigBar.$(OBJEXT) kcat-flinput2.$(OBJEXT) \
 	kcat-flslider2.$(OBJEXT) kcat-font_browser.$(OBJEXT) \
 	kcat-FreqControl.$(OBJEXT) kcat-images.$(OBJEXT) \
@@ -106,16 +120,9 @@ am_kcat_OBJECTS = $(am__objects_2) kcat-date.$(OBJEXT) \
 	kcat-status.$(OBJEXT) kcat-timeops.$(OBJEXT) \
 	kcat-util.$(OBJEXT) kcat-ValueSlider.$(OBJEXT) \
 	kcat-xmlrpc_log.$(OBJEXT) kcat-XYplot.$(OBJEXT) \
-	kcat-xml_io.$(OBJEXT) kcat-XmlRpcClient.$(OBJEXT) \
-	kcat-XmlRpcDispatch.$(OBJEXT) kcat-XmlRpcMutex.$(OBJEXT) \
-	kcat-XmlRpcServer.$(OBJEXT) \
-	kcat-XmlRpcServerConnection.$(OBJEXT) \
-	kcat-XmlRpcServerMethod.$(OBJEXT) kcat-XmlRpcSocket.$(OBJEXT) \
-	kcat-XmlRpcSource.$(OBJEXT) kcat-XmlRpcThread.$(OBJEXT) \
-	kcat-XmlRpcThreadedServer.$(OBJEXT) kcat-XmlRpcUtil.$(OBJEXT) \
-	kcat-XmlRpcValue.$(OBJEXT)
-am__objects_3 =
-nodist_kcat_OBJECTS = $(am__objects_3)
+	kcat-xml_io.$(OBJEXT)
+am__objects_5 =
+nodist_kcat_OBJECTS = $(am__objects_5)
 kcat_OBJECTS = $(am_kcat_OBJECTS) $(nodist_kcat_OBJECTS)
 kcat_DEPENDENCIES =
 kcat_LINK = $(CXXLD) $(kcat_CXXFLAGS) $(CXXFLAGS) $(kcat_LDFLAGS) \
@@ -169,12 +176,22 @@ FLTK_CFLAGS = @FLTK_CFLAGS@
 FLTK_CONFIG = @FLTK_CONFIG@
 FLTK_LIBS = @FLTK_LIBS@
 FLUID = @FLUID@
+FLXMLRPC_CFLAGS = @FLXMLRPC_CFLAGS@
+FLXMLRPC_LIBS = @FLXMLRPC_LIBS@
 GREP = @GREP@
 INSTALL = @INSTALL@
 INSTALL_DATA = @INSTALL_DATA@
 INSTALL_PROGRAM = @INSTALL_PROGRAM@
 INSTALL_SCRIPT = @INSTALL_SCRIPT@
 INSTALL_STRIP_PROGRAM = @INSTALL_STRIP_PROGRAM@
+KCAT_BUILD_CPPFLAGS = @KCAT_BUILD_CPPFLAGS@
+KCAT_BUILD_CXXFLAGS = @KCAT_BUILD_CXXFLAGS@
+KCAT_BUILD_LDADD = @KCAT_BUILD_LDADD@
+KCAT_BUILD_LDFLAGS = @KCAT_BUILD_LDFLAGS@
+KCAT_VERSION = @KCAT_VERSION@
+KCAT_VERSION_MAJOR = @KCAT_VERSION_MAJOR@
+KCAT_VERSION_MINOR = @KCAT_VERSION_MINOR@
+KCAT_VERSION_PATCH = @KCAT_VERSION_PATCH@
 LDFLAGS = @LDFLAGS@
 LIBOBJS = @LIBOBJS@
 LIBS = @LIBS@
@@ -197,7 +214,6 @@ PATH_SEPARATOR = @PATH_SEPARATOR@
 PKG_CONFIG = @PKG_CONFIG@
 PKG_CONFIG_LIBDIR = @PKG_CONFIG_LIBDIR@
 PKG_CONFIG_PATH = @PKG_CONFIG_PATH@
-POW_LIB = @POW_LIB@
 PTW32_CFLAGS = @PTW32_CFLAGS@
 PTW32_LIBS = @PTW32_LIBS@
 RDYNAMIC = @RDYNAMIC@
@@ -240,16 +256,6 @@ htmldir = @htmldir@
 includedir = @includedir@
 infodir = @infodir@
 install_sh = @install_sh@
-kcat_BUILD_CPPFLAGS = @kcat_BUILD_CPPFLAGS@
-kcat_BUILD_CXXFLAGS = @kcat_BUILD_CXXFLAGS@
-kcat_BUILD_LDADD = @kcat_BUILD_LDADD@
-kcat_BUILD_LDFLAGS = @kcat_BUILD_LDFLAGS@
-kcat_VERSION = @kcat_VERSION@
-
-########################################################################
-kcat_VERSION_MAJOR = @kcat_VERSION_MAJOR@
-kcat_VERSION_MINOR = @kcat_VERSION_MINOR@
-kcat_VERSION_PATCH = @kcat_VERSION_PATCH@
 libdir = @libdir@
 libexecdir = @libexecdir@
 localedir = @localedir@
@@ -273,11 +279,10 @@ target_vendor = @target_vendor@
 top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
-kcat_cxxFLAGS = @kcat_BUILD_cxxFLAGS@
-kcat_CXXFLAGS = @kcat_BUILD_CXXFLAGS@
-kcat_CFLAGS = $(kcat_CXXFLAGS)
-kcat_LDFLAGS = @kcat_BUILD_LDFLAGS@
-kcat_LDADD = @kcat_BUILD_LDADD@
+kcat_CXXFLAGS = @KCAT_BUILD_CXXFLAGS@ $(am__append_2)
+kcat_CFLAGS = $(kcat_CXXFLAGS) $(am__append_3)
+kcat_LDFLAGS = @KCAT_BUILD_LDFLAGS@ $(am__append_4)
+kcat_LDADD = @KCAT_BUILD_LDADD@
 MINGW32_SRC = \
 	kcat.rc \
 	include/kcatrc.h \
@@ -286,17 +291,44 @@ MINGW32_SRC = \
 	include/compat-mingw.h
 
 
+# Build the xmlrpcpp source if libflxmlrpc is not found
+XMLRPCPP_SRC = \
+	xmlrpcpp/XmlRpcBase64.h \
+	xmlrpcpp/XmlRpcClient.cpp \
+	xmlrpcpp/XmlRpcClient.h \
+	xmlrpcpp/XmlRpcDispatch.cpp \
+	xmlrpcpp/XmlRpcDispatch.h \
+	xmlrpcpp/XmlRpcException.h \
+	xmlrpcpp/XmlRpc.h \
+	xmlrpcpp/XmlRpcMutex.cpp \
+	xmlrpcpp/XmlRpcMutex.h \
+	xmlrpcpp/XmlRpcServerConnection.cpp \
+	xmlrpcpp/XmlRpcServerConnection.h \
+	xmlrpcpp/XmlRpcServer.cpp \
+	xmlrpcpp/XmlRpcServer.h \
+	xmlrpcpp/XmlRpcServerMethod.cpp \
+	xmlrpcpp/XmlRpcServerMethod.h \
+	xmlrpcpp/XmlRpcSocket.cpp \
+	xmlrpcpp/XmlRpcSocket.h \
+	xmlrpcpp/XmlRpcSource.cpp \
+	xmlrpcpp/XmlRpcSource.h \
+	xmlrpcpp/XmlRpcUtil.cpp \
+	xmlrpcpp/XmlRpcUtil.h \
+	xmlrpcpp/XmlRpcValue.cpp \
+	xmlrpcpp/XmlRpcValue.h
+
+
 # We distribute these but do not always compile them
-EXTRA_kcat_SOURCES = $(kcat_WIN32_RES_SRC) $(MINGW32_SRC)
+EXTRA_kcat_SOURCES = $(FLRIG_WIN32_RES_SRC) $(MINGW32_SRC) $(XMLRPCPP_SRC)
 
 # Sources that we build. It is OK to have headers here.
-kcat_SOURCES = $(am__append_1) date.cxx dialogs.cxx main.cxx \
-	Fl_SigBar.cxx flinput2.cxx flslider2.cxx font_browser.cxx \
-	FreqControl.cxx images.cxx IOspec.cxx kcat_io.cxx \
-	kcat_panel.cxx serialcomm.cxx support.cxx telemetry.cxx \
-	cstack.cxx debug.cxx icons.cxx pixmaps.cxx status.cxx \
-	timeops.cxx util.cxx ValueSlider.cxx xmlrpc_log.cxx XYplot.cxx \
-	include/cstack.h include/date.h include/debug.h \
+kcat_SOURCES = $(am__append_1) $(am__append_5) date.cxx dialogs.cxx \
+	main.cxx Fl_SigBar.cxx flinput2.cxx flslider2.cxx \
+	font_browser.cxx FreqControl.cxx images.cxx IOspec.cxx \
+	kcat_io.cxx kcat_panel.cxx serialcomm.cxx support.cxx \
+	telemetry.cxx cstack.cxx debug.cxx icons.cxx pixmaps.cxx \
+	status.cxx timeops.cxx util.cxx ValueSlider.cxx xmlrpc_log.cxx \
+	XYplot.cxx include/cstack.h include/date.h include/debug.h \
 	include/dialogs.h include/gettext.h include/icons.h \
 	include/pixmaps.h include/Fl_SigBar.h include/flinput2.h \
 	include/flslider2.h include/font_browser.h \
@@ -306,29 +338,21 @@ kcat_SOURCES = $(am__append_1) date.cxx dialogs.cxx main.cxx \
 	include/support.h include/status.h include/test.h \
 	include/threads.h include/timeops.h include/util.h \
 	include/ValueSlider.h include/version.h include/winserial.h \
-	include/XYplot.h xml_io.cxx include/xml_io.h xmlrpcpp/XmlRpc.h \
-	xmlrpcpp/XmlRpcClient.cpp xmlrpcpp/XmlRpcClient.h \
-	xmlrpcpp/XmlRpcDispatch.cpp xmlrpcpp/XmlRpcDispatch.h \
-	xmlrpcpp/XmlRpcException.h xmlrpcpp/XmlRpcMutex.cpp \
-	xmlrpcpp/XmlRpcMutex.h xmlrpcpp/XmlRpcServer.cpp \
-	xmlrpcpp/XmlRpcServer.h xmlrpcpp/XmlRpcServerConnection.cpp \
-	xmlrpcpp/XmlRpcServerConnection.h \
-	xmlrpcpp/XmlRpcServerMethod.cpp xmlrpcpp/XmlRpcServerMethod.h \
-	xmlrpcpp/XmlRpcSocket.cpp xmlrpcpp/XmlRpcSocket.h \
-	xmlrpcpp/XmlRpcSource.cpp xmlrpcpp/XmlRpcSource.h \
-	xmlrpcpp/XmlRpcThread.cpp xmlrpcpp/XmlRpcThread.h \
-	xmlrpcpp/XmlRpcThreadedServer.cpp \
-	xmlrpcpp/XmlRpcThreadedServer.h xmlrpcpp/XmlRpcUtil.cpp \
-	xmlrpcpp/XmlRpcUtil.h xmlrpcpp/XmlRpcValue.cpp \
-	xmlrpcpp/XmlRpcValue.h xmlrpcpp/base64.h
+	include/XYplot.h xml_io.cxx include/xml_io.h
+
+########################################################################
+kcat_VERSION_MAJOR = @KCAT_VERSION_MAJOR@
+kcat_VERSION_MINOR = @KCAT_VERSION_MINOR@
+kcat_VERSION_PATCH = @KCAT_VERSION_PATCH@
+kcat_VERSION = @KCAT_VERSION@
 
 # Sources that are generated,
 BUILT_SOURCES = 
 # not distributed,
 nodist_kcat_SOURCES = $(BUILT_SOURCES)
 # and deleted by the clean targets
-CLEANFILES = $(BUILT_SOURCES) $(am__append_2)
-CLEAN_LOCAL = $(am__append_3)
+CLEANFILES = $(BUILT_SOURCES) $(am__append_6)
+CLEAN_LOCAL = $(am__append_7)
 FL_SRC = kcat_panel.fl
 INSTALLER_FILE = kcat-$(kcat_VERSION)_setup.exe
 APPBUNDLE = kcat-$(kcat_VERSION)
@@ -350,8 +374,8 @@ EXTRA_DIST = kcat.rc kcat_icon.cxx kcat_panel.fl images/kcat.xpm \
 	$(srcdir)/../scripts/build4mingw.sh \
 	$(srcdir)/../data/mac/Info.plist.in \
 	$(srcdir)/../data/mac/kcat.icns \
-	$(srcdir)/../scripts/mkappbundle.sh $(kcat_WIN32_SRC) \
-	$(kcat_FL_SRC)
+	$(srcdir)/../scripts/mkappbundle.sh $(KCAT_WIN32_SRC) \
+	$(KCAT_FL_SRC)
 all: $(BUILT_SOURCES) config.h
 	$(MAKE) $(AM_MAKEFLAGS) all-am
 
@@ -455,12 +479,48 @@ installcheck-binPROGRAMS: $(bin_PROGRAMS)
 	    else echo "$$f does not support $$opt" 1>&2; bad=1; fi; \
 	  done; \
 	done; rm -f c$${pid}_.???; exit $$bad
+xmlrpcpp/$(am__dirstamp):
+	@$(MKDIR_P) xmlrpcpp
+	@: > xmlrpcpp/$(am__dirstamp)
+xmlrpcpp/$(DEPDIR)/$(am__dirstamp):
+	@$(MKDIR_P) xmlrpcpp/$(DEPDIR)
+	@: > xmlrpcpp/$(DEPDIR)/$(am__dirstamp)
+xmlrpcpp/kcat-XmlRpcClient.$(OBJEXT): xmlrpcpp/$(am__dirstamp) \
+	xmlrpcpp/$(DEPDIR)/$(am__dirstamp)
+xmlrpcpp/kcat-XmlRpcDispatch.$(OBJEXT): xmlrpcpp/$(am__dirstamp) \
+	xmlrpcpp/$(DEPDIR)/$(am__dirstamp)
+xmlrpcpp/kcat-XmlRpcMutex.$(OBJEXT): xmlrpcpp/$(am__dirstamp) \
+	xmlrpcpp/$(DEPDIR)/$(am__dirstamp)
+xmlrpcpp/kcat-XmlRpcServerConnection.$(OBJEXT):  \
+	xmlrpcpp/$(am__dirstamp) xmlrpcpp/$(DEPDIR)/$(am__dirstamp)
+xmlrpcpp/kcat-XmlRpcServer.$(OBJEXT): xmlrpcpp/$(am__dirstamp) \
+	xmlrpcpp/$(DEPDIR)/$(am__dirstamp)
+xmlrpcpp/kcat-XmlRpcServerMethod.$(OBJEXT): xmlrpcpp/$(am__dirstamp) \
+	xmlrpcpp/$(DEPDIR)/$(am__dirstamp)
+xmlrpcpp/kcat-XmlRpcSocket.$(OBJEXT): xmlrpcpp/$(am__dirstamp) \
+	xmlrpcpp/$(DEPDIR)/$(am__dirstamp)
+xmlrpcpp/kcat-XmlRpcSource.$(OBJEXT): xmlrpcpp/$(am__dirstamp) \
+	xmlrpcpp/$(DEPDIR)/$(am__dirstamp)
+xmlrpcpp/kcat-XmlRpcUtil.$(OBJEXT): xmlrpcpp/$(am__dirstamp) \
+	xmlrpcpp/$(DEPDIR)/$(am__dirstamp)
+xmlrpcpp/kcat-XmlRpcValue.$(OBJEXT): xmlrpcpp/$(am__dirstamp) \
+	xmlrpcpp/$(DEPDIR)/$(am__dirstamp)
 kcat$(EXEEXT): $(kcat_OBJECTS) $(kcat_DEPENDENCIES) $(EXTRA_kcat_DEPENDENCIES) 
 	@rm -f kcat$(EXEEXT)
 	$(kcat_LINK) $(kcat_OBJECTS) $(kcat_LDADD) $(LIBS)
 
 mostlyclean-compile:
 	-rm -f *.$(OBJEXT)
+	-rm -f xmlrpcpp/kcat-XmlRpcClient.$(OBJEXT)
+	-rm -f xmlrpcpp/kcat-XmlRpcDispatch.$(OBJEXT)
+	-rm -f xmlrpcpp/kcat-XmlRpcMutex.$(OBJEXT)
+	-rm -f xmlrpcpp/kcat-XmlRpcServer.$(OBJEXT)
+	-rm -f xmlrpcpp/kcat-XmlRpcServerConnection.$(OBJEXT)
+	-rm -f xmlrpcpp/kcat-XmlRpcServerMethod.$(OBJEXT)
+	-rm -f xmlrpcpp/kcat-XmlRpcSocket.$(OBJEXT)
+	-rm -f xmlrpcpp/kcat-XmlRpcSource.$(OBJEXT)
+	-rm -f xmlrpcpp/kcat-XmlRpcUtil.$(OBJEXT)
+	-rm -f xmlrpcpp/kcat-XmlRpcValue.$(OBJEXT)
 
 distclean-compile:
 	-rm -f *.tab.c
@@ -470,18 +530,6 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/kcat-IOspec.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/kcat-ValueSlider.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/kcat-XYplot.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/kcat-XmlRpcClient.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/kcat-XmlRpcDispatch.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/kcat-XmlRpcMutex.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/kcat-XmlRpcServer.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/kcat-XmlRpcServerConnection.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/kcat-XmlRpcServerMethod.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/kcat-XmlRpcSocket.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/kcat-XmlRpcSource.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/kcat-XmlRpcThread.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/kcat-XmlRpcThreadedServer.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/kcat-XmlRpcUtil.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/kcat-XmlRpcValue.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/kcat-cstack.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/kcat-date.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/kcat-debug.Po@am__quote@
@@ -504,20 +552,32 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/kcat-util.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/kcat-xml_io.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/kcat-xmlrpc_log.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@xmlrpcpp/$(DEPDIR)/kcat-XmlRpcClient.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@xmlrpcpp/$(DEPDIR)/kcat-XmlRpcDispatch.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@xmlrpcpp/$(DEPDIR)/kcat-XmlRpcMutex.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@xmlrpcpp/$(DEPDIR)/kcat-XmlRpcServer.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@xmlrpcpp/$(DEPDIR)/kcat-XmlRpcServerConnection.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@xmlrpcpp/$(DEPDIR)/kcat-XmlRpcServerMethod.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@xmlrpcpp/$(DEPDIR)/kcat-XmlRpcSocket.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@xmlrpcpp/$(DEPDIR)/kcat-XmlRpcSource.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@xmlrpcpp/$(DEPDIR)/kcat-XmlRpcUtil.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@xmlrpcpp/$(DEPDIR)/kcat-XmlRpcValue.Po@am__quote@
 
 .c.o:
-@am__fastdepCC_TRUE@	$(COMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ $<
-@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/$*.Tpo $(DEPDIR)/$*.Po
+@am__fastdepCC_TRUE@	depbase=`echo $@ | sed 's|[^/]*$$|$(DEPDIR)/&|;s|\.o$$||'`;\
+@am__fastdepCC_TRUE@	$(COMPILE) -MT $@ -MD -MP -MF $$depbase.Tpo -c -o $@ $< &&\
+@am__fastdepCC_TRUE@	$(am__mv) $$depbase.Tpo $$depbase.Po
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	source='$<' object='$@' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(COMPILE) -c $<
+@am__fastdepCC_FALSE@	$(COMPILE) -c -o $@ $<
 
 .c.obj:
-@am__fastdepCC_TRUE@	$(COMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ `$(CYGPATH_W) '$<'`
-@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/$*.Tpo $(DEPDIR)/$*.Po
+@am__fastdepCC_TRUE@	depbase=`echo $@ | sed 's|[^/]*$$|$(DEPDIR)/&|;s|\.obj$$||'`;\
+@am__fastdepCC_TRUE@	$(COMPILE) -MT $@ -MD -MP -MF $$depbase.Tpo -c -o $@ `$(CYGPATH_W) '$<'` &&\
+@am__fastdepCC_TRUE@	$(am__mv) $$depbase.Tpo $$depbase.Po
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	source='$<' object='$@' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(COMPILE) -c `$(CYGPATH_W) '$<'`
+@am__fastdepCC_FALSE@	$(COMPILE) -c -o $@ `$(CYGPATH_W) '$<'`
 
 kcat-mingw.o: mingw.c
 @am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(kcat_CFLAGS) $(CFLAGS) -MT kcat-mingw.o -MD -MP -MF $(DEPDIR)/kcat-mingw.Tpo -c -o kcat-mingw.o `test -f 'mingw.c' || echo '$(srcdir)/'`mingw.c
@@ -534,18 +594,160 @@ kcat-mingw.obj: mingw.c
 @am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(kcat_CFLAGS) $(CFLAGS) -c -o kcat-mingw.obj `if test -f 'mingw.c'; then $(CYGPATH_W) 'mingw.c'; else $(CYGPATH_W) '$(srcdir)/mingw.c'; fi`
 
 .cpp.o:
-@am__fastdepCXX_TRUE@	$(CXXCOMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ $<
-@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/$*.Tpo $(DEPDIR)/$*.Po
+@am__fastdepCXX_TRUE@	depbase=`echo $@ | sed 's|[^/]*$$|$(DEPDIR)/&|;s|\.o$$||'`;\
+@am__fastdepCXX_TRUE@	$(CXXCOMPILE) -MT $@ -MD -MP -MF $$depbase.Tpo -c -o $@ $< &&\
+@am__fastdepCXX_TRUE@	$(am__mv) $$depbase.Tpo $$depbase.Po
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='$<' object='$@' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(CXXCOMPILE) -c -o $@ $<
 
 .cpp.obj:
-@am__fastdepCXX_TRUE@	$(CXXCOMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ `$(CYGPATH_W) '$<'`
-@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/$*.Tpo $(DEPDIR)/$*.Po
+@am__fastdepCXX_TRUE@	depbase=`echo $@ | sed 's|[^/]*$$|$(DEPDIR)/&|;s|\.obj$$||'`;\
+@am__fastdepCXX_TRUE@	$(CXXCOMPILE) -MT $@ -MD -MP -MF $$depbase.Tpo -c -o $@ `$(CYGPATH_W) '$<'` &&\
+@am__fastdepCXX_TRUE@	$(am__mv) $$depbase.Tpo $$depbase.Po
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='$<' object='$@' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(CXXCOMPILE) -c -o $@ `$(CYGPATH_W) '$<'`
+
+xmlrpcpp/kcat-XmlRpcClient.o: xmlrpcpp/XmlRpcClient.cpp
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -MT xmlrpcpp/kcat-XmlRpcClient.o -MD -MP -MF xmlrpcpp/$(DEPDIR)/kcat-XmlRpcClient.Tpo -c -o xmlrpcpp/kcat-XmlRpcClient.o `test -f 'xmlrpcpp/XmlRpcClient.cpp' || echo '$(srcdir)/'`xmlrpcpp/XmlRpcClient.cpp
+@am__fastdepCXX_TRUE@	$(am__mv) xmlrpcpp/$(DEPDIR)/kcat-XmlRpcClient.Tpo xmlrpcpp/$(DEPDIR)/kcat-XmlRpcClient.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='xmlrpcpp/XmlRpcClient.cpp' object='xmlrpcpp/kcat-XmlRpcClient.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -c -o xmlrpcpp/kcat-XmlRpcClient.o `test -f 'xmlrpcpp/XmlRpcClient.cpp' || echo '$(srcdir)/'`xmlrpcpp/XmlRpcClient.cpp
+
+xmlrpcpp/kcat-XmlRpcClient.obj: xmlrpcpp/XmlRpcClient.cpp
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -MT xmlrpcpp/kcat-XmlRpcClient.obj -MD -MP -MF xmlrpcpp/$(DEPDIR)/kcat-XmlRpcClient.Tpo -c -o xmlrpcpp/kcat-XmlRpcClient.obj `if test -f 'xmlrpcpp/XmlRpcClient.cpp'; then $(CYGPATH_W) 'xmlrpcpp/XmlRpcClient.cpp'; else $(CYGPATH_W) '$(srcdir)/xmlrpcpp/XmlRpcClient.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(am__mv) xmlrpcpp/$(DEPDIR)/kcat-XmlRpcClient.Tpo xmlrpcpp/$(DEPDIR)/kcat-XmlRpcClient.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='xmlrpcpp/XmlRpcClient.cpp' object='xmlrpcpp/kcat-XmlRpcClient.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -c -o xmlrpcpp/kcat-XmlRpcClient.obj `if test -f 'xmlrpcpp/XmlRpcClient.cpp'; then $(CYGPATH_W) 'xmlrpcpp/XmlRpcClient.cpp'; else $(CYGPATH_W) '$(srcdir)/xmlrpcpp/XmlRpcClient.cpp'; fi`
+
+xmlrpcpp/kcat-XmlRpcDispatch.o: xmlrpcpp/XmlRpcDispatch.cpp
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -MT xmlrpcpp/kcat-XmlRpcDispatch.o -MD -MP -MF xmlrpcpp/$(DEPDIR)/kcat-XmlRpcDispatch.Tpo -c -o xmlrpcpp/kcat-XmlRpcDispatch.o `test -f 'xmlrpcpp/XmlRpcDispatch.cpp' || echo '$(srcdir)/'`xmlrpcpp/XmlRpcDispatch.cpp
+@am__fastdepCXX_TRUE@	$(am__mv) xmlrpcpp/$(DEPDIR)/kcat-XmlRpcDispatch.Tpo xmlrpcpp/$(DEPDIR)/kcat-XmlRpcDispatch.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='xmlrpcpp/XmlRpcDispatch.cpp' object='xmlrpcpp/kcat-XmlRpcDispatch.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -c -o xmlrpcpp/kcat-XmlRpcDispatch.o `test -f 'xmlrpcpp/XmlRpcDispatch.cpp' || echo '$(srcdir)/'`xmlrpcpp/XmlRpcDispatch.cpp
+
+xmlrpcpp/kcat-XmlRpcDispatch.obj: xmlrpcpp/XmlRpcDispatch.cpp
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -MT xmlrpcpp/kcat-XmlRpcDispatch.obj -MD -MP -MF xmlrpcpp/$(DEPDIR)/kcat-XmlRpcDispatch.Tpo -c -o xmlrpcpp/kcat-XmlRpcDispatch.obj `if test -f 'xmlrpcpp/XmlRpcDispatch.cpp'; then $(CYGPATH_W) 'xmlrpcpp/XmlRpcDispatch.cpp'; else $(CYGPATH_W) '$(srcdir)/xmlrpcpp/XmlRpcDispatch.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(am__mv) xmlrpcpp/$(DEPDIR)/kcat-XmlRpcDispatch.Tpo xmlrpcpp/$(DEPDIR)/kcat-XmlRpcDispatch.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='xmlrpcpp/XmlRpcDispatch.cpp' object='xmlrpcpp/kcat-XmlRpcDispatch.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -c -o xmlrpcpp/kcat-XmlRpcDispatch.obj `if test -f 'xmlrpcpp/XmlRpcDispatch.cpp'; then $(CYGPATH_W) 'xmlrpcpp/XmlRpcDispatch.cpp'; else $(CYGPATH_W) '$(srcdir)/xmlrpcpp/XmlRpcDispatch.cpp'; fi`
+
+xmlrpcpp/kcat-XmlRpcMutex.o: xmlrpcpp/XmlRpcMutex.cpp
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -MT xmlrpcpp/kcat-XmlRpcMutex.o -MD -MP -MF xmlrpcpp/$(DEPDIR)/kcat-XmlRpcMutex.Tpo -c -o xmlrpcpp/kcat-XmlRpcMutex.o `test -f 'xmlrpcpp/XmlRpcMutex.cpp' || echo '$(srcdir)/'`xmlrpcpp/XmlRpcMutex.cpp
+@am__fastdepCXX_TRUE@	$(am__mv) xmlrpcpp/$(DEPDIR)/kcat-XmlRpcMutex.Tpo xmlrpcpp/$(DEPDIR)/kcat-XmlRpcMutex.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='xmlrpcpp/XmlRpcMutex.cpp' object='xmlrpcpp/kcat-XmlRpcMutex.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -c -o xmlrpcpp/kcat-XmlRpcMutex.o `test -f 'xmlrpcpp/XmlRpcMutex.cpp' || echo '$(srcdir)/'`xmlrpcpp/XmlRpcMutex.cpp
+
+xmlrpcpp/kcat-XmlRpcMutex.obj: xmlrpcpp/XmlRpcMutex.cpp
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -MT xmlrpcpp/kcat-XmlRpcMutex.obj -MD -MP -MF xmlrpcpp/$(DEPDIR)/kcat-XmlRpcMutex.Tpo -c -o xmlrpcpp/kcat-XmlRpcMutex.obj `if test -f 'xmlrpcpp/XmlRpcMutex.cpp'; then $(CYGPATH_W) 'xmlrpcpp/XmlRpcMutex.cpp'; else $(CYGPATH_W) '$(srcdir)/xmlrpcpp/XmlRpcMutex.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(am__mv) xmlrpcpp/$(DEPDIR)/kcat-XmlRpcMutex.Tpo xmlrpcpp/$(DEPDIR)/kcat-XmlRpcMutex.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='xmlrpcpp/XmlRpcMutex.cpp' object='xmlrpcpp/kcat-XmlRpcMutex.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -c -o xmlrpcpp/kcat-XmlRpcMutex.obj `if test -f 'xmlrpcpp/XmlRpcMutex.cpp'; then $(CYGPATH_W) 'xmlrpcpp/XmlRpcMutex.cpp'; else $(CYGPATH_W) '$(srcdir)/xmlrpcpp/XmlRpcMutex.cpp'; fi`
+
+xmlrpcpp/kcat-XmlRpcServerConnection.o: xmlrpcpp/XmlRpcServerConnection.cpp
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -MT xmlrpcpp/kcat-XmlRpcServerConnection.o -MD -MP -MF xmlrpcpp/$(DEPDIR)/kcat-XmlRpcServerConnection.Tpo -c -o xmlrpcpp/kcat-XmlRpcServerConnection.o `test -f 'xmlrpcpp/XmlRpcServerConnection.cpp' || echo '$(srcdir)/'`xmlrpcpp/XmlRpcServerConnection.cpp
+@am__fastdepCXX_TRUE@	$(am__mv) xmlrpcpp/$(DEPDIR)/kcat-XmlRpcServerConnection.Tpo xmlrpcpp/$(DEPDIR)/kcat-XmlRpcServerConnection.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='xmlrpcpp/XmlRpcServerConnection.cpp' object='xmlrpcpp/kcat-XmlRpcServerConnection.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -c -o xmlrpcpp/kcat-XmlRpcServerConnection.o `test -f 'xmlrpcpp/XmlRpcServerConnection.cpp' || echo '$(srcdir)/'`xmlrpcpp/XmlRpcServerConnection.cpp
+
+xmlrpcpp/kcat-XmlRpcServerConnection.obj: xmlrpcpp/XmlRpcServerConnection.cpp
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -MT xmlrpcpp/kcat-XmlRpcServerConnection.obj -MD -MP -MF xmlrpcpp/$(DEPDIR)/kcat-XmlRpcServerConnection.Tpo -c -o xmlrpcpp/kcat-XmlRpcServerConnection.obj `if test -f 'xmlrpcpp/XmlRpcServerConnection.cpp'; then $(CYGPATH_W) 'xmlrpcpp/XmlRpcServerConnection.cpp'; else $(CYGPATH_W) '$(srcdir)/xmlrpcpp/XmlRpcServerConnection.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(am__mv) xmlrpcpp/$(DEPDIR)/kcat-XmlRpcServerConnection.Tpo xmlrpcpp/$(DEPDIR)/kcat-XmlRpcServerConnection.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='xmlrpcpp/XmlRpcServerConnection.cpp' object='xmlrpcpp/kcat-XmlRpcServerConnection.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -c -o xmlrpcpp/kcat-XmlRpcServerConnection.obj `if test -f 'xmlrpcpp/XmlRpcServerConnection.cpp'; then $(CYGPATH_W) 'xmlrpcpp/XmlRpcServerConnection.cpp'; else $(CYGPATH_W) '$(srcdir)/xmlrpcpp/XmlRpcServerConnection.cpp'; fi`
+
+xmlrpcpp/kcat-XmlRpcServer.o: xmlrpcpp/XmlRpcServer.cpp
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -MT xmlrpcpp/kcat-XmlRpcServer.o -MD -MP -MF xmlrpcpp/$(DEPDIR)/kcat-XmlRpcServer.Tpo -c -o xmlrpcpp/kcat-XmlRpcServer.o `test -f 'xmlrpcpp/XmlRpcServer.cpp' || echo '$(srcdir)/'`xmlrpcpp/XmlRpcServer.cpp
+@am__fastdepCXX_TRUE@	$(am__mv) xmlrpcpp/$(DEPDIR)/kcat-XmlRpcServer.Tpo xmlrpcpp/$(DEPDIR)/kcat-XmlRpcServer.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='xmlrpcpp/XmlRpcServer.cpp' object='xmlrpcpp/kcat-XmlRpcServer.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -c -o xmlrpcpp/kcat-XmlRpcServer.o `test -f 'xmlrpcpp/XmlRpcServer.cpp' || echo '$(srcdir)/'`xmlrpcpp/XmlRpcServer.cpp
+
+xmlrpcpp/kcat-XmlRpcServer.obj: xmlrpcpp/XmlRpcServer.cpp
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -MT xmlrpcpp/kcat-XmlRpcServer.obj -MD -MP -MF xmlrpcpp/$(DEPDIR)/kcat-XmlRpcServer.Tpo -c -o xmlrpcpp/kcat-XmlRpcServer.obj `if test -f 'xmlrpcpp/XmlRpcServer.cpp'; then $(CYGPATH_W) 'xmlrpcpp/XmlRpcServer.cpp'; else $(CYGPATH_W) '$(srcdir)/xmlrpcpp/XmlRpcServer.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(am__mv) xmlrpcpp/$(DEPDIR)/kcat-XmlRpcServer.Tpo xmlrpcpp/$(DEPDIR)/kcat-XmlRpcServer.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='xmlrpcpp/XmlRpcServer.cpp' object='xmlrpcpp/kcat-XmlRpcServer.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -c -o xmlrpcpp/kcat-XmlRpcServer.obj `if test -f 'xmlrpcpp/XmlRpcServer.cpp'; then $(CYGPATH_W) 'xmlrpcpp/XmlRpcServer.cpp'; else $(CYGPATH_W) '$(srcdir)/xmlrpcpp/XmlRpcServer.cpp'; fi`
+
+xmlrpcpp/kcat-XmlRpcServerMethod.o: xmlrpcpp/XmlRpcServerMethod.cpp
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -MT xmlrpcpp/kcat-XmlRpcServerMethod.o -MD -MP -MF xmlrpcpp/$(DEPDIR)/kcat-XmlRpcServerMethod.Tpo -c -o xmlrpcpp/kcat-XmlRpcServerMethod.o `test -f 'xmlrpcpp/XmlRpcServerMethod.cpp' || echo '$(srcdir)/'`xmlrpcpp/XmlRpcServerMethod.cpp
+@am__fastdepCXX_TRUE@	$(am__mv) xmlrpcpp/$(DEPDIR)/kcat-XmlRpcServerMethod.Tpo xmlrpcpp/$(DEPDIR)/kcat-XmlRpcServerMethod.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='xmlrpcpp/XmlRpcServerMethod.cpp' object='xmlrpcpp/kcat-XmlRpcServerMethod.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -c -o xmlrpcpp/kcat-XmlRpcServerMethod.o `test -f 'xmlrpcpp/XmlRpcServerMethod.cpp' || echo '$(srcdir)/'`xmlrpcpp/XmlRpcServerMethod.cpp
+
+xmlrpcpp/kcat-XmlRpcServerMethod.obj: xmlrpcpp/XmlRpcServerMethod.cpp
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -MT xmlrpcpp/kcat-XmlRpcServerMethod.obj -MD -MP -MF xmlrpcpp/$(DEPDIR)/kcat-XmlRpcServerMethod.Tpo -c -o xmlrpcpp/kcat-XmlRpcServerMethod.obj `if test -f 'xmlrpcpp/XmlRpcServerMethod.cpp'; then $(CYGPATH_W) 'xmlrpcpp/XmlRpcServerMethod.cpp'; else $(CYGPATH_W) '$(srcdir)/xmlrpcpp/XmlRpcServerMethod.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(am__mv) xmlrpcpp/$(DEPDIR)/kcat-XmlRpcServerMethod.Tpo xmlrpcpp/$(DEPDIR)/kcat-XmlRpcServerMethod.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='xmlrpcpp/XmlRpcServerMethod.cpp' object='xmlrpcpp/kcat-XmlRpcServerMethod.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -c -o xmlrpcpp/kcat-XmlRpcServerMethod.obj `if test -f 'xmlrpcpp/XmlRpcServerMethod.cpp'; then $(CYGPATH_W) 'xmlrpcpp/XmlRpcServerMethod.cpp'; else $(CYGPATH_W) '$(srcdir)/xmlrpcpp/XmlRpcServerMethod.cpp'; fi`
+
+xmlrpcpp/kcat-XmlRpcSocket.o: xmlrpcpp/XmlRpcSocket.cpp
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -MT xmlrpcpp/kcat-XmlRpcSocket.o -MD -MP -MF xmlrpcpp/$(DEPDIR)/kcat-XmlRpcSocket.Tpo -c -o xmlrpcpp/kcat-XmlRpcSocket.o `test -f 'xmlrpcpp/XmlRpcSocket.cpp' || echo '$(srcdir)/'`xmlrpcpp/XmlRpcSocket.cpp
+@am__fastdepCXX_TRUE@	$(am__mv) xmlrpcpp/$(DEPDIR)/kcat-XmlRpcSocket.Tpo xmlrpcpp/$(DEPDIR)/kcat-XmlRpcSocket.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='xmlrpcpp/XmlRpcSocket.cpp' object='xmlrpcpp/kcat-XmlRpcSocket.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -c -o xmlrpcpp/kcat-XmlRpcSocket.o `test -f 'xmlrpcpp/XmlRpcSocket.cpp' || echo '$(srcdir)/'`xmlrpcpp/XmlRpcSocket.cpp
+
+xmlrpcpp/kcat-XmlRpcSocket.obj: xmlrpcpp/XmlRpcSocket.cpp
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -MT xmlrpcpp/kcat-XmlRpcSocket.obj -MD -MP -MF xmlrpcpp/$(DEPDIR)/kcat-XmlRpcSocket.Tpo -c -o xmlrpcpp/kcat-XmlRpcSocket.obj `if test -f 'xmlrpcpp/XmlRpcSocket.cpp'; then $(CYGPATH_W) 'xmlrpcpp/XmlRpcSocket.cpp'; else $(CYGPATH_W) '$(srcdir)/xmlrpcpp/XmlRpcSocket.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(am__mv) xmlrpcpp/$(DEPDIR)/kcat-XmlRpcSocket.Tpo xmlrpcpp/$(DEPDIR)/kcat-XmlRpcSocket.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='xmlrpcpp/XmlRpcSocket.cpp' object='xmlrpcpp/kcat-XmlRpcSocket.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -c -o xmlrpcpp/kcat-XmlRpcSocket.obj `if test -f 'xmlrpcpp/XmlRpcSocket.cpp'; then $(CYGPATH_W) 'xmlrpcpp/XmlRpcSocket.cpp'; else $(CYGPATH_W) '$(srcdir)/xmlrpcpp/XmlRpcSocket.cpp'; fi`
+
+xmlrpcpp/kcat-XmlRpcSource.o: xmlrpcpp/XmlRpcSource.cpp
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -MT xmlrpcpp/kcat-XmlRpcSource.o -MD -MP -MF xmlrpcpp/$(DEPDIR)/kcat-XmlRpcSource.Tpo -c -o xmlrpcpp/kcat-XmlRpcSource.o `test -f 'xmlrpcpp/XmlRpcSource.cpp' || echo '$(srcdir)/'`xmlrpcpp/XmlRpcSource.cpp
+@am__fastdepCXX_TRUE@	$(am__mv) xmlrpcpp/$(DEPDIR)/kcat-XmlRpcSource.Tpo xmlrpcpp/$(DEPDIR)/kcat-XmlRpcSource.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='xmlrpcpp/XmlRpcSource.cpp' object='xmlrpcpp/kcat-XmlRpcSource.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -c -o xmlrpcpp/kcat-XmlRpcSource.o `test -f 'xmlrpcpp/XmlRpcSource.cpp' || echo '$(srcdir)/'`xmlrpcpp/XmlRpcSource.cpp
+
+xmlrpcpp/kcat-XmlRpcSource.obj: xmlrpcpp/XmlRpcSource.cpp
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -MT xmlrpcpp/kcat-XmlRpcSource.obj -MD -MP -MF xmlrpcpp/$(DEPDIR)/kcat-XmlRpcSource.Tpo -c -o xmlrpcpp/kcat-XmlRpcSource.obj `if test -f 'xmlrpcpp/XmlRpcSource.cpp'; then $(CYGPATH_W) 'xmlrpcpp/XmlRpcSource.cpp'; else $(CYGPATH_W) '$(srcdir)/xmlrpcpp/XmlRpcSource.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(am__mv) xmlrpcpp/$(DEPDIR)/kcat-XmlRpcSource.Tpo xmlrpcpp/$(DEPDIR)/kcat-XmlRpcSource.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='xmlrpcpp/XmlRpcSource.cpp' object='xmlrpcpp/kcat-XmlRpcSource.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -c -o xmlrpcpp/kcat-XmlRpcSource.obj `if test -f 'xmlrpcpp/XmlRpcSource.cpp'; then $(CYGPATH_W) 'xmlrpcpp/XmlRpcSource.cpp'; else $(CYGPATH_W) '$(srcdir)/xmlrpcpp/XmlRpcSource.cpp'; fi`
+
+xmlrpcpp/kcat-XmlRpcUtil.o: xmlrpcpp/XmlRpcUtil.cpp
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -MT xmlrpcpp/kcat-XmlRpcUtil.o -MD -MP -MF xmlrpcpp/$(DEPDIR)/kcat-XmlRpcUtil.Tpo -c -o xmlrpcpp/kcat-XmlRpcUtil.o `test -f 'xmlrpcpp/XmlRpcUtil.cpp' || echo '$(srcdir)/'`xmlrpcpp/XmlRpcUtil.cpp
+@am__fastdepCXX_TRUE@	$(am__mv) xmlrpcpp/$(DEPDIR)/kcat-XmlRpcUtil.Tpo xmlrpcpp/$(DEPDIR)/kcat-XmlRpcUtil.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='xmlrpcpp/XmlRpcUtil.cpp' object='xmlrpcpp/kcat-XmlRpcUtil.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -c -o xmlrpcpp/kcat-XmlRpcUtil.o `test -f 'xmlrpcpp/XmlRpcUtil.cpp' || echo '$(srcdir)/'`xmlrpcpp/XmlRpcUtil.cpp
+
+xmlrpcpp/kcat-XmlRpcUtil.obj: xmlrpcpp/XmlRpcUtil.cpp
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -MT xmlrpcpp/kcat-XmlRpcUtil.obj -MD -MP -MF xmlrpcpp/$(DEPDIR)/kcat-XmlRpcUtil.Tpo -c -o xmlrpcpp/kcat-XmlRpcUtil.obj `if test -f 'xmlrpcpp/XmlRpcUtil.cpp'; then $(CYGPATH_W) 'xmlrpcpp/XmlRpcUtil.cpp'; else $(CYGPATH_W) '$(srcdir)/xmlrpcpp/XmlRpcUtil.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(am__mv) xmlrpcpp/$(DEPDIR)/kcat-XmlRpcUtil.Tpo xmlrpcpp/$(DEPDIR)/kcat-XmlRpcUtil.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='xmlrpcpp/XmlRpcUtil.cpp' object='xmlrpcpp/kcat-XmlRpcUtil.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -c -o xmlrpcpp/kcat-XmlRpcUtil.obj `if test -f 'xmlrpcpp/XmlRpcUtil.cpp'; then $(CYGPATH_W) 'xmlrpcpp/XmlRpcUtil.cpp'; else $(CYGPATH_W) '$(srcdir)/xmlrpcpp/XmlRpcUtil.cpp'; fi`
+
+xmlrpcpp/kcat-XmlRpcValue.o: xmlrpcpp/XmlRpcValue.cpp
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -MT xmlrpcpp/kcat-XmlRpcValue.o -MD -MP -MF xmlrpcpp/$(DEPDIR)/kcat-XmlRpcValue.Tpo -c -o xmlrpcpp/kcat-XmlRpcValue.o `test -f 'xmlrpcpp/XmlRpcValue.cpp' || echo '$(srcdir)/'`xmlrpcpp/XmlRpcValue.cpp
+@am__fastdepCXX_TRUE@	$(am__mv) xmlrpcpp/$(DEPDIR)/kcat-XmlRpcValue.Tpo xmlrpcpp/$(DEPDIR)/kcat-XmlRpcValue.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='xmlrpcpp/XmlRpcValue.cpp' object='xmlrpcpp/kcat-XmlRpcValue.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -c -o xmlrpcpp/kcat-XmlRpcValue.o `test -f 'xmlrpcpp/XmlRpcValue.cpp' || echo '$(srcdir)/'`xmlrpcpp/XmlRpcValue.cpp
+
+xmlrpcpp/kcat-XmlRpcValue.obj: xmlrpcpp/XmlRpcValue.cpp
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -MT xmlrpcpp/kcat-XmlRpcValue.obj -MD -MP -MF xmlrpcpp/$(DEPDIR)/kcat-XmlRpcValue.Tpo -c -o xmlrpcpp/kcat-XmlRpcValue.obj `if test -f 'xmlrpcpp/XmlRpcValue.cpp'; then $(CYGPATH_W) 'xmlrpcpp/XmlRpcValue.cpp'; else $(CYGPATH_W) '$(srcdir)/xmlrpcpp/XmlRpcValue.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(am__mv) xmlrpcpp/$(DEPDIR)/kcat-XmlRpcValue.Tpo xmlrpcpp/$(DEPDIR)/kcat-XmlRpcValue.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='xmlrpcpp/XmlRpcValue.cpp' object='xmlrpcpp/kcat-XmlRpcValue.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -c -o xmlrpcpp/kcat-XmlRpcValue.obj `if test -f 'xmlrpcpp/XmlRpcValue.cpp'; then $(CYGPATH_W) 'xmlrpcpp/XmlRpcValue.cpp'; else $(CYGPATH_W) '$(srcdir)/xmlrpcpp/XmlRpcValue.cpp'; fi`
 
 kcat-date.o: date.cxx
 @am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -MT kcat-date.o -MD -MP -MF $(DEPDIR)/kcat-date.Tpo -c -o kcat-date.o `test -f 'date.cxx' || echo '$(srcdir)/'`date.cxx
@@ -911,184 +1113,18 @@ kcat-xml_io.obj: xml_io.cxx
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -c -o kcat-xml_io.obj `if test -f 'xml_io.cxx'; then $(CYGPATH_W) 'xml_io.cxx'; else $(CYGPATH_W) '$(srcdir)/xml_io.cxx'; fi`
 
-kcat-XmlRpcClient.o: xmlrpcpp/XmlRpcClient.cpp
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -MT kcat-XmlRpcClient.o -MD -MP -MF $(DEPDIR)/kcat-XmlRpcClient.Tpo -c -o kcat-XmlRpcClient.o `test -f 'xmlrpcpp/XmlRpcClient.cpp' || echo '$(srcdir)/'`xmlrpcpp/XmlRpcClient.cpp
-@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/kcat-XmlRpcClient.Tpo $(DEPDIR)/kcat-XmlRpcClient.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='xmlrpcpp/XmlRpcClient.cpp' object='kcat-XmlRpcClient.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -c -o kcat-XmlRpcClient.o `test -f 'xmlrpcpp/XmlRpcClient.cpp' || echo '$(srcdir)/'`xmlrpcpp/XmlRpcClient.cpp
-
-kcat-XmlRpcClient.obj: xmlrpcpp/XmlRpcClient.cpp
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -MT kcat-XmlRpcClient.obj -MD -MP -MF $(DEPDIR)/kcat-XmlRpcClient.Tpo -c -o kcat-XmlRpcClient.obj `if test -f 'xmlrpcpp/XmlRpcClient.cpp'; then $(CYGPATH_W) 'xmlrpcpp/XmlRpcClient.cpp'; else $(CYGPATH_W) '$(srcdir)/xmlrpcpp/XmlRpcClient.cpp'; fi`
-@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/kcat-XmlRpcClient.Tpo $(DEPDIR)/kcat-XmlRpcClient.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='xmlrpcpp/XmlRpcClient.cpp' object='kcat-XmlRpcClient.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -c -o kcat-XmlRpcClient.obj `if test -f 'xmlrpcpp/XmlRpcClient.cpp'; then $(CYGPATH_W) 'xmlrpcpp/XmlRpcClient.cpp'; else $(CYGPATH_W) '$(srcdir)/xmlrpcpp/XmlRpcClient.cpp'; fi`
-
-kcat-XmlRpcDispatch.o: xmlrpcpp/XmlRpcDispatch.cpp
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -MT kcat-XmlRpcDispatch.o -MD -MP -MF $(DEPDIR)/kcat-XmlRpcDispatch.Tpo -c -o kcat-XmlRpcDispatch.o `test -f 'xmlrpcpp/XmlRpcDispatch.cpp' || echo '$(srcdir)/'`xmlrpcpp/XmlRpcDispatch.cpp
-@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/kcat-XmlRpcDispatch.Tpo $(DEPDIR)/kcat-XmlRpcDispatch.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='xmlrpcpp/XmlRpcDispatch.cpp' object='kcat-XmlRpcDispatch.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -c -o kcat-XmlRpcDispatch.o `test -f 'xmlrpcpp/XmlRpcDispatch.cpp' || echo '$(srcdir)/'`xmlrpcpp/XmlRpcDispatch.cpp
-
-kcat-XmlRpcDispatch.obj: xmlrpcpp/XmlRpcDispatch.cpp
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -MT kcat-XmlRpcDispatch.obj -MD -MP -MF $(DEPDIR)/kcat-XmlRpcDispatch.Tpo -c -o kcat-XmlRpcDispatch.obj `if test -f 'xmlrpcpp/XmlRpcDispatch.cpp'; then $(CYGPATH_W) 'xmlrpcpp/XmlRpcDispatch.cpp'; else $(CYGPATH_W) '$(srcdir)/xmlrpcpp/XmlRpcDispatch.cpp'; fi`
-@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/kcat-XmlRpcDispatch.Tpo $(DEPDIR)/kcat-XmlRpcDispatch.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='xmlrpcpp/XmlRpcDispatch.cpp' object='kcat-XmlRpcDispatch.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -c -o kcat-XmlRpcDispatch.obj `if test -f 'xmlrpcpp/XmlRpcDispatch.cpp'; then $(CYGPATH_W) 'xmlrpcpp/XmlRpcDispatch.cpp'; else $(CYGPATH_W) '$(srcdir)/xmlrpcpp/XmlRpcDispatch.cpp'; fi`
-
-kcat-XmlRpcMutex.o: xmlrpcpp/XmlRpcMutex.cpp
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -MT kcat-XmlRpcMutex.o -MD -MP -MF $(DEPDIR)/kcat-XmlRpcMutex.Tpo -c -o kcat-XmlRpcMutex.o `test -f 'xmlrpcpp/XmlRpcMutex.cpp' || echo '$(srcdir)/'`xmlrpcpp/XmlRpcMutex.cpp
-@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/kcat-XmlRpcMutex.Tpo $(DEPDIR)/kcat-XmlRpcMutex.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='xmlrpcpp/XmlRpcMutex.cpp' object='kcat-XmlRpcMutex.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -c -o kcat-XmlRpcMutex.o `test -f 'xmlrpcpp/XmlRpcMutex.cpp' || echo '$(srcdir)/'`xmlrpcpp/XmlRpcMutex.cpp
-
-kcat-XmlRpcMutex.obj: xmlrpcpp/XmlRpcMutex.cpp
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -MT kcat-XmlRpcMutex.obj -MD -MP -MF $(DEPDIR)/kcat-XmlRpcMutex.Tpo -c -o kcat-XmlRpcMutex.obj `if test -f 'xmlrpcpp/XmlRpcMutex.cpp'; then $(CYGPATH_W) 'xmlrpcpp/XmlRpcMutex.cpp'; else $(CYGPATH_W) '$(srcdir)/xmlrpcpp/XmlRpcMutex.cpp'; fi`
-@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/kcat-XmlRpcMutex.Tpo $(DEPDIR)/kcat-XmlRpcMutex.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='xmlrpcpp/XmlRpcMutex.cpp' object='kcat-XmlRpcMutex.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -c -o kcat-XmlRpcMutex.obj `if test -f 'xmlrpcpp/XmlRpcMutex.cpp'; then $(CYGPATH_W) 'xmlrpcpp/XmlRpcMutex.cpp'; else $(CYGPATH_W) '$(srcdir)/xmlrpcpp/XmlRpcMutex.cpp'; fi`
-
-kcat-XmlRpcServer.o: xmlrpcpp/XmlRpcServer.cpp
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -MT kcat-XmlRpcServer.o -MD -MP -MF $(DEPDIR)/kcat-XmlRpcServer.Tpo -c -o kcat-XmlRpcServer.o `test -f 'xmlrpcpp/XmlRpcServer.cpp' || echo '$(srcdir)/'`xmlrpcpp/XmlRpcServer.cpp
-@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/kcat-XmlRpcServer.Tpo $(DEPDIR)/kcat-XmlRpcServer.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='xmlrpcpp/XmlRpcServer.cpp' object='kcat-XmlRpcServer.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -c -o kcat-XmlRpcServer.o `test -f 'xmlrpcpp/XmlRpcServer.cpp' || echo '$(srcdir)/'`xmlrpcpp/XmlRpcServer.cpp
-
-kcat-XmlRpcServer.obj: xmlrpcpp/XmlRpcServer.cpp
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -MT kcat-XmlRpcServer.obj -MD -MP -MF $(DEPDIR)/kcat-XmlRpcServer.Tpo -c -o kcat-XmlRpcServer.obj `if test -f 'xmlrpcpp/XmlRpcServer.cpp'; then $(CYGPATH_W) 'xmlrpcpp/XmlRpcServer.cpp'; else $(CYGPATH_W) '$(srcdir)/xmlrpcpp/XmlRpcServer.cpp'; fi`
-@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/kcat-XmlRpcServer.Tpo $(DEPDIR)/kcat-XmlRpcServer.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='xmlrpcpp/XmlRpcServer.cpp' object='kcat-XmlRpcServer.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -c -o kcat-XmlRpcServer.obj `if test -f 'xmlrpcpp/XmlRpcServer.cpp'; then $(CYGPATH_W) 'xmlrpcpp/XmlRpcServer.cpp'; else $(CYGPATH_W) '$(srcdir)/xmlrpcpp/XmlRpcServer.cpp'; fi`
-
-kcat-XmlRpcServerConnection.o: xmlrpcpp/XmlRpcServerConnection.cpp
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -MT kcat-XmlRpcServerConnection.o -MD -MP -MF $(DEPDIR)/kcat-XmlRpcServerConnection.Tpo -c -o kcat-XmlRpcServerConnection.o `test -f 'xmlrpcpp/XmlRpcServerConnection.cpp' || echo '$(srcdir)/'`xmlrpcpp/XmlRpcServerConnection.cpp
-@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/kcat-XmlRpcServerConnection.Tpo $(DEPDIR)/kcat-XmlRpcServerConnection.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='xmlrpcpp/XmlRpcServerConnection.cpp' object='kcat-XmlRpcServerConnection.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -c -o kcat-XmlRpcServerConnection.o `test -f 'xmlrpcpp/XmlRpcServerConnection.cpp' || echo '$(srcdir)/'`xmlrpcpp/XmlRpcServerConnection.cpp
-
-kcat-XmlRpcServerConnection.obj: xmlrpcpp/XmlRpcServerConnection.cpp
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -MT kcat-XmlRpcServerConnection.obj -MD -MP -MF $(DEPDIR)/kcat-XmlRpcServerConnection.Tpo -c -o kcat-XmlRpcServerConnection.obj `if test -f 'xmlrpcpp/XmlRpcServerConnection.cpp'; then $(CYGPATH_W) 'xmlrpcpp/XmlRpcServerConnection.cpp'; else $(CYGPATH_W) '$(srcdir)/xmlrpcpp/XmlRpcServerConnection.cpp'; fi`
-@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/kcat-XmlRpcServerConnection.Tpo $(DEPDIR)/kcat-XmlRpcServerConnection.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='xmlrpcpp/XmlRpcServerConnection.cpp' object='kcat-XmlRpcServerConnection.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -c -o kcat-XmlRpcServerConnection.obj `if test -f 'xmlrpcpp/XmlRpcServerConnection.cpp'; then $(CYGPATH_W) 'xmlrpcpp/XmlRpcServerConnection.cpp'; else $(CYGPATH_W) '$(srcdir)/xmlrpcpp/XmlRpcServerConnection.cpp'; fi`
-
-kcat-XmlRpcServerMethod.o: xmlrpcpp/XmlRpcServerMethod.cpp
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -MT kcat-XmlRpcServerMethod.o -MD -MP -MF $(DEPDIR)/kcat-XmlRpcServerMethod.Tpo -c -o kcat-XmlRpcServerMethod.o `test -f 'xmlrpcpp/XmlRpcServerMethod.cpp' || echo '$(srcdir)/'`xmlrpcpp/XmlRpcServerMethod.cpp
-@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/kcat-XmlRpcServerMethod.Tpo $(DEPDIR)/kcat-XmlRpcServerMethod.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='xmlrpcpp/XmlRpcServerMethod.cpp' object='kcat-XmlRpcServerMethod.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -c -o kcat-XmlRpcServerMethod.o `test -f 'xmlrpcpp/XmlRpcServerMethod.cpp' || echo '$(srcdir)/'`xmlrpcpp/XmlRpcServerMethod.cpp
-
-kcat-XmlRpcServerMethod.obj: xmlrpcpp/XmlRpcServerMethod.cpp
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -MT kcat-XmlRpcServerMethod.obj -MD -MP -MF $(DEPDIR)/kcat-XmlRpcServerMethod.Tpo -c -o kcat-XmlRpcServerMethod.obj `if test -f 'xmlrpcpp/XmlRpcServerMethod.cpp'; then $(CYGPATH_W) 'xmlrpcpp/XmlRpcServerMethod.cpp'; else $(CYGPATH_W) '$(srcdir)/xmlrpcpp/XmlRpcServerMethod.cpp'; fi`
-@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/kcat-XmlRpcServerMethod.Tpo $(DEPDIR)/kcat-XmlRpcServerMethod.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='xmlrpcpp/XmlRpcServerMethod.cpp' object='kcat-XmlRpcServerMethod.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -c -o kcat-XmlRpcServerMethod.obj `if test -f 'xmlrpcpp/XmlRpcServerMethod.cpp'; then $(CYGPATH_W) 'xmlrpcpp/XmlRpcServerMethod.cpp'; else $(CYGPATH_W) '$(srcdir)/xmlrpcpp/XmlRpcServerMethod.cpp'; fi`
-
-kcat-XmlRpcSocket.o: xmlrpcpp/XmlRpcSocket.cpp
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -MT kcat-XmlRpcSocket.o -MD -MP -MF $(DEPDIR)/kcat-XmlRpcSocket.Tpo -c -o kcat-XmlRpcSocket.o `test -f 'xmlrpcpp/XmlRpcSocket.cpp' || echo '$(srcdir)/'`xmlrpcpp/XmlRpcSocket.cpp
-@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/kcat-XmlRpcSocket.Tpo $(DEPDIR)/kcat-XmlRpcSocket.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='xmlrpcpp/XmlRpcSocket.cpp' object='kcat-XmlRpcSocket.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -c -o kcat-XmlRpcSocket.o `test -f 'xmlrpcpp/XmlRpcSocket.cpp' || echo '$(srcdir)/'`xmlrpcpp/XmlRpcSocket.cpp
-
-kcat-XmlRpcSocket.obj: xmlrpcpp/XmlRpcSocket.cpp
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -MT kcat-XmlRpcSocket.obj -MD -MP -MF $(DEPDIR)/kcat-XmlRpcSocket.Tpo -c -o kcat-XmlRpcSocket.obj `if test -f 'xmlrpcpp/XmlRpcSocket.cpp'; then $(CYGPATH_W) 'xmlrpcpp/XmlRpcSocket.cpp'; else $(CYGPATH_W) '$(srcdir)/xmlrpcpp/XmlRpcSocket.cpp'; fi`
-@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/kcat-XmlRpcSocket.Tpo $(DEPDIR)/kcat-XmlRpcSocket.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='xmlrpcpp/XmlRpcSocket.cpp' object='kcat-XmlRpcSocket.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -c -o kcat-XmlRpcSocket.obj `if test -f 'xmlrpcpp/XmlRpcSocket.cpp'; then $(CYGPATH_W) 'xmlrpcpp/XmlRpcSocket.cpp'; else $(CYGPATH_W) '$(srcdir)/xmlrpcpp/XmlRpcSocket.cpp'; fi`
-
-kcat-XmlRpcSource.o: xmlrpcpp/XmlRpcSource.cpp
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -MT kcat-XmlRpcSource.o -MD -MP -MF $(DEPDIR)/kcat-XmlRpcSource.Tpo -c -o kcat-XmlRpcSource.o `test -f 'xmlrpcpp/XmlRpcSource.cpp' || echo '$(srcdir)/'`xmlrpcpp/XmlRpcSource.cpp
-@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/kcat-XmlRpcSource.Tpo $(DEPDIR)/kcat-XmlRpcSource.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='xmlrpcpp/XmlRpcSource.cpp' object='kcat-XmlRpcSource.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -c -o kcat-XmlRpcSource.o `test -f 'xmlrpcpp/XmlRpcSource.cpp' || echo '$(srcdir)/'`xmlrpcpp/XmlRpcSource.cpp
-
-kcat-XmlRpcSource.obj: xmlrpcpp/XmlRpcSource.cpp
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -MT kcat-XmlRpcSource.obj -MD -MP -MF $(DEPDIR)/kcat-XmlRpcSource.Tpo -c -o kcat-XmlRpcSource.obj `if test -f 'xmlrpcpp/XmlRpcSource.cpp'; then $(CYGPATH_W) 'xmlrpcpp/XmlRpcSource.cpp'; else $(CYGPATH_W) '$(srcdir)/xmlrpcpp/XmlRpcSource.cpp'; fi`
-@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/kcat-XmlRpcSource.Tpo $(DEPDIR)/kcat-XmlRpcSource.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='xmlrpcpp/XmlRpcSource.cpp' object='kcat-XmlRpcSource.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -c -o kcat-XmlRpcSource.obj `if test -f 'xmlrpcpp/XmlRpcSource.cpp'; then $(CYGPATH_W) 'xmlrpcpp/XmlRpcSource.cpp'; else $(CYGPATH_W) '$(srcdir)/xmlrpcpp/XmlRpcSource.cpp'; fi`
-
-kcat-XmlRpcThread.o: xmlrpcpp/XmlRpcThread.cpp
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -MT kcat-XmlRpcThread.o -MD -MP -MF $(DEPDIR)/kcat-XmlRpcThread.Tpo -c -o kcat-XmlRpcThread.o `test -f 'xmlrpcpp/XmlRpcThread.cpp' || echo '$(srcdir)/'`xmlrpcpp/XmlRpcThread.cpp
-@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/kcat-XmlRpcThread.Tpo $(DEPDIR)/kcat-XmlRpcThread.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='xmlrpcpp/XmlRpcThread.cpp' object='kcat-XmlRpcThread.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -c -o kcat-XmlRpcThread.o `test -f 'xmlrpcpp/XmlRpcThread.cpp' || echo '$(srcdir)/'`xmlrpcpp/XmlRpcThread.cpp
-
-kcat-XmlRpcThread.obj: xmlrpcpp/XmlRpcThread.cpp
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -MT kcat-XmlRpcThread.obj -MD -MP -MF $(DEPDIR)/kcat-XmlRpcThread.Tpo -c -o kcat-XmlRpcThread.obj `if test -f 'xmlrpcpp/XmlRpcThread.cpp'; then $(CYGPATH_W) 'xmlrpcpp/XmlRpcThread.cpp'; else $(CYGPATH_W) '$(srcdir)/xmlrpcpp/XmlRpcThread.cpp'; fi`
-@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/kcat-XmlRpcThread.Tpo $(DEPDIR)/kcat-XmlRpcThread.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='xmlrpcpp/XmlRpcThread.cpp' object='kcat-XmlRpcThread.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -c -o kcat-XmlRpcThread.obj `if test -f 'xmlrpcpp/XmlRpcThread.cpp'; then $(CYGPATH_W) 'xmlrpcpp/XmlRpcThread.cpp'; else $(CYGPATH_W) '$(srcdir)/xmlrpcpp/XmlRpcThread.cpp'; fi`
-
-kcat-XmlRpcThreadedServer.o: xmlrpcpp/XmlRpcThreadedServer.cpp
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -MT kcat-XmlRpcThreadedServer.o -MD -MP -MF $(DEPDIR)/kcat-XmlRpcThreadedServer.Tpo -c -o kcat-XmlRpcThreadedServer.o `test -f 'xmlrpcpp/XmlRpcThreadedServer.cpp' || echo '$(srcdir)/'`xmlrpcpp/XmlRpcThreadedServer.cpp
-@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/kcat-XmlRpcThreadedServer.Tpo $(DEPDIR)/kcat-XmlRpcThreadedServer.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='xmlrpcpp/XmlRpcThreadedServer.cpp' object='kcat-XmlRpcThreadedServer.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -c -o kcat-XmlRpcThreadedServer.o `test -f 'xmlrpcpp/XmlRpcThreadedServer.cpp' || echo '$(srcdir)/'`xmlrpcpp/XmlRpcThreadedServer.cpp
-
-kcat-XmlRpcThreadedServer.obj: xmlrpcpp/XmlRpcThreadedServer.cpp
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -MT kcat-XmlRpcThreadedServer.obj -MD -MP -MF $(DEPDIR)/kcat-XmlRpcThreadedServer.Tpo -c -o kcat-XmlRpcThreadedServer.obj `if test -f 'xmlrpcpp/XmlRpcThreadedServer.cpp'; then $(CYGPATH_W) 'xmlrpcpp/XmlRpcThreadedServer.cpp'; else $(CYGPATH_W) '$(srcdir)/xmlrpcpp/XmlRpcThreadedServer.cpp'; fi`
-@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/kcat-XmlRpcThreadedServer.Tpo $(DEPDIR)/kcat-XmlRpcThreadedServer.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='xmlrpcpp/XmlRpcThreadedServer.cpp' object='kcat-XmlRpcThreadedServer.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -c -o kcat-XmlRpcThreadedServer.obj `if test -f 'xmlrpcpp/XmlRpcThreadedServer.cpp'; then $(CYGPATH_W) 'xmlrpcpp/XmlRpcThreadedServer.cpp'; else $(CYGPATH_W) '$(srcdir)/xmlrpcpp/XmlRpcThreadedServer.cpp'; fi`
-
-kcat-XmlRpcUtil.o: xmlrpcpp/XmlRpcUtil.cpp
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -MT kcat-XmlRpcUtil.o -MD -MP -MF $(DEPDIR)/kcat-XmlRpcUtil.Tpo -c -o kcat-XmlRpcUtil.o `test -f 'xmlrpcpp/XmlRpcUtil.cpp' || echo '$(srcdir)/'`xmlrpcpp/XmlRpcUtil.cpp
-@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/kcat-XmlRpcUtil.Tpo $(DEPDIR)/kcat-XmlRpcUtil.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='xmlrpcpp/XmlRpcUtil.cpp' object='kcat-XmlRpcUtil.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -c -o kcat-XmlRpcUtil.o `test -f 'xmlrpcpp/XmlRpcUtil.cpp' || echo '$(srcdir)/'`xmlrpcpp/XmlRpcUtil.cpp
-
-kcat-XmlRpcUtil.obj: xmlrpcpp/XmlRpcUtil.cpp
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -MT kcat-XmlRpcUtil.obj -MD -MP -MF $(DEPDIR)/kcat-XmlRpcUtil.Tpo -c -o kcat-XmlRpcUtil.obj `if test -f 'xmlrpcpp/XmlRpcUtil.cpp'; then $(CYGPATH_W) 'xmlrpcpp/XmlRpcUtil.cpp'; else $(CYGPATH_W) '$(srcdir)/xmlrpcpp/XmlRpcUtil.cpp'; fi`
-@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/kcat-XmlRpcUtil.Tpo $(DEPDIR)/kcat-XmlRpcUtil.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='xmlrpcpp/XmlRpcUtil.cpp' object='kcat-XmlRpcUtil.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -c -o kcat-XmlRpcUtil.obj `if test -f 'xmlrpcpp/XmlRpcUtil.cpp'; then $(CYGPATH_W) 'xmlrpcpp/XmlRpcUtil.cpp'; else $(CYGPATH_W) '$(srcdir)/xmlrpcpp/XmlRpcUtil.cpp'; fi`
-
-kcat-XmlRpcValue.o: xmlrpcpp/XmlRpcValue.cpp
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -MT kcat-XmlRpcValue.o -MD -MP -MF $(DEPDIR)/kcat-XmlRpcValue.Tpo -c -o kcat-XmlRpcValue.o `test -f 'xmlrpcpp/XmlRpcValue.cpp' || echo '$(srcdir)/'`xmlrpcpp/XmlRpcValue.cpp
-@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/kcat-XmlRpcValue.Tpo $(DEPDIR)/kcat-XmlRpcValue.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='xmlrpcpp/XmlRpcValue.cpp' object='kcat-XmlRpcValue.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -c -o kcat-XmlRpcValue.o `test -f 'xmlrpcpp/XmlRpcValue.cpp' || echo '$(srcdir)/'`xmlrpcpp/XmlRpcValue.cpp
-
-kcat-XmlRpcValue.obj: xmlrpcpp/XmlRpcValue.cpp
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -MT kcat-XmlRpcValue.obj -MD -MP -MF $(DEPDIR)/kcat-XmlRpcValue.Tpo -c -o kcat-XmlRpcValue.obj `if test -f 'xmlrpcpp/XmlRpcValue.cpp'; then $(CYGPATH_W) 'xmlrpcpp/XmlRpcValue.cpp'; else $(CYGPATH_W) '$(srcdir)/xmlrpcpp/XmlRpcValue.cpp'; fi`
-@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/kcat-XmlRpcValue.Tpo $(DEPDIR)/kcat-XmlRpcValue.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='xmlrpcpp/XmlRpcValue.cpp' object='kcat-XmlRpcValue.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(kcat_CXXFLAGS) $(CXXFLAGS) -c -o kcat-XmlRpcValue.obj `if test -f 'xmlrpcpp/XmlRpcValue.cpp'; then $(CYGPATH_W) 'xmlrpcpp/XmlRpcValue.cpp'; else $(CYGPATH_W) '$(srcdir)/xmlrpcpp/XmlRpcValue.cpp'; fi`
-
 .cxx.o:
-@am__fastdepCXX_TRUE@	$(CXXCOMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ $<
-@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/$*.Tpo $(DEPDIR)/$*.Po
+@am__fastdepCXX_TRUE@	depbase=`echo $@ | sed 's|[^/]*$$|$(DEPDIR)/&|;s|\.o$$||'`;\
+@am__fastdepCXX_TRUE@	$(CXXCOMPILE) -MT $@ -MD -MP -MF $$depbase.Tpo -c -o $@ $< &&\
+@am__fastdepCXX_TRUE@	$(am__mv) $$depbase.Tpo $$depbase.Po
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='$<' object='$@' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(CXXCOMPILE) -c -o $@ $<
 
 .cxx.obj:
-@am__fastdepCXX_TRUE@	$(CXXCOMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ `$(CYGPATH_W) '$<'`
-@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/$*.Tpo $(DEPDIR)/$*.Po
+@am__fastdepCXX_TRUE@	depbase=`echo $@ | sed 's|[^/]*$$|$(DEPDIR)/&|;s|\.obj$$||'`;\
+@am__fastdepCXX_TRUE@	$(CXXCOMPILE) -MT $@ -MD -MP -MF $$depbase.Tpo -c -o $@ `$(CYGPATH_W) '$<'` &&\
+@am__fastdepCXX_TRUE@	$(am__mv) $$depbase.Tpo $$depbase.Po
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='$<' object='$@' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(CXXCOMPILE) -c -o $@ `$(CYGPATH_W) '$<'`
@@ -1211,6 +1247,8 @@ clean-generic:
 distclean-generic:
 	-test -z "$(CONFIG_CLEAN_FILES)" || rm -f $(CONFIG_CLEAN_FILES)
 	-test . = "$(srcdir)" || test -z "$(CONFIG_CLEAN_VPATH_FILES)" || rm -f $(CONFIG_CLEAN_VPATH_FILES)
+	-rm -f xmlrpcpp/$(DEPDIR)/$(am__dirstamp)
+	-rm -f xmlrpcpp/$(am__dirstamp)
 
 maintainer-clean-generic:
 	@echo "This command is intended for maintainers to use"
@@ -1221,7 +1259,7 @@ clean: clean-am
 clean-am: clean-binPROGRAMS clean-generic clean-local mostlyclean-am
 
 distclean: distclean-am
-	-rm -rf ./$(DEPDIR)
+	-rm -rf ./$(DEPDIR) xmlrpcpp/$(DEPDIR)
 	-rm -f Makefile
 distclean-am: clean-am distclean-compile distclean-generic \
 	distclean-hdr distclean-tags
@@ -1267,7 +1305,7 @@ install-ps-am:
 installcheck-am: installcheck-binPROGRAMS
 
 maintainer-clean: maintainer-clean-am
-	-rm -rf ./$(DEPDIR)
+	-rm -rf ./$(DEPDIR) xmlrpcpp/$(DEPDIR)
 	-rm -f Makefile
 maintainer-clean-am: distclean-am maintainer-clean-generic
 
