@@ -1,2 +1,6 @@
-./configure $CROSSCFG $PKGCFG FLTK_CONFIG=$PREFIX/bin/fltk-config --with-ptw32=$PREFIX/ptw32 XMLRPC_C_CONFIG=$PREFIX/bin/xmlrpc-c-config
-
+./configure \
+  $PKGCFG \
+  $CROSSCFG \
+  --with-ptw32=/opt/mxe/usr/i686-pc-mingw32 \
+  PTW32_LIBS="-lpthread -lpcreposix -lpcre" \
+  FLTK_CONFIG=$PREFIX/bin/i686-pc-mingw32-fltk-config

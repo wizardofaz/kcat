@@ -48,6 +48,8 @@
 
 using namespace std;
 
+namespace icons {
+
 #if USE_IMAGE_LABELS
 typedef map<Fl_Multi_Label*, Fl_Image**> imap_t;
 static imap_t* imap = 0;
@@ -261,3 +263,6 @@ void set_message_icon(const char** pixmap)
 	msg->box(FL_NO_BOX);
 	msg->image(msg_icon = new Fl_Pixmap(pixmap));
 }
+
+} // namespace
+
