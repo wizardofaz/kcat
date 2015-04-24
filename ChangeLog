@@ -1,8 +1,12 @@
+2015-04-23  David Freese  <iam_w1hkj@w1hkj.com>
+
+	d9be9bf: fltk-1.3.3 compatibility
+	49e4fea: flxmlrpc
+	8fe3c91: FSF address
+	ba8aa0b: smeter pwrmeter
 
 
 =Version 1.2.2=
-
-2014-07-16  David Freese  <w1hkj@w1hkj.com>
 
 	f442ced: Doxygen update
 	3c376a6: guard lock

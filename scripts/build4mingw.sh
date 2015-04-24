@@ -6,8 +6,9 @@
   $PKGCFG \
   $CROSSCFG \
   --with-ptw32=/opt/mxe/usr/i686-pc-mingw32 \
-  PTW32_LIBS="-lpthread -lpcreposix -lpcre" \
-  XMLRPC_C_CONFIG=$PREFIX/bin/xmlrpc-c-config \
+  --with-libiconv-prefix=$PREFIX/iconv \
+  --enable-static \
+  PTW32_LIBS="-lpthread -lpcreposix -lpcre -lregex" \
   FLTK_CONFIG=$PREFIX/bin/i686-pc-mingw32-fltk-config
 
 make

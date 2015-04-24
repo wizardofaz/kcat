@@ -12,7 +12,7 @@ dnl major and minor must be integers; patch may
 dnl contain other characters or be empty
 m4_define(KCAT_MAJOR,  [1])
 m4_define(KCAT_MINOR,  [2])
-m4_define(KCAT_PATCH,  [.2])
+m4_define(KCAT_PATCH,  [.3])
 
 AC_INIT([KCAT], KCAT_MAJOR.KCAT_MINOR[]KCAT_PATCH, [w1hkj AT w1hkj DOT com])
 
