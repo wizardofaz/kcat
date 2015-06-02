@@ -10,7 +10,7 @@ kcat_LDADD = @KCAT_BUILD_LDADD@
 MINGW32_SRC = \
 	kcat.rc \
 	include/kcatrc.h \
-	mingw.c \
+	support/mingw.c \
 	include/compat.h \
 	include/compat-mingw.h
 
@@ -149,31 +149,31 @@ clean-local:
 
 # Sources that we build. It is OK to have headers here.
 kcat_SOURCES += \
-	date.cxx \
-	dialogs.cxx \
+	support/date.cxx \
+	UI/dialogs.cxx \
 	main.cxx \
-	Fl_SigBar.cxx \
-	flinput2.cxx \
-	flslider2.cxx \
-	font_browser.cxx \
-	FreqControl.cxx \
-	images.cxx \
-	IOspec.cxx \
-	kcat_io.cxx \
-	kcat_panel.cxx \
-	serialcomm.cxx \
-	support.cxx \
-	telemetry.cxx \
-	cstack.cxx \
-	debug.cxx \
-	icons.cxx \
-	pixmaps.cxx \
-	status.cxx \
-	timeops.cxx \
-	util.cxx \
-	ValueSlider.cxx \
-	xmlrpc_log.cxx \
-	XYplot.cxx \
+	widgets/Fl_SigBar.cxx \
+	widgets/flinput2.cxx \
+	widgets/flslider2.cxx \
+	support/font_browser.cxx \
+	widgets/FreqControl.cxx \
+	support/images.cxx \
+	support/IOspec.cxx \
+	support/kcat_io.cxx \
+	UI/kcat_panel.cxx \
+	support/serialcomm.cxx \
+	support/support.cxx \
+	support/telemetry.cxx \
+	support/cstack.cxx \
+	support/debug.cxx \
+	support/icons.cxx \
+	support/pixmaps.cxx \
+	support/status.cxx \
+	support/timeops.cxx \
+	support/util.cxx \
+	widgets/ValueSlider.cxx \
+	support/xmlrpc_log.cxx \
+	widgets/XYplot.cxx \
 	include/cstack.h \
 	include/date.h \
 	include/debug.h \
@@ -204,15 +204,15 @@ kcat_SOURCES += \
 	include/version.h \
 	include/winserial.h \
 	include/XYplot.h \
-	xml_io.cxx \
+	support/xml_io.cxx \
 	include/xml_io.h 
 
 
 # Additional source files that are distributed
 EXTRA_DIST = \
 	kcat.rc \
-	kcat_icon.cxx \
-	kcat_panel.fl \
+	UI/kcat_icon.cxx \
+	UI/kcat_panel.fl \
 	images/kcat.xpm \
 	images/mvolts.xbm \
 	images/p120.xbm \

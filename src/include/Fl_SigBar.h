@@ -64,13 +64,14 @@ public:
 		redraw(); 
 		Fl::flush(); };
 	float	value() const { return (value_); }
-  
+
+	void clear(float val) { value_ = val; peakv_ = val; }
 	void aging (int n) { 
 		if (n <= 10 && n > 0) aging_ = n - 1;
 		else aging_ = 10;
 	}
-	void peak(float);
-	float peak() { return peakv_;};
+	void peak(float val);
+	float peak() {return peakv_; }
 	void PeakColor(Fl_Color c) { pkcolor = c; };
 	Fl_Color PeakColor() { return pkcolor; }
 	void horizontal(bool yes) { horiz = yes; };

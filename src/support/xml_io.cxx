@@ -5,6 +5,7 @@
 //
 //======================================================================
 
+#include <iostream>
 #include <cstdlib>
 #include <string>
 #include <vector>
@@ -15,10 +16,11 @@
 #include "debug.h"
 #include "kcat.h"
 #include "config.h"
+#include "threads.h"
 
 #include "XmlRpc.h"
 
-#define XML_DEBUG 0
+#define XML_DEBUG 1
 
 using namespace std;
 using XmlRpc::XmlRpcValue;
@@ -61,22 +63,7 @@ static XmlRpcValue* status_query;
 
 bool exit_xmlrpc = false;
 bool fldigi_online = false;
-bool rig_reset = false;
 bool ptt_on = false;
-bool ignore = false;
-
-// not used
-/*
-class auto_mutex
-{
-	pthread_mutex_t& mutex;
-	auto_mutex(const auto_mutex& m);
-	auto_mutex& operator=(const auto_mutex& m);
-public:
-	auto_mutex(pthread_mutex_t& m) : mutex(m) { pthread_mutex_lock(&mutex); }
-	~auto_mutex(void) { pthread_mutex_unlock(&mutex); }
-};
-*/
 
 //=====================================================================
 // socket ops
@@ -133,10 +120,9 @@ void send_modes() {
 
 	try {
 		execute(rig_set_modes, modes, res);
-		ignore = true;
 	} catch (const XmlRpc::XmlRpcException& e) {
-		if (XML_DEBUG)
-			LOG_WARN("%s", e.getMessage().c_str());
+		//if (XML_DEBUG)
+			LOG_ERROR("%s", e.getMessage().c_str());
 		throw;
 	}
 }
@@ -151,10 +137,9 @@ void send_bandwidths()
 
 	try {
 		execute(rig_set_bandwidths, bandwidths, res);
-		ignore = true;
 	} catch (const XmlRpc::XmlRpcException& e) {
-		if (XML_DEBUG)
-			LOG_WARN("%s", e.getMessage().c_str());
+		//if (XML_DEBUG)
+			LOG_ERROR("%s", e.getMessage().c_str());
 		throw;
 	}
 }
@@ -164,10 +149,9 @@ void send_name()
 	try {
 		XmlRpcValue res;
 		execute(rig_set_name, XmlRpcValue(PACKAGE_NAME), res);
-		ignore = true;
 	} catch (const XmlRpc::XmlRpcException& e) {
-		if (XML_DEBUG)
-			LOG_WARN("%s", e.getMessage().c_str());
+		//if (XML_DEBUG)
+			LOG_ERROR("%s", e.getMessage().c_str());
 		throw;
 	}
 }
@@ -177,10 +161,9 @@ void send_ptt_changed(bool PTT)
 	try {
 		XmlRpcValue res;
 		execute((PTT ? main_set_tx : main_set_rx), XmlRpcValue(), res);
-		ignore = true;
 	} catch (const XmlRpc::XmlRpcException& e) {
-		if (XML_DEBUG)
-			LOG_WARN("%s", e.getMessage().c_str());
+		//if (XML_DEBUG)
+			LOG_ERROR("%s", e.getMessage().c_str());
 	}
 }
 
@@ -190,10 +173,9 @@ void send_new_freq(long freq)
 		xmlvfo.freq = freq;
 		XmlRpcValue f((double)freq), res;
 		execute(rig_set_frequency, f, res);
-		ignore = true;
 	} catch (const XmlRpc::XmlRpcException& e) {
-		if (XML_DEBUG)
-			LOG_WARN("%s", e.getMessage().c_str());
+		//if (XML_DEBUG)
+			LOG_ERROR("%s", e.getMessage().c_str());
 	}
 }
 
@@ -212,63 +194,74 @@ void send_queue()
 
 void send_new_mode(int md)
 {
+	if (!fldigi_online) return;
 	try {
+		guard_lock lock(&mutex_xmlrpc);
 		xmlvfo.imode = md;
 		XmlRpcValue mode(szmodes[md]), res;
 		execute(rig_set_mode, mode, res);
-		ignore = true;
 	} catch (const XmlRpc::XmlRpcException& e) {
-		if (XML_DEBUG)
-			LOG_WARN("%s", e.getMessage().c_str());
+		//if (XML_DEBUG)
+			LOG_ERROR("%s", e.getMessage().c_str());
 	}
 }
 
 void send_new_bandwidth(int bw)
 {
+	if (!fldigi_online) return;
 	try {
+		guard_lock lock(&mutex_xmlrpc);
 		xmlvfo.iBW = bw;
 		XmlRpcValue bandwidth(szBW[bw]), res;
 		execute(rig_set_bandwidth, bandwidth, res);
-		ignore = true;
 	} catch (const XmlRpc::XmlRpcException& e) {
-		if (XML_DEBUG)
-			LOG_WARN("%s", e.getMessage().c_str());
+		//if (XML_DEBUG)
+			LOG_ERROR("%s", e.getMessage().c_str());
 	}
 }
 
 void send_sideband()
 {
+	if (!fldigi_online) return;
 	try {
+		guard_lock lock(&mutex_xmlrpc);
 		XmlRpcValue sideband(modetype[vfoA.imode] == 'U' ? "USB" : "LSB"), res;
 		execute(main_set_wf_sideband, sideband, res);
-		ignore = true;
 	} catch (const XmlRpc::XmlRpcException& e) {
-		if (XML_DEBUG)
-			LOG_WARN("%s", e.getMessage().c_str());
+		//if (XML_DEBUG)
+			LOG_ERROR("%s", e.getMessage().c_str());
 		throw;
 	}
 }
 
+int smeter_count = 10;
 void send_smeter_val(int val)
 {
+	if (!fldigi_online) return;
+	if (--smeter_count) return;
+	smeter_count = 4;
 	try {
+		guard_lock lock(&mutex_xmlrpc);
 		XmlRpcValue mval((int)val), res;
 		execute(rig_set_smeter, mval, res);
-		ignore = 1;
 	} catch (const XmlRpc::XmlRpcException& e) {
-		if (XML_DEBUG)
+		//if (XML_DEBUG)
 			LOG_ERROR("%s", e.getMessage().c_str());
 	}
 }
 
+int pwrmeter_count = 10;
 void send_pwrmeter_val(int val)
 {
+	if (!fldigi_online) return;
+	if (--pwrmeter_count) return;
+	pwrmeter_count = 4;
 	try {
+		guard_lock lock(&mutex_xmlrpc);
 		XmlRpcValue mval((int)val), res;
 		execute(rig_set_pwrmeter, mval, res);
-		ignore = 1;
 	} catch (const XmlRpc::XmlRpcException& e) {
-		if (XML_DEBUG)
+		//if (XML_DEBUG)
 			LOG_ERROR("%s", e.getMessage().c_str());
 	}
 }
@@ -284,9 +277,10 @@ static void check_for_ptt_change(const XmlRpcValue& trx_state)
 {
 	bool nuptt = (trx_state == "TX");
 	if (nuptt != ptt_on) {
-		if (XML_DEBUG) {
+		//if (XML_DEBUG) 
+		{
 			string txstate = trx_state;
-			LOG_WARN("%s", txstate.c_str());
+			LOG_ERROR("%s", txstate.c_str());
 		}
 		ptt_on = nuptt;
 		Fl::awake(setPTT, (void*)ptt_on);
@@ -359,7 +353,6 @@ static void send_rig_info()
 		send_new_freq(xmlvfo.freq);
 
 		fldigi_online = true;
-		rig_reset = false;
 		Fl::awake(set_fldigi_connect, (void *)1);
 	} catch (...) {
 		throw;
@@ -378,7 +371,6 @@ void send_no_rig()
 		execute(main_set_wf_sideband, sideband, res);
 		execute(rig_release_control, XmlRpcValue(), res);
 	} catch (...) {
-		printf("Fldigi not running!\n");
 	}
 }
 
@@ -387,10 +379,6 @@ static void get_fldigi_status()
 	XmlRpcValue status;
 	try {
 		execute("system.multicall", *status_query, status);
-		if (ignore) {
-			ignore = false;
-			return;
-		}
 		check_for_ptt_change(status[0][0]);
 		if (!ptt_on) {
 			xmlvfo.src = XML;
@@ -412,23 +400,20 @@ void * xmlrpc_thread_loop(void *d)
 	for (;;) {
 		MilliSleep(RIG_UPDATE_INTERVAL);
 		if (exit_xmlrpc) break;
-		pthread_mutex_lock(&mutex_xmlrpc);
 		try {
-			if (rig_reset || (!fldigi_online && (--try_count == 0)))
-				send_rig_info();
-			else if (fldigi_online) {
+			guard_lock lock(&mutex_xmlrpc);
+			if (fldigi_online) {
 				send_queue();
 				get_fldigi_status();
-			}
+			} else if (--try_count == 0)
+				send_rig_info();
 		} catch (const XmlRpc::XmlRpcException& e) {
-			if (XML_DEBUG)
-				LOG_WARN("%s", e.getMessage().c_str());
+			//if (XML_DEBUG)
+				LOG_ERROR("%s", e.getMessage().c_str());
 			fldigi_online = false;
-			rig_reset = false;
 			try_count = CHECK_UPDATE_COUNT;
 			Fl::awake(set_fldigi_connect, (void *)0);
 		}
-		pthread_mutex_unlock(&mutex_xmlrpc);
 	}
 	return NULL;
 }

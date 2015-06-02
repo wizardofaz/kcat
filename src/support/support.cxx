@@ -700,7 +700,6 @@ void setPower()
 
 void cb_autotune(int v)
 {
-printf("%d\n", v);
 	if (v) setXcvrTune(1);
 	else setXcvrTune(0);
 }
@@ -805,7 +804,7 @@ void updateFwdPwr(int data)
 		sldrFwdPwr->value(power);
 		sldrFwdPwr->redraw();
 	}
-	send_pwrmeter_val((int)(100*power));
+	send_pwrmeter_val((int)(power));
 }
 
 void updateSWR(int data)
@@ -832,7 +831,7 @@ void updateSWR(int data)
 
 void zeroSmeter()
 {
-	sldrRcvSignal->value(-128);
+	sldrRcvSignal->clear(-127);
 	sldrRcvSignal->redraw();
 }
 
@@ -1083,15 +1082,20 @@ bool exit_telemetry = false;
 void parseTelemetry(void *)
 {
 	unsigned char data;
-	static int smeter_count = 7;
-	static int xmt_count = 7;
+	static bool smeter_active = true;
+	static bool pwrmtr_active = false;
 
 	while(commstack.pop(data)) {
 
+//std::cout << (unsigned int)data << "\n";
 		if (data < 130) { // receive telemetry
 			if (data < 128) { // smeter
 				updateRcvSignal(data);
-				smeter_count = 7; // 
+				smeter_active = true;
+				if (pwrmtr_active) {
+					pwrmtr_active = false;
+					zeroXmtMeters();
+				}
 			}
 			else if (data == 128 || data == 129) // squelch
 				updateSquelch(data);
@@ -1107,17 +1111,12 @@ void parseTelemetry(void *)
 		else if (data > 219 && data < 250) // temperature value
 			updateTempDisplay(data);
 
-		if (data > 129 && data < 215) xmt_count = 7;
-		else xmt_count--;
-		if (!xmt_count) {
-			xmt_count = 1;
-			zeroXmtMeters();
-		}
-
-		smeter_count--;
-		if (!smeter_count) {
-			smeter_count = 1;
-			zeroSmeter();
+		if (data > 129 && data < 215) {
+			if (smeter_active) {
+				zeroSmeter();
+				smeter_active = false;
+				pwrmtr_active = true;
+			}
 		}
 	}
 }

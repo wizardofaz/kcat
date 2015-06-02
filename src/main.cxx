@@ -38,7 +38,7 @@
 #include <FL/Fl_Pixmap.H>
 #include <FL/Fl_Image.H>
 
-#include "kcat_icon.cxx"
+#include "UI/kcat_icon.cxx"
 
 #include "config.h"
 #include "support.h"

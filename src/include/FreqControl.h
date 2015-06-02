@@ -1,27 +1,25 @@
-// "$Id: FreqControl.cpp,v  2006/02/26"
+// ----------------------------------------------------------------------------
 //
-// Frequency Control Widget for the Fast Light Tool Kit (Fltk)
+// Frequency Control Widget for the Fast Light Tool Kit
 //
-// Copyright 2005-2006, Dave Freese W1HKJ
+// Copyright (C) 2014
+//              David Freese, W1HKJ
 //
-// This library is free software; you can redistribute it and/or
-// modify it under the terms of the GNU Library General Public
-// License as published by the Free Software Foundation; either
-// version 2 of the License, or (at your option) any later version.
+// This file is part of flrig.
 //
-// This library is distributed in the hope that it will be useful,
+// flrig is free software; you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation; either version 3 of the License, or
+// (at your option) any later version.
+//
+// flrig is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-// Library General Public License for more details.
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
 //
-// You should have received a copy of the GNU Library General Public
-// License along with this library; if not, write to the
-//
-//  Free Software Foundation, Inc.
-//  51 Franklin Street, Fifth Floor
-//  Boston, MA  02110-1301 USA.
-//
-// Please report all bugs and problems to "w1hkj@w1hkj.com".
+// You should have received a copy of the GNU General Public License
+// along with this program.  If not, see <http://www.gnu.org/licenses/>.
+// ----------------------------------------------------------------------------
 //
 // Usage:
 //	Create a multi-digit receiver / transceiver frequency control widget
@@ -63,7 +61,7 @@ public:
 	~cFreqControl();
 	void updatevalue();
 	void value(long lv);
-	long value();
+	long value(){return val;};
 	void font(Fl_Font fnt);
 	void SetONCOLOR (uchar r, uchar g, uchar b);
 	void SetOFFCOLOR (uchar r, uchar g, uchar b);
@@ -78,11 +76,26 @@ public:
 	void do_callback() { if (cbFunc) cbFunc(); }
 	int  handle(int event);
 	void visual_beep();
+	void set_hrd(bool b) {hrd_buttons = b;}
+
+	void reverse_colors();
+	void restore_colors();
+	bool  is_reversed_colors() { return colors_reversed; }
+
+	void resize (int X, int Y, int W, int H);
 
 	void set_precision(int val) {
-		if (val % 10) val = 1;
-		precision = (val < 1) ? 1 : (val > 1000) ? 1000 : val;
+		switch (val) {
+			case 100:
+				dpoint = 1; precision = 100; break;
+			case 10:
+				dpoint = 2; precision = 10; break;
+			default:
+				dpoint = 3; precision = 1; break;
+		}
 	}
+
+	void set_ndigits(int val);
 
 private:
 	Fl_Repeat_Button	  	*Digit[MAX_DIGITS];
@@ -90,15 +103,28 @@ private:
 	static const char	 	*Label[];
 	int					mult[MAX_DIGITS];
 	Fl_Box				*decbx;
+	Fl_Box				*hfill1;
+	Fl_Box				*hfill2;
 	Fl_Font  font_number;
 	Fl_Color OFFCOLOR;
 	Fl_Color ONCOLOR;
 	Fl_Color SELCOLOR;
 	Fl_Color ILLUMCOLOR;
+	Fl_Color REVONCOLOR;
+	Fl_Color REVOFFCOLOR;
 	int nD;
 	int active;
 	long maxVal;
 	long minVal;
+
+	int pw; // decimal width
+	int wfill;
+	int bdr;
+	int fcWidth;
+	int fcTop;
+	int fcHeight;
+	int W;
+
 	void DecFreq(int n);
 	void IncFreq(int n);
 	int (*cbFunc)();
@@ -106,7 +132,9 @@ private:
 protected:
 	long val, oldval;
 	int  precision;
-	int  dec_digits;
+	int  dpoint;
+	bool hrd_buttons;
+	bool colors_reversed;
 };
 
 #endif 
