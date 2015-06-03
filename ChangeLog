@@ -1,7 +1,16 @@
-2015-04-23  David Freese  <iam_w1hkj@w1hkj.com>
 
-	d9be9bf: fltk-1.3.3 compatibility
-	49e4fea: flxmlrpc
+
+=Version 1.2.4=
+
+2015-06-02  David Freese  <iam_w1hkj@w1hkj.com>
+
+	d2e35b2: Fix for lockup
+
+
+=Version 1.2.3=
+
+	1d98750: fltk-1.3.3 compatibility
+	526ba52: flxmlrpc
 	8fe3c91: FSF address
 	ba8aa0b: smeter pwrmeter
 
