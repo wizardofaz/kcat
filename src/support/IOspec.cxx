@@ -16,93 +16,93 @@
 
 //Command  Definition
 //-------  ----------
-char cmdK_AGC[] = {2,'A',0x00}; // AGC speed, 00H = fast to FFH = slow
+unsigned char cmdK_AGC[] = {2,'A',0x00}; // AGC speed, 00H = fast to FFH = slow
 
-char cmdK_AON[] = {2,'a',0x00}; // Amplifier off.
-char cmdK_AOF[] = {2,'a',0x01}; // Amplifier on.
+unsigned char cmdK_AON[] = {2,'a',0x00}; // Amplifier off.
+unsigned char cmdK_AOF[] = {2,'a',0x01}; // Amplifier on.
 
-char cmdK_BW[]  = {2,'B',0x00}; // never sent unless byte 2 set
-char cmdK_BW0[] = {2,'B',0x01}; // RX BW filter, SSB 3.5kHz.
-char cmdK_BW1[] = {2,'B',0x02}; // RX BW filter, SSB 2.7kHz
-char cmdK_BW2[] = {2,'B',0x03}; // RX BW filter, SSB 2.4kHz.
-char cmdK_BW3[] = {2,'B',0x04}; // RX BW filter, SSB 2.1kHz
-char cmdK_BW4[] = {2,'B',0x05}; // RX BW filter, SSB 1.7kHz.
-char cmdK_BW5[] = {2,'B',0x06}; // RX BW filter, CW 1kHz.
-char cmdK_BW6[] = {2,'B',0x07}; // RX BW filter, CW 500Hz.
-char cmdK_BW7[] = {2,'B',0x08}; // RX BW filter, CW 200Hz.
-char cmdK_BW8[] = {2,'B',0x09}; // RX BW filter, CW 100Hz.
-char cmdK_BDH[] = {2,'B',0x0a}; // Data High Filter
-char cmdK_BDM[] = {2,'B',0x0b}; // Data Medium Filter
+unsigned char cmdK_BW[]  = {2,'B',0x00}; // never sent unless byte 2 set
+unsigned char cmdK_BW0[] = {2,'B',0x01}; // RX BW filter, SSB 3.5kHz.
+unsigned char cmdK_BW1[] = {2,'B',0x02}; // RX BW filter, SSB 2.7kHz
+unsigned char cmdK_BW2[] = {2,'B',0x03}; // RX BW filter, SSB 2.4kHz.
+unsigned char cmdK_BW3[] = {2,'B',0x04}; // RX BW filter, SSB 2.1kHz
+unsigned char cmdK_BW4[] = {2,'B',0x05}; // RX BW filter, SSB 1.7kHz.
+unsigned char cmdK_BW5[] = {2,'B',0x06}; // RX BW filter, CW 1kHz.
+unsigned char cmdK_BW6[] = {2,'B',0x07}; // RX BW filter, CW 500Hz.
+unsigned char cmdK_BW7[] = {2,'B',0x08}; // RX BW filter, CW 200Hz.
+unsigned char cmdK_BW8[] = {2,'B',0x09}; // RX BW filter, CW 100Hz.
+unsigned char cmdK_BDH[] = {2,'B',0x0a}; // Data High Filter
+unsigned char cmdK_BDM[] = {2,'B',0x0b}; // Data Medium Filter
 
-char cmdK_RSER[] = {2,'b',0x00}; // BITE - Serial #, H/W & S/W version request.
-char cmdK_RIMP[] = {2,'b',0x01}; // BITE - Request antenna impedance data.
-char cmdK_RFCAL[] = {2,'b',0x06}; // BITE - Request freq. ref. calibration table.
-char cmdK_RSMTR[] = {2,'b',0x03}; // BITE - Request S-Meter calibration table.
-char cmdK_PFCAL[] = {2,'b',0x08}; // BITE - Perform freq. ref. cal.
-char cmdK_RPCAL[] = {2,'b',0x09}; // BITE - Request phase det. calibration table.
-char cmdK_RCBAL[] = {2,'b',0x0c}; // BITE - Request carrier balance value.
+unsigned char cmdK_RSER[] = {2,'b',0x00}; // BITE - Serial #, H/W & S/W version request.
+unsigned char cmdK_RIMP[] = {2,'b',0x01}; // BITE - Request antenna impedance data.
+unsigned char cmdK_RFCAL[] = {2,'b',0x06}; // BITE - Request freq. ref. calibration table.
+unsigned char cmdK_RSMTR[] = {2,'b',0x03}; // BITE - Request S-Meter calibration table.
+unsigned char cmdK_PFCAL[] = {2,'b',0x08}; // BITE - Perform freq. ref. cal.
+unsigned char cmdK_RPCAL[] = {2,'b',0x09}; // BITE - Request phase det. calibration table.
+unsigned char cmdK_RCBAL[] = {2,'b',0x0c}; // BITE - Request carrier balance value.
 
-char cmdK_RTIME[] = {2,'b',0x2f}; // BITE - Request on time value.
+unsigned char cmdK_RTIME[] = {2,'b',0x2f}; // BITE - Request on time value.
 
-char cmdK_cmdM[] = {2,'b',0x36}; // BITE - Request TCXO DVM value.
-char cmdK_cmdN[] = {2,'b',0x37}; // BITE - Request DDS value for Rx frequency.
-char cmdK_cmdO[] = {2,'b',0x38}; // BITE - Request mode.
-char cmdK_Rpmx[] = {2,'b',0x39}; // BITE - Request maximum power setting.
+unsigned char cmdK_cmdM[] = {2,'b',0x36}; // BITE - Request TCXO DVM value.
+unsigned char cmdK_cmdN[] = {2,'b',0x37}; // BITE - Request DDS value for Rx frequency.
+unsigned char cmdK_cmdO[] = {2,'b',0x38}; // BITE - Request mode.
+unsigned char cmdK_Rpmx[] = {2,'b',0x39}; // BITE - Request maximum power setting.
 
-char cmdK_CWO0[] = {2,'C',0x03}; // CW Offset freq - 300Hz.
-char cmdK_CWO1[] = {2,'C',0x04}; // CW Offset freq - 400Hz.
-char cmdK_CWO2[] = {2,'C',0x05}; // CW Offset freq - 500Hz.
-char cmdK_CWO3[] = {2,'C',0x06}; // CW Offset freq - 600Hz.
-char cmdK_CWO4[] = {2,'C',0x07}; // CW Offset freq - 700Hz.
-char cmdK_CWO5[] = {2,'C',0x08}; // CW Offset freq - 800Hz.
+unsigned char cmdK_CWO0[] = {2,'C',0x03}; // CW Offset freq - 300Hz.
+unsigned char cmdK_CWO1[] = {2,'C',0x04}; // CW Offset freq - 400Hz.
+unsigned char cmdK_CWO2[] = {2,'C',0x05}; // CW Offset freq - 500Hz.
+unsigned char cmdK_CWO3[] = {2,'C',0x06}; // CW Offset freq - 600Hz.
+unsigned char cmdK_CWO4[] = {2,'C',0x07}; // CW Offset freq - 700Hz.
+unsigned char cmdK_CWO5[] = {2,'C',0x08}; // CW Offset freq - 800Hz.
 
-char cmdK_CWWI[] = {2,'c',0x00}; // CW Filter default - wide.
-char cmdK_CWNA[] = {2,'c',0x01}; // CW Filter default - narrow.
+unsigned char cmdK_CWWI[] = {2,'c',0x00}; // CW Filter default - wide.
+unsigned char cmdK_CWNA[] = {2,'c',0x01}; // CW Filter default - narrow.
 
-char cmdK_CWDY[] = {2,'D',0x00}; // CW keyer dynamics, 00H to FFH
+unsigned char cmdK_CWDY[] = {2,'D',0x00}; // CW keyer dynamics, 00H to FFH
 //				(00H = soft, FFH = hard).
 
 // NO-OP keep alive command. Sent every
 // 15 seconds so radio doesn't close
 // serial connection to the PC.
-char cmdK_NOOP[] = {2,'d',0x00}; 
+unsigned char cmdK_NOOP[] = {2,'d',0x00}; 
 
-char cmdK_cmdR[] = {2,'E',0x00}; // Transmit equalization shift frequency,
+unsigned char cmdK_cmdR[] = {2,'E',0x00}; // Transmit equalization shift frequency,
 //				Bass - Treble. The values range from
 //				-128 to 127.
 
-char cmdK_SPOF[] = {2,'e',0x00}; // Speech monitor off.
-char cmdK_SPON[] = {2,'e',0x01}; // Speech monitor on.
+unsigned char cmdK_SPOF[] = {2,'e',0x00}; // Speech monitor off.
+unsigned char cmdK_SPON[] = {2,'e',0x01}; // Speech monitor on.
 
-char cmdK_VFOM[] = {2,'F',0X01}; // 1 = Simplex on, Rx and Tx are equal.
+unsigned char cmdK_VFOM[] = {2,'F',0X01}; // 1 = Simplex on, Rx and Tx are equal.
 								 // 2 = Listen on the receive frequency.
 								 // 3 = Listen on the transmit frequency.
 								 // 4 = Split on.
 
-char cmdK_CTSS[] = {2,'f',0x00}; // CTCSS tone frequency for FM,
+unsigned char cmdK_CTSS[] = {2,'f',0x00}; // CTCSS tone frequency for FM,
 //				00H to 2AH (0 is off and 01-2A
 //				correspond to 42 frequency codes).
 
-char cmdK_ATT[] = {2,'G',0X00}; // Receive attenuator as per next two
-char cmdK_ATT0[] = {2,'G',0x00}; // Receive attenuator off.
-char cmdK_ATT1[] = {2,'G',0x01}; // Receive attenuator on.
+unsigned char cmdK_ATT[] = {2,'G',0X00}; // Receive attenuator as per next two
+unsigned char cmdK_ATT0[] = {2,'G',0x00}; // Receive attenuator off.
+unsigned char cmdK_ATT1[] = {2,'G',0x01}; // Receive attenuator on.
 
-char cmdK_AGCA[] = {2,'g',0x00}; // AGC action, 00H to FFH
+unsigned char cmdK_AGCA[] = {2,'g',0x00}; // AGC action, 00H to FFH
 //				(00H = min, FFH = max).
 
-char cmdK_cmdS[] = {2,'h',0x00}; //		505TVR (00H = off, 01H = on)
+unsigned char cmdK_cmdS[] = {2,'h',0x00}; //		505TVR (00H = off, 01H = on)
 
-char cmdK_CMPR[] = {2,'H',0x00}; // Speech compression. Hex value is
+unsigned char cmdK_CMPR[] = {2,'H',0x00}; // Speech compression. Hex value is
 //				relative compression with 00H being
 //				minimum compression and 0FFH being
 //				maximum compression.
 
-char cmdK_IFSH[] = {2,'I',0x00}; // IF filter shift frequency. Step size is
+unsigned char cmdK_IFSH[] = {2,'I',0x00}; // IF filter shift frequency. Step size is
 //				10Hz. Hex value is determined by the
 //				equation (Hz / 10) + 128. The frequency
 //				range is -1280Hz to 1270Hz.
 
-char cmdK_IMPM[] = {3,'i',0x00,0x00}; 
+unsigned char cmdK_IMPM[] = {3,'i',0x00,0x00}; 
 //   Impedance matching, used by KCCAL to get
 //				50 ohm capacitance/inductance load. Value
 //				is determined by the following bits.
@@ -116,61 +116,61 @@ char cmdK_IMPM[] = {3,'i',0x00,0x00};
 //				Bit 7  : 0 = output cap., 1 = input cap.
 //				Bits 8-13 : inductance 0-63
 
-char cmdK_RITU[] = {2,'J',0x00}; // RIT 100Hz steps, -99 to -8 and 8 to 99.
+unsigned char cmdK_RITU[] = {2,'J',0x00}; // RIT 100Hz steps, -99 to -8 and 8 to 99.
 //				This covers the ranges -9900Hz to -800Hz
 //				and 800Hz to 9900Hz.
 
-char cmdK_RITL[] = {2,'j',0x00}; // RIT 10Hz steps, -79 to 79.
+unsigned char cmdK_RITL[] = {2,'j',0x00}; // RIT 10Hz steps, -79 to 79.
 //				This covers the ranges -790Hz to 790Hz.
 
-char cmdK_CWLH[] = {2,'K',0x01}; // CW keyer mode, left hand.
-char cmdK_CWRH[] = {2,'K',0x02}; // CW keyer mode, right hand.
-char cmdK_CWST[] = {2,'K',0x03}; // CW keyer mode, straight.
+unsigned char cmdK_CWLH[] = {2,'K',0x01}; // CW keyer mode, left hand.
+unsigned char cmdK_CWRH[] = {2,'K',0x02}; // CW keyer mode, right hand.
+unsigned char cmdK_CWST[] = {2,'K',0x03}; // CW keyer mode, straight.
 
-char cmdK_CWT0[] = {2,'k',0x00}; // CW spotting tone off.
-char cmdK_CWT1[] = {2,'k',0x01}; // CW spotting tone on.
+unsigned char cmdK_CWT0[] = {2,'k',0x00}; // CW spotting tone off.
+unsigned char cmdK_CWT1[] = {2,'k',0x01}; // CW spotting tone on.
 
-char cmdK_SQL[] = {2,'L',0x00}; // Level sensitive squelch value, 00H to 7FH.
+unsigned char cmdK_SQL[] = {2,'L',0x00}; // Level sensitive squelch value, 00H to 7FH.
 
-char cmdK_MODE[] = {2,'M',0X00}; // Mode iaw with following
-char cmdK_MDAM[] = {2,'M',0x01}; // Mode, AM.
-char cmdK_MDCW[] = {2,'M',0x02}; // Mode, CW.
-char cmdK_MDFM[] = {2,'M',0x03}; // Mode, FM.
-char cmdK_MDUS[] = {2,'M',0x04}; // Mode, USB.
-char cmdK_MDLS[] = {2,'M',0x05}; // Mode, LSB.
+unsigned char cmdK_MODE[] = {2,'M',0X00}; // Mode iaw with following
+unsigned char cmdK_MDAM[] = {2,'M',0x01}; // Mode, AM.
+unsigned char cmdK_MDCW[] = {2,'M',0x02}; // Mode, CW.
+unsigned char cmdK_MDFM[] = {2,'M',0x03}; // Mode, FM.
+unsigned char cmdK_MDUS[] = {2,'M',0x04}; // Mode, USB.
+unsigned char cmdK_MDLS[] = {2,'M',0x05}; // Mode, LSB.
 
-char cmdK_MICG[] = {2,'m',0x00}; // Mic/CW gain. Hex value is relative gain
+unsigned char cmdK_MICG[] = {2,'m',0x00}; // Mic/CW gain. Hex value is relative gain
 //				level with 00H being minimum gain and
 //				0FFH being maximum gain.
 
-char cmdK_NTCW[] = {2,'N',0x03}; // Notch width; 0=wide, 1=medium, 2=narrow,
+unsigned char cmdK_NTCW[] = {2,'N',0x03}; // Notch width; 0=wide, 1=medium, 2=narrow,
 //				3=automatic.
 
-char cmdK_NTCF[] = {2,'n',0x00}; // Notch frequency in 10Hz steps. Hex value is
+unsigned char cmdK_NTCF[] = {2,'n',0x00}; // Notch frequency in 10Hz steps. Hex value is
 //				determined by the equation (Hz / 10) - 20.
 //				The range is 210Hz to 2750Hz and a value of
 //				zero indicates the notch is turned off.
 
-char cmdK_NDOF[] = {2,'O',0x00}; // Noise reduction off.Request
-char cmdK_NDON[] = {2,'O',0x01}; // Noise reduction on.
+unsigned char cmdK_NDOF[] = {2,'O',0x00}; // Noise reduction off.Request
+unsigned char cmdK_NDON[] = {2,'O',0x01}; // Noise reduction on.
 
-char cmdK_NDLV[] = {2,'o',0x00}; // Noise reduction level control.
+unsigned char cmdK_NDLV[] = {2,'o',0x00}; // Noise reduction level control.
 //				Hex value is relative level with 00H
 //				being minimum and 0FFH being maximum.
 
-char cmdK_SPP0[] = {2,'P',0x00}; // Speech processor off.
-char cmdK_SPP1[] = {2,'P',0x01}; // Speech processor on.
+unsigned char cmdK_SPP0[] = {2,'P',0x00}; // Speech processor off.
+unsigned char cmdK_SPP1[] = {2,'P',0x01}; // Speech processor on.
 
-char cmdK_PRE0[] = {2,'p',0x00}; // Pre amp off.
-char cmdK_PRE1[] = {2,'p',0x01}; // Pre amp on.
+unsigned char cmdK_PRE0[] = {2,'p',0x00}; // Pre amp off.
+unsigned char cmdK_PRE1[] = {2,'p',0x01}; // Pre amp on.
 
-char cmdK_SQL0[] = {2,'Q',0x00}; // Level sensitive squelch (level set to 127).
-char cmdK_SQL1[] = {2,'Q',0x01}; // Syllabic squelch (level set to 127).
+unsigned char cmdK_SQL0[] = {2,'Q',0x00}; // Level sensitive squelch (level set to 127).
+unsigned char cmdK_SQL1[] = {2,'Q',0x01}; // Syllabic squelch (level set to 127).
 
-char cmdK_QSK0[] = {2,'q',0x00}; // CW keyer QSK off.
-char cmdK_QSK1[] = {2,'q',0x01}; // CW keyer QSK on.
+unsigned char cmdK_QSK0[] = {2,'q',0x00}; // CW keyer QSK off.
+unsigned char cmdK_QSK1[] = {2,'q',0x01}; // CW keyer QSK on.
 
-char cmdK_RCVF[] = {5,'R',0x00,0x00,0x00,0x00}; 
+unsigned char cmdK_RCVF[] = {5,'R',0x00,0x00,0x00,0x00}; 
 // DDS value for receive frequency.
 //				The allowable range will be 30kHz to 30MHz.
 //				The uppermost 2 bits of the high byte will
@@ -185,7 +185,7 @@ char cmdK_RCVF[] = {5,'R',0x00,0x00,0x00,0x00};
 //				DDS = 2.2369621333 * (75000000 + freq)
 //				where freq = input frequency in Hz.
 
-char cmdK_REFF[] = {5,'r',0x00,0x00,0x00,0x00}; 
+unsigned char cmdK_REFF[] = {5,'r',0x00,0x00,0x00,0x00}; 
 // DDS value for reference calibration frequency.
 //				The allowable range will be 30kHz to 30MHz.
 
@@ -194,13 +194,13 @@ char cmdK_REFF[] = {5,'r',0x00,0x00,0x00,0x00};
 //				DDS = 2.2369621333 * (75000000 + freq)
 //				where freq = input frequency in Hz.
 
-char cmdK_CWSP[] = {2,'S',0x00}; // CW keyer speed, 00H to FFH
+unsigned char cmdK_CWSP[] = {2,'S',0x00}; // CW keyer speed, 00H to FFH
 //				(00H = 5 wpm, FFH = 80 wpm).
 
-char cmdK_CWSM[] = {2,'s',0x00}; // CW keyer/Speech monitor sidetone, 00H to FFH
+unsigned char cmdK_CWSM[] = {2,'s',0x00}; // CW keyer/Speech monitor sidetone, 00H to FFH
 //				(00H = min, FFH = max).
 
-char cmdK_XMTF[] = {5,'T',0x00,0x00,0x00,0x00}; 
+unsigned char cmdK_XMTF[] = {5,'T',0x00,0x00,0x00,0x00}; 
 // DDS value for transmit frequency. The
 //				allowable range will be 30kHz to 30MHz (the
 //				radio will restrict the range to 1.8-30MHz).
@@ -216,93 +216,94 @@ char cmdK_XMTF[] = {5,'T',0x00,0x00,0x00,0x00};
 //				DDS = 2.2369621333 * (75000000 + freq)
 //				where freq = input frequency in Hz.
 
-char cmdK_XMTS[] = {5,'t',0x00,0x00,0x00,0x00}; 
+unsigned char cmdK_XMTS[] = {5,'t',0x00,0x00,0x00,0x00}; 
 // Save DDS value for transmit frequency,
 //				but do not tune the radio.
 
-char cmdK_ATU0[] = {2,'U',0x00}; // Antenna tuning off.
-char cmdK_ATU1[] = {2,'U',0x01}; // Antenna tuning on.
-char cmdK_ATU2[] = {2,'U',0x02}; // Antenna tuning start. A radio with with an
+unsigned char cmdK_ATU0[] = {2,'U',0x00}; // Antenna tuning off.
+unsigned char cmdK_ATU1[] = {2,'U',0x01}; // Antenna tuning on.
+unsigned char cmdK_ATU2[] = {2,'U',0x02}; // Antenna tuning start. A radio with with an
 //				ATU will make an audible pass/fail tone after
 //				the antenna tuning cycle completes.
-char cmdK_ANTA0[] = {2,'U',0x03}; // Clear port A antenna impedance data.
-char cmdK_ANTB0[] = {2,'U',0x04}; // Clear port B antenna impedance data.
+unsigned char cmdK_ANTA0[] = {2,'U',0x03}; // Clear port A antenna impedance data.
+unsigned char cmdK_ANTB0[] = {2,'U',0x04}; // Clear port B antenna impedance data.
 
-char cmdK_VOLU[] = {2,'V',0x10}; // Audio volume. Hex value is relative volume
+unsigned char cmdK_VOLU[] = {2,'V',0x10}; // Audio volume. Hex value is relative volume
 //				level with 00H being minimum volume and 0FFH
 //				being maximum volume.
 
-char cmdK_XDIT[] = {2,'v',0x00}; // Transmit a CW dit.
-char cmdK_XDAH[] = {2,'v',0x01}; // Transmit a CW dah.
-char cmdK_XLSP[] = {2,'v',0x02}; // Transmit a CW interletter space.
-char cmdK_XWSP[] = {2,'v',0x03}; // Transmit a CW interword space.
-char cmdK_XABR[] = {2,'v',0x04}; // Abort transmit of CW message.
-char cmdK_TUN0[] = {2,'v',0x05}; // Constant tune carrier off.
-char cmdK_TUN1[] = {2,'v',0x06}; // Constant tune carrier on.
+unsigned char cmdK_XDIT[] = {2,'v',0x00}; // Transmit a CW dit.
+unsigned char cmdK_XDAH[] = {2,'v',0x01}; // Transmit a CW dah.
+unsigned char cmdK_XLSP[] = {2,'v',0x02}; // Transmit a CW interletter space.
+unsigned char cmdK_XWSP[] = {2,'v',0x03}; // Transmit a CW interword space.
+unsigned char cmdK_XABR[] = {2,'v',0x04}; // Abort transmit of CW message.
+unsigned char cmdK_TUN0[] = {2,'v',0x05}; // Constant tune carrier off.
+unsigned char cmdK_TUN1[] = {2,'v',0x06}; // Constant tune carrier on.
 
-char cmdK_PWR[] = {2,'W',0x00}; // Max power out 1 - 100 watts.
+unsigned char cmdK_PWR[] = {2,'W',0x00}; // Max power out 1 - 100 watts.
 
-char cmdK_XWGT[] = {2,'w',0x80}; // CW keyer weight, 00H to FFH
+unsigned char cmdK_XWGT[] = {2,'w',0x80}; // CW keyer weight, 00H to FFH
 //				(00H = light, FFH = heavy).
 
-char cmdK_VOXL[] = {2,'X',0x00}; // VOX level, 00H to FFH (00H = off).
+unsigned char cmdK_VOXL[] = {2,'X',0x00}; // VOX level, 00H to FFH (00H = off).
 
-char cmdK_PTT[]  = {2,'x',0x00}; // Push to talk (01H = Tx, 00H = Rx).
+unsigned char cmdK_PTT[]  = {2,'x',0x00}; // Push to talk (01H = Tx, 00H = Rx).
 
-char cmdK_AVXL[] = {2,'Y',0x00}; // AntiVOX level, 00H to FFH.
+unsigned char cmdK_AVXL[] = {2,'Y',0x00}; // AntiVOX level, 00H to FFH.
 
-char cmdK_AVXD[] = {2,'y',0x00}; // VOX Delay, 00H to FFH.
+unsigned char cmdK_AVXD[] = {2,'y',0x00}; // VOX Delay, 00H to FFH.
+
 //				(00H = short, FFH = long).
 
 // unused commands in kcat
 
-//char cmdK_SIMP[] = {2,'b',0x02}; // BITE - Send antenna impedance data.
-//char cmdK_SSMTR[] = {2,'b',0x04}; // BITE - Send S-Meter calibration table.
-//char cmdK_PSMTR[] = {2,'b',0x05}; // BITE - Perform S-Meter calibration.
-//char cmdK_SFCAL[] = {2,'b',0x07}; // BITE - Send freq. ref. calibration table.
-//char cmdK_SPCAL[] = {2,'b',0x0a}; // BITE - Send phase det. calibration table.
-//char cmdK_PPCAL[] = {2,'b',0x0b}; // BITE - Perform phase det. cal.
-//char cmdK_SCBAL[] = {2,'b',0x0d}; // BITE - Send carrier balance value.
-//char cmdK_PCBAL[] = {2,'b',0x0e}; // BITE - Perform carrier balance.
-//char cmdK_cmd0[] = {2,'b',0x0f}; // Reserved.
-//char cmdK_SM0[] = {2,'b',0x10}; // BITE - S-Meter cal -130 dBm.
-//char cmdK_SM1[] = {2,'b',0x11}; // BITE - S-Meter cal -120 dBm.
-//char cmdK_SM2[] = {2,'b',0x12}; // BITE - S-Meter cal -110 dBm.
-//char cmdK_SM3[] = {2,'b',0x13}; // BITE - S-Meter cal -100 dBm.
-//char cmdK_SM4[] = {2,'b',0x14}; // BITE - S-Meter cal  -90 dBm.
-//char cmdK_SM5[] = {2,'b',0x15}; // BITE - S-Meter cal  -80 dBm.
-//char cmdK_SM6[] = {2,'b',0x16}; // BITE - S-Meter cal  -70 dBm.
-//char cmdK_SM7[] = {2,'b',0x17}; // BITE - S-Meter cal  -60 dBm.
-//char cmdK_SM8[] = {2,'b',0x18}; // BITE - S-Meter cal  -50 dBm.
-//char cmdK_SM9[] = {2,'b',0x19}; // BITE - S-Meter cal  -40 dBm.
-//char cmdK_SM10[] = {2,'b',0x1a}; // BITE - S-Meter cal  -30 dBm.
-//char cmdK_SM11[] = {2,'b',0x1b}; // BITE - S-Meter cal  -20 dBm.
-//char cmdK_SM12[] = {2,'b',0x1c}; // BITE - S-Meter cal  -10 dBm.
-//char cmdK_SM13[] = {2,'b',0x1d}; // BITE - S-Meter cal 0 dBm.
-//char cmdK_SM14[] = {2,'b',0x1e}; // BITE - S-Meter cal   10 dBm.
-//char cmdK_SM15[] = {2,'b',0x1f}; // BITE - S-Meter cal   20 dBm.
-//char cmdK_cmd1[] = {2,'b',0x20}; // Reserved.
-//char cmdK_SAGC[] = {2,'b',0x21}; // BITE - Send AGC DVM value.
-//char cmdK_cmd2[] = {2,'b',0x22}; // BITE - Send lock detector 1 DVM value.
-//char cmdK_cmd3[] = {2,'b',0x23}; // BITE - Send lock detector 2 DVM value.
-//char cmdK_Qfwd[] = {2,'b',0x24}; // BITE - Send forward power DVM value.
-//char cmdK_Qref[] = {2,'b',0x25}; // BITE - Send reflected power DVM value.
-//char cmdK_Qphs[] = {2,'b',0x26}; // BITE - Send phase detector DVM value.
-//char cmdK_cmd7[] = {2,'b',0x27}; // BITE - Send Tx audio DVM value.
-//char cmdK_Qt_A[] = {2,'b',0x28}; // BITE - Send temperature A DVM value.
-//char cmdK_Qt_B[] = {2,'b',0x29}; // BITE - Send temperature B DVM value.
-//char cmdK_cmdA[] = {2,'b',0x2a}; // BITE - Send R->T switching data.
-//char cmdK_cmdB[] = {2,'b',0x2b}; // BITE - Send T->R switching data.
-//char cmdK_cmdC[] = {2,'b',0x2c}; // BITE - Send synthesizer lock time 1 data.
-//char cmdK_cmdD[] = {2,'b',0x2d}; // BITE - Send synthesizer lock time 2 data.
-//char cmdK_cmdE[] = {2,'b',0x2e}; // BITE - Send ALC over-shoot data.
-//char cmdK_cmdG[] = {2,'b',0x30}; // BITE - Reset on time value.
-//char cmdK_cmdH[] = {2,'b',0x31}; // BITE - Request fault data.
-//char cmdK_cmdI[] = {2,'b',0x32}; // BITE - Reset fault data.
-//char cmdK_cmdJ[] = {2,'b',0x33}; // BITE - Set firmware serial number.
-//char cmdK_cmdK[] = {2,'b',0x34}; // BITE - Perform powerup self test.
-//char cmdK_cmdL[] = {2,'b',0x35}; // BITE - Set password.
-//char cmdK_cmdQ[] = {2,'b',0x3a}; // BITE - Perform freq. ref. tilt
+//unsigned char cmdK_SIMP[] = {2,'b',0x02}; // BITE - Send antenna impedance data.
+//unsigned char cmdK_SSMTR[] = {2,'b',0x04}; // BITE - Send S-Meter calibration table.
+//unsigned char cmdK_PSMTR[] = {2,'b',0x05}; // BITE - Perform S-Meter calibration.
+//unsigned char cmdK_SFCAL[] = {2,'b',0x07}; // BITE - Send freq. ref. calibration table.
+//unsigned char cmdK_SPCAL[] = {2,'b',0x0a}; // BITE - Send phase det. calibration table.
+//unsigned char cmdK_PPCAL[] = {2,'b',0x0b}; // BITE - Perform phase det. cal.
+//unsigned char cmdK_SCBAL[] = {2,'b',0x0d}; // BITE - Send carrier balance value.
+//unsigned char cmdK_PCBAL[] = {2,'b',0x0e}; // BITE - Perform carrier balance.
+//unsigned char cmdK_cmd0[] = {2,'b',0x0f}; // Reserved.
+//unsigned char cmdK_SM0[] = {2,'b',0x10}; // BITE - S-Meter cal -130 dBm.
+//unsigned char cmdK_SM1[] = {2,'b',0x11}; // BITE - S-Meter cal -120 dBm.
+//unsigned char cmdK_SM2[] = {2,'b',0x12}; // BITE - S-Meter cal -110 dBm.
+//unsigned char cmdK_SM3[] = {2,'b',0x13}; // BITE - S-Meter cal -100 dBm.
+//unsigned char cmdK_SM4[] = {2,'b',0x14}; // BITE - S-Meter cal  -90 dBm.
+//unsigned char cmdK_SM5[] = {2,'b',0x15}; // BITE - S-Meter cal  -80 dBm.
+//unsigned char cmdK_SM6[] = {2,'b',0x16}; // BITE - S-Meter cal  -70 dBm.
+//unsigned char cmdK_SM7[] = {2,'b',0x17}; // BITE - S-Meter cal  -60 dBm.
+//unsigned char cmdK_SM8[] = {2,'b',0x18}; // BITE - S-Meter cal  -50 dBm.
+//unsigned char cmdK_SM9[] = {2,'b',0x19}; // BITE - S-Meter cal  -40 dBm.
+//unsigned char cmdK_SM10[] = {2,'b',0x1a}; // BITE - S-Meter cal  -30 dBm.
+//unsigned char cmdK_SM11[] = {2,'b',0x1b}; // BITE - S-Meter cal  -20 dBm.
+//unsigned char cmdK_SM12[] = {2,'b',0x1c}; // BITE - S-Meter cal  -10 dBm.
+//unsigned char cmdK_SM13[] = {2,'b',0x1d}; // BITE - S-Meter cal 0 dBm.
+//unsigned char cmdK_SM14[] = {2,'b',0x1e}; // BITE - S-Meter cal   10 dBm.
+//unsigned char cmdK_SM15[] = {2,'b',0x1f}; // BITE - S-Meter cal   20 dBm.
+//unsigned char cmdK_cmd1[] = {2,'b',0x20}; // Reserved.
+//unsigned char cmdK_SAGC[] = {2,'b',0x21}; // BITE - Send AGC DVM value.
+//unsigned char cmdK_cmd2[] = {2,'b',0x22}; // BITE - Send lock detector 1 DVM value.
+//unsigned char cmdK_cmd3[] = {2,'b',0x23}; // BITE - Send lock detector 2 DVM value.
+//unsigned char cmdK_Qfwd[] = {2,'b',0x24}; // BITE - Send forward power DVM value.
+//unsigned char cmdK_Qref[] = {2,'b',0x25}; // BITE - Send reflected power DVM value.
+//unsigned char cmdK_Qphs[] = {2,'b',0x26}; // BITE - Send phase detector DVM value.
+//unsigned char cmdK_cmd7[] = {2,'b',0x27}; // BITE - Send Tx audio DVM value.
+//unsigned char cmdK_Qt_A[] = {2,'b',0x28}; // BITE - Send temperature A DVM value.
+//unsigned char cmdK_Qt_B[] = {2,'b',0x29}; // BITE - Send temperature B DVM value.
+//unsigned char cmdK_cmdA[] = {2,'b',0x2a}; // BITE - Send R->T switching data.
+//unsigned char cmdK_cmdB[] = {2,'b',0x2b}; // BITE - Send T->R switching data.
+//unsigned char cmdK_cmdC[] = {2,'b',0x2c}; // BITE - Send synthesizer lock time 1 data.
+//unsigned char cmdK_cmdD[] = {2,'b',0x2d}; // BITE - Send synthesizer lock time 2 data.
+//unsigned char cmdK_cmdE[] = {2,'b',0x2e}; // BITE - Send ALC over-shoot data.
+//unsigned char cmdK_cmdG[] = {2,'b',0x30}; // BITE - Reset on time value.
+//unsigned char cmdK_cmdH[] = {2,'b',0x31}; // BITE - Request fault data.
+//unsigned char cmdK_cmdI[] = {2,'b',0x32}; // BITE - Reset fault data.
+//unsigned char cmdK_cmdJ[] = {2,'b',0x33}; // BITE - Set firmware serial number.
+//unsigned char cmdK_cmdK[] = {2,'b',0x34}; // BITE - Perform powerup self test.
+//unsigned char cmdK_cmdL[] = {2,'b',0x35}; // BITE - Set password.
+//unsigned char cmdK_cmdQ[] = {2,'b',0x3a}; // BITE - Perform freq. ref. tilt
 
 /*				
 When the mode is commanded to AM, the radio will automatically
