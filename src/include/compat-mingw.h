@@ -20,20 +20,22 @@ typedef long suseconds_t;
 /*
  * simple adaptors
  */
-
+/*
 static inline int mingw_mkdir(const char *path, int mode)
 {
 	return mkdir(path);
 }
-#define mkdir mingw_mkdir
+*/
+//#define mkdir mingw_mkdir
 
+/*
 static inline int mingw_unlink(const char *pathname)
 {
-	/* read-only files cannot be removed */
 	chmod(pathname, 0666);
 	return unlink(pathname);
 }
 #define unlink mingw_unlink
+*/
 
 /*
  * implementations of missing functions

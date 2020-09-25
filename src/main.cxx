@@ -179,7 +179,11 @@ static void checkdirectories(void)
 		if (dirs[i].suffix)
 			dirs[i].dir.assign(homedir).append(dirs[i].suffix).append("/");
 
+#ifdef __WIN32__
+		if ((r = mkdir(dirs[i].dir.c_str())) == -1 && errno != EEXIST) {
+#else
 		if ((r = mkdir(dirs[i].dir.c_str(), 0777)) == -1 && errno != EEXIST) {
+#endif
 			cerr << _("Could not make directory") << ' ' << dirs[i].dir
 				 << ": " << strerror(errno) << '\n';
 			exit(EXIT_FAILURE);
