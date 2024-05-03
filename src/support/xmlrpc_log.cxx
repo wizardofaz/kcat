@@ -10,6 +10,7 @@
 #include <cmath>
 #include <cstring>
 #include <stdlib.h>
+#include <sstream>
 
 #include <FL/Fl.H>
 #include <FL/filename.H>
@@ -82,8 +83,8 @@ static const char *month_name[] =
 
 char *szDate(int fmt)
 {
-	static char szDt[20];
-	static char szMonth[10];
+	static char szDt[50];
+	static char szMonth[50];
 
 	time_t tmptr;
 	tm sTime;
@@ -203,8 +204,24 @@ void xml_add_record()
 	snprintf(sznbr, sizeof(sznbr), "%d", xcvrState.serial_nbr);
 
 	XmlRpcValue oneArg, result;
-	char adifrec[200];
-	snprintf(adifrec, sizeof(adifrec), "\
+	std::stringstream adifrec;
+	adifrec << "<FREQ:" << freq.length() << ">" << freq
+			<< "<CALL:" << call.length() << ">" << call
+			<< "<NAME:" << name.length() << ">" << name
+			<< "<MODE:2>CW"
+			<< "<QSO_DATE:" << strlen(szdt) << ">" << szdt
+			<< "<TIME_ON:" << strlen(szt) << ">" << szt
+			<< "<TIME_OFF:" << strlen(szt) << ">" << szt
+			<< "<STX:" << strlen(sznbr) << ">" << sznbr
+			<< "<STX_STRING:" << xcvrState.xout.length() << ">" << xcvrState.xout
+			<< "<SRX_STRING:" << xin.length() << ">" << xin
+			<< "<RST_RCVD:3>599<RST_SENT:3>599<EOR";
+	oneArg[0] = adifrec.str().c_str();
+	log_client.execute("log.add_record", oneArg, result);
+//	std::cout << "log.add_record result " << result << "\n\n";
+
+//	char adifrec[200];
+//	snprintf(adifrec, sizeof(adifrec), "\
 <FREQ:%d>%s\
 <CALL:%d>%s\
 <NAME:%d>%s\
@@ -214,15 +231,15 @@ void xml_add_record()
 <STX_STRING:%d>%s\
 <SRX_STRING:%d>%s\
 <RST_RCVD:3>599<RST_SENT:3>599<EOR>",
-		freq.length(), freq.c_str(),
-		call.length(), call.c_str(),
-		name.length(), name.c_str(),
-		szdt, szt, szt,
-		strlen(sznbr), sznbr,
-		xcvrState.xout.length(), xcvrState.xout.c_str(),
-		xin.length(), xin.c_str());
-	oneArg[0] = adifrec;
-	log_client.execute("log.add_record", oneArg, result);
+//		(int)freq.length(), freq.c_str(),
+//		(int)call.length(), call.c_str(),
+//		(int)name.length(), name.c_str(),
+//		szdt, szt, szt,
+//		(int)strlen(sznbr), sznbr,
+//		(int)xcvrState.xout.length(), xcvrState.xout.c_str(),
+//		(int)xin.length(), xin.c_str());
+//	oneArg[0] = adifrec;
+//	log_client.execute("log.add_record", oneArg, result);
 //	std::cout << "log.add_record result " << result << "\n\n";
 }
 

@@ -107,8 +107,8 @@ void Font_Browser::FontNameSelect()
 
     // scalable font with no suggested sizes
     if (!lst_Size->size()) {
-	for (int i = 1; i <= 48; i++) {
-	    snprintf(buf, sizeof(buf), "%d", i);
+	for (size_t i = 1; i <= 48; i++) {
+	    snprintf(buf, sizeof(buf), "%lu", i);
 	    lst_Size->add(buf, (void*)i);
 	}
     }

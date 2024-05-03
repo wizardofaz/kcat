@@ -2009,8 +2009,6 @@ void cancel_edit()
 //======================================================================
 #include "IOspec.h"
 
-static string cmd = "";
-
 static struct {
 char c;
 const char *s;
@@ -2084,20 +2082,17 @@ const char *s;
 
 void abortCW()
 {
-	cmd = cmdK_XABR;
-	sendCmd(cmd);
+	sendCmd(cmdK_XABR);
 }
 
 void sendCharSpace()
 {
-	cmd = cmdK_XLSP;
-	sendCmd(cmd);
+	sendCmd(cmdK_XLSP);
 }
 
 void sendWordSpace()
 {
-	cmd = cmdK_XWSP;
-	sendCmd(cmd);
+	sendCmd(cmdK_XWSP);
 }
 
 void cb_cancel_transmit()
@@ -2125,13 +2120,12 @@ void sendChar(int c)
 	const char *s = morse[base].s;
 	for (size_t i = 0; i < strlen(s); i++) {
 		if (s[i] == '-') {
-			cmd = cmdK_XDAH;
+			sendCmd(cmdK_XDAH);
 			char_duration += 4;
 		} else {
-			cmd = cmdK_XDIT;
+			sendCmd(cmdK_XDIT);
 			char_duration += 2;
 		}
-		sendCmd(cmd);
 	}
 	sendCharSpace();
 	char_duration += 3;
@@ -2201,7 +2195,7 @@ void expand_msg(string &msg)
 	while ((ptr = msg.find("<X>")) != string::npos)
 		msg.replace(ptr, 3, xcvrState.xout);
 
-	char snbr[8] = "";
+	char snbr[20] = "";
 	if (xcvrState.zeros && xcvrState.serial_nbr < 100)
 		snprintf(snbr, sizeof(snbr), "0%d", xcvrState.serial_nbr);
 	else

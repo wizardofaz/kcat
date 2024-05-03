@@ -294,7 +294,7 @@ int parse_args(int argc, char **argv, int& idx)
 		exit(0);
 	} 
 	if (strcasecmp("--version", argv[idx]) == 0) {
-		printf("Version: "VERSION"\n");
+		printf("Version: %s\n", VERSION);
 		exit (0);
 	}
 	if (strcasecmp("--config-dir", argv[idx]) == 0) {

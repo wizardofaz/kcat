@@ -1,21 +1,21 @@
 # data file for the Fltk User Interface Designer (fluid)
-version 1.0300 
-i18n_type 1 
-i18n_include "gettext.h" 
-i18n_function _ 
-header_name {.h} 
+version 1.0308
+i18n_type 1
+i18n_include "gettext.h"
+i18n_function _
+header_name {.h}
 code_name {.cpp}
 decl {\#include "images.h"} {private local
-} 
+}
 
 decl {\#include "kcat.h"} {private local
-} 
+}
 
 decl {\#include "support.h"} {private local
-} 
+}
 
 decl {\#include "status.h"} {private local
-} 
+}
 
 Function {kcat_window()} {open
 } {
@@ -215,7 +215,7 @@ selectFreq();}
     Fl_Value_Slider sldrIFSHIFT {
       callback {if (btnIFsh->value() == 0)
 btnIFsh->value(1);
-setIFshift();} selected
+setIFshift();}
       tooltip {Set IF Shift Frequency} xywh {2 130 348 20} type {Horz Knob} color 26 labeltype NO_LABEL align 16 minimum -1280 maximum 1270 step 10 textsize 14
       code0 {o->reverse(true);}
       class Fl_Wheel_Value_Slider
@@ -581,7 +581,7 @@ movFreqB();}
       }
     }
   }
-} 
+}
 
 Function {CommsDialog()} {} {
   Fl_Window {} {
@@ -603,7 +603,7 @@ Use TEST for a testdrive}
       xywh {5 3 312 41}
     }
   }
-} 
+}
 
 Function {FreqRangesDialog()} {} {
   Fl_Window {} {
@@ -657,7 +657,7 @@ else btnXmtAnt->label("A");}
       xywh {1 5 75 20}
     }
   }
-} 
+}
 
 Function {NRAMdataDialog()} {} {
   Fl_Window {} {
@@ -718,7 +718,7 @@ Function {NRAMdataDialog()} {} {
       xywh {188 175 60 25}
     }
   }
-} 
+}
 
 Function {FreqCalibDialog()} {} {
   Fl_Window {} {
@@ -742,7 +742,7 @@ Function {FreqCalibDialog()} {} {
       code0 {extern void cbCalFinished();}
     }
   }
-} 
+}
 
 Function {DisplayDialog()} {} {
   Fl_Window {} {
@@ -940,9 +940,10 @@ Fl::scheme(xcvrState.ui_scheme.c_str());} open
       }
     }
   }
-} 
+}
 
-Function {scanner_window()} {} {
+Function {scanner_window()} {open
+} {
   Fl_Window {} {
     label {kcat scanner} open
     xywh {568 443 530 174} type Double hide resizable
@@ -957,7 +958,7 @@ Function {scanner_window()} {} {
       xywh {2 2 124 170}
     } {
       Fl_Box startFreqDisp {
-        label {6.1}
+        label {8.1} selected
         xywh {3 2 120 36} box DOWN_BOX
         code2 {o->SetONOFFCOLOR (FL_YELLOW, FL_BLACK);}
         code3 {o->setCallBack(startFreq);}
@@ -1004,7 +1005,7 @@ Function {scanner_window()} {} {
       }
     }
   }
-} 
+}
 
 Function {cwkeyboard_window()} {open
 } {
@@ -1178,7 +1179,7 @@ cbWPM();}
       code1 {o->lstep(5);}
     }
   }
-} 
+}
 
 Function {message_editor()} {open
 } {
@@ -1481,4 +1482,4 @@ Function {message_editor()} {open
       code0 {o->value(xcvrState.time_span);}
     }
   }
-} 
+}

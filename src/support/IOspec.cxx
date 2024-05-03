@@ -13,8 +13,7 @@
 //On error, the PC will make 2 retries before declaring a problem to the user.
 
 //#include "IOspec.h"
-
-//Command  Definition
+//Command  Definition (first byte is command length)
 //-------  ----------
 unsigned char cmdK_AGC[] = {2,'A',0x00}; // AGC speed, 00H = fast to FFH = slow
 

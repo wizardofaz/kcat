@@ -1069,8 +1069,8 @@ RigHard[0], RigHard[1]);
 
 void cbClearAntData()
 {
-	sendCommand(cmdK_ANTA0);
-	sendCommand(cmdK_ANTB0);
+	sendCmd(cmdK_ANTA0);
+	sendCmd(cmdK_ANTB0);
 }
 
 //======================================================================

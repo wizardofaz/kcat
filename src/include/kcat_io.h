@@ -10,8 +10,7 @@ extern std::string retval;
 
 extern bool startComms(const char *, int);
 
-extern bool sendCommand(char *str);
-extern bool sendCmd(std::string &str);
+extern bool sendCmd(char *str);
 extern bool RequestData (char *cmd, unsigned char *buff, int nbr);
 
 extern void setXcvrMode(int mode);
