@@ -15,7 +15,10 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // ----------------------------------------------------------------------------
 
-#include <config.h>
+#include "config.h"
+
+#include <sys/types.h>
+#include <unistd.h>
 
 #include "XmlRpcClient.h"
 
@@ -31,21 +34,19 @@
 #include <string>
 
 using namespace XmlRpc;
-using namespace std;
 
 // Static data
 const char REQUEST_BEGIN[] = 
-  "<?xml version=\"1.0\"?>\r\n"
+  "<?xml version=\"1.0\"?>\r\n";
+const char REQUEST_BEGIN_METHODNAME[] =
   "<methodCall><methodName>";
 const char REQUEST_END_METHODNAME[] = "</methodName>\r\n";
+
 const char PARAMS_TAG[] = "<params>";
 const char PARAMS_ETAG[] = "</params>";
 const char PARAM_TAG[] = "<param>";
 const char PARAM_ETAG[] =  "</param>";
 const char REQUEST_END[] = "</methodCall>\r\n";
-
-
-
 
 XmlRpcClient::XmlRpcClient(const char* host, int port, const char* uri/*=0*/)
 {
@@ -249,12 +250,27 @@ XmlRpcClient::doConnect()
 }
 
 // Encode the request to call the specified method with the specified parameters into xml
+
+std::string XmlRpc::pname = "N/A";
+
+void 
+XmlRpc::set_pname(std::string pn)
+{
+  XmlRpc::pname = pn;
+};
+
 bool 
 XmlRpcClient::generateRequest(const char* methodName, XmlRpcValue const& params)
 {
   std::string body = REQUEST_BEGIN;
-  body += methodName;
-  body += REQUEST_END_METHODNAME;
+  if (XmlRpc::pname != "N/A") {
+    char pid[100];
+    snprintf(pid, sizeof(pid), "%s %d", XmlRpc::pname.c_str(), getpid());
+    body.append("<?clientid=\"").append(pid).append("\"?>\r\n");
+  }
+  body.append(REQUEST_BEGIN_METHODNAME);
+  body.append(methodName);
+  body.append(REQUEST_END_METHODNAME);
 
   // If params is an array, each element is a separate parameter
   if (params.valid()) {
@@ -319,11 +335,11 @@ XmlRpcClient::generateHeader(std::string const& body)
     header += "Authorization: Basic ";
     std::string authEnc(base64data.begin(), base64data.end());
     // handle pesky linefeed characters
-    string::size_type lf;
-    while ( (lf = authEnc.find("\r")) != string::npos ) {
+    std::string::size_type lf;
+    while ( (lf = authEnc.find("\r")) != std::string::npos ) {
       authEnc.erase(lf, 1);
     }
-    while ( (lf = authEnc.find("\n")) != string::npos ) {
+    while ( (lf = authEnc.find("\n")) != std::string::npos ) {
       authEnc.erase(lf, 1);
     }
     header += authEnc;

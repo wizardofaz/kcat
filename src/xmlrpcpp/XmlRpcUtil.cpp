@@ -15,7 +15,7 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // ----------------------------------------------------------------------------
 
-#include <config.h>
+#include "config.h"
 
 #include "XmlRpcUtil.h"
 
@@ -26,6 +26,9 @@
 #include <string.h>
 
 #include "XmlRpc.h"
+
+#include "support.h"
+#include "status.h"
 
 using namespace XmlRpc;
 
@@ -43,15 +46,12 @@ const char XmlRpc::XMLRPC_VERSION[] = "XMLRPC++ 0.8";
 int XmlRpcLogHandler::_verbosity = 0;
 
 // Default log handler
+
 static class DefaultLogHandler : public XmlRpcLogHandler {
 public:
 
-  void log(int level, const char* msg) { 
-#ifdef USE_WINDOWS_DEBUG
-    if (level <= _verbosity) { OutputDebugString(msg); OutputDebugString("\n"); }
-#else
-    if (level <= _verbosity) std::cout << msg << std::endl; 
-#endif  
+  void log(int level, const char* msg) {
+	std::cout << msg << std::endl;
   }
 
 } defaultLogHandler;
@@ -68,7 +68,7 @@ public:
 #ifdef USE_WINDOWS_DEBUG
 //    OutputDebugString(msg); OutputDebugString("\n");
 #else
-//    std::cerr << msg << std::endl; 
+    std::cerr << msg << std::endl; 
 #endif  
   }
 } defaultErrorHandler;
@@ -94,6 +94,7 @@ void XmlRpcUtil::log(int level, const char* fmt, ...)
     vsnprintf(buf,sizeof(buf)-1,fmt,va);
     buf[sizeof(buf)-1] = 0;
     XmlRpcLogHandler::getLogHandler()->log(level, buf);
+    va_end(va);
   }
 }
 
@@ -106,6 +107,7 @@ void XmlRpcUtil::error(const char* fmt, ...)
   vsnprintf(buf,sizeof(buf)-1,fmt,va);
   buf[sizeof(buf)-1] = 0;
   XmlRpcErrorHandler::getErrorHandler()->error(buf);
+  va_end(va);
 }
 
 // Returns true if the tag is parsed. No attributes are parsed.

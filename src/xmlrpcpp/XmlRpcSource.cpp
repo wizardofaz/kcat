@@ -15,12 +15,13 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // ----------------------------------------------------------------------------
 
-#include <config.h>
+#include "config.h"
 
 #include "XmlRpcSource.h"
 #include "XmlRpcUtil.h"
 
 #if defined(_WINDOWS)
+#undef _WINSOCKAPI_
 # include <stdio.h>
 # include <winsock2.h>
 #else

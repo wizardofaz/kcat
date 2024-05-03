@@ -15,7 +15,7 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // ----------------------------------------------------------------------------
 
-#include <config.h>
+#include "config.h"
 
 #include "XmlRpcDispatch.h"
 #include "XmlRpcSource.h"
@@ -33,6 +33,7 @@
 #endif // __FreeBSD__
 
 #if defined(_WINDOWS)
+#undef _WINSOCKAPI_
 # include <winsock2.h>
 
 # define USE_FTIME

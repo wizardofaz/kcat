@@ -22,6 +22,8 @@
 # pragma warning(disable:4786)    // identifier was truncated in debug info
 #endif
 
+#include "threads.h"
+
 namespace XmlRpc {
 
   //! A simple platform-independent mutex API implemented for posix and windows.
@@ -34,7 +36,8 @@ namespace XmlRpc {
     ~XmlRpcMutex();
 
     //! Wait for the mutex to be available and then acquire the lock.
-    void acquire();
+    //! True return if acquired
+    bool acquire();
 
     //! Release the mutex.
     void release();
@@ -52,7 +55,7 @@ namespace XmlRpc {
   private:
 
     //! Native Mutex object
-    void* _pMutex;
+    pthread_mutex_t* _pMutex;
 
   };  // class XmlRpcMutex
 
