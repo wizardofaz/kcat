@@ -1,0 +1,12 @@
+# Ignore build artifacts
+Makefile
+config.status
+configure
+src/config.h
+src/kcat
+src/stamp-h1
+**/.deps/
+**/.dirstamp
+*.log
+*.o
+*.Po
