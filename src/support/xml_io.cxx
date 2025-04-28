@@ -44,7 +44,7 @@ static const char* rig_take_control     = "rig.take_control";
 static const char* rig_release_control  = "rig.release_control";
 
 // these are get/set
-static const char* main_get_frequency   = "main.get_frequency";
+static const char* rig_get_frequency   = "rig.get_frequency";
 static const char* main_set_wf_sideband = "main.set_wf_sideband";
 static const char* rig_set_frequency    = "rig.set_frequency";
 static const char* rig_set_mode         = "rig.set_mode";
@@ -83,7 +83,7 @@ void open_rig_xmlrpc()
 	XmlRpcValue nil(XmlRpc::nil);
 	status_query = new XmlRpcValue;
 	const char* status_methods[] = {
-		main_get_trx_state, main_get_frequency,
+		main_get_trx_state, rig_get_frequency,
 		rig_get_mode, rig_get_bandwidth
 	};
 	for (size_t i = 0; i < sizeof(status_methods)/sizeof(*status_methods); i++) {
